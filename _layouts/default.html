@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The title will be dynamic, e.g., "My Post | My Blog" -->
+    <title>{{ page.title | escape }} | {{ site.title | escape }}</title>
+    <!-- This line automatically loads the theme's stylesheet -->
+    <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+    <!-- Preload fonts for better performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Theme detection script to prevent flash -->
+    <script>
+      (function() {
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
+  </head>
+  <body>
+    <header>
+      <h1><a href="{{ '/' | relative_url }}">{{ site.title }}</a></h1>
+      <p>{{ site.description }}</p>
+      <nav>
+        <a href="https://www.nextfive.in" target="_blank" rel="noopener noreferrer">Home</a>
+        
+        <!-- Link to blog's main feed (shows all posts) -->
+        <a href="{{ '/' | relative_url }}">All Posts</a>
+      
+        <!-- Link to the page that ONLY shows product posts -->
+        <a href="{{ '/products/' | relative_url }}">Products</a>
+        
+        <!-- Link to the page that ONLY shows general writing -->
+        <a href="{{ '/thoughts/' | relative_url }}">Thoughts</a>
+        
+        <!-- Theme toggle button -->
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+          <span class="theme-toggle-icon">🌙</span>
+        </button>
+      </nav>
+    </header>
+    <main>
+      <!-- This is where the content from our .md files will go -->
+      {{ content }}
+    </main>
+    <footer>
+      <p>&copy; {{ 'now' | date: "%Y" }} {{ site.author }}</p>
+    </footer>
+    
+    <!-- Theme toggle JavaScript -->
+    <script>
+      (function() {
+        const themeToggle = document.getElementById('theme-toggle');
+        const html = document.documentElement;
+        
+        // Get current theme
+        function getCurrentTheme() {
+          return html.getAttribute('data-theme') || 'light';
+        }
+        
+        // Set theme
+        function setTheme(theme) {
+          html.setAttribute('data-theme', theme);
+          localStorage.setItem('theme', theme);
+          updateToggleIcon(theme);
+        }
+        
+        // Update toggle icon
+        function updateToggleIcon(theme) {
+          const icon = themeToggle.querySelector('.theme-toggle-icon');
+          if (theme === 'dark') {
+            icon.textContent = '☀️';
+          } else {
+            icon.textContent = '🌙';
+          }
+        }
+        
+        // Toggle theme
+        function toggleTheme() {
+          const currentTheme = getCurrentTheme();
+          const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+          setTheme(newTheme);
+        }
+        
+        // Initialize
+        function init() {
+          const savedTheme = localStorage.getItem('theme');
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
+          
+          setTheme(initialTheme);
+          
+          // Add click listener
+          if (themeToggle) {
+            themeToggle.addEventListener('click', toggleTheme);
+          }
+          
+          // Listen for system theme changes
+          window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+            if (!localStorage.getItem('theme')) {
+              setTheme(e.matches ? 'dark' : 'light');
+            }
+          });
+        }
+        
+        // Wait for DOM to be ready
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', init);
+        } else {
+          init();
+        }
+      })();
+    </script>
+  </body>
+</html>
