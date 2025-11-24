@@ -1,0 +1,25 @@
+# The backend specifies how to connect to your repository
+backend:
+  name: github
+  repo: heyamitkmr/heyamitkmr.github.io # Your repo path
+  branch: main # The branch to commit to
+  auth_type: implicit 
+  app_id: Ov23li1KWRah8wJzOH4C 
+
+# This is where uploaded images will be stored
+media_folder: "assets/images"
+public_folder: "/assets/images"
+
+# This defines the content types for your blog
+collections:
+  - name: "posts" # A machine-readable name for the collection
+    label: "All Posts" # The name that appears in the CMS UI
+    folder: "_posts" # The folder where posts are saved
+    create: true # Allow users to create new posts
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}" # Defines the filename format
+    fields: # The fields that will appear in the editor for each post
+      - {label: "Layout", name: "layout", widget: "hidden", default: "post"}
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Publish Date", name: "date", widget: "datetime"}
+      - {label: "Category", name: "category", widget: "select", options: ["product", "blog"]}
+      - {label: "Body", name: "body", widget: "markdown"}
