@@ -25,16 +25,23 @@
       <h1><a href="{{ '/' | relative_url }}">{{ site.title }}</a></h1>
       <p>{{ site.description }}</p>
       <nav>
-        <a href="https://www.nextfive.in" target="_blank" rel="noopener noreferrer">Home</a>
+        <a href="https://new.nextfive.xyz/" target="_blank" rel="noopener noreferrer">Home</a>
         
         <!-- Link to blog's main feed (shows all posts) -->
         <a href="{{ '/' | relative_url }}">All Posts</a>
       
-        <!-- Link to the page that ONLY shows product posts -->
-        <a href="{{ '/products/' | relative_url }}">Products</a>
+        <!-- Link to the page that ONLY shows project posts -->
+        <a href="{{ '/projects/' | relative_url }}">Projects</a>
         
         <!-- Link to the page that ONLY shows general writing -->
         <a href="{{ '/thoughts/' | relative_url }}">Thoughts</a>
+
+        <!-- Link to the About page that changes less frequently than Now page  -->
+        <a href="{{ '/about/' | relative_url }}">About</a>
+
+        <!-- Link to the Now page that shows what I am doing these days -->
+        <a href="{{ '/now/' | relative_url }}">Now</a>
+
         
         <!-- Theme toggle button -->
         <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
