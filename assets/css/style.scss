@@ -388,9 +388,9 @@ li:not(.post-list li) {
 
 /* Legacy list items in products and thoughts pages (if not using cards) */
 ul:not(.post-list) li {
-  margin-bottom: 2rem;
+  margin-bottom: 0.5rem;
   border-bottom: 1px solid var(--subtle-border);
-  padding-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
 }
 
 ul:not(.post-list) li:last-child {
