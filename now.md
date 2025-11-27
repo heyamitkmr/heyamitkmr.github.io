@@ -4,7 +4,8 @@ title: "What am I doing Now"
 permalink: /now/
 ---
 <span><em> Basically what I'm focused on at this point in my life. Or what I'd tell a friend I haven’t seen in a year.   Inspired by <a href="https://nownownow.com/about"> https://nownownow.com/about</a>  </em></span>
-> Updated: Nov 25, 2025
+<br>
+```Last updated: November 2025```
 
 ## Well, so how have I been?
 
