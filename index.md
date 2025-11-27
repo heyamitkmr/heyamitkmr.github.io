@@ -1,6 +1,6 @@
 ---
 layout: default
-title: "Next Five Things by Amit"
+title: "Amit @NextFive"
 ---
 
 ## Hi, I'm Amit!
