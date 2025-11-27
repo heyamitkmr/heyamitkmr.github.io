@@ -3,8 +3,8 @@ layout: default
 title: "What am I doing Now"
 permalink: /now/
 ---
-<span><em> Basically what I'm focused on at this point in my life. Or what I'd tell a friend I haven’t seen in a year.   Inspired by <a href="https://nownownow.com/about"> https://nownownow.com/about</a>  </em></span>
-<br>
+Basically what I'm focused on at this point in my life. <br><span style="font-size: 14px">_Inspired by [https://nownownow.com/about](https://nownownow.com/about)_ </span>
+<br><br>
 ```Last updated: November 2025```
 
 ## Well, so how have I been?
