@@ -23,8 +23,8 @@ This is where I write about myself without needing it to be useful. Putting this
 
 Exploring the path toward creative independence - through writing, building products, and creating community. The focus is on freedom: control over my time, being useful to others, and building things that exist independent of me.
 
-- **[Guide](https://blog.nextfive.in/products/)**: A tool for managing goals, tasks, and thinking. Built for myself first.
-- **[Toolish](https://blog.nextfive.in/products/)**: A collection of small, useful browser apps. Free. Private. No login. Over 20 built so far, about half are things I use daily.
+- **[Guide](https://blog.nextfive.in/guide/)**: A tool for managing goals, tasks, and thinking. Built for myself first.
+- **[Toolish](https://www.nextfive.in/chapter-4)**: A collection of [small, useful browser apps](https://blog.nextfive.in/products/). Free. Private. No login. Over 20 built so far, about half are things I use daily.
 - **[Writing](https://world.hey.com/akumar)**: Mostly because it helps me think. <br>But also practicing thematic writing [on Substack](https://earlynotes.substack.com/) - with essays on learning, building, and living intentionally.
 - **Helping build the AI ecosystem**: With [People+AI](https://pplus.ai/usecasegarden), documenting AI use-cases relevant to India.
 - **Listening and sharing stories**: With a bunch of interesting folks at [Listeners' Circle](https://www.meetup.com/listeners-circle-bangalore/) and [Creative Mornings Bangalore](https://www.creativemornings.com/cities/BLR).
