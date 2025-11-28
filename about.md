@@ -131,7 +131,7 @@ I'm taking my time with that.
 **Questions? Thoughts? Coffee?**
 Just reach out. I always love a good conversation.
 
-**Email**:  _"hey```my-first-name-here```kmr"_ on Google's popular free email service.<br>
+**Email**:  amit@nextfive.simplelogin.com<br>
 **Schedule time**: [cal.com/amitkumar](https://cal.com/amitkumar)
 
 ---
