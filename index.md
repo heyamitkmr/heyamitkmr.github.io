@@ -28,7 +28,7 @@ _[What am I doing now](/now)? See [my "now" page](/now)._
 
 ### **Contact me**
 
-I love meeting people working on interesting things. Email me.  I use Google's popular free email. And my ID is "hey```my-first-name-here```kmr".
+I love meeting people working on interesting things. Email me on amit@nextfive.simplelogin.com
 <br><br>
 Or let's [schedule some time](https://cal.com/amitkumar) on my calendar.
 
