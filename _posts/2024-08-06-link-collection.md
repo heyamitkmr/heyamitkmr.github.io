@@ -6,7 +6,7 @@ category: blog
 excerpt: "Some interesting and often useful links on AI, Tech, Career, Self-improvement, Business, finance, Science, Misc."
 ---
 
-<span style="font-size: 14px;">_[Originally shared on HEY](https://www.hey.com/world/?utm_source=hw-web)_</span>
+<span style="font-size: 14px;">_[Originally shared on HEY](https://world.hey.com/akumar/things-i-found-link-collection-1-b0772cf7)_</span>
 <br>
 
 I have been collecting some interesting and often useful links on-and-off over last 6 months. With the intention of sharing a small collection weekly or so. So far, I have shared none.
