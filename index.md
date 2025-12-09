@@ -9,7 +9,7 @@ I'm building software and writing while exploring what's next.
 ### **Me in 10 seconds**
 
 I build [small useful software](https://blog.nextfive.in/products/) that runs in your browser. Free. Private. No login.<br>
-I write about [building, learning, and momentum](https://earlynotes.substack.com/) and a bunch of [other stuff](https://world.hey.com/akumar).<br>
+I write about [building, learning, and momentum](https://earlynotes.substack.com/) and a bunch of [other stuff](https://nextfive.xyz/writing/).<br>
 I take [photos](https://www.flickr.com/photos/proxygeek/).<br>
 
 <a data-flickr-embed="true" href="https://www.flickr.com/photos/proxygeek/27622262437/" title="20180505-DSC_3361.jpg"><img src="https://live.staticflickr.com/1745/27622262437_d9d213565b_t.jpg" width="100" height="66" alt="20180505-DSC_3361.jpg"/></a><script async src="//embedr.flickr.com/assets/client-code.js" charset="utf-8"></script>
@@ -38,10 +38,10 @@ Or let's [schedule some time](https://cal.com/amitkumar) on my calendar.
 
 ### **Recent projects**
 
-**[Guide](https://blog.nextfive.in/products/)** (Nov 2025)  
+**[Guide](https://guide.nextfive.in/)** (Nov 2025)  
 A complete system to manage goals, tasks, and thinking. Built for myself, shared for you.
 
-**[Web-Highlighter](https://blog.nextfive.in/products/)** (Jul 2025)  
+**[Web-Highlighter](https://blog.nextfive.in/web-highlighter/)** (Jul 2025)  
 Save ideas and quotes from any webpage with your notes. Stop losing good stuff.
 
 ---
@@ -59,9 +59,9 @@ Personal photostream. Everyday moments.
 
 ---
 
-### **[Writing]((https://world.hey.com/akumar))**
+### **[Writing](https://nextfive.xyz/writing/)**
 
-#### Recent Posts ([see all](https://world.hey.com/akumar))
+#### Recent Posts ([see all](https://nextfive.xyz/writing/))
 
 <ul class="post-list">
   {% for post in site.posts limit:3 %}
