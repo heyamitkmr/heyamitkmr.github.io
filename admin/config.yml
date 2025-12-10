@@ -3,8 +3,7 @@ backend:
   name: github
   repo: heyamitkmr/heyamitkmr.github.io # Your repo path
   branch: main # The branch to commit to
-  auth_type: implicit 
-  app_id: Ov23li1KWRah8wJzOH4C 
+  site_domain: nextfivexyz.netlify.app
 
 # This is where uploaded images will be stored
 media_folder: "assets/images"
