@@ -52,7 +52,7 @@ You probably encountered my work without knowing it at:
 * **Making things.** Articles, essays, software, systems, ideas that help people think differently. But especially tools that help people be more organized and intentional.
 * **Serendipity and novel experiences.** Meeting interesting people. Traveling. Conversations that shift perspective.
 * **Systems thinking.** Creating structures - whether in apps, communities, or workflows - that make things work better.
-* **Photography.** Capturing everyday moments. I've been shooting seriously for years. My work is at [Flickr](https://www.flickr.com/photos/proxygeek/).
+* **Photography.** I'm currently interested in interplay of contrasts - of subjects, themes, colors, light and more. Gravitating towards slice-of-life frames these days. I've been shooting seriously for years. My work is at [Flickr](https://www.flickr.com/photos/proxygeek/).
 
 <a data-flickr-embed="true" href="https://www.flickr.com/photos/proxygeek/27622262437/" title="20180505-DSC_3361.jpg"><img src="https://live.staticflickr.com/1745/27622262437_d9d213565b_t.jpg" width="100" height="66" alt="20180505-DSC_3361.jpg"/></a><script async src="//embedr.flickr.com/assets/client-code.js" charset="utf-8"></script>
 <a data-flickr-embed="true" href="https://www.flickr.com/photos/proxygeek/39673705112/" title=":)"><img src="https://live.staticflickr.com/4718/39673705112_d2ab3cbeff_t.jpg" width="100" height="66" alt=":)"/></a><script async src="//embedr.flickr.com/assets/client-code.js" charset="utf-8"></script>
