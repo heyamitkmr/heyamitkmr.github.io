@@ -145,7 +145,7 @@ You're probably wondering about the name.
 
 NextFive came from that frustration. Also, I'm always exploring about 5 new things simultaneously. And it sounded fun. The name stuck.
 
-NextFive.in is where I build. NextFive.xyz is where I write. Yes, it's confusing. Working on consolidating.
+[NextFive.in](https://www.nextfive.in/chapters) is where I build. [NextFive.xyz](https://www.nextfive.xyz) is where I write. Yes, it's confusing. Working on consolidating.
 
 ---
 
