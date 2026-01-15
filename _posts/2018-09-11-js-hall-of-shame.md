@@ -34,7 +34,7 @@ options and allow me to choose from them.
 
 And so it goes on for a good 15 minutes. A frustrating, draining and all
 too common situation these days. The page was a recruitment funnel for
-one of the clients of GreenHouse.Io - a recruitment services provider
+one of the clients of GreenHouse.io - a recruitment services provider
 who apparently provide an "amazing applicant experience".
 
 `</rant>`
