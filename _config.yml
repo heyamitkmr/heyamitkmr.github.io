@@ -1,2 +1,4 @@
 title: Amit @NextFive
 excerpt_separator: "<!--more-->"
+plugins:
+  - jekyll-feed
