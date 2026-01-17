@@ -4,8 +4,19 @@ title: "All posts"
 permalink: /writing/
 ---
 
-<div class="followit--follow-form-container" style="max-width: 400px; margin: 20px auto;" attr-a attr-b attr-c attr-d attr-e attr-f>
+<!--div class="followit--follow-form-container" style="max-width: 400px; margin: 20px auto;" attr-a attr-b attr-c attr-d attr-e attr-f>
     <form data-v-2164b4a9="" action="https://api.follow.it/subscription-form/Y1AvMENUNkxuL3gzekNmTmVidjBLYWNoOERZb25kaDM5a01nd0lsV09MUUx4NXpJQnVvbU52S3dmRWUrTTVZaE8xcXp6WkJZTi91MDFSZjU2aWwvT2tzVnZrb0VueUcrU1pVY2tCU01mVWVVcm5WOEovR1cxeldkUFZsbzVRVFp8dFBqenFiUWVyNk9jektndWZReUNxbDd3M1M2ejN5dWVOWmQrdmVuYmcwTT0=/8" method="post"><div data-v-2164b4a9="" class="form-preview" style="background-color: var(--bg-secondary); position: relative;"><div data-v-2164b4a9="" class="preview-heading"><h5 data-v-2164b4a9="" style="font-family: Helvetica; font-weight: 300; color: var(--text-color); font-size: 14px; text-align: center; text-transform: none !important;">Subscribe to get future posts via email</h5></div><div data-v-2164b4a9="" class="preview-input-field"><input data-v-2164b4a9="" type="email" name="email" required="" placeholder="Type your email ..." spellcheck="false" style="font-family: Helvetica; font-weight: 400; color: rgb(82, 93, 97); font-size: 14px; text-align: center; background-color: rgb(250, 249, 244); text-transform: none !important;"></div><div data-v-2164b4a9="" class="preview-submit-button"><button data-v-2164b4a9="" type="submit" style="font-family: Arial; font-weight: bold; color: rgba(0,0,0, 1); font-size: 14px; text-align: center; background-color: var(--nav-link-color); text-transform: none !important;">Subscribe</button></div></div></form>
+</div-->
+
+<div class="newsletter-container">
+  <p style="font-size: 14px; text-align: center; margin-bottom: 10px;">Subscribe to get future posts via email (or grab the <a href="/feed.xml">RSS feed</a>)</p>
+  
+  <form data-v-2164b4a9="" action="https://api.follow.it/subscription-form/Y1AvMENUNkxuL3gzekNmTmVidjBLYWNoOERZb25kaDM5a01nd0lsV09MUUx4NXpJQnVvbU52S3dmRWUrTTVZaE8xcXp6WkJZTi91MDFSZjU2aWwvT2tzVnZrb0VueUcrU1pVY2tCU01mVWVVcm5WOEovR1cxeldkUFZsbzVRVFp8dFBqenFiUWVyNk9jektndWZReUNxbDd3M1M2ejN5dWVOWmQrdmVuYmcwTT0=/8" method="post">
+    <div data-v-2164b4a9="" class="input-group">
+      <input data-v-2164b4a9="" type="email" name="email" placeholder="Type your email..." required="" spellcheck="false">
+      <button data-v-2164b4a9="" type="submit">Subscribe</button>
+    </div>
+  </form>
 </div>
 
 

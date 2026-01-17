@@ -61,6 +61,18 @@ Personal photostream. Everyday moments.
 
 ### **[Writing](https://nextfive.xyz/writing/)**
 
+<div class="newsletter-container">
+  <p style="font-size: 14px; text-align: center; margin-bottom: 10px;">Subscribe to get future posts via email (or grab the <a href="/feed.xml">RSS feed</a>)</p>
+  
+  <form data-v-2164b4a9="" action="https://api.follow.it/subscription-form/Y1AvMENUNkxuL3gzekNmTmVidjBLYWNoOERZb25kaDM5a01nd0lsV09MUUx4NXpJQnVvbU52S3dmRWUrTTVZaE8xcXp6WkJZTi91MDFSZjU2aWwvT2tzVnZrb0VueUcrU1pVY2tCU01mVWVVcm5WOEovR1cxeldkUFZsbzVRVFp8dFBqenFiUWVyNk9jektndWZReUNxbDd3M1M2ejN5dWVOWmQrdmVuYmcwTT0=/8" method="post">
+    <div data-v-2164b4a9="" class="input-group">
+      <input data-v-2164b4a9="" type="email" name="email" placeholder="Type your email..." required="" spellcheck="false">
+      <button data-v-2164b4a9="" type="submit">Subscribe</button>
+    </div>
+  </form>
+</div>
+
+
 #### Recent Posts ([see all](https://nextfive.xyz/writing/))
 
 <ul class="post-list">

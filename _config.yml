@@ -1,8 +1,6 @@
 title: Amit @NextFive
 excerpt_separator: "<!--more-->"
 url: "https://nextfive.xyz"
-author:
-  name: "Amit"
-  email: "amit@nextfive.simplelogin.com"
+author: "Amit@NextFive"
 plugins:
   - jekyll-feed
