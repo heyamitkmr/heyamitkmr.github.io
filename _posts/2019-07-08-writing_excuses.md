@@ -8,7 +8,7 @@ excerpt: "What reasons do I give myself for not writing intentionally."
 ---
 
 
-Writing 500 words daily is easier to commit to than to actually get done.
+Writing `500 words daily` is easier to commit to than to actually get done.
 
 I managed an okay post of ~2500 words over 6 days but since then, there has been a gap.
 Some of the "reasons" behind this gap (as well as earlier excuses for not writing):
@@ -33,4 +33,4 @@ Some of the "reasons" behind this gap (as well as earlier excuses for not writin
    * Otherwise it's okay to accept that writing is not a priority right now and move on.<br>
      No need to keep beating yourself up for not following up on a half-hearted commitment. 
 
-These ~300 words took me ~20 minutes. And I consider it to be a successful attempt to write for the day.
+These `~300 words` took me `~20 minutes`. And I consider it to be a successful attempt to write for the day.
