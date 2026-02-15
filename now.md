@@ -5,27 +5,20 @@ permalink: /now/
 ---
 Basically what I'm focused on at this point in my life. <br><span style="font-size: 14px">_Inspired by [https://nownownow.com/about](https://nownownow.com/about)_ </span>
 <br><br>
-```Last updated: December 2025```
+```Last updated: February 2026```
 
-### **Recently read:**
-1. **[I Was Told There'd Be Cake](https://www.goodreads.com/book/show/2195289.I_Was_Told_There_d_Be_Cake)** and **[Look alive out there](https://www.goodreads.com/book/show/34888942-look-alive-out-there)** by Sloane Crosley. Hilariously funny collection of essays form her own life. She's become one  my favorite authors and a fun human I'd have wanted to know.
-2. **[A Psalm for the Wild-Built](https://www.goodreads.com/book/show/40864002-a-psalm-for-the-wild-built)** and **[A Prayer for the Crown-Shy](https://www.goodreads.com/book/show/40864030-a-prayer-for-the-crown-shy)** by Becky Chambers. The most soothing / engaging  books I have read in a bit. It says Sci-fi. Don't fall for it. It's like travelogue interspersed with dialogue with two friends. Essentially, meditative sci-fi - a category I didn't know existed. Absolutely recommended if you are looking for a break. Breezy, short reads.
-3. **[Interpreter of maladies](https://www.goodreads.com/book/show/5439.Interpreter_of_Maladies)** by Jhumpa Lahiri. I know. At long last. That too, because I happened upon a passage shared by a friend which I liked. Turned out to be from this book. I'm glad I read it though...quite liked the stories and her writing style - especially how she portrays a scene without deliberately drawing your attention to it.
-4. **[Why the Poor Don't Kill Us](https://www.goodreads.com/book/show/238077732-why-the-poor-don-t-kill-us?ref=nav_sb_ss_1_26)** by Manu Joseph: Sharp at times, often sarcastic, almost always deliberately provocative. Every other page I was either nodding or rolling my eyes. He makes good points about Indian inequality but undermines them by trying too hard to be contrarian-cool. Still - made me think differently about class, privilege, and who gets to critique what. Uncomfortable read, which might be the point. I'm definitely not publishing for NYT like he does (and makes it a point of letting us know), but the editing felt lacking.
 
-### **And watched:**
-1.  **[Kiki's Delivery Service](https://en.wikipedia.org/wiki/Kiki%27s_Delivery_Service)** from Studio Ghibli: A surprisingly tender, fun movie that feels like summer break, you know. And definitely does not feel like you are watching something from 1986. It's crazy how good Studio Ghibli was (is?).
-2. **[The Roses](https://en.wikipedia.org/wiki/The_Roses_(film))** starring Cumberbatch and Olivia Colman: Cracking duo. And Screenplay for them to shine. Loved it. The ending...uh...may be?
+## How have I been?
 
-Also, _[F1](https://en.wikipedia.org/wiki/F1_(film))_ with Brad Pitt in it, _[The Family Plan 2](https://en.wikipedia.org/wiki/The_Family_Plan_2)_ starring Mark Wahlberg and _[The Electric State](https://en.wikipedia.org/wiki/The_Electric_State_(film))_ starring Millie Bobby Brown and Chris Pratt.
+Returned back from a **touristy trip to Mumbai** this week. Bandstand, Carter road, Elephanta caves, Marine drive, Gateway of India, Sassoon docks, Jehangir art gallery, Kalaghoda festival - the full spiel. 
 
----
+Averaged around 17-22 km walks per day - not atypical on trips. And sampled a bunch of eateries - Olympia, Leopold, Kayani, Military cafe, Candies, Yazdani, A1, and so many more. Again, par for course on a tourist trip. 
 
-## Other than that, how have I been?
+But this time, we happened to watch TV. At the hotel. And so much so that I ended up watching 2 movies - [Neeyat](https://en.wikipedia.org/wiki/Neeyat_(2023_film)) with Vidya Balan (surprisingly dull, but good twist) and [Divergent](https://en.wikipedia.org/wiki/Divergent_(film)) - that too dubbed in Hindi. Not only that, also bunch of episodes of a K-Drama - [Ghost Doctor](https://en.wikipedia.org/wiki/Ghost_Doctor) - surprisingly fun! My first K-drama. TV binging was not par for course. But Mumbai was just so hot in the afternoons. And also, came down with stomach flu - so kinda had to spend almost whole 1 day at the hotel room.
 
-Currently, reflecting on how the year (2025) has been after from being fantastic. More in terms of directional movement, so to say. And thinking where to head to in 2026. You know, typical year end stuff.
+This year so far has been almost a continuous repeat of "wait-it's-Friday-already? Again?". So, I am clearly busy. But not feeling quite directional. More like scattered a bit between bunch of things, including travels. And have another coming up end of February. Looking forward to more directional momentum starting next month. Including picking up writing again - which is stalled since last month.
 
-I'm deliberately moving from a 10-year corporate PM career toward creative independence - through writing, building products, and creating community. The focus is on freedom: control over my time, being useful to others, and building things that exist independent of me.
+Thematically, still focussed on creative independence. I'm getting more and more comfortable with the increasing control over my time. But shifting gears a bit towards actual exploration of consulting projects. And investment plays. 
 
 ### The big three:
 
@@ -34,24 +27,49 @@ I'm deliberately moving from a 10-year corporate PM career toward creative indep
   - Planning to self-publish via KDP / Pothi by June 2026 (ideally after getting a validation of a possible audience)
   - It's become less about vanity and more about sharing ideas that genuinely helped me
 
-2. **[Guide app](https://blog.nextfive.in/guide/): a personal productivity system I built**
-  - Just launched v34 with onboarding improvements
-  - Testing if people find value in it
+2. **Learning to earn without a salary** (my version of financial independence)
+  - Experimenting with different income streams: through process / automation consulting for NGOs and small schools.
+  - Exploring real-estate investment opportunities - time-boxed for a month (March - 2026)
 
-3. **Learning to earn without a salary** (my version of financial independence)
-  - Experimenting with different income streams
-  - Recently focused on identifying 5 concrete projects to commit 2 hours daily to, starting January 2026
-  - Less exploring, more shipping and selling
+3. Pausing further development of **[Guide app](https://blog.nextfive.in/guide/): a personal productivity system I built**
+  - I will continue to use it as my key tool for directional momentum but enhancements will be on pause till such time there is any significant usage from other or a personal need
 
-**Why these three?**
-Because I realized I have enough ideas. What I need now is to move from planning to doing, from building to shipping. Dialing down the exploration a notch and [starting to focus on exploitation](https://www.henrikkarlsson.xyz/p/multi-armed-bandit).
+**Why these?**
+Because I realized I have enough ideas. What I need now is to move from planning to doing, from building to shipping. Dialling down the exploration a notch and [starting to focus on exploitation](https://www.henrikkarlsson.xyz/p/multi-armed-bandit).
 
 ---
 ### Also happening:
-- Got on to Substack - my only _"social media"_ thing for now; You can [say hello here](https://substack.com/@heyamitkmr)
-- Getting more and more comfortable driving:  still working on this skill, especially on driving on hill roads and going for outstation trips
+- Joined a lovely group of Substackers from Bangalore and having fun reading their stuff and occasionally writing together with them; Remains my only _"social media"_ thing for now; You can [say hello here](https://substack.com/@heyamitkmr)
+- Planning a drive to Mysore in March
 - Building community through the Public Living Room concept: connecting interesting people around ideas and projects
-- Getting comfortable with public storytelling - considering TEDx talks and other speaking opportunities.
-- [Smaller passion projects](https://www.nextfive.in/chapters) like [PictureThis](https://www.picturethis.in/) or[Toolish](https://blog.nextfive.in/products/); [ThePhotos.org](https://thephotos.org/) is getting less attention for now.
 
+
+### **Recently read:**
+1. **[Share your work](https://www.goodreads.com/book/show/18290401-show-your-work)** by Autin Kleon: Overall takeaway - Share influences early, finished work later. Share with full attribution - what the work is, who made it, how they made it, when and where it was made, why you're sharing it, why people should care about it. That last bit about "why people should care about it" - is also highlighted in the 'So What?' test for things that you are planning to share. And in advice to find voids others aren't filling. <br><br>
+And other set of good reminders. Towards the end, started to get into full-on hustle-inspo-porn style writing. The kind that is parodied in [How to Stay Productive When the World Is Ending](https://www.goodreads.com/book/show/62917498-how-to-stay-productive-when-the-world-is-ending). But hey, he's practising what he's preaching. 
+2. **[The great mental models - volume 1](https://www.goodreads.com/book/show/205435070-the-great-mental-models-volume-1?)** by Shane Parrish: Always have been a fan of mental models. Most of the 9 discussed in this short book were familiar - likely most famous being the Occam's and Hanlon's razors. But it was still totally worth it to have a quick review of these all. The reminder to seek help from seasoned experts - what the book calls "lifers" - when operating outside my circle of competence was timely. 
+ 
+Some more notes from the book:
+
+> **On Learning Efficiency:**
+> - "Learning on your own is costly and slow. Always try to see if learnings are already available, credibly so, before you embark on your journey. Seek out books, conversations."
+> - Mental models are compressions of how things work - they reveal key information while ignoring the non-essential
+> - "All models are wrong. Some are useful."
+> - Models are reliable in some situations but flawed in others
+> 
+> **On Building Knowledge:**
+> - "If you want to suck up someone's brain, you should simply read a book. All the great wisdom of humanity is written down somewhere."
+> - Process is more important than outcome at the beginning.
+> - Record and reflect on your process and results when using mental models
+> - Stay open to feedback loops
+
+
+### **And watched:**
+1. **[The Hot Spot ](https://www.netflix.com/in/title/81985186)**: A slow paced Japanese comedy set in a small town near Mount Fuji with absolutely adorable cast of characters. Especially the 3 chatterbox friends who find that one of their coworkers is a literal alien. Absolutely loved the inane conversations and of course, the Japanese sounds.
+2. **[Hail, Caesar!](https://en.wikipedia.org/wiki/Hail,_Caesar!)**: A 2016 movie from Coen brothers, starring fantastic set of assorted cast including Clooney and Tilda Swinton, Scarlett Johansson and many more. Smart dialogues. Quick pace. And outrageously funny plot. Josh Brolin is good. 
+3. **[Honey Dont](https://en.wikipedia.org/wiki/Honey_Don%27t!)**: Described as the "2nd part of a lesbian B-Movie trilogy" by Ethan Coen and Tricia Cooke. Make what you will of that. But I found it quite entertaining. Great cast. Sharp dialogues. Very different "B-movie" cinematography that felt fresh. And good plot twists. 
+
+I have been really working my way through Coen brothers' movies; also started [The Ballad of Buster Scruggs](https://en.wikipedia.org/wiki/The_Ballad_of_Buster_Scruggs), but could not get past the 3rd piece in the anthology. Got too dark. May be another time.
+
+Also [Neeyat](https://en.wikipedia.org/wiki/Neeyat_(2023_film)) with Vidya Balan (surprisingly dull, but good twist). All 3 movies in the [Divergent series](https://en.wikipedia.org/wiki/The_Divergent_Series) - a completely forgettable one. 
 
