@@ -63,6 +63,9 @@ Some more notes from the book:
 > - Record and reflect on your process and results when using mental models
 > - Stay open to feedback loops
 
+<span style="display: block; text-align: right; font-size: 14px; font-weight: bold; font-style: italic;">
+    (Here's some other stuff <a href="/read" style="font-size: inherit; font-weight: inherit; font-style: inherit;color: var(--nav-link-color);"> I have read </a>) 
+</span>
 
 ### **And watched:**
 1. **[The Hot Spot ](https://www.netflix.com/in/title/81985186)**: A slow paced Japanese comedy set in a small town near Mount Fuji with absolutely adorable cast of characters. Especially the 3 chatterbox friends who find that one of their coworkers is a literal alien. Absolutely loved the inane conversations and of course, the Japanese sounds.
@@ -73,3 +76,6 @@ I have been really working my way through Coen brothers' movies; also started [T
 
 Also [Neeyat](https://en.wikipedia.org/wiki/Neeyat_(2023_film)) with Vidya Balan (surprisingly dull, but good twist). All 3 movies in the [Divergent series](https://en.wikipedia.org/wiki/The_Divergent_Series) - a completely forgettable one. 
 
+<span style="display: block; text-align: right; font-size: 14px; font-weight: bold; font-style: italic;">
+    (Here's some other stuff <a href="/watched" style="font-size: inherit; font-weight: inherit; font-style: inherit; color: var(--nav-link-color);"> I have watched </a>) 
+</span>
