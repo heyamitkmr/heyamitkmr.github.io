@@ -8,4 +8,6 @@ date: 2026-03-15
 
 Yesterday I walked through a home in CV Raman Nagar I'd been thinking about since I first saw it. It has a well. Actually two. I had never seen a home in a city with wells :D  It does not have a municipal water connection or sewage connection either . And fantastically designed with a garden and books everywhere you look. 
 
-Robert and Tina built something genuinely beautiful here - opening their space to people to just come in, sit with a book and have conversations. They also do walk-throughs. You can book the next one here: https://www.urbsindis.com/event-details/walkthrough-29?mc_id=publiclivingroom
+Robert and Tina built something genuinely beautiful here - opening their space to people to just come in, sit with a book and have conversations. They also do walk-throughs. You can book the next one here: [https://www.urbsindis.com/event-details/walkthrough-29?mc_id=publiclivingroom](https://www.urbsindis.com/event-details/walkthrough-29?mc_id=publiclivingroom)
+
+![I get listless...](/assets/images/bits/public_living_room_BTP_urbs_indis.jpeg)
