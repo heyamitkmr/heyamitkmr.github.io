@@ -1,6 +1,6 @@
 ---
-layout: bit-post
-categories: [bits]
+layout: post
+categories: bits
 date: 2026-03-15
 ---
 
