@@ -27,7 +27,7 @@
       <h1><a href="{{ '/' | relative_url }}">{{ site.title }}</a></h1>
       <p>{{ site.description }}</p>
       <nav>
-        <a href="https://nextfive.xyz/" target="_blank" rel="noopener noreferrer">Home</a>
+        <a href="{{ '/' | relative_url }}" target="_blank" rel="noopener noreferrer">Home</a>
         
         <!-- Link to blog's main feed (shows all posts) -->
         <a href="{{ '/writing/' | relative_url }}">All Posts</a>
@@ -35,8 +35,8 @@
         <!-- Link to the page that ONLY shows project posts -->
         <a href="{{ '/projects/' | relative_url }}">Projects</a>
         
-        <!-- Link to the page that ONLY shows general writing -->
-        <a href="{{ '/thoughts/' | relative_url }}">Thoughts</a>
+        <!-- Link to the page that has...well...this and that -->
+        <a href="{{ '/bits/' | relative_url }}">Bits</a>
 
         <!-- Link to the About page that changes less frequently than Now page  -->
         <a href="{{ '/about/' | relative_url }}">About</a>

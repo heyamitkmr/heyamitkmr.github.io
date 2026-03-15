@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>{{ page.title | default: "Bits" }}</title>
+  <link rel="stylesheet" href="{{ "/assets/css/style.css" | relative_url }}">
+  <link rel="icon" type="image/png" href="/assets/favicon.jpeg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body>
+    <header>
+      <h1><a href="{{ '/' | relative_url }}">{{ site.title }}</a></h1>
+      <p>{{ site.description }}</p>
+      <nav>
+        <a href="{{ '/' | relative_url }}" target="_blank" rel="noopener noreferrer">Home</a>
+        
+        <!-- Link to blog's main feed (shows all posts) -->
+        <a href="{{ '/writing/' | relative_url }}">All Posts</a>
+      
+        <!-- Link to the page that ONLY shows project posts -->
+        <a href="{{ '/projects/' | relative_url }}">Projects</a>
+        
+        <!-- Link to the page that has...well...this and that -->
+        <a href="{{ '/bits/' | relative_url }}">Bits</a>
+
+        <!-- Link to the About page that changes less frequently than Now page  -->
+        <a href="{{ '/about/' | relative_url }}">About</a>
+
+        <!-- Link to the Now page that shows what I am doing these days -->
+        <a href="{{ '/now/' | relative_url }}">Now</a>
+
+        <!-- Theme toggle button -->
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+          <span class="theme-toggle-icon">🌙</span>
+        </button>
+      </nav>
+
+    </header>
+
+  <main class="bits-feed" role="main">
+    <section class="bits-header">
+        <div class="container">
+            <h1>{{ page.title | default: "Bits" }}</h1>
+            {% if page.description %}
+                <p class="bits-description">{{ page.description }}</p>
+            {% endif %}
+        </div>
+    </section>
+
+    <ul class="bits-list">
+      {% for post in site.categories.bits %}
+        <li class="bit-card" id="bit-{{ post.slug | default: post.url | slugify }}">
+          <div class="bit-body">
+            {{ post.content }}
+          </div>
+          <div class="bit-meta">
+            <time class="bit-date" datetime="{{ post.date | date_to_xmlschema }}">
+              {{ post.date | date: "%b %-d, %Y" }}
+            </time>
+
+            <!-- Permalink -->
+            <a class="bit-permalink" href="{{ post.url | relative_url }}" title="Open this bit" aria-label="Open this bit" target="_blank" rel="noopener noreferrer">
+              <!-- simple link SVG icon -->
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14 3h7v7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M10 14L21 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M21 21H3V3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  </main>
+
+    <footer>
+      <p>&copy; {{ 'now' | date: "%Y" }} | {{ site.author }}</p>
+    </footer>
+
+  <!-- Optional: JS to toggle full content per card (no external libs) -->
+  <script>
+    (function () {
+      // If you want an expand-on-click behavior for long bits, uncomment below.
+      // It toggles the 'full' class on a bit-card when its content is clicked.
+      // Keep commented if you prefer pure CSS truncation only.
+
+      // document.querySelectorAll('.bit-card .bit-content').forEach(function (el) {
+      //   el.addEventListener('click', function () {
+      //     var card = el.closest('.bit-card');
+      //     card.classList.toggle('full');
+      //   });
+      // });
+    })();
+  </script>
+
+  <!-- Theme toggle JavaScript -->
+    <script>
+      (function() {
+        const themeToggle = document.getElementById('theme-toggle');
+        const html = document.documentElement;
+        
+        // Get current theme
+        function getCurrentTheme() {
+          return html.getAttribute('data-theme') || 'light';
+        }
+        
+        // Set theme
+        function setTheme(theme) {
+          html.setAttribute('data-theme', theme);
+          localStorage.setItem('theme', theme);
+          updateToggleIcon(theme);
+        }
+        
+        // Update toggle icon
+        function updateToggleIcon(theme) {
+          const icon = themeToggle.querySelector('.theme-toggle-icon');
+          if (theme === 'dark') {
+            icon.textContent = '☀️';
+          } else {
+            icon.textContent = '🌙';
+          }
+        }
+        
+        // Toggle theme
+        function toggleTheme() {
+          const currentTheme = getCurrentTheme();
+          const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+          setTheme(newTheme);
+        }
+        
+        // Initialize
+        function init() {
+          const savedTheme = localStorage.getItem('theme');
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
+          
+          setTheme(initialTheme);
+          
+          // Add click listener
+          if (themeToggle) {
+            themeToggle.addEventListener('click', toggleTheme);
+          }
+          
+          // Listen for system theme changes
+          window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+            if (!localStorage.getItem('theme')) {
+              setTheme(e.matches ? 'dark' : 'light');
+            }
+          });
+        }
+        
+        // Wait for DOM to be ready
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', init);
+        } else {
+          init();
+        }
+      })();
+    </script>
+</body>
+</html>

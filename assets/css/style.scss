@@ -383,6 +383,150 @@ pre code {
   font-style: italic;
 }
 
+/* Bits feed (inline cards, non-clickable) */
+.bits-feed {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 2rem 0;
+}
+
+.bits-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: var(--bg-color);
+  padding: 1rem 0 0.5rem 0;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--subtle-border);
+}
+
+.bits-header h1 {
+  margin: 0 0 0.5rem 0;
+}
+
+.bits-description {
+  color: var(--text-secondary);
+  margin: 0 0 1.25rem 0;
+}
+
+/* list */
+.bits-list {
+  list-style: none;
+  padding: 0.5rem 0.25rem;
+  margin: 0;
+}
+
+/* card */
+.bit-card {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--subtle-border);
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem !important;
+  box-shadow: 0 6px 18px var(--shadow);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* images inside a bit card */
+.bit-card img {
+  width: 100%;
+  max-height: 420px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: none; 
+  margin: 0.5rem 0 0 0;
+}
+
+
+/* image caption — targets the figcaption or any italic/em below image */
+.bit-card figcaption,
+.bit-card img + em,
+.bit-card img + p > em {
+  display: block;
+  text-align: center;
+  font-size: 0.82rem;
+  color: var(--text-tertiary);
+  margin-top: 0.25rem;
+  font-style: italic;
+}
+
+
+/* subtle hover lift but keep default cursor (non-clickable) */
+.bit-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px var(--shadow);
+}
+
+/* content: clamp to keep feed tidy; toggle .full to show all */
+.bit-content {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* when .full is present (via JS toggle), show full content */
+.bit-card.full .bit-content {
+  -webkit-line-clamp: unset;
+  display: block;
+  overflow: visible;
+}
+
+/* meta row: date + permalink */
+.bit-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.bit-date {
+  color: var(--text-tertiary);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+/* permalink icon */
+.bit-permalink {
+  color: var(--accent-color);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.bit-permalink:hover {
+  background-color: var(--accent-color);
+  color: var(--bg-color);
+}
+
+.bit-permalink svg {
+  display: block;
+  width: 16px;
+  height: 16px;
+  color: currentColor;
+}
+
+/* responsive tweaks */
+@media (max-width: 768px) {
+  .bits-feed { padding: 1rem 0; }
+  .bit-card { padding: 0.85rem 1rem; }
+  .bit-content { -webkit-line-clamp: 6; }
+}
+
+
 .read-more {
   color: var(--accent-color);
   font-weight: 500;
@@ -420,13 +564,13 @@ li:not(.post-list li) {
 }
 
 /* Legacy list items in products and thoughts pages (if not using cards) */
-ul:not(.post-list) li {
+ul:not(.post-list):not(.bits-list) li {
   margin-bottom: 0.5rem;
   border-bottom: 1px solid var(--subtle-border);
   padding-bottom: 0.5rem;
 }
 
-ul:not(.post-list) li:last-child {
+ul:not(.post-list):not(.bits-list) li:last-child {
   border-bottom: none;
   margin-bottom: 0;
 }
