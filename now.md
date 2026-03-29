@@ -5,76 +5,62 @@ permalink: /now/
 ---
 Basically what I'm focused on at this point in my life. <br><span style="font-size: 14px">_Inspired by [https://nownownow.com/about](https://nownownow.com/about)_ </span>
 <br><br>
-```Last updated: February 2026```
+```Last updated: March 2026```
 
 
 ## How have I been?
 
-Returned back from a **touristy trip to Mumbai** this week. Bandstand, Carter road, Elephanta caves, Marine drive, Gateway of India, Sassoon docks, Jehangir art gallery, Kalaghoda festival - the full spiel. 
+Q1 coming to an end. Last 1 month have been busy with 1 project or another. In a good way that comes from juggling 3-4 fun things at a time. 
 
-Averaged around 17-22 km walks per day - not atypical on trips. And sampled a bunch of eateries - Olympia, Leopold, Kayani, Military cafe, Candies, Yazdani, A1, and so many more. Again, par for course on a tourist trip. 
+In that sense - I realised that _**I am actually closer to the goal of an ideal life that I had imagined for myself couple of years back.**_ Scales differ. Not really attending mega-conferences yet. Neither heading out to Bali with like-minded friends to just "chill". But I _have_ been travelling. And writing. And [having fun](/bits/2026/03/10/unused-brain.html) with [projects](/bits/2026/03/22/nextfive-publisher-is-now-live.html) at [different stages of completion](/bits/2026/03/15/public-living-room.html). Meeting new people, having fun experiences and good conversations. 
 
-But this time, we happened to watch TV. At the hotel. And so much so that I ended up watching 2 movies - [Neeyat](https://en.wikipedia.org/wiki/Neeyat_(2023_film)) with Vidya Balan (surprisingly dull, but good twist) and [Divergent](https://en.wikipedia.org/wiki/Divergent_(film)) - that too dubbed in Hindi. Not only that, also bunch of episodes of a K-Drama - [Ghost Doctor](https://en.wikipedia.org/wiki/Ghost_Doctor) - surprisingly fun! My first K-drama. TV binging was not par for course. But Mumbai was just so hot in the afternoons. And also, came down with stomach flu - so kinda had to spend almost whole 1 day at the hotel room.
+March has been good. I needed the change of pace these last 3 weeks. 
 
-This year so far has been almost a continuous repeat of "wait-it's-Friday-already? Again?". So, I am clearly busy. But not feeling quite directional. More like scattered a bit between bunch of things, including travels. And have another coming up end of February. Looking forward to more directional momentum starting next month. Including picking up writing again - which is stalled since last month.
+Two things are absorbing most of my builder energy. One is a tool for making the career landscape actually visible. Not like job boards or LinkedIn's _blech!_ feed. But closer to a map of the full terrain. The other is the Public Living Room experiment - a drop-in space for makers and thinkers, no agenda, just interesting people and ideas. Face to face. Outreach is underway. An urban historian and architect I met recently has become an unexpected collaborator-adjacent person in this.
 
-Thematically, still focussed on creative independence. I'm getting more and more comfortable with the increasing control over my time. But shifting gears a bit towards actual exploration of consulting projects. And investment plays. 
+Running is back on schedule. Getting better with spoken Kannada. Writing has taken a back-seat. 
+
+Still in Bangalore. Still finding it generative.
+
+
+_P.S:_ _Oh...and one more thing: Had fun running [Picasa](https://picasa.google.com/) using [Bottles](https://usebottles.com/) :)_
+<p align="center">
+  <img src="/assets/images/bits/snapseed_test_picasa.jpg" width="1200"> <br>
+  <span style="font-size: 14px;"><i>Picasa was a lovely software which, among other things, allowed you to create stacks like these.</i></span>
+</p>
+<br>
 
 ### The big three:
 
-1. **Writing the book (deadline: June 2026)**
-  - Practicing more regular writing; Learning Substack with "[EarlyNotes](https://earlynotes.substack.com/)" -  sharing thoughts on what I have seen working for me; Continuing to use [my Hey blog](https://world.hey.com/akumar) and [nextfive.xyz](http://new.nextfive.xyz/) for my other personal writings.
-  - Planning to self-publish via KDP / Pothi by June 2026 (ideally after getting a validation of a possible audience)
-  - It's become less about vanity and more about sharing ideas that genuinely helped me
+1. **Writing the book has taken a backseat. (Earlier deadline was: June 2026)**
+  - Been practically absent from [Substack](https://earlynotes.substack.com/)"; 
+  - Moved away from [my Hey blog](https://world.hey.com/akumar) for good, having migrated everything here at [nextfive.xyz](http://new.nextfive.xyz/) 
+  - Still planning to self-publish via KDP / Pothi; Earlier dealine of June 2026 no longer seems doable, unless I take it as just a task to complete
 
 2. **Learning to earn without a salary** (my version of financial independence)
-  - Experimenting with different income streams: through process / automation consulting for NGOs and small schools.
-  - Exploring real-estate investment opportunities - time-boxed for a month (March - 2026)
+  - Also stalled: Experimenting with different income streams through process / automation consulting for NGOs and small schools. Lack of outreach after the couple of lukewarm responses.
+  - Exploring real-estate investment opportunities has been more time intensive than they should be. Going slow. Will continue till April 2026.
 
-3. Pausing further development of **[Guide app](https://blog.nextfive.in/guide/): a personal productivity system I built**
-  - I will continue to use it as my key tool for directional momentum but enhancements will be on pause till such time there is any significant usage from other or a personal need
-
-**Why these?**
-Because I realized I have enough ideas. What I need now is to move from planning to doing, from building to shipping. Dialling down the exploration a notch and [starting to focus on exploitation](https://www.henrikkarlsson.xyz/p/multi-armed-bandit).
+3. And the initial leg-work on **systems for people to expand what they can become**. The community building around Public Living Room concept - connecting interesting people around ideas and projects - will be part of these systems. Hopefully I'll have more to share on this one in coming weeks.
 
 ---
-### Also happening:
-- Joined a lovely group of Substackers from Bangalore and having fun reading their stuff and occasionally writing together with them; Remains my only _"social media"_ thing for now; You can [say hello here](https://substack.com/@heyamitkmr)
-- Planning a drive to Mysore in March
-- Building community through the Public Living Room concept: connecting interesting people around ideas and projects
-
 
 ### **Recently read:**
-1. **[Share your work](https://www.goodreads.com/book/show/18290401-show-your-work)** by Autin Kleon: Overall takeaway - Share influences early, finished work later. Share with full attribution - what the work is, who made it, how they made it, when and where it was made, why you're sharing it, why people should care about it. That last bit about "why people should care about it" - is also highlighted in the 'So What?' test for things that you are planning to share. And in advice to find voids others aren't filling. <br><br>
-And other set of good reminders. Towards the end, started to get into full-on hustle-inspo-porn style writing. The kind that is parodied in [How to Stay Productive When the World Is Ending](https://www.goodreads.com/book/show/62917498-how-to-stay-productive-when-the-world-is-ending). But hey, he's practising what he's preaching. 
-2. **[The great mental models - volume 1](https://www.goodreads.com/book/show/205435070-the-great-mental-models-volume-1?)** by Shane Parrish: Always have been a fan of mental models. Most of the 9 discussed in this short book were familiar - likely most famous being the Occam's and Hanlon's razors. But it was still totally worth it to have a quick review of these all. The reminder to seek help from seasoned experts - what the book calls "lifers" - when operating outside my circle of competence was timely. 
- 
-Some more notes from the book:
-
-> **On Learning Efficiency:**
-> - "Learning on your own is costly and slow. Always try to see if learnings are already available, credibly so, before you embark on your journey. Seek out books, conversations."
-> - Mental models are compressions of how things work - they reveal key information while ignoring the non-essential
-> - "All models are wrong. Some are useful."
-> - Models are reliable in some situations but flawed in others
-> 
-> **On Building Knowledge:**
-> - "If you want to suck up someone's brain, you should simply read a book. All the great wisdom of humanity is written down somewhere."
-> - Process is more important than outcome at the beginning.
-> - Record and reflect on your process and results when using mental models
-> - Stay open to feedback loops
-
+1. **[The Almanack of Naval Ravikant](https://www.navalmanack.com/)** compiled by Eric Jorgenson: Found myself arguing with almost every 3rd page of the book and agreeing with some point every other 4th page. Quite engaging and thought provoking, especially if you are in a certain frame of mind. 
+   
+2. **[Thank you for Arguing](https://www.goodreads.com/book/show/151751.Thank_You_for_Arguing)** by Jay Heinrichs: The author's general tone started grating on me a bit after a couple of chapters. But not enough to prevent me from finishing. And good reminders on what makes for good persuasive cases beyond logic - like Pathos and Ethos. That is - the emotions and your own personality as perceived by your audience. Decent read.
 <span style="display: block; text-align: right; font-size: 14px; font-weight: bold; font-style: italic;">
     (Here's some other stuff <a href="/read" style="font-size: inherit; font-weight: inherit; font-style: inherit;color: var(--nav-link-color);"> I have read </a>) 
 </span>
 
 ### **And watched:**
-1. **[The Hot Spot ](https://www.netflix.com/in/title/81985186)**: A slow paced Japanese comedy set in a small town near Mount Fuji with absolutely adorable cast of characters. Especially the 3 chatterbox friends who find that one of their coworkers is a literal alien. Absolutely loved the inane conversations and of course, the Japanese sounds.
-2. **[Hail, Caesar!](https://en.wikipedia.org/wiki/Hail,_Caesar!)**: A 2016 movie from Coen brothers, starring fantastic set of assorted cast including Clooney and Tilda Swinton, Scarlett Johansson and many more. Smart dialogues. Quick pace. And outrageously funny plot. Josh Brolin is good. 
-3. **[Honey Dont](https://en.wikipedia.org/wiki/Honey_Don%27t!)**: Described as the "2nd part of a lesbian B-Movie trilogy" by Ethan Coen and Tricia Cooke. Make what you will of that. But I found it quite entertaining. Great cast. Sharp dialogues. Very different "B-movie" cinematography that felt fresh. And good plot twists. 
+1. **[Drive Away Dolls](https://en.wikipedia.org/wiki/Drive-Away_Dolls)**: Continuing on my journey with Ethan Coen / Tricia Cooke trilogy. Expectedly bizzare sequences and funny. The one scene with Matt Damon for example...
 
-I have been really working my way through Coen brothers' movies; also started [The Ballad of Buster Scruggs](https://en.wikipedia.org/wiki/The_Ballad_of_Buster_Scruggs), but could not get past the 3rd piece in the anthology. Got too dark. May be another time.
+![](/assets/images/bits/drive_away_dolls.png)
 
-Also [Neeyat](https://en.wikipedia.org/wiki/Neeyat_(2023_film)) with Vidya Balan (surprisingly dull, but good twist). All 3 movies in the [Divergent series](https://en.wikipedia.org/wiki/The_Divergent_Series) - a completely forgettable one. 
+2. **[Dhurandhar](https://en.wikipedia.org/wiki/Dhurandhar)**: A surprisingly well made Bollywood action flick with gritty action sequences and did not feel as long as it is. Also, plenty of dog-whistles - like framing things as _"Hindus vs Pakistan"_. The framing of _"prev-govts-corrupt-current-govt-strong"_ is done smoothly :P Despite all these though, pretty different movie. Soundtracks are nice too.
+
+Also _**Send Help**_ and _**Zootopia - 2**_
 
 <span style="display: block; text-align: right; font-size: 14px; font-weight: bold; font-style: italic;">
     (Here's some other stuff <a href="/watched" style="font-size: inherit; font-weight: inherit; font-style: inherit; color: var(--nav-link-color);"> I have watched </a>) 

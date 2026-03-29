@@ -29,3 +29,7 @@ Some more notes from the book:
 > - Process is more important than outcome at the beginning.
 > - Record and reflect on your process and results when using mental models
 > - Stay open to feedback loops
+
+7. **[The Almanack of Naval Ravikant](https://www.navalmanack.com/)** compiled by Eric Jorgenson: Found myself arguing with almost every 3rd page of the book and agreeing with some point every other 4th page. Quite engaging and thought provoking, especially if you are in a certain frame of mind. 
+   
+8. **[Thank you for Arguing](https://www.goodreads.com/book/show/151751.Thank_You_for_Arguing)** by Jay Heinrichs: The author's general tone started grating on me a bit after a couple of chapters. But not enough to prevent me from finishing. And good reminders on what makes for good persuasive cases beyond logic - like Pathos and Ethos. That is - the emotions and your own personality as perceived by your audience. Decent read.
