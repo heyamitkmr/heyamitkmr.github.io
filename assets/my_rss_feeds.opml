@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<opml version="1.1" xmlns:feeder="https://nononsenseapps.com/feeder">
+  <head>
+    <title>
+      Feeder
+    </title>
+  </head>
+  <body>
+    <outline feeder:notify="false" feeder:imageUrl="https://substackcdn.com/image/fetch/$s_!Hw_s!,w_256,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F4feee791-3ba4-4983-865b-a7cc0efa3ace_690x690.png" feeder:fullTextByDefault="true" feeder:openArticlesWith="" feeder:alternateId="false" title="EarlyNotes" text="EarlyNotes" type="rss" xmlUrl="https://earlynotes.substack.com/feed"/>
+    <outline feeder:notify="false" feeder:imageUrl="https://news.nononsenseapps.com/apple-touch-icon.png" feeder:fullTextByDefault="false" feeder:openArticlesWith="" feeder:alternateId="false" title="Feeder News" text="Feeder News" type="rss" xmlUrl="https://news.nononsenseapps.com/index.atom"/>
+    <outline title="AI" text="AI">
+      <outline feeder:notify="false" feeder:imageUrl="https://substackcdn.com/image/fetch/$s_!3yYS!,w_256,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd6d17996-2bef-40a4-abe3-be72a0e8a227_258x258.png" feeder:fullTextByDefault="true" feeder:openArticlesWith="" feeder:alternateId="false" title="Import AI" text="Import AI" type="rss" xmlUrl="https://importai.substack.com/feed"/>
+      <outline feeder:notify="false" feeder:imageUrl="https://substackcdn.com/image/fetch/$s_!hbTj!,w_256,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F45b6f6fb-c46f-4c6b-af0a-5a3cc02ef5a7_413x413.png" feeder:fullTextByDefault="true" feeder:openArticlesWith="" feeder:alternateId="false" title="Superintelligence" text="Superintelligence" type="rss" xmlUrl="https://www.superintelligencenewsletter.com/feed"/>
+      <outline feeder:notify="false" feeder:imageUrl="https://tldr.tech/tldrsquare.png" feeder:fullTextByDefault="true" feeder:openArticlesWith="" feeder:alternateId="false" title="TLDR AI RSS Feed" text="TLDR AI RSS Feed" type="rss" xmlUrl="https://tldr.tech/api/rss/ai"/>
+      <outline feeder:notify="false" feeder:imageUrl="https://substackcdn.com/image/fetch/$s_!t4FH!,w_256,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F7c763928-9762-43a0-a55f-9ee9040fa6e1_210x210.png" feeder:fullTextByDefault="true" feeder:openArticlesWith="" feeder:alternateId="false" title="TheSequence" text="TheSequence" type="rss" xmlUrl="https://thesequence.substack.com/feed"/>
+      <outline feeder:notify="true" feeder:imageUrl="https://substackcdn.com/image/fetch/$s_!7mDu!,w_256,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc2c67aa2-8e5f-4bff-b7b8-048e848d36ff_512x512.png" feeder:fullTextByDefault="true" feeder:openArticlesWith="" feeder:alternateId="false" title="Turing Post" text="Turing Post" type="rss" xmlUrl="https://turingpost.substack.com/feed"/>
+    </outline>
+    <outline title="Engaging" text="Engaging">
+      <outline feeder:notify="true" feeder:imageUrl="https://dynomight.net/favicon.png" feeder:fullTextByDefault="true" feeder:openArticlesWith="" feeder:alternateId="false" title="DYNOMIGHT" text="DYNOMIGHT" type="rss" xmlUrl="https://dynomight.net/feed.xml"/>
+      <outline feeder:notify="true" feeder:imageUrl="https://substackcdn.com/image/fetch/$s_!hLMr!,w_256,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F6f97c0c5-76bf-4baa-bded-bd9b637631c8_800x800.png" feeder:fullTextByDefault="true" feeder:openArticlesWith="" feeder:alternateId="false" title="Escaping Flatland" text="Escaping Flatland" type="rss" xmlUrl="https://www.henrikkarlsson.xyz/feed"/>
+      <outline feeder:notify="true" feeder:imageUrl="https://substackcdn.com/image/fetch/$s_!AYUf!,w_256,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F5c7b0f6a-bcf9-4157-8f82-c39444ab0574_512x512.png" feeder:fullTextByDefault="true" feeder:openArticlesWith="" feeder:alternateId="false" title="The India Notes 🇮🇳" text="The India Notes 🇮🇳" type="rss" xmlUrl="https://newsletter.theindianotes.com/feed"/>
+    </outline>
+    <outline title="Photography" text="Photography">
+      <outline feeder:notify="true" feeder:imageUrl="https://substackcdn.com/image/fetch/$s_!_0gm!,w_256,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F95b23b93-ed85-43cf-a273-1dca0b312506_801x801.png" feeder:fullTextByDefault="false" feeder:openArticlesWith="" feeder:alternateId="false" title="Justin Mott" text="Justin Mott" type="rss" xmlUrl="https://justinmott1.substack.com/feed"/>
+    </outline>
+    <outline title="Substack" text="Substack">
+      <outline feeder:notify="true" feeder:imageUrl="https://substackcdn.com/image/fetch/$s_!QbzI!,w_256,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fb8ca8d5e-e661-4c1a-bcf4-715d727450a7_1280x1280.png" feeder:fullTextByDefault="true" feeder:openArticlesWith="0" feeder:alternateId="false" title="About Murder, She Wrote." text="About Murder, She Wrote." type="rss" xmlUrl="https://aboutmurdershewrote.substack.com/feed"/>
+      <outline feeder:notify="false" feeder:imageUrl="https://substackcdn.com/image/fetch/$s_!RrY3!,w_256,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F13aa4852-b4dd-412a-971a-c9165024ba79_526x526.png" feeder:fullTextByDefault="true" feeder:openArticlesWith="" feeder:alternateId="false" title="Breaking Good" text="Breaking Good" type="rss" xmlUrl="https://breakinggood.substack.com/feed"/>
+      <outline feeder:notify="false" feeder:imageUrl="https://substackcdn.com/image/fetch/$s_!QkFe!,w_256,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fa7a6d1c8-5c38-489e-a6a7-5d328a2d0742_1024x1024.png" feeder:fullTextByDefault="true" feeder:openArticlesWith="0" feeder:alternateId="false" title="http://gowrink.substack.com/feed" text="http://gowrink.substack.com/feed" type="rss" xmlUrl="https://gowrink.substack.com/feed"/>
+      <outline feeder:notify="true" feeder:imageUrl="https://substackcdn.com/image/fetch/$s_!z1lx!,w_256,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F728de802-b418-4de0-bb6e-1e8623dde0ed_144x144.png" feeder:fullTextByDefault="true" feeder:openArticlesWith="" feeder:alternateId="false" title="Solitude’s Substack" text="Solitude’s Substack" type="rss" xmlUrl="https://solitudecollective.substack.com/feed"/>
+    </outline>
+    <outline title="Tech" text="Tech">
+      <outline feeder:notify="true" feeder:imageUrl="https://tldr.tech/tldrsquare.png" feeder:fullTextByDefault="true" feeder:openArticlesWith="" feeder:alternateId="false" title="TLDR RSS Feed" text="TLDR RSS Feed" type="rss" xmlUrl="https://tldr.tech/api/rss/tech"/>
+      <outline feeder:notify="false" feeder:imageUrl="https://wp.technologyreview.com/wp-content/uploads/2024/09/cropped-TR-Logo-Block-Centered-R.png?w=32" feeder:fullTextByDefault="true" feeder:openArticlesWith="" feeder:alternateId="false" title="The Download – MIT Technology Review" text="The Download – MIT Technology Review" type="rss" xmlUrl="https://www.technologyreview.com/topic/download-newsletter/feed"/>
+    </outline>
+    <feeder:settings>
+      <feeder:setting key="pref_show_fab" value="false"/>
+      <feeder:setting key="prefs_filter_recently_read" value="false"/>
+      <feeder:setting key="pref_show_reading_time" value="true"/>
+      <feeder:setting key="pref_is_mark_as_read_on_scroll" value="false"/>
+      <feeder:setting key="pref_sync_freq" value="1440"/>
+      <feeder:setting key="pref_added_feeder_news" value="true"/>
+      <feeder:setting key="pref_open_drawer_on_fab" value="true"/>
+      <feeder:setting key="pref_theme" value="system"/>
+      <feeder:setting key="pref_max_item_count_per_feed" value="50"/>
+      <feeder:setting key="pref_show_title_unread_count" value="true"/>
+      <feeder:setting key="pref_swipe_as_read" value="DISABLED"/>
+      <feeder:setting key="pref_sync_on_resume" value="true"/>
+      <feeder:setting key="prefs_filter_read" value="false"/>
+    </feeder:settings>
+  </body>
+</opml>

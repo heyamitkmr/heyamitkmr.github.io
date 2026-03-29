@@ -5,7 +5,9 @@ permalink: /read/
 ---
 Some stuff I read and thoughts on them.
 <br><br>
-```Last updated: February 2026```
+```Last updated: March 2026```
+
+Other than books below, I also subscribe to writings from bunch of interesting people and organisations. You can [grab the link to their feed here](/assets/my_rss_feeds.opml).
 
 ### **Recently read:**
 1. **[I Was Told There'd Be Cake](https://www.goodreads.com/book/show/2195289.I_Was_Told_There_d_Be_Cake)** and **[Look alive out there](https://www.goodreads.com/book/show/34888942-look-alive-out-there)** by Sloane Crosley. Hilariously funny collection of essays form her own life. She's become one  my favorite authors and a fun human I'd have wanted to know.

@@ -5,7 +5,7 @@ permalink: /watched/
 ---
 Some stuff I watched and thoughts on them.
 <br><br>
-```Last updated: February 2026```
+```Last updated: March 2026```
 
 ### **Recently Watched:**
 1.  **[Kiki's Delivery Service](https://en.wikipedia.org/wiki/Kiki%27s_Delivery_Service)** from Studio Ghibli: A surprisingly tender, fun movie that feels like summer break, you know. And definitely does not feel like you are watching something from 1986. It's crazy how good Studio Ghibli was (is?).
@@ -26,6 +26,8 @@ And _[F1](https://en.wikipedia.org/wiki/F1_(film))_ with Brad Pitt in it, _[The 
 
 
 6. **[Drive Away Dolls](https://en.wikipedia.org/wiki/Drive-Away_Dolls)**: Continuing on my journey with Ethan Coen / Tricia Cooke trilogy. Expectedly bizzare sequences and funny. The one scene with Matt Damon for example...
+
+![](/assets/images/bits/drive_away_dolls.png)
 
 7. **[Dhurandhar](https://en.wikipedia.org/wiki/Dhurandhar)**: A surprisingly well made Bollywood action flick with gritty action sequences and did not feel as long as it is. Also, plenty of dog-whistles - like framing things as _"Hindus vs Pakistan"_. The framing of _"prev-govts-corrupt-current-govt-strong"_ is done smoothly :P Despite all these though, pretty different movie. Soundtracks are nice too.
 
