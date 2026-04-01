@@ -62,6 +62,11 @@ Something that surprised me on what a "small" fraction of the books he starts, h
 
 But I feel I am generally okay with how I read books of any type. These days - on my ebook reader which allows me to take copious notes. I see myself adding notes showing exasperation, detailed rants, nodding-along and also adding emojis at times. All time-stamped and everything. After finishing, I go back to these notes and review these too. Maybe collect some thoughts for later, or flag action items for myself. I am usually thorough. And that needs work.
 
+<p align="center">
+  <img src="/assets/images/annotations_kobo.webp" width="600"> <br>
+  <span style="font-size: 14px;"><i>Besides material for later work, reviewing these highlights and notes right after finishing the book also reveals some interesting patterns.</i></span><br>
+</p>
+
 Engaging this deeply with books do not burn me out though. Neither does checking HackerNews / Google News - sometimes for the fourth time in the day. Although that does waste a lot of my time. In fact, I think I'm getting better at being more mindful about which articles I read on HN, and I usually don't go there more than once a day. For some long threads, I now throw them at AI to quickly summarize the thread — not the article. Google News also remains once or twice a day, but doesn't consume more than 20 minutes at the higher end. Hacker News overall takes about 30–60 minutes, I suppose.
 
 Those detours and rabbit-holes - they keep happening. Even though I've been trying to be more mindful. These days I've been saving interesting pieces I find on such detours to pursue later - as a note to myself on Signal or increasingly, using my own [web-extension I built for this](https://addons.mozilla.org/en-US/firefox/addon/web-highlighter/). This collected list has become yet another source I try to get on top of weekly.
