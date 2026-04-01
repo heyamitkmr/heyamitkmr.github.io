@@ -8,6 +8,11 @@ permalink: /projects/
 
 <em>NOTE: Some of these projects are imaginary. As in, I never moved on them beyond the imagination step. Others are fully realised. Rest lie somewhere in the middle.</em>
 
+<span style="display: block; text-align: right; font-size: 14px; font-weight: bold; font-style: italic;">
+    (Also, <a href="https://blog.nextfive.in/products/" target="_blank" style="font-size: inherit; font-weight: inherit; font-style: inherit; color: var(--nav-link-color);"> some small utilities </a> I'd fun creating - some of which have become essential to my own daily workflow) 
+</span>
+
+
 <ul class="post-list">
   {% for post in site.categories.project %}
     <li>

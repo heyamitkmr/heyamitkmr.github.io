@@ -44,6 +44,10 @@ A complete system to manage goals, tasks, and thinking. Built for myself, shared
 **[Web-Highlighter](https://blog.nextfive.in/web-highlighter/)** (Jul 2025)  
 Save ideas and quotes from any webpage with your notes. Stop losing good stuff.
 
+<span style="display: block; text-align: right; font-size: 14px; font-weight: bold; font-style: italic;">
+    (Here're <a href="/projects" target="_blank" style="font-size: inherit; font-weight: inherit; font-style: inherit; color: var(--nav-link-color);"> some more projects </a> I'd fun with.) 
+</span>
+
 ---
 
 ### **Photography projects**

@@ -50,7 +50,7 @@ _P.S:_ _Oh...and one more thing: Had fun running [Picasa](https://picasa.google.
    
 2. **[Thank you for Arguing](https://www.goodreads.com/book/show/151751.Thank_You_for_Arguing)** by Jay Heinrichs: The author's general tone started grating on me a bit after a couple of chapters. But not enough to prevent me from finishing. And good reminders on what makes for good persuasive cases beyond logic - like Pathos and Ethos. That is - the emotions and your own personality as perceived by your audience. Decent read.
 <span style="display: block; text-align: right; font-size: 14px; font-weight: bold; font-style: italic;">
-    (Here's some other stuff <a href="/read" style="font-size: inherit; font-weight: inherit; font-style: inherit;color: var(--nav-link-color);"> I have read </a>) 
+    (Here's some other stuff <a href="/read" target="_blank" style="font-size: inherit; font-weight: inherit; font-style: inherit;color: var(--nav-link-color);"> I have read </a>) 
 </span>
 
 ### **And watched:**
@@ -63,5 +63,5 @@ _P.S:_ _Oh...and one more thing: Had fun running [Picasa](https://picasa.google.
 Also _**Send Help**_ and _**Zootopia - 2**_
 
 <span style="display: block; text-align: right; font-size: 14px; font-weight: bold; font-style: italic;">
-    (Here's some other stuff <a href="/watched" style="font-size: inherit; font-weight: inherit; font-style: inherit; color: var(--nav-link-color);"> I have watched </a>) 
+    (Here's some other stuff <a href="/watched" target="_blank" style="font-size: inherit; font-weight: inherit; font-style: inherit; color: var(--nav-link-color);"> I have watched </a>) 
 </span>
