@@ -22,7 +22,7 @@ Running is back on schedule. Getting better with spoken Kannada. Writing has tak
 
 Still in Bangalore. Still finding it generative.
 
-
+<a name="picasa"></a>
 _P.S:_ _Oh...and one more thing: Had fun running [Picasa](https://picasa.google.com/) using [Bottles](https://usebottles.com/) :)_
 <p align="center">
   <img src="/assets/images/bits/snapseed_test_picasa.jpg" width="1200"> <br>
