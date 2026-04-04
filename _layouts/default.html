@@ -5,6 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The title will be dynamic, e.g., "My Post | My Blog" -->
     <title>{{ page.title | escape }} | {{ site.title | escape }}</title>
+    <!-- Open Graph / Social sharing -->
+    <meta property="og:type" content="{% if page.layout == 'post' %}article{% else %}website{% endif %}">
+    <meta property="og:title" content="{{ page.title | default: site.title | escape }}">
+    <meta property="og:description" content="{{ page.excerpt | default: site.description | strip_html | truncate: 160 | escape }}">
+    <meta property="og:url" content="{{ page.url | absolute_url }}">
+
+    {% assign first_image = '' %}
+    {% if page.content contains '![' %}
+      {% assign first_image = page.content | split: '](' | last | split: ')' | first %}
+      {% unless first_image contains '/assets' %}
+        {% assign first_image = '' %}
+      {% endunless %}
+    {% endif %}
+    {% if first_image == '' and page.content contains '<img' %}
+      {% assign first_image = page.content | split: 'src="' | last | split: '"' | first %}
+      {% unless first_image contains '/assets' %}
+        {% assign first_image = '' %}
+      {% endunless %}
+    {% endif %}
+    {% if first_image != '' %}
+      <meta property="og:image" content="{{ first_image | absolute_url }}">
+    {% endif %}
     <!-- This line automatically loads the theme's stylesheet -->
     <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
     <link rel="icon" type="image/png" href="/assets/favicon.jpeg">
