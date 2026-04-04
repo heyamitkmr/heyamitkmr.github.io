@@ -13,7 +13,8 @@
 
     {% assign first_image = '' %}
     {% if page.content contains '![' %}
-      {% assign first_image = page.content | split: '](' | last | split: ')' | first %}
+      {% assign md_part = page.content | split: '!['  | last %}
+      {% assign first_image = md_part | split: '](' | last | split: ')' | first %}
       {% unless first_image contains '/assets' %}
         {% assign first_image = '' %}
       {% endunless %}
@@ -27,6 +28,7 @@
     {% if first_image != '' %}
       <meta property="og:image" content="{{ first_image | absolute_url }}">
     {% endif %}
+
     <!-- This line automatically loads the theme's stylesheet -->
     <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
     <link rel="icon" type="image/png" href="/assets/favicon.jpeg">
