@@ -3,7 +3,6 @@ layout: post
 title: "You can't want what you can't see"
 date: 2026-04-11
 category: blog
-tags: [Career, CareerMap, Future of Work, AI, Network]
 ---
 
 Most people think career is about choice or preference. It is mostly about exposure. Doors you do not know are there, you cannot knock on. 
@@ -88,8 +87,6 @@ It still does not solve the network problem. It does not fix access. It just tri
 
 ----
 
+<sup id="fn1">1</sup>: <span style="font-size: 14px;"><i>Network Capital is not something I coined. I am just using it in a crude manner in the sense I mentioned here.</i></span> <a href="#ref1">↩</a><br><br>
+
 > If the discovery-gap or network-gap in career exploration resonates with you, I'd love to hear your story, thoughts and ideas on how to best address these. [DM me](/about/#lets-talk) or reply here.
-
-
-<sup id="fn1">1</sup>: <span style="font-size: 14px;"><i>Network Capital is not something I coined. I am just using it in a crude manner in the sense I mentioned here.</i></span> <a href="#ref1">↩</a><br>
-
