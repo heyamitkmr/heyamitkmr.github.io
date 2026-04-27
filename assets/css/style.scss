@@ -269,6 +269,8 @@ pre code {
 }
 
 /* Post content styling */
+hr {border: none; border-top: 1px solid currentColor; opacity: 0.15; margin: 2.0rem 0;}
+
 .post {
   max-width: 100%;
 }
