@@ -15,7 +15,10 @@ Most opportunities don't come from job boards.
 
 They come from who you know - or more precisely, from who knows you well enough to say your name in the right room. Some people grow up inside those rooms. Most don't.
 
-**Orbit is an early-stage initiative** to change that. Exploring what it looks like to deliberately move network capital - introductions, honest conversations, access to the right people - toward those who didn't start with it.
+> **Orbit is an early-stage initiative** to change that. 
+
+
+Exploring what it looks like to deliberately move network capital - introductions, honest conversations, access to the right people - toward those who didn't start with it.
 
 ---
 
