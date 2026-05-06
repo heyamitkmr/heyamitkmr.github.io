@@ -26,3 +26,4 @@ We're looking for partners who believe this is worth a conversation. And to help
 
 If you've ever opened a door for someone and watched it matter, or if you've ever been on the other side of a door that stayed closed, [**let's talk**](https://cal.com/amitkumar).
 
+Or drop me a note at <img src="/assets/images/ref/contact.svg" style="vertical-align: text-bottom; margin: 0; display: inline; box-shadow: none;" width="250" /> <br>

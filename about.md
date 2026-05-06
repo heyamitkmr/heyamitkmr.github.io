@@ -132,7 +132,7 @@ I'm taking my time with that.
 **Questions? Thoughts? Coffee?**
 Just reach out. I always love a good conversation.
 
-**Email**:  amit@nextfive.simplelogin.com<br>
+**Email**:  <img src="/assets/images/ref/contact.svg" style="vertical-align: text-bottom; margin: 0; display: inline; box-shadow: none;" width="250" /> <br>
 **Schedule time**: [cal.com/amitkumar](https://cal.com/amitkumar)
 
 ---
