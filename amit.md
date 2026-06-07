@@ -20,7 +20,7 @@ I work at the intersection of **career discovery**, **community infrastructure**
 
 ### What I'm building right now
 
-**[CareerMap](https://nextfive.xyz/blog/2026/04/11/careermap.html)**: a spatial tool for exploring careers the way you'd explore your next travel destination. Built on the premise that that you can't want what you can't see.
+**[CareerMap](https://substack.com/@heyamitkmr/note/c-263731293?r=49n3h7)**: a spatial tool for exploring careers the way you'd explore your next travel destination. Built on the premise that that [you can't want what you can't see](https://substack.com/home/post/p-194494540). 
 
 **[Orbit](https://nextfive.xyz/orbit)**: redistributing network capital to people who don't have access to the right rooms.
 
