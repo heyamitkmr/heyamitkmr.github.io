@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Network Weaver</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#002b36;--bg-hi:#073642;--sec:#586e75;--body:#839496;
+  --em:#93a1a1;--head:#eee8d5;
+  --yellow:#b58900;--mag:#d33682;--blue:#268bd2;--cyan:#2aa198;--green:#859900;
+}
+[data-theme="light"]{
+  --bg:#fdf6e3;--bg-hi:#eee8d5;--sec:#93a1a1;--body:#657b83;
+  --em:#586e75;--head:#073642;
+}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--body);font-family:'Lora',serif;transition:background 0.3s,color 0.3s}
+
+/* ─── LANDING ─── */
+#landing{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:44px;z-index:100;background:var(--bg);transition:opacity 0.6s ease,visibility 0.6s ease}
+#landing.gone{opacity:0;visibility:hidden;pointer-events:none}
+.l-title{text-align:center}
+.l-title h1{font-family:'Lora',serif;font-style:italic;font-weight:400;font-size:2.5rem;color:var(--head);letter-spacing:-0.02em}
+.l-title p{font-family:'JetBrains Mono',monospace;font-weight:300;font-size:0.62rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--sec);margin-top:9px}
+.l-zones{display:flex;gap:18px}
+.dz{width:264px;height:180px;border:1px dashed var(--sec);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;cursor:pointer;padding:22px;text-align:center;transition:border-color 0.2s,background 0.2s;animation:dzp 4s ease-in-out infinite}
+.dz:nth-child(2){animation-delay:2s}
+.dz:hover,.dz.over{border-color:var(--cyan);background:rgba(42,161,152,0.05);animation:none}
+.dz.loaded{border-color:var(--green);border-style:solid;background:rgba(133,153,0,0.05);animation:none}
+.dz-tag{font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--sec)}
+.dz-file{font-size:0.95rem;font-weight:500;color:var(--em)}
+.dz-desc{font-size:0.76rem;color:var(--sec);font-style:italic;line-height:1.4}
+.dz-icon{font-size:1.5rem;opacity:0.3;margin-bottom:2px}
+@keyframes dzp{0%,100%{border-color:var(--sec)}50%{border-color:var(--em)}}
+.l-action{display:flex;flex-direction:column;align-items:center;gap:10px}
+#render-btn{font-family:'JetBrains Mono',monospace;font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;padding:10px 30px;border:1px solid var(--sec);border-radius:20px;background:transparent;color:var(--sec);cursor:not-allowed;transition:all 0.2s ease}
+#render-btn.ready{border-color:var(--cyan);color:var(--cyan);cursor:pointer}
+#render-btn.ready:hover{background:rgba(42,161,152,0.08)}
+#render-hint{font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;color:var(--sec)}
+
+.l-demo{font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:0.08em;color:var(--sec);text-align:center}
+.l-demo button{font-family:inherit;font-size:inherit;letter-spacing:inherit;text-transform:uppercase;color:var(--cyan);background:none;border:none;border-bottom:1px dashed var(--cyan);cursor:pointer;padding:0 2px;transition:color 0.2s,border-color 0.2s}
+.l-demo button:hover{color:var(--head);border-color:var(--head)}
+
+.l-privacy{position:fixed;bottom:18px;left:0;right:0;text-align:center;font-family:'JetBrains Mono',monospace;font-size:0.56rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--sec);opacity:0.7;pointer-events:none}
+
+/* ─── CANVAS ─── */
+#canvas{position:fixed;inset:0;opacity:0;pointer-events:none;transition:opacity 0.6s ease}
+#canvas.on{opacity:1;pointer-events:all}
+#canvas svg{width:100%;height:100%;display:block}
+
+/* ─── STATS ─── */
+#stats{position:fixed;top:22px;left:22px;z-index:50;opacity:0;transition:opacity 0.5s;pointer-events:none}
+#stats.on{opacity:1}
+.s-title{font-family:'Lora',serif;font-style:italic;font-weight:400;font-size:1.2rem;color:var(--head)}
+.s-sub{font-family:'JetBrains Mono',monospace;font-size:0.59rem;letter-spacing:0.11em;text-transform:uppercase;color:var(--sec);margin-top:5px;line-height:1.7}
+#sim-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--cyan);margin-right:5px;animation:sdp 1s ease-in-out infinite}
+#sim-dot.done{background:var(--sec);animation:none}
+@keyframes sdp{0%,100%{opacity:1}50%{opacity:0.25}}
+
+/* ─── CONTROLS ─── */
+#controls{position:fixed;top:22px;right:22px;display:flex;flex-direction:column;gap:7px;z-index:50;opacity:0;transition:opacity 0.5s}
+#controls.on{opacity:1}
+.pill{background:var(--bg-hi);border:1px solid var(--sec);border-radius:20px;padding:7px 14px;display:flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:0.67rem;letter-spacing:0.06em;color:var(--em);cursor:pointer;transition:border-color 0.2s,color 0.2s,background 0.2s;white-space:nowrap;user-select:none}
+.pill:hover{border-color:var(--cyan);color:var(--head)}
+.pill.active{border-color:var(--green);color:var(--green)}
+.pill-ico{font-size:0.88rem;line-height:1}
+
+/* ─── DATA PANEL ─── */
+#data-panel{position:fixed;right:22px;background:var(--bg-hi);border:1px solid rgba(88,110,117,0.45);border-radius:11px;padding:12px 14px;z-index:60;display:none;flex-direction:column;gap:7px;min-width:250px}
+#data-panel.open{display:flex}
+.dp-head{font-family:'JetBrains Mono',monospace;font-size:0.57rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--sec);padding-bottom:4px;border-bottom:1px solid rgba(88,110,117,0.25);margin-bottom:2px}
+.dm{background:var(--bg);border:1px solid rgba(88,110,117,0.3);border-radius:8px;padding:9px 12px;cursor:pointer;transition:border-color 0.2s}
+.dm:hover,.dm.over{border-color:var(--cyan)}
+.dm-row{display:flex;justify-content:space-between;align-items:center}
+.dm-name{font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--em)}
+.dm-status{font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--sec);margin-top:3px}
+.dm-status.ok{color:var(--green)}
+.dm-action{font-family:'JetBrains Mono',monospace;font-size:0.58rem;color:var(--sec);letter-spacing:0.04em}
+
+/* ─── LEGEND ─── */
+#legend{position:fixed;bottom:22px;left:22px;background:var(--bg-hi);border:1px solid rgba(88,110,117,0.4);border-radius:11px;padding:13px 17px;z-index:50;opacity:0;transition:opacity 0.5s;min-width:188px}
+#legend.on{opacity:1}
+.leg-head{font-family:'JetBrains Mono',monospace;font-size:0.57rem;letter-spacing:0.13em;text-transform:uppercase;color:var(--sec);margin-bottom:8px}
+.leg-item{display:flex;align-items:center;gap:9px;font-family:'Lora',serif;font-size:0.75rem;color:var(--body);margin-bottom:5px}
+.leg-line{width:22px;height:2px;border-radius:1px;flex-shrink:0}
+.leg-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.leg-sep{height:1px;background:rgba(88,110,117,0.28);margin:8px 0}
+
+/* ─── SEARCH ─── */
+#search-wrap{position:fixed;bottom:22px;right:22px;z-index:50;opacity:0;transition:opacity 0.5s}
+#search-wrap.on{opacity:1}
+#search{background:var(--bg-hi);border:1px solid rgba(88,110,117,0.4);border-radius:20px;padding:7px 14px;font-family:'JetBrains Mono',monospace;font-size:0.67rem;color:var(--head);outline:none;width:198px;transition:border-color 0.2s}
+#search::placeholder{color:var(--sec)}
+#search:focus{border-color:var(--cyan)}
+
+/* ─── TOOLTIP ─── */
+#tt{position:fixed;pointer-events:none;max-width:370px;min-width:260px;background:var(--bg-hi);border:1px solid rgba(88,110,117,0.5);border-radius:11px;padding:15px 19px;z-index:300;opacity:0;transition:opacity 0.12s ease;box-shadow:0 12px 36px rgba(0,0,0,0.45)}
+#tt.on{opacity:1}
+.tt-names{font-family:'JetBrains Mono',monospace;font-size:0.68rem;letter-spacing:0.04em;color:var(--em);margin-bottom:8px;line-height:1.4}
+.tt-names strong{color:var(--head);font-weight:500}
+.tt-badges{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:11px}
+.badge{font-family:'JetBrains Mono',monospace;font-size:0.57rem;letter-spacing:0.08em;text-transform:uppercase;padding:3px 8px;border-radius:10px;border:1px solid currentColor}
+.bh{color:#d33682}.bo{color:#859900}.bw{color:#2aa198}.bc{color:#268bd2}
+.bhi{color:#2aa198}.bme{color:#b58900}.blo{color:#586e75}
+.tt-intro{font-style:italic;font-size:0.84rem;color:var(--head);line-height:1.55;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid rgba(88,110,117,0.28)}
+.tt-lbl{font-family:'JetBrains Mono',monospace;font-size:0.57rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--sec);margin-bottom:3px;margin-top:9px}
+.tt-txt{font-size:0.77rem;color:var(--body);line-height:1.45}
+</style>
+</head>
+<body>
+
+<div id="landing">
+  <div class="l-title">
+    <h1>Network Weaver</h1>
+    <p>Introduction graph &middot; Regenerative network</p>
+  </div>
+  <div class="l-zones">
+    <div class="dz" id="dz-intros"
+      onclick="fileInput('intros')"
+      ondragover="onOver(event,'dz-intros')"
+      ondragleave="onLeave('dz-intros')"
+      ondrop="onDrop(event,'intros','dz-intros')">
+      <div class="dz-icon">◎</div>
+      <div class="dz-tag">Required</div>
+      <div class="dz-file">intros.json</div>
+      <div class="dz-desc" id="dz-intros-desc">Matched pairs from Claude</div>
+    </div>
+    <div class="dz" id="dz-existing"
+      onclick="fileInput('existing')"
+      ondragover="onOver(event,'dz-existing')"
+      ondragleave="onLeave('dz-existing')"
+      ondrop="onDrop(event,'existing','dz-existing')">
+      <div class="dz-icon">◌</div>
+      <div class="dz-tag">Optional</div>
+      <div class="dz-file">compressed.json</div>
+      <div class="dz-desc" id="dz-existing-desc">Existing connections background layer</div>
+    </div>
+  </div>
+  <div class="l-action">
+    <button id="render-btn" onclick="triggerRender()" disabled>Render map &rarr;</button>
+    <div id="render-hint">Load intros.json to begin</div>
+  </div>
+  <div class="l-demo">Or <button onclick="loadDemoData()">load demo data</button> to explore the features first</div>
+</div>
+<div class="l-privacy" id="privacy-note">Your data stays in this browser tab — nothing is uploaded or sent anywhere.</div>
+
+<div id="canvas"><svg id="viz"></svg></div>
+
+<div id="stats">
+  <div class="s-title">Network Weaver</div>
+  <div class="s-sub"><span id="sim-dot"></span><span id="stat-text">—</span></div>
+</div>
+
+<div id="controls">
+  <div class="pill" id="pill-theme" onclick="toggleTheme()">
+    <span class="pill-ico" id="theme-ico">☀</span>
+    <span id="theme-lbl">Light mode</span>
+  </div>
+  <div class="pill" id="pill-labels" onclick="toggleLabels()">
+    <span class="pill-ico">Aa</span>
+    <span>Labels</span>
+  </div>
+  <div class="pill" id="pill-existing" style="display:none" onclick="toggleExisting()">
+    <span class="pill-ico">⊙</span>
+    <span id="existing-lbl">Existing layer</span>
+  </div>
+  <div class="pill" onclick="resetZoom()">
+    <span class="pill-ico">⤢</span>
+    <span>Fit</span>
+  </div>
+  <div class="pill" id="pill-data" onclick="toggleDataPanel()">
+    <span class="pill-ico">⬡</span>
+    <span>Data</span>
+  </div>
+</div>
+
+<div id="data-panel">
+  <div class="dp-head">Data sources</div>
+  <div class="dm" id="dm-intros"
+    onclick="fileInput('intros')"
+    ondragover="onOver(event,'dm-intros')"
+    ondragleave="onLeave('dm-intros')"
+    ondrop="onDrop(event,'intros','dm-intros')">
+    <div class="dm-row">
+      <span class="dm-name">intros.json</span>
+      <span class="dm-action">replace ↑</span>
+    </div>
+    <div class="dm-status" id="dms-intros">not loaded</div>
+  </div>
+  <div class="dm" id="dm-exist-mini"
+    onclick="fileInput('existing')"
+    ondragover="onOver(event,'dm-exist-mini')"
+    ondragleave="onLeave('dm-exist-mini')"
+    ondrop="onDrop(event,'existing','dm-exist-mini')">
+    <div class="dm-row">
+      <span class="dm-name">compressed.json</span>
+      <span class="dm-action" id="dm-exist-act">load ↑</span>
+    </div>
+    <div class="dm-status" id="dms-existing">not loaded</div>
+  </div>
+</div>
+
+<div id="legend">
+  <div class="leg-head">Introduction type</div>
+  <div class="leg-item"><div class="leg-line" style="background:#d33682"></div>Human suggested</div>
+  <div class="leg-item"><div class="leg-line" style="background:#859900"></div>Asks &amp; offers match</div>
+  <div class="leg-item"><div class="leg-line" style="background:#2aa198"></div>Within domain</div>
+  <div class="leg-item"><div class="leg-line" style="background:#268bd2"></div>Cross domain</div>
+  <div class="leg-sep"></div>
+  <div class="leg-head">Node: best match confidence</div>
+  <div class="leg-item"><div class="leg-dot" id="dot-hi"></div>High</div>
+  <div class="leg-item"><div class="leg-dot" id="dot-me"></div>Medium</div>
+  <div class="leg-item"><div class="leg-dot" id="dot-lo"></div>Low</div>
+</div>
+
+<div id="search-wrap">
+  <input id="search" type="text" placeholder="Search person…" oninput="onSearch(this.value)">
+</div>
+<div id="tt"></div>
+
+<input type="file" id="fi-intros"   accept=".json" style="display:none" onchange="onFileInput(event,'intros')">
+<input type="file" id="fi-existing" accept=".json" style="display:none" onchange="onFileInput(event,'existing')">
+
+<script>
+// ──────────────────────────────────────────────
+// DEMO DATA
+// Paste the generated JSON objects below, replacing
+// the `null` placeholders. Each must be valid JS —
+// i.e. paste the JSON exactly as-is (it is valid JS too).
+//   DEMO_INTROS     <- contents of intros.json     (an array)
+//   DEMO_COMPRESSED <- contents of compressed.json  (an object)
+// ──────────────────────────────────────────────
+const DEMO_INTROS = [{"person_a_id":90019,"person_b_id":90030,"person_a_name":"Sara Lindgren","person_b_name":"Vikram Nair","source":"human_suggested","resonance":"Both are wrestling with the same underlying question — who governs health data, and on what terms — from opposite institutional vantage points.","productive_difference":"Sara funds missing-middle organizations and keeps running into governance gaps as a structural barrier to scale; Vikram has actually built the community-governed data trust model that fills that gap, already live in two districts.","introduction_line":"Sara, I want you to meet Vikram Nair — he's built the exact community-governed health data trust structure that your missing-middle grantees keep telling you they need but can't find a working example of.","confidence":"high","confidence_reason":"Strong human suggestion with a precise structural fit — Vikram's offer directly answers a governance gap Sara has flagged repeatedly in her own programme notes."},{"person_a_id":90004,"person_b_id":90017,"person_a_name":"Amara Okonjo","person_b_name":"Esperanza Cruz","source":"human_suggested","resonance":"Both translate complex systems-change work into narrative form for audiences who won't sit through a theory-of-change deck — Amara through illustrated explainers, Esperanza through audio documentary.","productive_difference":"Amara works backward from a funder's confusion to build a single explainer; Esperanza works forward from a frontline worker's voice to build a series. Different entry points into the same translation problem.","introduction_line":"Amara, meet Esperanza — you're both solving the 'systems map nobody can hold onto' problem from different formats, and I suspect a joint piece using her interviews and your illustration style could be more powerful than either alone.","confidence":"medium","confidence_reason":"Clear format complementarity and shared mission, but no prior evidence either has worked in a mixed-media format, so the joint-piece idea is speculative."},{"person_a_id":90026,"person_b_id":90032,"person_a_name":"Yusuf Ibrahim","person_b_name":"Olusegun Bankole","source":"human_suggested","resonance":"Both are trying to get government finance — ministries of finance, not just line ministries — to take ownership of healthcare financing structures that currently depend on donor cycles.","productive_difference":"Yusuf works the policy and advocacy angle aimed at national CHW salary financing; Olusegun works the contracting angle, designing PPP structures with equity safeguards at state level in Nigeria. Policy advocacy meets contract design.","introduction_line":"Yusuf, Olusegun has been negotiating PPP contracts for primary healthcare in Nigeria with equity safeguards built in — I think your finance-ministry advocacy strategy and his contract templates could reinforce each other at the state level.","confidence":"high","confidence_reason":"Both work on government healthcare financing with an equity lens; the policy-advocacy/contract-design split is a genuinely complementary pairing, suggested by someone who knows both well."},{"person_a_id":90008,"person_b_id":90030,"person_a_name":"Arvind Subramaniam","person_b_name":"Vikram Nair","source":"human_suggested","resonance":"Both are building governance layers for health data in India — Arvind from the government digital-public-infrastructure side, Vikram from the community-trust side.","productive_difference":"Arvind's open registry stack assumes interoperability with state systems; Vikram's data trusts assume community control with explicit access rules. The interesting question is whether these are compatible layers or competing models — and that's worth a direct conversation before either scales further.","introduction_line":"Arvind, you and Vikram are quietly building what could either be two compatible layers of the same health-data stack, or two competing visions for who controls it — either way, you should be talking before one of you scales past the point where it matters.","confidence":"high","confidence_reason":"High-stakes overlap flagged by someone close to both projects — this is the kind of conversation that's more useful the earlier it happens."},{"person_a_id":90033,"person_b_id":90031,"person_a_name":"Helena Marin","person_b_name":"Aisha Bello","source":"human_suggested","resonance":"Both are trying to get climate adaptation finance to communities that are usually too small or too remote for big climate funds to reach directly.","productive_difference":"Helena specializes in translating between the language of large climate funds (GCF, adaptation funds) and community organizations; Aisha runs the actual early-warning and grain-reserve programme across pastoralist communities in the Sahel that's exactly the kind of project those funds claim to want to support but rarely fund directly.","introduction_line":"Helena, meet Aisha — her Sahel early-warning and grain-reserve programme is precisely the kind of community-level adaptation work that climate funds say they want to back but almost never reach. If anyone can get her direct access, it's you.","confidence":"high","confidence_reason":"Extremely concrete fit between Helena's stated offer (climate fund navigation) and Aisha's stated need (funding, data management for an adaptation programme) — about as clean a match as this dataset produces."},{"person_a_id":90002,"person_b_id":90040,"person_a_name":"Renu Chowdhury","person_b_name":"Sanjay Verma","source":"human_suggested","resonance":"Both are trying to solve the 'who installs and maintains this' problem for decentralized renewable energy in rural India — Renu for solar at health centres, Sanjay for renewable energy jobs generally.","productive_difference":"Renu has a maintenance-financing model for solar at clinics but is constrained by the availability of trained technicians; Sanjay has built an ITI-to-renewable-energy placement pipeline with two employer partners already in place.","introduction_line":"Renu, Sanjay has been building a pipeline of trained renewable-energy technicians straight out of ITIs — if your solar-for-clinics maintenance model has been bottlenecked on finding people who can actually do the maintenance, this might be the missing link.","confidence":"medium","confidence_reason":"Renu's profile doesn't explicitly name a technician shortage as a bottleneck, so this connects two strong offers on an inferred (not confirmed) need — worth validating before over-promising."},{"person_a_id":90021,"person_b_id":90039,"person_a_name":"Anya Petrova","person_b_name":"Imogen Clarke","source":"human_suggested","resonance":"Anya has built a wellbeing-indicator framework that municipal governments can adopt; Imogen stewards a global community of network-weavers working at the intersection of climate and wellbeing — exactly the kind of practitioners who'd want to know this framework exists.","productive_difference":"Anya's work is deeply technical and slow — framework design, municipal pilots, indicator validation. Imogen's work is relational and fast — connecting people who are already doing related things. Anya needs visibility; Imogen needs content for her community of practice.","introduction_line":"Anya, Imogen runs a global network of people doing climate-and-wellbeing connective work — your municipal wellbeing framework is exactly the kind of practical tool her community would want to know exists, and she might know three other places it could be piloted.","confidence":"medium","confidence_reason":"Both profiles are reasonably rich and the resonance is structural (visibility-seeker meets connector), but the actual outcome depends entirely on Imogen's network composition, which isn't visible from her profile alone."},{"person_a_id":90015,"person_b_id":90010,"person_a_name":"Grace Wambui","person_b_name":"Hassan Al-Rashid","source":"asks_offers_match","resonance":"Grace's women-led social enterprises need to become investment-ready for blended finance; Hassan's fund provides first-loss capital specifically to de-risk exactly this kind of investment.","productive_difference":"Grace works upstream — building the pitch-readiness and financial literacy that lets enterprises engage with capital at all; Hassan works downstream — structuring the capital itself once an enterprise is ready. Without Grace's pipeline, Hassan's capital has nowhere obvious to go for this segment; without Hassan's capital, Grace's pitch-ready enterprises hit a wall.","introduction_line":"Grace, Hassan's fund provides first-loss capital specifically to de-risk investments in enterprises like the ones you're getting pitch-ready — this could be the first real on-ramp for some of your cohort.","confidence":"high","confidence_reason":"Direct ask/offer match: Grace's enterprises need exactly the kind of capital structure Hassan offers, and Hassan is explicitly looking for pipeline."},{"person_a_id":90018,"person_b_id":90033,"person_a_name":"Ibrahim Conteh","person_b_name":"Helena Marin","source":"asks_offers_match","resonance":"Ibrahim's community-managed water infrastructure in Sierra Leone has five years of operational uptime data — exactly the kind of evidence climate adaptation funds say they want before committing. Helena's whole job is getting community organizations past the proposal-writing barrier into those funds.","productive_difference":"Ibrahim has the track record but not the fund-facing language; Helena has the fund-facing language and a simplified proposal template but needs strong community-level projects to apply it to.","introduction_line":"Ibrahim, Helena has a simplified proposal template that's helped community organizations access climate adaptation finance directly — and your five years of water-point uptime data is exactly the kind of evidence those funds want to see.","confidence":"high","confidence_reason":"Ibrahim's offer (operational data) directly answers the evidentiary gap that Helena's offer (fund navigation) is designed to bridge — a textbook ask/offer fit."},{"person_a_id":90024,"person_b_id":90026,"person_a_name":"Marcus Webb","person_b_name":"Yusuf Ibrahim","source":"asks_offers_match","resonance":"Yusuf has built a costed financing model for national-scale CHW programmes and is trying to get finance ministries to adopt it; Marcus structures outcomes-based financing instruments and knows how to design metrics that survive ministry-level scrutiny.","productive_difference":"Yusuf's model is a costed budget case; Marcus's expertise is in turning a costed case into an instrument investors and governments can actually transact on. The combination could turn Yusuf's advocacy document into something closer to a financeable structure.","introduction_line":"Yusuf, Marcus structures outcomes-based financing instruments for exactly this kind of health and education financing gap — pairing your costed CHW model with his structuring approach could turn a policy ask into something a finance ministry can actually say yes to.","confidence":"medium","confidence_reason":"Strong conceptual fit, but Yusuf's profile doesn't confirm he's looking for an instrument-design partner specifically — the ask is broadly 'network access', so this is plausible rather than confirmed."},{"person_a_id":90007,"person_b_id":90037,"person_a_name":"Naledi Dlamini","person_b_name":"Nadia Hassan","source":"asks_offers_match","resonance":"Naledi is trying to shift government disability programmes from a 'platform for services' framing to a movement led by disabled people; Nadia facilitates exactly the kind of technocrat-grassroots dialogues that could create the policy opening for that reframing.","productive_difference":"Naledi has the community legitimacy and the alternative framing; Nadia has the facilitation methodology and a track record of three traceable policy shifts from these dialogues — but no current entry point into disability policy specifically.","introduction_line":"Naledi, Nadia has facilitated technocrat-grassroots dialogues that have shifted policy three times before — if there's a policy window coming up for disability programme redesign, her process might be exactly the vehicle for the reframing you're pushing for.","confidence":"high","confidence_reason":"Naledi explicitly asks for strategic planning and network access toward shifting government framing, and Nadia's offer is a proven mechanism for exactly that kind of shift."},{"person_a_id":90006,"person_b_id":90020,"person_a_name":"Diego Fuentes","person_b_name":"Chinedu Eze","source":"asks_offers_match","resonance":"Diego's farmer cooperatives need market access that doesn't financially penalize them during an agroecology transition; Chinedu has built a working digital marketplace that already cuts out a margin-capturing layer of middlemen for 40 cooperatives.","productive_difference":"Diego's cooperatives are mid-transition and need a buyer-side channel that values them differently than conventional markets do; Chinedu's marketplace platform is built and proven but currently active only in West Africa — extending it to the Andes would be a genuinely new test of its portability.","introduction_line":"Diego, Chinedu's built a digital marketplace model that's already helped 40 cooperatives in West Africa capture more of their margin — it might be exactly the buyer-side channel your transitioning farmers need, and testing it in the Andes would tell you both something important about how portable the model is.","confidence":"high","confidence_reason":"Both profiles show a clear, specific, and complementary ask/offer pairing, though the cross-continental adaptation is untested — hence high confidence in the conversation's value, not in the outcome."},{"person_a_id":90003,"person_b_id":90001,"person_a_name":"Felipe Andrade","person_b_name":"Tariq Mensah","source":"asks_offers_match","resonance":"Felipe structures blended finance instruments that let philanthropic capital absorb early risk so proven community models can scale with government and private co-investment; Tariq has spent years getting CHW compensation models adopted across six countries — exactly the kind of 'proven model' blended finance is meant to scale.","productive_difference":"Tariq's coalition has the model and the multi-country governance experience; Felipe has the capital-structuring expertise but is, by his own description, currently looking for pipeline in health and education.","introduction_line":"Felipe, Tariq's CHW Alliance has a working compensation model proven across six countries — if you're looking for a concrete pipeline candidate for blended finance in health systems, this might be exactly the kind of proven-model-ready-to-scale case you've been looking for.","confidence":"medium","confidence_reason":"The fit is conceptually strong, but Tariq's profile doesn't explicitly frame his work as 'seeking capital' — his stated asks are funding and strategic planning, which is adjacent but not a precise match."},{"person_a_id":90008,"person_b_id":90011,"person_a_name":"Arvind Subramaniam","person_b_name":"Mei Lin Tan","source":"asks_offers_match","resonance":"Arvind's open-source registry stack gives government systems an interoperable identity layer; Mei Lin's data cooperative model gives frontline workers governance over the data they generate. Put together, they're addressing the two ends of the same data-value chain — who can plug in, and who benefits.","productive_difference":"Arvind's work is infrastructure-first — build the layer, then ask who benefits. Mei Lin's work is governance-first — design who benefits, then figure out the infrastructure. Neither has fully solved the other's half of the problem.","introduction_line":"Arvind, Mei Lin has built a data cooperative governance template for frontline workers — if your open registry stack is ever going to handle data generated by CHWs or agricultural extension agents, her governance model might be the missing layer for making sure that data creates value for the people generating it.","confidence":"medium","confidence_reason":"The conceptual complementarity is real and specific, but the two are working at different altitudes (infrastructure vs. governance) and there's no signal either has tried to integrate the two before — genuinely exploratory."},{"person_a_id":90019,"person_b_id":90036,"person_a_name":"Sara Lindgren","person_b_name":"Carlos Mendez","source":"asks_offers_match","resonance":"Sara's fund specifically targets 'missing middle' organizations — proven at small scale, too early for traditional development finance — in health and climate; Carlos's cold-chain logistics cooperative has reduced post-harvest loss data from two regions in Guatemala and is exactly that profile.","productive_difference":"Carlos has the proof point and the operational model; Sara has the funding mechanism and a peer-learning cohort for grantees navigating scale — something Carlos, as a founder scaling for the first time, would likely benefit from beyond the money itself.","introduction_line":"Carlos, Sara's fund specifically backs missing-middle organizations in climate and health that have proven a model but aren't ready for traditional development finance yet — your cold-chain cooperative's post-harvest-loss data sounds like exactly the kind of proof point her fund looks for.","confidence":"medium","confidence_reason":"Sara's fund criteria (missing-middle, climate/health, proven-at-small-scale) line up well with Carlos's description, though climate-adjacent agricultural logistics is a slightly broader read of 'climate' than Sara's profile explicitly states."},{"person_a_id":90038,"person_b_id":90029,"person_a_name":"Wei Zhang","person_b_name":"Larissa Novak","source":"asks_offers_match","resonance":"Wei has built currency-hedging structures that preserve grant value for local organizations in Southeast Asia; Larissa convenes a peer-learning community for foundation programme officers trying to push their institutions toward more patient, systems-oriented capital.","productive_difference":"Wei's work is a specific financial mechanism most programme officers have never encountered; Larissa's cohort is exactly the kind of room where an unfamiliar mechanism like currency hedging could go from 'niche technical fix' to 'something three foundations adopt'.","introduction_line":"Wei, Larissa runs a peer-learning cohort for foundation programme officers pushing for more patient capital internally — your currency-hedging work for grant flows might be exactly the kind of concrete, adoptable idea that cohort is hungry for.","confidence":"low","confidence_reason":"The fit depends entirely on whether Larissa's cohort would find currency hedging relevant to their internal advocacy — plausible but speculative, and neither profile mentions the other's specific area directly."},{"person_a_id":90013,"person_b_id":90023,"person_a_name":"Priyanka Deshmukh","person_b_name":"Fatima Zahra","source":"within_domain","resonance":"Both have built training curricula for frontline health workers operating in low-infrastructure contexts — Priyanka integrating mental health first-aid into CHW visits in rural Maharashtra, Fatima training midwives across rural Morocco and Tunisia.","productive_difference":"Priyanka's module adds a new layer (mental health) onto an existing CHW role; Fatima's curriculum builds a role (midwife) from a low-infrastructure starting point. Different starting conditions, same design problem — how do you train for a role the formal system doesn't fully support yet.","introduction_line":"Priyanka and Fatima — you've both built frontline health-worker training curricula validated through years of field use, just for different roles and regions. Comparing notes on what actually made your training stick in low-infrastructure settings could sharpen both curricula.","confidence":"high","confidence_reason":"Both profiles are rich, both have validated curricula, and the shared design problem (training for under-supported frontline roles) is specific enough to anchor a real conversation."},{"person_a_id":90014,"person_b_id":90035,"person_a_name":"Tomás Herrera","person_b_name":"Zanele Khumalo","source":"within_domain","resonance":"Both have built peer-support models — Tomás for caregivers of elderly and disabled family members in rural Mexico, Zanele for youth mental health first-response in South African townships — addressing isolation and burnout through peer rather than professional support.","productive_difference":"Tomás's model is built for an isolated, often invisible population (family caregivers) with very little existing infrastructure; Zanele's model has a university partnership and institutional validation that Tomás's pilot doesn't yet have.","introduction_line":"Tomás, Zanele's youth peer-counselor programme has university-validated supervision protocols — her model for training and supporting peer counselors might give your caregiver peer-support pilot a path toward the kind of validation that could help it scale beyond a small pilot.","confidence":"high","confidence_reason":"Both are peer-support models tackling burnout/isolation in different populations, and Zanele's institutional validation directly addresses a gap (validation, scale pathway) that Tomás's earlier-stage pilot likely faces."},{"person_a_id":90003,"person_b_id":90032,"person_a_name":"Felipe Andrade","person_b_name":"Olusegun Bankole","source":"within_domain","resonance":"Both structure financial and contractual mechanisms to get private and public capital into healthcare delivery without the access penalty that usually falls on poorer communities — Felipe through blended finance instruments, Olusegun through PPP contract design with equity safeguards.","productive_difference":"Felipe works at the capital-structuring level — how do you de-risk an investment enough that it happens at all; Olusegun works at the contract level — once capital flows, how do you make sure the contract itself doesn't quietly exclude poorer communities. Two different failure points in the same pipeline.","introduction_line":"Felipe and Olusegun — you're both trying to prevent the same failure mode (healthcare investment that works for everyone except the poorest) at two different stages of the pipeline. Comparing where your safeguards have held and where they've been tested could be useful for both of you.","confidence":"medium","confidence_reason":"Both profiles show explicit equity-focused financial/contractual work in healthcare, though they operate in different countries and the conversation is more peer-exchange than a direct collaboration opportunity."},{"person_a_id":90016,"person_b_id":90036,"person_a_name":"Budi Santoso","person_b_name":"Carlos Mendez","source":"within_domain","resonance":"Both work on climate-linked livelihood transitions for resource-dependent communities — Budi pairing mangrove restoration with alternative livelihoods for fishing communities in Indonesia, Carlos building cold-chain logistics cooperatives that reduce post-harvest loss for smallholder farmers in Guatemala.","productive_difference":"Budi's transition model addresses people leaving a declining resource (fish stocks); Carlos's model addresses people getting more value from an existing resource (crops) by fixing a logistics gap. Different transition logics — leaving vs. extracting more value — that might both apply to either community depending on context.","introduction_line":"Budi and Carlos — you're both designing livelihood transitions for communities whose traditional resource base is under pressure, just from opposite angles (leaving a declining resource vs. capturing more value from an existing one). Worth comparing which logic applies when.","confidence":"medium","confidence_reason":"The thematic resonance (climate-linked livelihood transition) is real, but the geographic and sectoral distance (mangroves/fishing vs. agriculture/logistics) means the practical takeaways are more conceptual than directly transferable."},{"person_a_id":90009,"person_b_id":90034,"person_a_name":"Lindiwe Mahlangu","person_b_name":"Pratik Joshi","source":"within_domain","resonance":"Both run programmes that move people into new economic roles after a major life transition — Lindiwe matching unemployed youth in informal settlements into green-economy apprenticeships, Pratik helping returning labor migrants in Nepal reinvest savings and skills into local entrepreneurship.","productive_difference":"Lindiwe's participants are starting from unemployment with no prior capital; Pratik's participants are starting from savings accumulated abroad but with no local business network. Different starting resources, same underlying transition-design problem.","introduction_line":"Lindiwe and Pratik — you're both designing onboarding models for people moving into new economic roles after a major transition, just with very different starting points (no capital vs. savings-but-no-network). Comparing what works for matching people to opportunities might surface useful differences.","confidence":"medium","confidence_reason":"Both are livelihoods-transition programmes with tested onboarding models, though the populations (urban youth vs. returning migrants) and geographies are different enough that this is more a peer-learning conversation than an obvious collaboration."},{"person_a_id":90005,"person_b_id":90028,"person_a_name":"Joyce Nantongo","person_b_name":"Daniel Osei","source":"cross_domain","resonance":"Both have built peer-supervision or mentorship models to address a retention and quality problem among frontline workers in under-resourced rural settings — Joyce for CHWs in Uganda, Daniel for newly-posted teachers in rural Ghana.","productive_difference":"Joyce's CHW supervision model is built around a data-feedback loop — workers see the impact of their own visits; Daniel's teacher-mentorship model is built around peer relationships — new teachers paired with experienced ones. Data-driven feedback vs. relationship-driven mentorship as two routes to the same retention problem.","introduction_line":"Joyce, Daniel's teacher-mentorship model has three years of retention data from rural Ghanaian schools — even though it's a different frontline role, the core problem (how do you keep people motivated and supported in under-resourced rural posts) is close enough to yours that his retention data might suggest something for your CHW feedback loop.","confidence":"medium","confidence_reason":"The cross-sector parallel (health vs. education frontline retention) is conceptually interesting but unproven — there's no precedent in either profile of applying lessons across sectors like this."},{"person_a_id":90012,"person_b_id":90025,"person_a_name":"Kwame Asante","person_b_name":"Aditi Rao","source":"cross_domain","resonance":"Both work on solar power for essential rural infrastructure — Kwame coordinating installations for primary healthcare centres across Ghana and Togo, Aditi training rural women in India as solar technicians who maintain systems powering health centres and schools.","productive_difference":"Kwame's bottleneck, by his own description, is coordination and maintenance contracts with district health authorities — not technical capacity per se; Aditi's model produces trained technicians but is currently India-specific. The question worth asking is whether Aditi's training model could be adapted to produce the maintenance workforce Kwame's network needs.","introduction_line":"Kwame, Aditi has built a training pipeline that turns rural women with no technical background into solar technicians who maintain systems at health centres and schools in India — it's a genuinely different model from anything currently used in Ghana's solar-health network, and worth a conversation even if just to see what would and wouldn't translate.","confidence":"low","confidence_reason":"This is a 'what if' conversation across continents with no existing link between the two programmes — interesting in principle, but neither profile signals an active search for this kind of cross-geography adaptation."},{"person_a_id":90021,"person_b_id":90027,"person_a_name":"Anya Petrova","person_b_name":"Camila Souza","source":"cross_domain","resonance":"Anya has built a wellbeing-indicator framework for municipal governments moving beyond GDP-style metrics; Camila has built a participatory mapping methodology that lets informal-settlement residents generate their own infrastructure-priority data using lived experience.","productive_difference":"Anya's framework is designed top-down for adoption by municipal planning processes; Camila's methodology is bottom-up, generating data from residents themselves. A municipal wellbeing framework that incorporated Camila's participatory data could be both more legitimate and more accurate than one built from administrative data alone.","introduction_line":"Anya, Camila's participatory mapping methodology has already led to three successful infrastructure investments by giving informal-settlement residents a way to generate their own priority data — pairing that kind of bottom-up input with your municipal wellbeing framework could make both more credible to the communities they're meant to serve.","confidence":"medium","confidence_reason":"Both have validated, working methodologies that address complementary halves of a 'whose data counts in municipal planning' problem, though the specific integration is a new idea for both."},{"person_a_id":90020,"person_b_id":90022,"person_a_name":"Chinedu Eze","person_b_name":"Rohan Kapoor","source":"cross_domain","resonance":"Chinedu has built a digital marketplace connecting farmer cooperatives directly to urban buyers; Rohan helps civil society organizations understand how to build on top of government digital public infrastructure rather than building parallel systems from scratch.","productive_difference":"Chinedu's marketplace is a standalone platform that works but exists in parallel to any government systems; Rohan's expertise is specifically in identifying where a platform like Chinedu's could plug into existing DPI — payments, identity, data exchange — rather than maintaining everything independently.","introduction_line":"Chinedu, Rohan spends his time helping organizations figure out what they're rebuilding unnecessarily versus what they could plug into existing government digital infrastructure — it might be worth an hour with him just to see whether your marketplace platform is carrying any weight it doesn't need to.","confidence":"medium","confidence_reason":"Rohan's offer (ecosystem mapping, technical translation) is a reasonable fit for Chinedu's likely technical debt as a standalone platform, but this is somewhat speculative since Chinedu's profile doesn't mention any DPI integration challenges directly."},{"person_a_id":90016,"person_b_id":90031,"person_a_name":"Budi Santoso","person_b_name":"Aisha Bello","source":"cross_domain","resonance":"Both run community-level climate adaptation programmes that combine an early-warning or transition mechanism with a livelihoods component — Budi pairing mangrove restoration with alternative livelihoods in coastal Indonesia, Aisha pairing drought early-warning systems with community grain reserves and livestock insurance in the Sahel.","productive_difference":"Budi's programme responds to a slow-moving decline (depleting fish stocks); Aisha's responds to acute shocks (droughts) with a buffering mechanism (grain reserves, insurance). Slow-onset vs. acute-shock adaptation design, addressed by people working in very different ecosystems.","introduction_line":"Budi and Aisha — your programmes both pair an environmental response with a community buffering mechanism, just for very different climate threats (slow-onset vs. acute). A conversation about how you each designed the livelihoods or buffering side might surface design principles that hold across both contexts.","confidence":"low","confidence_reason":"The structural parallel (environmental response + community buffer) is real but abstract — coastal Indonesia and the Sahel are different enough that this is a conceptual exchange rather than a concrete collaboration."}];
+const DEMO_COMPRESSED = {"people":[{"Id":90001,"Label":"Tariq Mensah","First Name":"Tariq","Last Name":"Mensah","Type":"Person","Organization(s) or initiative(s)":"Pan-African CHW Alliance","Title(s)":"Network Director","More about my work":"I coordinate a coalition of community health worker programmes across six West African countries, helping governments move CHWs from volunteer status to professionalized, paid roles within primary healthcare systems.","In which areas would you most like to ASK for support?":["Funding & resource mobilization","Strategic planning"],"Are there any other skills you might want to OFFER to others?":"I can offer deep experience in negotiating CHW compensation frameworks with ministries of health, and a working playbook for multi-country coalition governance.","Areas or activities where I am most involved in weaving":["Health Systems","Governance"],"Country":"Ghana"},{"Id":90002,"Label":"Renu Chowdhury","First Name":"Renu","Last Name":"Chowdhury","Type":"Person","Organization(s) or initiative(s)":"SunRoot Energy Collective","Title(s)":"Co-founder","More about my work":"I build decentralized solar micro-grid models for rural health centres, working closely with last-mile clinics to make sure power reliability translates into better maternal and newborn care.","In which areas would you most like to ASK for support?":["Strategic planning","Measuring impact"],"Are there any other skills you might want to OFFER to others?":"I can offer hands-on technical design for off-grid solar installations sized for clinical equipment, plus a maintenance-financing model that's been field-tested across 80 sites.","Areas or activities where I am most involved in weaving":["Climate and Environment","Health Systems"],"Country":"India"},{"Id":90003,"Label":"Felipe Andrade","First Name":"Felipe","Last Name":"Andrade","Type":"Person","Organization(s) or initiative(s)":"Instituto Travessia","Title(s)":"Director of Partnerships","More about my work":"I work on blended finance structures that let philanthropic capital absorb early risk so that government and private players can co-invest in scaling proven community health and education models.","In which areas would you most like to ASK for support?":["Equity & inclusion","Data management"],"Are there any other skills you might want to OFFER to others?":"I can offer structuring expertise for catalytic capital instruments, and relationships with three regional development banks open to blended deals.","Areas or activities where I am most involved in weaving":["Financial Orchestration","Governance"],"Country":"Brazil"},{"Id":90004,"Label":"Amara Okonjo","First Name":"Amara","Last Name":"Okonjo","Type":"Person","Organization(s) or initiative(s)":"Lattice Narrative Lab","Title(s)":"Founder","More about my work":"I help system orchestrators translate complex theory-of-change work into stories that funders, policymakers, and communities can actually hold onto — mostly through audio documentary and illustrated explainers.","In which areas would you most like to ASK for support?":["Funding & resource mobilization","Network access"],"Are there any other skills you might want to OFFER to others?":"I can offer storytelling and narrative design support — turning a messy systems map into a piece that moves people to act.","Areas or activities where I am most involved in weaving":["Consciousness and Wellbeing","Governance"],"Country":"Nigeria"},{"Id":90005,"Label":"Joyce Nantongo","First Name":"Joyce","Last Name":"Nantongo","Type":"Person","Organization(s) or initiative(s)":"RuralCare Uganda","Title(s)":"Programme Lead","More about my work":"I run a network of nurse-led primary healthcare centres across three districts in Uganda, focused on maternal care, and I'm currently piloting a CHW data-feedback loop so frontline workers can see the impact of their own visits.","In which areas would you most like to ASK for support?":["Data management","Measuring impact"],"Are there any other skills you might want to OFFER to others?":"I can offer a tested CHW supervision and feedback model, plus on-the-ground access to district health offices for anyone piloting similar work.","Areas or activities where I am most involved in weaving":["Health Systems"],"Country":"Uganda"},{"Id":90006,"Label":"Diego Fuentes","First Name":"Diego","Last Name":"Fuentes","Type":"Person","Organization(s) or initiative(s)":"Semilla Regenerativa","Title(s)":"Co-founder","More about my work":"I work with smallholder farmer cooperatives in the Andes on transitioning from monoculture to regenerative agroecology, with a focus on building market access so farmers aren't financially penalized during the transition.","In which areas would you most like to ASK for support?":["Funding & resource mobilization","Strategic planning"],"Are there any other skills you might want to OFFER to others?":"I can offer a cooperative-financing model for transition periods, and field-tested agroecology training curricula in Spanish and Quechua.","Areas or activities where I am most involved in weaving":["Climate and Environment","Indie/Micro-Economy"],"Country":"Peru"},{"Id":90007,"Label":"Naledi Dlamini","First Name":"Naledi","Last Name":"Dlamini","Type":"Person","Organization(s) or initiative(s)":"Ubuntu Disability Collective","Title(s)":"Executive Director","More about my work":"I lead a disability justice organization working to shift how government social protection programmes are designed — moving from a 'platform' mindset of services-for-disabled-people to a movement led by disabled people themselves.","In which areas would you most like to ASK for support?":["Network access","Strategic planning"],"Are there any other skills you might want to OFFER to others?":"I can offer deep practitioner knowledge on co-design with disabled communities, and connections to a regional disability rights advocacy network spanning five countries.","Areas or activities where I am most involved in weaving":["Governance","Consciousness and Wellbeing"],"Country":"South Africa"},{"Id":90008,"Label":"Arvind Subramaniam","First Name":"Arvind","Last Name":"Subramaniam","Type":"Person","Organization(s) or initiative(s)":"Open Ledger Collective","Title(s)":"Technical Lead","More about my work":"I build open digital public infrastructure for civil registries and health data systems, with a current focus on interoperable identity layers that let community health programmes plug into government health data without building new systems from scratch.","In which areas would you most like to ASK for support?":["Funding & resource mobilization","Equity & inclusion"],"Are there any other skills you might want to OFFER to others?":"I can offer technical architecture support for DPI integrations, and a working open-source registry stack already deployed in two states.","Areas or activities where I am most involved in weaving":["Governance","Indie/Micro-Economy"],"Country":"India"},{"Id":90009,"Label":"Lindiwe Mahlangu","First Name":"Lindiwe","Last Name":"Mahlangu","Type":"Person","Organization(s) or initiative(s)":"Thrive Youth Collective","Title(s)":"Founder","More about my work":"I run a youth livelihoods programme connecting unemployed young people in informal settlements with apprenticeships in the green economy — solar installation, waste management, urban agriculture.","In which areas would you most like to ASK for support?":["Network access","Measuring impact"],"Are there any other skills you might want to OFFER to others?":"I can offer a tested apprenticeship-matching model and curriculum for green-economy skills training adaptable to other urban contexts.","Areas or activities where I am most involved in weaving":["Climate and Environment","Indie/Micro-Economy"],"Country":"South Africa"},{"Id":90010,"Label":"Hassan Al-Rashid","First Name":"Hassan","Last Name":"Al-Rashid","Type":"Person","Organization(s) or initiative(s)":"Catalytic Capital Bridge","Title(s)":"Investment Director","More about my work":"I manage a fund that provides first-loss capital to de-risk investments in frontline health and education enterprises, mostly working alongside larger development finance institutions to unlock bigger tickets.","In which areas would you most like to ASK for support?":["Strategic planning","Data management"],"Are there any other skills you might want to OFFER to others?":"I can offer first-loss capital structuring, due diligence support, and warm intros to three DFIs actively looking for co-investment pipelines in health systems.","Areas or activities where I am most involved in weaving":["Financial Orchestration"],"Country":"United Arab Emirates"},{"Id":90011,"Label":"Mei Lin Tan","First Name":"Mei","Last Name":"Lin Tan","Type":"Person","Organization(s) or initiative(s)":"Frontline Data Cooperative","Title(s)":"Co-founder","More about my work":"I help frontline worker networks — CHWs, agricultural extension agents, sanitation workers — build their own data cooperatives so the data they generate creates value that flows back to them, not just to the organizations employing them.","In which areas would you most like to ASK for support?":["Funding & resource mobilization","Network access"],"Are there any other skills you might want to OFFER to others?":"I can offer a data cooperative governance template that's been adapted across three sectors, and facilitation support for setting one up.","Areas or activities where I am most involved in weaving":["Governance","Indie/Micro-Economy"],"Country":"Philippines"},{"Id":90012,"Label":"Kwame Asante","First Name":"Kwame","Last Name":"Asante","Type":"Person","Organization(s) or initiative(s)":"Solar Health Network","Title(s)":"Regional Coordinator","More about my work":"I coordinate solar-power installations for primary healthcare centres across Ghana and Togo, working with SunRoot-style technical partners and negotiating maintenance contracts with district health authorities.","In which areas would you most like to ASK for support?":["Measuring impact","Strategic planning"],"Are there any other skills you might want to OFFER to others?":"I can offer on-the-ground installation coordination experience and relationships with district health authorities across two countries.","Areas or activities where I am most involved in weaving":["Climate and Environment","Health Systems"],"Country":"Ghana"},{"Id":90013,"Label":"Priyanka Deshmukh","First Name":"Priyanka","Last Name":"Deshmukh","Type":"Person","Organization(s) or initiative(s)":"Mati Foundation","Title(s)":"Programme Director","More about my work":"I lead a programme that trains community health workers in mental health first-aid, integrating basic psychosocial support into routine maternal and child health visits across rural Maharashtra.","In which areas would you most like to ASK for support?":["Network access","Funding & resource mobilization"],"Are there any other skills you might want to OFFER to others?":"I can offer a mental-health-integration training module for CHWs that's been validated through two years of field use.","Areas or activities where I am most involved in weaving":["Health Systems","Consciousness and Wellbeing"],"Country":"India"},{"Id":90014,"Label":"Tomás Herrera","First Name":"Tomás","Last Name":"Herrera","Type":"Person","Organization(s) or initiative(s)":"Red de Cuidado Comunitario","Title(s)":"Founder","More about my work":"I'm building a peer-support network for community caregivers — people looking after elderly family members and people with disabilities — across rural Mexico, focused on reducing caregiver burnout and isolation.","In which areas would you most like to ASK for support?":["Measuring impact","Data management"],"Are there any other skills you might want to OFFER to others?":"I can offer a peer-support facilitation model that's reduced caregiver burnout markers in a small pilot, ready to be adapted elsewhere.","Areas or activities where I am most involved in weaving":["Consciousness and Wellbeing","Health Systems"],"Country":"Mexico"},{"Id":90015,"Label":"Grace Wambui","First Name":"Grace","Last Name":"Wambui","Type":"Person","Organization(s) or initiative(s)":"SheLeads Africa Finance","Title(s)":"Director","More about my work":"I run a programme helping women-led social enterprises in East Africa access blended finance, mostly working on building the financial literacy and pitch-readiness that lets them actually use catalytic capital when it's offered.","In which areas would you most like to ASK for support?":["Network access","Strategic planning"],"Are there any other skills you might want to OFFER to others?":"I can offer a pitch-readiness curriculum specifically designed for women-led enterprises navigating blended finance for the first time.","Areas or activities where I am most involved in weaving":["Financial Orchestration","Equity & inclusion"],"Country":"Kenya"},{"Id":90016,"Label":"Budi Santoso","First Name":"Budi","Last Name":"Santoso","Type":"Person","Organization(s) or initiative(s)":"Komunitas Tangguh","Title(s)":"Co-founder","More about my work":"I work with coastal communities in Indonesia on climate adaptation — mostly mangrove restoration paired with alternative livelihoods for fishing communities affected by declining catches.","In which areas would you most like to ASK for support?":["Funding & resource mobilization","Strategic planning"],"Are there any other skills you might want to OFFER to others?":"I can offer a mangrove restoration model that pairs ecological restoration with livelihood transition, tested across 12 villages.","Areas or activities where I am most involved in weaving":["Climate and Environment","Indie/Micro-Economy"],"Country":"Indonesia"},{"Id":90017,"Label":"Esperanza Cruz","First Name":"Esperanza","Last Name":"Cruz","Type":"Person","Organization(s) or initiative(s)":"Voces del Sistema","Title(s)":"Storytelling Lead","More about my work":"I produce a podcast series featuring frontline workers — nurses, teachers, farmers — describing in their own words what 'the system' looks like from where they stand, mostly aimed at funders who rarely hear unmediated frontline voices.","In which areas would you most like to ASK for support?":["Network access","Equity & inclusion"],"Are there any other skills you might want to OFFER to others?":"I can offer podcast production and interview facilitation support for anyone wanting to surface frontline voices for funder or policy audiences.","Areas or activities where I am most involved in weaving":["Consciousness and Wellbeing","Governance"],"Country":"Colombia"},{"Id":90018,"Label":"Ibrahim Conteh","First Name":"Ibrahim","Last Name":"Conteh","Type":"Person","Organization(s) or initiative(s)":"WaterWorks Sierra Leone","Title(s)":"Executive Director","More about my work":"I coordinate a network of community-managed water point committees, building a maintenance financing model so water infrastructure doesn't fall into disrepair within a few years of installation — a pattern that's plagued the sector for decades.","In which areas would you most like to ASK for support?":["Data management","Funding & resource mobilization"],"Are there any other skills you might want to OFFER to others?":"I can offer a community-managed maintenance financing model with five years of operational data on water point uptime.","Areas or activities where I am most involved in weaving":["Climate and Environment","Governance"],"Country":"Sierra Leone"},{"Id":90019,"Label":"Sara Lindgren","First Name":"Sara","Last Name":"Lindgren","Type":"Person","Organization(s) or initiative(s)":"Nordic Catalytic Philanthropy","Title(s)":"Programme Officer","More about my work":"I work on a philanthropic fund that specifically targets the 'missing middle' — organizations that have proven a model at small scale but are too early-stage for traditional development finance, mostly in health and climate.","In which areas would you most like to ASK for support?":["Network access","Measuring impact"],"Are there any other skills you might want to OFFER to others?":"I can offer grant funding specifically for missing-middle organizations, plus a peer-learning cohort model for grantees navigating scale.","Areas or activities where I am most involved in weaving":["Financial Orchestration"],"Country":"Sweden"},{"Id":90020,"Label":"Chinedu Eze","First Name":"Chinedu","Last Name":"Eze","Type":"Person","Organization(s) or initiative(s)":"AgroLink Cooperative Exchange","Title(s)":"Founder","More about my work":"I run a digital marketplace connecting smallholder farmer cooperatives directly with urban buyers, cutting out a layer of middlemen that historically captured most of the margin — currently active across Nigeria and Benin.","In which areas would you most like to ASK for support?":["Strategic planning","Network access"],"Are there any other skills you might want to OFFER to others?":"I can offer a working digital marketplace platform (open for adaptation) and a cooperative onboarding model tested with 40 cooperatives.","Areas or activities where I am most involved in weaving":["Indie/Micro-Economy","Climate and Environment"],"Country":"Nigeria"},{"Id":90021,"Label":"Anya Petrova","First Name":"Anya","Last Name":"Petrova","Type":"Person","Organization(s) or initiative(s)":"Wellbeing Systems Lab","Title(s)":"Research Lead","More about my work":"I research how community-level wellbeing indicators can be integrated into government planning processes, working mostly with municipal governments who want to move beyond GDP-style metrics but don't know where to start.","In which areas would you most like to ASK for support?":["Network access","Funding & resource mobilization"],"Are there any other skills you might want to OFFER to others?":"I can offer a wellbeing-indicator framework that's been piloted with two municipal governments, plus facilitation support for adoption processes.","Areas or activities where I am most involved in weaving":["Consciousness and Wellbeing","Governance"],"Country":"Poland"},{"Id":90022,"Label":"Rohan Kapoor","First Name":"Rohan","Last Name":"Kapoor","Type":"Person","Organization(s) or initiative(s)":"Open DPI Collective","Title(s)":"Ecosystem Lead","More about my work":"I work on the ecosystem side of digital public infrastructure — helping civil society organizations understand how to build on top of government DPI (digital identity, payments, data exchange layers) rather than building parallel systems.","In which areas would you most like to ASK for support?":["Strategic planning","Equity & inclusion"],"Are there any other skills you might want to OFFER to others?":"I can offer ecosystem mapping and technical translation support — helping non-technical orchestrators understand what's possible to build on existing DPI.","Areas or activities where I am most involved in weaving":["Governance","Indie/Micro-Economy"],"Country":"India"},{"Id":90023,"Label":"Fatima Zahra","First Name":"Fatima","Last Name":"Zahra","Type":"Person","Organization(s) or initiative(s)":"Maghreb Women's Health Network","Title(s)":"Coordinator","More about my work":"I coordinate a network of women's health clinics across Morocco and Tunisia focused on reproductive health access in rural areas, with a particular focus on training local midwives in regions where formal healthcare access is limited.","In which areas would you most like to ASK for support?":["Funding & resource mobilization","Data management"],"Are there any other skills you might want to OFFER to others?":"I can offer a midwife-training curriculum adapted for low-formal-infrastructure contexts, tested across 30 rural clinics.","Areas or activities where I am most involved in weaving":["Health Systems","Equity & inclusion"],"Country":"Morocco"},{"Id":90024,"Label":"Marcus Webb","First Name":"Marcus","Last Name":"Webb","Type":"Person","Organization(s) or initiative(s)":"Frontier Impact Bonds","Title(s)":"Structuring Partner","More about my work":"I structure outcomes-based financing instruments (development impact bonds) for education and health interventions, working with governments and investors to define outcome metrics that are both meaningful and measurable.","In which areas would you most like to ASK for support?":["Network access","Strategic planning"],"Are there any other skills you might want to OFFER to others?":"I can offer outcomes-based financing structuring expertise and a metric-design framework that avoids the common pitfalls of perverse incentives.","Areas or activities where I am most involved in weaving":["Financial Orchestration","Governance"],"Country":"United Kingdom"},{"Id":90025,"Label":"Aditi Rao","First Name":"Aditi","Last Name":"Rao","Type":"Person","Organization(s) or initiative(s)":"Sahaj Foundation","Title(s)":"Programme Director","More about my work":"I run a programme training rural women as solar technicians, then connecting them to maintenance contracts for the kind of decentralized energy systems that power health centres and schools — building both income and infrastructure resilience.","In which areas would you most like to ASK for support?":["Network access","Measuring impact"],"Are there any other skills you might want to OFFER to others?":"I can offer a solar-technician training curriculum specifically designed for women with no prior technical education, with placement support.","Areas or activities where I am most involved in weaving":["Climate and Environment","Indie/Micro-Economy"],"Country":"India"},{"Id":90026,"Label":"Yusuf Ibrahim","First Name":"Yusuf","Last Name":"Ibrahim","Type":"Person","Organization(s) or initiative(s)":"CHW Financing Lab","Title(s)":"Policy Lead","More about my work":"I work on policy advocacy for government financing of community health worker salaries, primarily engaging finance ministries (not just health ministries) since CHW programmes usually stall on long-term financing rather than design.","In which areas would you most like to ASK for support?":["Network access","Data management"],"Are there any other skills you might want to OFFER to others?":"I can offer policy briefs and advocacy strategy specifically aimed at finance ministries, plus a costed financing model for CHW programmes at national scale.","Areas or activities where I am most involved in weaving":["Health Systems","Financial Orchestration","Governance"],"Country":"Kenya"},{"Id":90027,"Label":"Camila Souza","First Name":"Camila","Last Name":"Souza","Type":"Person","Organization(s) or initiative(s)":"Raízes Urbanas","Title(s)":"Founder","More about my work":"I work with informal settlement communities in São Paulo on participatory urban planning — helping residents design and advocate for infrastructure investments (water, sanitation, green space) using their own lived-experience data.","In which areas would you most like to ASK for support?":["Funding & resource mobilization","Network access"],"Are there any other skills you might want to OFFER to others?":"I can offer a participatory mapping and advocacy methodology that's resulted in three successful infrastructure investments in informal settlements.","Areas or activities where I am most involved in weaving":["Governance","Climate and Environment"],"Country":"Brazil"},{"Id":90028,"Label":"Daniel Osei","First Name":"Daniel","Last Name":"Osei","Type":"Person","Organization(s) or initiative(s)":"EduBridge Ghana","Title(s)":"Executive Director","More about my work":"I run a teacher-mentorship network pairing experienced rural teachers with newly-posted teachers in remote districts, addressing the high attrition rate among new teachers sent to under-resourced schools.","In which areas would you most like to ASK for support?":["Measuring impact","Strategic planning"],"Are there any other skills you might want to OFFER to others?":"I can offer a peer-mentorship model for new teacher retention, with three years of retention data from rural districts.","Areas or activities where I am most involved in weaving":["Governance","Consciousness and Wellbeing"],"Country":"Ghana"},{"Id":90029,"Label":"Larissa Novak","First Name":"Larissa","Last Name":"Novak","Type":"Person","Organization(s) or initiative(s)":"Systems Change Philanthropy Network","Title(s)":"Network Weaver","More about my work":"I convene a peer-learning community for programme officers at different foundations who are individually trying to push their institutions toward more systems-oriented, patient capital approaches — mostly providing a space to share what's working internally.","In which areas would you most like to ASK for support?":["Measuring impact","Data management"],"Are there any other skills you might want to OFFER to others?":"I can offer facilitation for peer-learning cohorts among funders, and frameworks for making the internal case for patient capital within traditional foundations.","Areas or activities where I am most involved in weaving":["Financial Orchestration","Governance"],"Country":"Germany"},{"Id":90030,"Label":"Vikram Nair","First Name":"Vikram","Last Name":"Nair","Type":"Person","Organization(s) or initiative(s)":"Aarogya Data Trust","Title(s)":"Founder","More about my work":"I build community-governed health data trusts — structures where patient health data generated at primary care level is held in trust by the community itself, with clear rules on who can access it and for what purpose.","In which areas would you most like to ASK for support?":["Strategic planning","Network access"],"Are there any other skills you might want to OFFER to others?":"I can offer a community health data trust governance template and technical implementation support, already running in two districts.","Areas or activities where I am most involved in weaving":["Health Systems","Governance","Indie/Micro-Economy"],"Country":"India"},{"Id":90031,"Label":"Aisha Bello","First Name":"Aisha","Last Name":"Bello","Type":"Person","Organization(s) or initiative(s)":"Sahel Resilience Hub","Title(s)":"Director","More about my work":"I coordinate climate adaptation efforts across pastoralist communities in the Sahel, focused on early-warning systems for drought paired with community-managed grain reserves and livestock insurance schemes.","In which areas would you most like to ASK for support?":["Funding & resource mobilization","Data management"],"Are there any other skills you might want to OFFER to others?":"I can offer an integrated early-warning and community grain reserve model tested across pastoralist communities in three countries.","Areas or activities where I am most involved in weaving":["Climate and Environment","Financial Orchestration"],"Country":"Niger"},{"Id":90032,"Label":"Olusegun Bankole","First Name":"Olusegun","Last Name":"Bankole","Type":"Person","Organization(s) or initiative(s)":"Catalyst Health Partners","Title(s)":"Managing Partner","More about my work":"I structure public-private partnerships for primary healthcare infrastructure, primarily helping state governments in Nigeria design PPP contracts that don't get captured by private operators at the expense of access for poorer communities.","In which areas would you most like to ASK for support?":["Network access","Equity & inclusion"],"Are there any other skills you might want to OFFER to others?":"I can offer PPP contract design expertise specifically focused on equity safeguards, with experience across four state-level negotiations.","Areas or activities where I am most involved in weaving":["Health Systems","Governance","Financial Orchestration"],"Country":"Nigeria"},{"Id":90033,"Label":"Helena Marin","First Name":"Helena","Last Name":"Marin","Type":"Person","Organization(s) or initiative(s)":"Climate Finance Bridge","Title(s)":"Senior Advisor","More about my work":"I work on unlocking climate adaptation finance for community-level projects, mostly translating between the language of large climate funds (GCF, adaptation funds) and the realities of small community organizations trying to access them.","In which areas would you most like to ASK for support?":["Network access","Strategic planning"],"Are there any other skills you might want to OFFER to others?":"I can offer climate fund navigation support and a simplified proposal template that's helped community organizations access adaptation finance directly.","Areas or activities where I am most involved in weaving":["Climate and Environment","Financial Orchestration"],"Country":"Spain"},{"Id":90034,"Label":"Pratik Joshi","First Name":"Pratik","Last Name":"Joshi","Type":"Person","Organization(s) or initiative(s)":"Sajha Sambhav","Title(s)":"Co-founder","More about my work":"I run a programme connecting returning labor migrants in Nepal with entrepreneurship support, helping people who've worked abroad for years reinvest savings and skills into local businesses instead of just remittance-dependent consumption.","In which areas would you most like to ASK for support?":["Funding & resource mobilization","Measuring impact"],"Are there any other skills you might want to OFFER to others?":"I can offer an entrepreneurship-onboarding model specifically designed for returning migrants, with placement and mentorship support.","Areas or activities where I am most involved in weaving":["Indie/Micro-Economy","Governance"],"Country":"Nepal"},{"Id":90035,"Label":"Zanele Khumalo","First Name":"Zanele","Last Name":"Khumalo","Type":"Person","Organization(s) or initiative(s)":"Imbewu Youth Mental Health","Title(s)":"Founder","More about my work":"I run a peer-counselor programme training young people to provide mental health first-response to other young people in townships, addressing a massive gap in formal mental health services for youth.","In which areas would you most like to ASK for support?":["Network access","Funding & resource mobilization"],"Are there any other skills you might want to OFFER to others?":"I can offer a youth peer-counselor training and supervision model, validated through partnership with a regional university.","Areas or activities where I am most involved in weaving":["Consciousness and Wellbeing","Health Systems"],"Country":"South Africa"},{"Id":90036,"Label":"Carlos Mendez","First Name":"Carlos","Last Name":"Mendez","Type":"Person","Organization(s) or initiative(s)":"Ruta Verde Logistics","Title(s)":"Founder","More about my work":"I build last-mile logistics cooperatives for agricultural cold-chain in rural Guatemala, addressing post-harvest loss that disproportionately affects smallholder farmers who can't access proper storage and transport.","In which areas would you most like to ASK for support?":["Strategic planning","Network access"],"Are there any other skills you might want to OFFER to others?":"I can offer a cooperative cold-chain logistics model with reduced post-harvest loss data from two regions.","Areas or activities where I am most involved in weaving":["Indie/Micro-Economy","Climate and Environment"],"Country":"Guatemala"},{"Id":90037,"Label":"Nadia Hassan","First Name":"Nadia","Last Name":"Hassan","Type":"Person","Organization(s) or initiative(s)":"Bridges Not Walls Network","Title(s)":"Convener","More about my work":"I convene cross-sector dialogues between government technocrats and grassroots organizers — two groups that rarely talk directly — around specific policy windows where grassroots evidence could actually shift technocratic decisions.","In which areas would you most like to ASK for support?":["Measuring impact","Data management"],"Are there any other skills you might want to OFFER to others?":"I can offer facilitation design for technocrat-grassroots dialogues, with a track record of three policy shifts traceable to these convenings.","Areas or activities where I am most involved in weaving":["Governance","Consciousness and Wellbeing"],"Country":"Jordan"},{"Id":90038,"Label":"Wei Zhang","First Name":"Wei","Last Name":"Zhang","Type":"Person","Organization(s) or initiative(s)":"Asia Frontline Finance","Title(s)":"Partner","More about my work":"I work on currency-risk hedging structures for development finance flowing into frontline organizations in Southeast Asia, addressing a quiet but persistent problem where currency fluctuation eats into grant value for local organizations.","In which areas would you most like to ASK for support?":["Network access","Strategic planning"],"Are there any other skills you might want to OFFER to others?":"I can offer currency-hedging structures specifically designed for grant flows to local organizations, already used by two regional funders.","Areas or activities where I am most involved in weaving":["Financial Orchestration"],"Country":"Singapore"},{"Id":90039,"Label":"Imogen Clarke","First Name":"Imogen","Last Name":"Clarke","Type":"Person","Organization(s) or initiative(s)":"The Weaving Lab","Title(s)":"Network Steward","More about my work":"I steward a global network of network-weavers — people whose job is essentially to build connective tissue between organizations working on related problems but who don't otherwise interact, with a particular focus on climate and wellbeing intersections.","In which areas would you most like to ASK for support?":["Data management","Measuring impact"],"Are there any other skills you might want to OFFER to others?":"I can offer network-weaving facilitation methodology and a community of practice for people doing similar connective work across sectors.","Areas or activities where I am most involved in weaving":["Governance","Consciousness and Wellbeing","Climate and Environment"],"Country":"United Kingdom"},{"Id":90040,"Label":"Sanjay Verma","First Name":"Sanjay","Last Name":"Verma","Type":"Person","Organization(s) or initiative(s)":"Bharat Skilling Bridge","Title(s)":"Co-founder","More about my work":"I build vocational training pipelines connecting rural ITI (industrial training institute) graduates with jobs in the renewable energy sector, addressing a skills mismatch where solar and wind companies say they can't find trained local technicians.","In which areas would you most like to ASK for support?":["Funding & resource mobilization","Network access"],"Are there any other skills you might want to OFFER to others?":"I can offer an employer-aligned curriculum redesign model for ITIs, with placement partnerships already established with two renewable energy companies.","Areas or activities where I am most involved in weaving":["Indie/Micro-Economy","Climate and Environment"],"Country":"India"}],"existing_pairs":[{"from_id":90001,"to_id":90026,"from_name":"Tariq Mensah","to_name":"Yusuf Ibrahim","context":"Part of the same initiative or project"},{"from_id":90023,"to_id":90026,"from_name":"Fatima Zahra","to_name":"Yusuf Ibrahim","context":"Long-standing professional collaborators"},{"from_id":90020,"to_id":90033,"from_name":"Chinedu Eze","to_name":"Helena Marin","context":"Co-authors on a published case study"},{"from_id":90001,"to_id":90023,"from_name":"Tariq Mensah","to_name":"Fatima Zahra","context":"Co-authors on a published case study"},{"from_id":90039,"to_id":90004,"from_name":"Imogen Clarke","to_name":"Amara Okonjo","context":"Part of the same initiative or project"},{"from_id":90020,"to_id":90036,"from_name":"Chinedu Eze","to_name":"Carlos Mendez","context":"Co-authors on a published case study"},{"from_id":90031,"to_id":90036,"from_name":"Aisha Bello","to_name":"Carlos Mendez","context":"Part of the same regional cohort"},{"from_id":90005,"to_id":90023,"from_name":"Joyce Nantongo","to_name":"Fatima Zahra","context":"Met at a Networks Festival convening"},{"from_id":90023,"to_id":90032,"from_name":"Fatima Zahra","to_name":"Olusegun Bankole","context":"Part of the same regional cohort"},{"from_id":90003,"to_id":90029,"from_name":"Felipe Andrade","to_name":"Larissa Novak","context":"Part of the same initiative or project"},{"from_id":90005,"to_id":90026,"from_name":"Joyce Nantongo","to_name":"Yusuf Ibrahim","context":"Co-authors on a published case study"},{"from_id":90004,"to_id":90037,"from_name":"Amara Okonjo","to_name":"Nadia Hassan","context":"Long-standing professional collaborators"},{"from_id":90016,"to_id":90020,"from_name":"Budi Santoso","to_name":"Chinedu Eze","context":"Met at a Networks Festival convening"},{"from_id":90033,"to_id":90036,"from_name":"Helena Marin","to_name":"Carlos Mendez","context":"Long-standing professional collaborators"},{"from_id":90005,"to_id":90035,"from_name":"Joyce Nantongo","to_name":"Zanele Khumalo","context":"Part of the same initiative or project"},{"from_id":90010,"to_id":90029,"from_name":"Hassan Al-Rashid","to_name":"Larissa Novak","context":"Co-authors on a published case study"},{"from_id":90008,"to_id":90025,"from_name":"Arvind Subramaniam","to_name":"Aditi Rao","context":"Long-standing professional collaborators"},{"from_id":90005,"to_id":90032,"from_name":"Joyce Nantongo","to_name":"Olusegun Bankole","context":"Long-standing professional collaborators"},{"from_id":90012,"to_id":90013,"from_name":"Kwame Asante","to_name":"Priyanka Deshmukh","context":"Met at a Networks Festival convening"},{"from_id":90030,"to_id":90040,"from_name":"Vikram Nair","to_name":"Sanjay Verma","context":"Met at a Networks Festival convening"},{"from_id":90017,"to_id":90021,"from_name":"Esperanza Cruz","to_name":"Anya Petrova","context":"Co-authors on a published case study"},{"from_id":90010,"to_id":90019,"from_name":"Hassan Al-Rashid","to_name":"Sara Lindgren","context":"Met at a Networks Festival convening"},{"from_id":90001,"to_id":90013,"from_name":"Tariq Mensah","to_name":"Priyanka Deshmukh","context":"Long-standing professional collaborators"},{"from_id":90003,"to_id":90010,"from_name":"Felipe Andrade","to_name":"Hassan Al-Rashid","context":"Long-standing professional collaborators"},{"from_id":90004,"to_id":90039,"from_name":"Amara Okonjo","to_name":"Imogen Clarke","context":"Part of the same initiative or project"},{"from_id":90003,"to_id":90019,"from_name":"Felipe Andrade","to_name":"Sara Lindgren","context":"Long-standing professional collaborators"},{"from_id":90037,"to_id":90039,"from_name":"Nadia Hassan","to_name":"Imogen Clarke","context":"Co-authors on a published case study"},{"from_id":90005,"to_id":90013,"from_name":"Joyce Nantongo","to_name":"Priyanka Deshmukh","context":"Part of the same regional cohort"},{"from_id":90017,"to_id":90039,"from_name":"Esperanza Cruz","to_name":"Imogen Clarke","context":"Part of the same initiative or project"},{"from_id":90022,"to_id":90008,"from_name":"Rohan Kapoor","to_name":"Arvind Subramaniam","context":"Co-authors on a published case study"},{"from_id":90011,"to_id":90014,"from_name":"Mei Lin Tan","to_name":"Tomás Herrera","context":"Co-authors on a published case study"},{"from_id":90006,"to_id":90033,"from_name":"Diego Fuentes","to_name":"Helena Marin","context":"Met at a Networks Festival convening"},{"from_id":90025,"to_id":90040,"from_name":"Aditi Rao","to_name":"Sanjay Verma","context":"Part of the same initiative or project"},{"from_id":90019,"to_id":90024,"from_name":"Sara Lindgren","to_name":"Marcus Webb","context":"Met at a Networks Festival convening"},{"from_id":90006,"to_id":90036,"from_name":"Diego Fuentes","to_name":"Carlos Mendez","context":"Long-standing professional collaborators"},{"from_id":90013,"to_id":90026,"from_name":"Priyanka Deshmukh","to_name":"Yusuf Ibrahim","context":"Part of the same initiative or project"},{"from_id":90001,"to_id":90012,"from_name":"Tariq Mensah","to_name":"Kwame Asante","context":"Part of the same initiative or project"},{"from_id":90018,"to_id":90028,"from_name":"Ibrahim Conteh","to_name":"Daniel Osei","context":"Long-standing professional collaborators"},{"from_id":90026,"to_id":90035,"from_name":"Yusuf Ibrahim","to_name":"Zanele Khumalo","context":"Met at a Networks Festival convening"},{"from_id":90004,"to_id":90029,"from_name":"Amara Okonjo","to_name":"Larissa Novak","context":"Met at a Networks Festival convening"},{"from_id":90010,"to_id":90024,"from_name":"Hassan Al-Rashid","to_name":"Marcus Webb","context":"Part of the same regional cohort"},{"from_id":90027,"to_id":90034,"from_name":"Camila Souza","to_name":"Pratik Joshi","context":"Met at a Networks Festival convening"},{"from_id":90003,"to_id":90015,"from_name":"Felipe Andrade","to_name":"Grace Wambui","context":"Co-authors on a published case study"},{"from_id":90005,"to_id":90012,"from_name":"Joyce Nantongo","to_name":"Kwame Asante","context":"Long-standing professional collaborators"},{"from_id":90007,"to_id":90009,"from_name":"Naledi Dlamini","to_name":"Lindiwe Mahlangu","context":"Long-standing professional collaborators"},{"from_id":90003,"to_id":90024,"from_name":"Felipe Andrade","to_name":"Marcus Webb","context":"Part of the same regional cohort"},{"from_id":90012,"to_id":90002,"from_name":"Kwame Asante","to_name":"Renu Chowdhury","context":"Met at a Networks Festival convening"},{"from_id":90015,"to_id":90029,"from_name":"Grace Wambui","to_name":"Larissa Novak","context":"Co-authors on a published case study"},{"from_id":90016,"to_id":90033,"from_name":"Budi Santoso","to_name":"Helena Marin","context":"Co-authors on a published case study"},{"from_id":90019,"to_id":90029,"from_name":"Sara Lindgren","to_name":"Larissa Novak","context":"Long-standing professional collaborators"},{"from_id":90007,"to_id":90027,"from_name":"Naledi Dlamini","to_name":"Camila Souza","context":"Part of the same regional cohort"},{"from_id":90012,"to_id":90026,"from_name":"Kwame Asante","to_name":"Yusuf Ibrahim","context":"Part of the same initiative or project"},{"from_id":90032,"to_id":90035,"from_name":"Olusegun Bankole","to_name":"Zanele Khumalo","context":"Met at a Networks Festival convening"},{"from_id":90011,"to_id":90028,"from_name":"Mei Lin Tan","to_name":"Daniel Osei","context":"Met at a Networks Festival convening"},{"from_id":90012,"to_id":90032,"from_name":"Kwame Asante","to_name":"Olusegun Bankole","context":"Part of the same initiative or project"},{"from_id":90017,"to_id":90037,"from_name":"Esperanza Cruz","to_name":"Nadia Hassan","context":"Co-authors on a published case study"}],"human_match_suggestions":[{"from_id":90029,"to_id":90019,"from_name":"Larissa Novak","to_name":"Sara Lindgren","wants_to_meet":"Sara should really meet Vikram Nair — her missing-middle fund keeps running into the same data-trust governance questions Vikram has already solved at Aarogya."},{"from_id":90017,"to_id":90004,"from_name":"Esperanza Cruz","to_name":"Amara Okonjo","wants_to_meet":"Amara needs to meet Esperanza — they're basically doing the same narrative work from opposite ends, podcast vs. illustrated explainer, and neither knows the other exists."},{"from_id":90026,"to_id":90032,"from_name":"Yusuf Ibrahim","to_name":"Olusegun Bankole","wants_to_meet":"Olusegun's PPP equity safeguard work would be so much stronger if he talked to Yusuf about how CHW financing advocacy actually lands with finance ministries."},{"from_id":90008,"to_id":90030,"from_name":"Arvind Subramaniam","to_name":"Vikram Nair","wants_to_meet":"Arvind and Vikram are both building governance layers for health data in India from different angles — DPI vs community trusts. They have to meet."},{"from_id":90033,"to_id":90031,"from_name":"Helena Marin","to_name":"Aisha Bello","wants_to_meet":"Helena's climate finance navigation work is exactly what Aisha's Sahel grain reserve programme needs to access adaptation funds directly."},{"from_id":90002,"to_id":90040,"from_name":"Renu Chowdhury","to_name":"Sanjay Verma","wants_to_meet":"Renu's solar-for-clinics maintenance model needs trained technicians — Sanjay's ITI pipeline could be the missing piece."},{"from_id":90021,"to_id":90039,"from_name":"Anya Petrova","to_name":"Imogen Clarke","wants_to_meet":"Imogen's network-weaving community of practice is exactly where Anya's wellbeing-indicator framework needs to be seen by more people doing connective work."}],"sparse_profiles_excluded":0};
+
+function loadDemoData() {
+  if (!DEMO_INTROS) {
+    alert('Demo data is not embedded in this build yet.');
+    return;
+  }
+  APP.introRaw = DEMO_INTROS;
+  parseIntros(DEMO_INTROS);
+  updateIntrosUI();
+  if (DEMO_COMPRESSED) {
+    APP.existRaw = DEMO_COMPRESSED;
+    updateExistUI();
+  }
+  triggerRender();
+}
+
+// ──────────────────────────────────────────────
+// CENTRAL STATE — everything lives here
+// ──────────────────────────────────────────────
+const APP = {
+  nodes: [], links: [], existLinks: [],
+  nodeById: null,
+  sim: null,
+  sel: {},        // D3 selections
+  viz: {},        // SVG/zoom refs
+  introRaw: null, existRaw: null,
+  selectedId: null,
+  isDark: true, showLabels: false, showExisting: false,
+  dataPanelOpen: false, rendered: false
+};
+
+const PALETTE = {
+  dark:  {nodeHigh:'#2aa198', nodeMed:'#b58900', nodeLow:'#586e75', existEdge:'rgba(88,110,117,0.2)'},
+  light: {nodeHigh:'#268bd2', nodeMed:'#b58900', nodeLow:'#93a1a1', existEdge:'rgba(147,161,161,0.18)'}
+};
+const EDGE_COL = {
+  human_suggested:'#d33682', asks_offers_match:'#859900',
+  within_domain:'#2aa198', cross_domain:'#268bd2'
+};
+const CONF_ORD = {high:3, medium:2, low:1};
+
+function pal()          { return APP.isDark ? PALETTE.dark : PALETTE.light; }
+function nodeColor(d)   { return pal()[{high:'nodeHigh',medium:'nodeMed',low:'nodeLow'}[d.maxConfLabel||'low']]; }
+function edgeColor(d)   { return EDGE_COL[d.source_type] || '#586e75'; }
+function edgeW(d)       { return ({high:2.6, medium:1.8, low:1.1}[d.confidence] || 1.5); }
+function nodeR(d)       { return 4.5 + Math.sqrt(d.degree||1) * 3.8; }
+
+function updateDots() {
+  const p = pal();
+  document.getElementById('dot-hi').style.background = p.nodeHigh;
+  document.getElementById('dot-me').style.background = p.nodeMed;
+  document.getElementById('dot-lo').style.background = p.nodeLow;
+}
+updateDots();
+
+// ──────────────────────────────────────────────
+// FILE HANDLING
+// ──────────────────────────────────────────────
+function fileInput(t)           { document.getElementById('fi-'+t).click(); }
+function onOver(e, id)          { e.preventDefault(); document.getElementById(id).classList.add('over'); }
+function onLeave(id)            { document.getElementById(id).classList.remove('over'); }
+function onDrop(e, type, dzId)  { e.preventDefault(); onLeave(dzId); if (e.dataTransfer.files[0]) loadFile(e.dataTransfer.files[0], type); }
+function onFileInput(e, type)   { if (e.target.files[0]) loadFile(e.target.files[0], type); e.target.value=''; }
+
+function loadFile(file, type) {
+  const reader = new FileReader();
+  reader.onload = ev => {
+    try {
+      const raw = JSON.parse(ev.target.result);
+      if (type === 'intros') {
+        const arr = Array.isArray(raw) ? raw : (raw.pairs || raw.introductions || raw.matches || []);
+        if (!arr.length) { alert('No introduction pairs found.'); return; }
+        APP.introRaw = arr;
+        parseIntros(arr);
+        updateIntrosUI();
+        if (APP.rendered) rebuildGraph();
+      } else {
+        APP.existRaw = raw;
+        updateExistUI();
+        if (APP.rendered) {
+          buildExistLayer();
+          document.getElementById('pill-existing').style.display = 'flex';
+        }
+      }
+    } catch(err) { alert('JSON parse error:\n'+err.message); }
+  };
+  reader.readAsText(file);
+}
+
+function parseIntros(data) {
+  const nm = new Map(), links = [];
+  data.forEach((p, i) => {
+    const aid = String(p.person_a_id), bid = String(p.person_b_id);
+    if (!nm.has(aid)) nm.set(aid, {id:aid, name:p.person_a_name||'(unnamed)', degree:0, maxConf:1, maxConfLabel:'low'});
+    if (!nm.has(bid)) nm.set(bid, {id:bid, name:p.person_b_name||'(unnamed)', degree:0, maxConf:1, maxConfLabel:'low'});
+    nm.get(aid).degree++;
+    nm.get(bid).degree++;
+    const cv = CONF_ORD[p.confidence] || 1;
+    if (cv > nm.get(aid).maxConf) { nm.get(aid).maxConf = cv; nm.get(aid).maxConfLabel = p.confidence; }
+    if (cv > nm.get(bid).maxConf) { nm.get(bid).maxConf = cv; nm.get(bid).maxConfLabel = p.confidence; }
+    links.push({
+      id: i,
+      source: aid, target: bid,
+      source_name: p.person_a_name || '',
+      target_name: p.person_b_name || '',
+      source_type: p.source || 'cross_domain',
+      resonance: p.resonance || '',
+      productive_difference: p.productive_difference || '',
+      introduction_line: p.introduction_line || '',
+      confidence: p.confidence || 'medium',
+      confidence_reason: p.confidence_reason || ''
+    });
+  });
+  APP.nodes = Array.from(nm.values());
+  APP.links = links;
+  APP.nodeById = new Map(APP.nodes.map(n => [n.id, n]));
+}
+
+function updateIntrosUI() {
+  const n = APP.nodes.length, l = APP.links.length;
+  const hc = APP.links.filter(x => x.source_type === 'human_suggested').length;
+  document.getElementById('dz-intros').classList.add('loaded');
+  document.getElementById('dz-intros-desc').textContent = n + ' people · ' + l + ' pairs loaded';
+  const btn = document.getElementById('render-btn');
+  btn.disabled = false; btn.classList.add('ready');
+  document.getElementById('render-hint').textContent = hc + ' human suggested · click to render';
+  document.getElementById('dms-intros').textContent = n + ' people, ' + l + ' pairs';
+  document.getElementById('dms-intros').className = 'dm-status ok';
+  document.getElementById('stat-text').textContent = n + ' people · ' + l + ' introductions · ' + hc + ' human suggested';
+}
+
+function updateExistUI() {
+  const pairs = (APP.existRaw && APP.existRaw.existing_pairs) ? APP.existRaw.existing_pairs.length : 0;
+  document.getElementById('dz-existing').classList.add('loaded');
+  document.getElementById('dz-existing-desc').textContent = pairs + ' existing connections loaded';
+  document.getElementById('dms-existing').textContent = pairs + ' existing pairs';
+  document.getElementById('dms-existing').className = 'dm-status ok';
+  document.getElementById('dm-exist-act').textContent = 'replace ↑';
+}
+
+// ──────────────────────────────────────────────
+// RENDER TRIGGER
+// ──────────────────────────────────────────────
+function triggerRender() {
+  if (!APP.nodes.length) return;
+  document.getElementById('landing').classList.add('gone');
+  document.getElementById('privacy-note').style.display = 'none';
+  document.getElementById('canvas').classList.add('on');
+  document.getElementById('controls').classList.add('on');
+  document.getElementById('legend').classList.add('on');
+  document.getElementById('stats').classList.add('on');
+  document.getElementById('search-wrap').classList.add('on');
+  APP.rendered = true;
+  buildGraph();
+  if (APP.existRaw) {
+    buildExistLayer();
+    document.getElementById('pill-existing').style.display = 'flex';
+  }
+}
+
+function rebuildGraph() {
+  if (APP.sim) { APP.sim.stop(); APP.sim = null; }
+  APP.sel = {};
+  buildGraph();
+  if (APP.existRaw) buildExistLayer();
+}
+
+// ──────────────────────────────────────────────
+// BUILD GRAPH
+// ──────────────────────────────────────────────
+function buildGraph() {
+  const nodes = APP.nodes;
+  const links = APP.links;
+
+  const svgEl = document.getElementById('viz');
+  const W = svgEl.clientWidth  || window.innerWidth;
+  const H = svgEl.clientHeight || window.innerHeight;
+  APP.viz.W = W; APP.viz.H = H;
+
+  const svg = d3.select('#viz');
+  svg.selectAll('*').remove();
+
+  // Glow filter
+  const defs = svg.append('defs');
+  const flt = defs.append('filter').attr('id','gf')
+    .attr('x','-60%').attr('y','-60%').attr('width','220%').attr('height','220%');
+  flt.append('feGaussianBlur').attr('stdDeviation','5').attr('result','cb');
+  const fm = flt.append('feMerge');
+  fm.append('feMergeNode').attr('in','cb');
+  fm.append('feMergeNode').attr('in','SourceGraphic');
+
+  const root = svg.append('g').attr('id','root');
+
+  // Named layers — no name clash with data arrays
+  const layerExist = root.append('g').attr('id','layer-exist').style('display','none');
+  const layerLinesG = root.append('g').attr('id','layer-lines');
+  const layerHoverG = root.append('g').attr('id','layer-hover');
+  const layerNodesG = root.append('g').attr('id','layer-nodes');
+
+  APP.viz.layerExist = layerExist;
+
+  // Zoom
+  const zoom = d3.zoom().scaleExtent([0.02,12])
+    .on('zoom', ev => {
+      root.attr('transform', ev.transform);
+      if (APP.showLabels) {
+        d3.selectAll('.nd-lbl').style('opacity', ev.transform.k > 0.7 ? 1 : 0);
+      }
+    });
+  svg.call(zoom).on('dblclick.zoom', null);
+  APP.viz.zoom = zoom;
+  APP.viz.svg  = svg;
+
+  // Link paths (visible)
+  const selLines = layerLinesG.selectAll('.lk')
+    .data(links).enter().append('path')
+    .attr('class','lk').attr('fill','none')
+    .attr('stroke', d => edgeColor(d))
+    .attr('stroke-width', d => edgeW(d))
+    .attr('stroke-opacity', 0.7)
+    .attr('stroke-linecap','round');
+
+  // Hover targets (wide transparent, easier to hit)
+  const selHover = layerHoverG.selectAll('.lh')
+    .data(links).enter().append('path')
+    .attr('class','lh').attr('fill','none')
+    .attr('stroke','transparent').attr('stroke-width',14)
+    .style('cursor','pointer')
+    .on('mouseenter', showTT)
+    .on('mousemove',  moveTT)
+    .on('mouseleave', hideTT);
+
+  // Nodes
+  const selNodes = layerNodesG.selectAll('.nd')
+    .data(nodes).enter().append('g')
+    .attr('class','nd').style('cursor','pointer')
+    .call(d3.drag().on('start',dstart).on('drag',ddrag).on('end',dend))
+    .on('click', (e,d) => { e.stopPropagation(); highlightNode(d.id); });
+
+  selNodes.append('circle').attr('class','nd-outer')
+    .attr('r', d => nodeR(d)+5)
+    .attr('fill', d => nodeColor(d))
+    .attr('fill-opacity', d => d.maxConfLabel==='high'?0.18:d.maxConfLabel==='medium'?0.1:0.04);
+
+  selNodes.append('circle').attr('class','nd-inner')
+    .attr('r', d => nodeR(d))
+    .attr('fill', d => nodeColor(d))
+    .attr('fill-opacity', 0.88)
+    .attr('filter', d => d.maxConfLabel==='high' ? 'url(#gf)' : null);
+
+  selNodes.append('text').attr('class','nd-lbl')
+    .attr('dy', d => nodeR(d)+11)
+    .attr('text-anchor','middle')
+    .attr('fill','var(--body)')
+    .style('font-family',"'JetBrains Mono',monospace")
+    .style('font-size','9px')
+    .style('pointer-events','none')
+    .style('opacity',0)
+    .text(d => d.name.split(' ').slice(0,2).join(' '));
+
+  APP.sel.lines = selLines;
+  APP.sel.hover = selHover;
+  APP.sel.nodes = selNodes;
+
+  svg.on('click', () => clearSel());
+
+  document.getElementById('sim-dot').classList.remove('done');
+
+  APP.sim = d3.forceSimulation(nodes)
+    .force('link', d3.forceLink(links)
+      .id(d => d.id)
+      .distance(d => ({high:85,medium:115,low:155}[d.confidence]||110) + Math.random()*25)
+      .strength(0.35))
+    .force('charge', d3.forceManyBody()
+      .strength(d => -(140 + nodeR(d)*18))
+      .distanceMax(500))
+    .force('center', d3.forceCenter(W/2, H/2).strength(0.04))
+    .force('collision', d3.forceCollide(d => nodeR(d)+10).strength(0.65))
+    .on('tick', onTick)
+    .on('end', () => {
+      document.getElementById('sim-dot').classList.add('done');
+      resetZoom();
+    });
+}
+
+function arcPath(d) {
+  const sx=d.source.x||0, sy=d.source.y||0, tx=d.target.x||0, ty=d.target.y||0;
+  const dx=tx-sx, dy=ty-sy, dist=Math.sqrt(dx*dx+dy*dy);
+  if (dist < 1) return 'M'+sx+','+sy+'L'+tx+','+ty;
+  return 'M'+sx+','+sy+'A'+(dist*2.8)+','+(dist*2.8)+' 0 0,1 '+tx+','+ty;
+}
+
+function onTick() {
+  if (APP.sel.lines) APP.sel.lines.attr('d', arcPath);
+  if (APP.sel.hover) APP.sel.hover.attr('d', arcPath);
+  if (APP.sel.nodes) APP.sel.nodes.attr('transform', d => 'translate('+(d.x||0)+','+(d.y||0)+')');
+  updateExistPos();
+}
+
+// ──────────────────────────────────────────────
+// EXISTING LAYER
+// ──────────────────────────────────────────────
+function buildExistLayer() {
+  if (!APP.existRaw || !APP.nodeById || !APP.viz.layerExist) return;
+  const pairs = APP.existRaw.existing_pairs || [];
+  APP.existLinks = pairs.map(p => {
+    const fid = String(Array.isArray(p) ? p[0] : (p.from_id !== undefined ? p.from_id : p[0]));
+    const tid = String(Array.isArray(p) ? p[1] : (p.to_id   !== undefined ? p.to_id   : p[1]));
+    return {fid, tid};
+  }).filter(p => APP.nodeById.has(p.fid) && APP.nodeById.has(p.tid));
+
+  APP.viz.layerExist.selectAll('*').remove();
+  APP.sel.exist = APP.viz.layerExist.selectAll('.el')
+    .data(APP.existLinks).enter().append('line')
+    .attr('class','el')
+    .attr('stroke', pal().existEdge)
+    .attr('stroke-width', 0.8);
+
+  updateExistPos();
+  if (APP.showExisting) APP.viz.layerExist.style('display','');
+}
+
+function updateExistPos() {
+  if (!APP.sel.exist || !APP.nodeById) return;
+  APP.sel.exist
+    .attr('x1', d => (APP.nodeById.get(d.fid)||{}).x || 0)
+    .attr('y1', d => (APP.nodeById.get(d.fid)||{}).y || 0)
+    .attr('x2', d => (APP.nodeById.get(d.tid)||{}).x || 0)
+    .attr('y2', d => (APP.nodeById.get(d.tid)||{}).y || 0);
+}
+
+// ──────────────────────────────────────────────
+// DRAG
+// ──────────────────────────────────────────────
+function dstart(e,d){ if(!e.active) APP.sim.alphaTarget(0.3).restart(); d.fx=d.x; d.fy=d.y; }
+function ddrag(e,d) { d.fx=e.x; d.fy=e.y; }
+function dend(e,d)  { if(!e.active) APP.sim.alphaTarget(0); d.fx=null; d.fy=null; }
+
+// ──────────────────────────────────────────────
+// TOOLTIP
+// ──────────────────────────────────────────────
+function showTT(e, d) {
+  const el = document.getElementById('tt');
+  const sc = ({human_suggested:'bh',asks_offers_match:'bo',within_domain:'bw',cross_domain:'bc'})[d.source_type]||'bw';
+  const sl = ({human_suggested:'Human suggested',asks_offers_match:'Asks · offers',within_domain:'Within domain',cross_domain:'Cross domain'})[d.source_type]||d.source_type;
+  const cc = ({high:'bhi',medium:'bme',low:'blo'})[d.confidence]||'blo';
+  el.innerHTML =
+    '<div class="tt-names"><strong>'+d.source_name+'</strong> &nbsp;·&nbsp; <strong>'+d.target_name+'</strong></div>'+
+    '<div class="tt-badges"><span class="badge '+sc+'">'+sl+'</span><span class="badge '+cc+'">'+d.confidence+'</span></div>'+
+    (d.introduction_line ? '<div class="tt-intro">&ldquo;'+d.introduction_line+'&rdquo;</div>' : '')+
+    (d.resonance          ? '<div class="tt-lbl">Resonance</div><div class="tt-txt">'+d.resonance+'</div>' : '')+
+    (d.productive_difference ? '<div class="tt-lbl">Productive difference</div><div class="tt-txt">'+d.productive_difference+'</div>' : '')+
+    (d.confidence_reason  ? '<div class="tt-lbl">Confidence</div><div class="tt-txt">'+d.confidence_reason+'</div>' : '');
+  el.classList.add('on');
+  moveTT(e);
+  if (APP.sel.lines) APP.sel.lines.filter(l=>l.id===d.id).attr('stroke-opacity',1).attr('stroke-width',d=>edgeW(d)*2.2);
+}
+function moveTT(e) {
+  const tt=document.getElementById('tt');
+  let x=e.clientX+18, y=e.clientY-12;
+  if (x+tt.offsetWidth  > window.innerWidth)  x = e.clientX-tt.offsetWidth-18;
+  if (y+tt.offsetHeight > window.innerHeight) y = e.clientY-tt.offsetHeight;
+  tt.style.left=x+'px'; tt.style.top=y+'px';
+}
+function hideTT(e,d) {
+  document.getElementById('tt').classList.remove('on');
+  if (APP.selectedId===null && APP.sel.lines)
+    APP.sel.lines.filter(l=>l.id===d.id).attr('stroke-opacity',0.7).attr('stroke-width',d=>edgeW(d));
+}
+
+// ──────────────────────────────────────────────
+// NODE SELECTION / HIGHLIGHT
+// ──────────────────────────────────────────────
+function highlightNode(nid) {
+  if (APP.selectedId===nid) { clearSel(); return; }
+  APP.selectedId = nid;
+  const conn = new Set([nid]);
+  APP.links.forEach(l => {
+    const s = typeof l.source==='object' ? l.source.id : l.source;
+    const t = typeof l.target==='object' ? l.target.id : l.target;
+    if (s===nid||t===nid) { conn.add(s); conn.add(t); }
+  });
+  APP.sel.lines
+    .attr('stroke-opacity', l => {
+      const s=typeof l.source==='object'?l.source.id:l.source, t=typeof l.target==='object'?l.target.id:l.target;
+      return (s===nid||t===nid)?1:0.05;
+    })
+    .attr('stroke-width', l => {
+      const s=typeof l.source==='object'?l.source.id:l.source, t=typeof l.target==='object'?l.target.id:l.target;
+      return (s===nid||t===nid)?edgeW(l)*2.5:edgeW(l)*0.4;
+    });
+  APP.sel.nodes.select('.nd-outer').attr('fill-opacity', n => conn.has(n.id)?0.22:0.03);
+  APP.sel.nodes.select('.nd-inner').attr('fill-opacity', n => conn.has(n.id)?0.9:0.1);
+  APP.sel.nodes.select('.nd-lbl').style('opacity', n => conn.has(n.id)?1:0);
+}
+
+function clearSel() {
+  APP.selectedId = null;
+  if (!APP.sel.lines) return;
+  APP.sel.lines.attr('stroke-opacity',0.7).attr('stroke-width',d=>edgeW(d));
+  APP.sel.nodes.select('.nd-outer').attr('fill-opacity',d=>d.maxConfLabel==='high'?0.18:d.maxConfLabel==='medium'?0.1:0.04);
+  APP.sel.nodes.select('.nd-inner').attr('fill-opacity',0.88);
+  APP.sel.nodes.select('.nd-lbl').style('opacity',APP.showLabels?1:0);
+}
+
+function onSearch(val) {
+  if (!APP.sel.nodes) return;
+  const q = val.trim().toLowerCase();
+  if (!q) { clearSel(); return; }
+  const m = APP.nodes.find(n => n.name.toLowerCase().includes(q));
+  if (m) highlightNode(m.id);
+}
+
+// ──────────────────────────────────────────────
+// CONTROLS
+// ──────────────────────────────────────────────
+function toggleTheme() {
+  APP.isDark = !APP.isDark;
+  document.documentElement.setAttribute('data-theme', APP.isDark?'dark':'light');
+  document.getElementById('theme-ico').textContent = APP.isDark?'☀':'🌙';
+  document.getElementById('theme-lbl').textContent = APP.isDark?'Light mode':'Dark mode';
+  if (APP.sel.nodes) {
+    APP.sel.nodes.select('.nd-inner').attr('fill', d=>nodeColor(d));
+    APP.sel.nodes.select('.nd-outer').attr('fill', d=>nodeColor(d));
+  }
+  if (APP.sel.exist) APP.sel.exist.attr('stroke', pal().existEdge);
+  updateDots();
+}
+
+function toggleLabels() {
+  APP.showLabels = !APP.showLabels;
+  document.getElementById('pill-labels').classList.toggle('active', APP.showLabels);
+  if (APP.sel.nodes) APP.sel.nodes.select('.nd-lbl').style('opacity', APP.showLabels?1:0);
+}
+
+function toggleExisting() {
+  APP.showExisting = !APP.showExisting;
+  document.getElementById('pill-existing').classList.toggle('active', APP.showExisting);
+  document.getElementById('existing-lbl').textContent = APP.showExisting?'Hide existing':'Existing layer';
+  if (APP.viz.layerExist) APP.viz.layerExist.style('display', APP.showExisting?'':'none');
+}
+
+function resetZoom() {
+  if (!APP.viz.svg||!APP.viz.zoom||!APP.nodes.length) return;
+  const xs=APP.nodes.map(n=>n.x||0), ys=APP.nodes.map(n=>n.y||0);
+  const x0=Math.min(...xs)-60, y0=Math.min(...ys)-60;
+  const x1=Math.max(...xs)+60, y1=Math.max(...ys)+60;
+  const W=APP.viz.W||window.innerWidth, H=APP.viz.H||window.innerHeight;
+  const s=Math.min(0.95, 0.9/Math.max((x1-x0)/W,(y1-y0)/H));
+  APP.viz.svg.transition().duration(750).call(APP.viz.zoom.transform,
+    d3.zoomIdentity.translate(W/2-s*(x0+x1)/2, H/2-s*(y0+y1)/2).scale(s));
+}
+
+function toggleDataPanel() {
+  APP.dataPanelOpen = !APP.dataPanelOpen;
+  const panel = document.getElementById('data-panel');
+  if (APP.dataPanelOpen) {
+    const r = document.getElementById('controls').getBoundingClientRect();
+    panel.style.top = (r.bottom+8)+'px';
+  }
+  panel.classList.toggle('open', APP.dataPanelOpen);
+  document.getElementById('pill-data').classList.toggle('active', APP.dataPanelOpen);
+}
+
+document.addEventListener('click', e => {
+  if (!APP.dataPanelOpen) return;
+  const p=document.getElementById('data-panel'), b=document.getElementById('pill-data');
+  if (!p.contains(e.target)&&!b.contains(e.target)) {
+    APP.dataPanelOpen=false;
+    p.classList.remove('open');
+    b.classList.remove('active');
+  }
+});
+
+window.addEventListener('resize', () => {
+  APP.viz.W=window.innerWidth; APP.viz.H=window.innerHeight;
+  if (APP.sim) APP.sim.force('center',d3.forceCenter(APP.viz.W/2,APP.viz.H/2).strength(0.04));
+});
+</script>
+</body>
+</html>
