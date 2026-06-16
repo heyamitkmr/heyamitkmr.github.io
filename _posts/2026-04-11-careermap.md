@@ -53,7 +53,7 @@ Placement offices bring whoever comes to campus. Which is itself a filter. Only 
 
 Knowing a role exists is one thing. Knowing someone who does it - someone who can say _"this is real, here's how I got here"_ - is different. That is what I have been calling the "Network Capital",<sup><a href="#fn1" id="ref1">1</a></sup>. It doesn't just open doors. It makes doors *visible as doors*. 
 
-This access-gap is partly responsible for the discovery-gap but it is a whole different problem on its own. Did you think just because I happened to know about _"Farm-to-Table" entrepreneur"_, I could simply become one? Does not work that way. Usually you need to know someone who knows someone who can open these doors for you. Just to let you have a real glimpse of what is it like on the other side. And should you want to go through, show you the ropes. But this uneven distribution of network-capital is a different problem for a different post. 
+This access-gap is partly responsible for the discovery-gap but it is a whole different problem on its own. Did you think just because I happened to know about _"Farm-to-Table" entrepreneur"_, I could simply become one? Does not work that way. Usually you need to know someone who knows someone who can open these doors for you. Just to let you have a real glimpse of what is it like on the other side. And should you want to go through, show you the ropes. But this uneven distribution of network-capital is a different problem for a different post _(see [Orbit](https://nextfive.xyz/orbit))_. 
 
 Most career interventions - mentorship, internships, introductions - address the access gap. Almost nothing addresses the discovery gap, which comes earlier and matters more. And this gap has always been hard to close from the outside.
 
@@ -68,7 +68,7 @@ The rate of the role creation or role change has far outpaced the rate of role v
 
 ---
 
-### **CareerMap**
+### **[CareerMap](https://careermap.nextfive.in/)**
 > CareerMap is one attempt at the discovery layer - Think of it like Google Maps, but for careers.
 
 You can explore the landscape to see what's out there, including the roles you've never heard of. Eventually, it will also show you the different paths to reach a particular point - say, Quantum Mechanics YouTuber from wherever you currently are, say HR at a SaaS company. The system would show different routes: through reading, through certifications, through degrees. Routes will have different milestones displayed. Also rough time-estimates per path.
@@ -77,9 +77,11 @@ Right now, I have only started on the first part: mapping the landscape. The v2 
 
 It is _not_ a job board. Click a role, see what it actually involves, find what sits adjacent to it. Or let it auto-scan to give you a tour of all that's out there. It starts with the indie and micro-economy space because that is where the gap felt most urgent and least served.
 
+_[Try out the v1 here.](https://careermap.nextfive.in/)_
+
 <p align="center">
   <img src="/assets/images/careermap/career_clusters.png" width="800"> <br>
-  <span style="font-size: 14px;"><i>Career Clusters in the indie space. An interactive demo with path-details coming soon.</i></span><br>
+  <span style="font-size: 14px;"><i>Career Clusters in the indie space. <a href="https://careermap.nextfive.in/">Click here to use the app</a> </i></span><br>
 </p>
 <br>
 
@@ -90,3 +92,5 @@ It still does not solve the network problem. It does not fix access. It just tri
 <sup id="fn1">1</sup>: <span style="font-size: 14px;"><i>Network Capital is not something I coined. I am just using it in a crude manner in the sense I mentioned here.</i></span> <a href="#ref1">↩</a><br><br>
 
 > If the discovery-gap or network-gap in career exploration resonates with you, I'd love to hear your story, thoughts and ideas on how to best address these. [DM me](/about/#lets-talk) or reply here.
+
+```Last updated: June 2026```

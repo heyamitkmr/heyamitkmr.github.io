@@ -69,7 +69,7 @@ Cross-strata mobility requires two things working in parallel: [**raised aspirat
 Aspirations are shaped by <span style="color: var(--nav-link-color)">two mechanisms</span>:
 
 <span style="color: var(--nav-link-color)">Awareness</span> - knowing that certain options and paths exist.
-- This is what [CareerMap](https://substack.com/@heyamitkmr/note/c-263731293?r=49n3h7) addresses: making visible the full landscape of career possibilities, especially non-obvious options or non-linear routes.
+- This is what [CareerMap](https://careermap.nextfive.in/) addresses: making visible the full landscape of career possibilities, especially non-obvious options or non-linear routes.
 
 <span style="color: var(--nav-link-color)">Belief via normalization</span> - seeing people like yourself taking those options, so those paths feel real and attainable rather than fanciful.
 - This is the core mechanism Orbit targets. Repeated, low-stakes exposure to people from different worlds makes those worlds feel normal and reachable. When something feels normal, people stop self-selecting out.
