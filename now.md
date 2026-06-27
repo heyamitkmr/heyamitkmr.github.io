@@ -68,7 +68,7 @@ April and May were light on reading.
 
 2. **[Are you there God? It's me, Margaret]**(https://en.wikipedia.org/wiki/Are_You_There_God%3F_It%27s_Me,_Margaret._(film)): A beautiful, endearing short tale of Margaret's growing up years in her new suburban town and her relationship with religion as she navigates entering early teenage years. Fantastic acting by the lead actor playing Margaret. Also, totally lovable family.
 
-Also, Bhoot Bangla (what can I say), Remarkably Bright Creature (*****), In the grey (***), Ladies First (***), Thamma (***) and a bunch more.
+Also, Bhoot Bangla (what can I say), Remarkably Bright Creature (5*), In the grey (3*), Ladies First (3*), Thamma (3*) and a bunch more.
 
 <span style="display: block; text-align: right; font-size: 14px; font-weight: bold; font-style: italic;">
     (Here's some other stuff <a href="/watched" target="_blank" style="font-size: inherit; font-weight: inherit; font-style: inherit; color: var(--nav-link-color);"> I have watched </a>) 

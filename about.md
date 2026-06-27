@@ -61,7 +61,7 @@ You probably encountered my work without knowing it at:
 - **Storytelling and writing.** How to communicate ideas clearly. How narratives shape thinking.
 - **Making things.** Articles, essays, software, systems, ideas that help people think differently. But especially tools that help people navigate complexity and make better decisions.
 - **Serendipity and novel experiences.** Meeting interesting people. Traveling. Conversations that shift perspective.
-- **Systems thinking.** Creating structures - whether in apps, communities, or workflows — that make things work better. 
+- **Systems thinking.** Creating structures - whether in apps, communities, or workflows - that make things work better. 
 
 - **Photography.** I'm always interested in the interplay of contrasts - of subjects, themes, colors, light. Gravitating towards slice-of-life frames. My work is at [Flickr](https://www.flickr.com/photos/proxygeek/).
 
