@@ -49,26 +49,26 @@ Photography intermittently. Always. Did a photo-walk this month after what seems
 
 ### **Recently read:**
 
-`[Not updated since March: But currently enjoying Asterix]`
+April and May were light on reading. 
 
-1. **[The Almanack of Naval Ravikant](https://www.navalmanack.com/)** compiled by Eric Jorgenson: Found myself arguing with almost every 3rd page of the book and agreeing with some point every other 4th page. Quite engaging and thought provoking, especially if you are in a certain frame of mind. 
+0. Currently enjoying [Asterix](https://en.wikipedia.org/wiki/Asterix) - the complete collection. Somehow never got to it so far. Catching up on lost time and loving every bit of it :)
+
+1. **[Influence](https://www.goodreads.com/en/book/show/28815.Influence)** by Robert B. Cialdini: This I got to right  after the "Thank you for arguing" to compare this classic while the earlier one was fresh in mind. Most of it was in the realm of "good reminder" than new insight - which is not a bad thing. A fair bunch of my notes were from the point of defence - how to prevent myself from getting unduly influenced - instead of the other way around. Also, the context is predictably US-centric and dated, even if the deeper principles are more universal.
+
+2. **[How did you get this number](https://www.goodreads.com/book/show/7091863-how-did-you-get-this-number)** by Sloane Crosley. This completes my current collection of Sloane and loved this one as well - another collection of brilliantly delightful collection of essays.
    
-2. **[Thank you for Arguing](https://www.goodreads.com/book/show/151751.Thank_You_for_Arguing)** by Jay Heinrichs: The author's general tone started grating on me a bit after a couple of chapters. But not enough to prevent me from finishing. And good reminders on what makes for good persuasive cases beyond logic - like Pathos and Ethos. That is - the emotions and your own personality as perceived by your audience. Decent read.
+ 
 <span style="display: block; text-align: right; font-size: 14px; font-weight: bold; font-style: italic;">
     (Here's some other stuff <a href="/read" target="_blank" style="font-size: inherit; font-weight: inherit; font-style: inherit;color: var(--nav-link-color);"> I have read </a>) 
 </span>
 
 ### **And watched:**
 
-`[Not updated since March: But currently enjoying Asterix]`
+1. **[Disclosure Day](https://en.wikipedia.org/wiki/Disclosure_Day)**: First movie at the theatre after years! And thoroughly enjoyable, even if predictable. Far too many reviews online and I agree that it's not quite there with Arrival for the concept novelty or in league with District-9 for the social commentary. But regardless, very entertaining. 
 
-1. **[Drive Away Dolls](https://en.wikipedia.org/wiki/Drive-Away_Dolls)**: Continuing on my journey with Ethan Coen / Tricia Cooke trilogy. Expectedly bizzare sequences and funny. The one scene with Matt Damon for example...
+2. **[Are you there God? It's me, Margaret]**(https://en.wikipedia.org/wiki/Are_You_There_God%3F_It%27s_Me,_Margaret._(film)): A beautiful, endearing short tale of Margaret's growing up years in her new suburban town and her relationship with religion as she navigates entering early teenage years. Fantastic acting by the lead actor playing Margaret. Also, totally lovable family.
 
-![](/assets/images/bits/drive_away_dolls.png)
-
-2. **[Dhurandhar](https://en.wikipedia.org/wiki/Dhurandhar)**: A surprisingly well made Bollywood action flick with gritty action sequences and did not feel as long as it is. Also, plenty of dog-whistles - like framing things as _"Hindus vs Pakistan"_. The framing of _"prev-govts-corrupt-current-govt-strong"_ is done smoothly :P Despite all these though, pretty different movie. Soundtracks are nice too.
-
-Also _**Send Help**_ and _**Zootopia - 2**_
+Also, Bhoot Bangla (what can I say), Remarkably Bright Creature (*****), In the grey (***), Ladies First (***), Thamma (***) and a bunch more.
 
 <span style="display: block; text-align: right; font-size: 14px; font-weight: bold; font-style: italic;">
     (Here's some other stuff <a href="/watched" target="_blank" style="font-size: inherit; font-weight: inherit; font-style: inherit; color: var(--nav-link-color);"> I have watched </a>) 

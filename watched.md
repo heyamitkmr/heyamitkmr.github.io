@@ -32,3 +32,7 @@ And _[F1](https://en.wikipedia.org/wiki/F1_(film))_ with Brad Pitt in it, _[The 
 7. **[Dhurandhar](https://en.wikipedia.org/wiki/Dhurandhar)**: A surprisingly well made Bollywood action flick with gritty action sequences and did not feel as long as it is. Also, plenty of dog-whistles - like framing things as _"Hindus vs Pakistan"_. The framing of _"prev-govts-corrupt-current-govt-strong"_ is done smoothly :P Despite all these though, pretty different movie. Soundtracks are nice too.
 
 Also _Send Help_ and _Zootopia - 2_
+
+8. **[Disclosure Day](https://en.wikipedia.org/wiki/Disclosure_Day)**: First movie at the theatre after years! And thoroughly enjoyable, even if predictable. Far too many reviews online and I agree that it's not quite there with Arrival for the concept novelty or in league with District-9 for the social commentary. But regardless, very entertaining. 
+
+9. **[Are you there God? It's me, Margaret]**(https://en.wikipedia.org/wiki/Are_You_There_God%3F_It%27s_Me,_Margaret._(film)): A beautiful, endearing short tale of Margaret's growing up years in her new suburban town and her relationship with religion as she navigates entering early teenage years. Fantastic acting by the lead actor playing Margaret. Also, totally lovable family.
