@@ -38,6 +38,9 @@ Or let's [schedule some time](https://cal.com/amitkumar) on my calendar.
 
 ### **Recent projects**
 
+**[CareerMap](https://careermap.nextfive.in/)** (May 2026)
+Discover careers based on what you love doing. And find the routes to them. And the people working in those roles. 
+
 **[Guide](https://guide.nextfive.in/)** (Nov 2025)  
 A complete system to manage goals, tasks, and thinking. Built for myself, shared for you.
 
