@@ -80,7 +80,7 @@ It is _not_ a job board. Click a role, see what it actually involves, find what 
 _[Try out the v1 here.](https://careermap.nextfive.in/)_
 
 <p align="center">
-  <img src="/assets/images/careermap/career_clusters.png" width="800"> <br>
+  <img src="/assets/images/careermap/careermap_interest_based.webp" width="800"> <br>
   <span style="font-size: 14px;"><i>Career Clusters in the indie space. <a href="https://careermap.nextfive.in/">Click here to use the app</a> </i></span><br>
 </p>
 <br>
