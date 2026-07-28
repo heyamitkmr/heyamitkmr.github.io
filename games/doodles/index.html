@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hand It Off — a doodle you didn't plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper: #F7F2E4;
+    --rule: #C9D3E4;
+    --margin: #D98A8A;
+    --ink-black: #22252B;
+    --ink-blue: #1F3F91;
+    --ink-purple: #5B3A8E;
+    --ink-red: #B23A3A;
+    --bar-bg: #EFE7D3;
+    --bar-shadow: rgba(34,37,43,0.12);
+    --text: #22252B;
+    --muted: #6b6355;
+    --focus: #1F3F91;
+    --display: 'Kalam', cursive;
+    --body: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+  *{ box-sizing: border-box; }
+  html, body{
+    margin:0; padding:0; height:100%;
+    font-family: var(--body);
+    color: var(--text);
+    background: var(--paper);
+    overscroll-behavior: none;
+  }
+  #app{
+    height:100dvh;
+    display:flex;
+    flex-direction:column;
+  }
+  header#toolbar{
+    background: var(--bar-bg);
+    box-shadow: 0 2px 8px var(--bar-shadow);
+    display:flex;
+    align-items:center;
+    gap: 12px;
+    padding: 8px 12px;
+    flex-wrap: wrap;
+    z-index: 5;
+    position: relative;
+  }
+  .brand{
+    font-family: var(--display);
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--ink-blue);
+    margin-right: 4px;
+    white-space: nowrap;
+  }
+  .group{
+    display:flex;
+    align-items:center;
+    gap: 6px;
+  }
+  .swatch{
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    cursor: pointer;
+    padding:0;
+    display:inline-block;
+  }
+  .swatch[aria-pressed="true"]{
+    border-color: var(--text);
+    box-shadow: 0 0 0 2px var(--paper);
+  }
+  .btn{
+    font-family: var(--body);
+    font-weight: 500;
+    font-size: 0.85rem;
+    border: 1px solid rgba(34,37,43,0.18);
+    background: #fff;
+    color: var(--text);
+    padding: 7px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .btn:hover{ background:#fbfaf6; }
+  .btn:focus-visible, .swatch:focus-visible{
+    outline: 3px solid var(--focus);
+    outline-offset: 2px;
+  }
+  .btn[aria-pressed="true"]{
+    background: var(--ink-blue);
+    color: #fff;
+    border-color: var(--ink-blue);
+  }
+  .btn.primary{
+    background: var(--ink-blue);
+    color:#fff;
+    border-color: var(--ink-blue);
+  }
+  .btn.primary:hover{ background:#183069; }
+  .spacer{ flex: 1 1 auto; min-width: 4px; }
+  main{
+    position: relative;
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+  #canvas{
+    display:block;
+    width: 100%;
+    height: 100%;
+    touch-action: none;
+    cursor: crosshair;
+    background-color: var(--paper);
+    background-image:
+      linear-gradient(to right, transparent 0 40px, var(--margin) 40px 42px, transparent 42px),
+      repeating-linear-gradient(to bottom, transparent 0 27px, var(--rule) 27px 28px);
+  }
+  #promptBanner{
+    position:absolute;
+    top: 14px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-8px);
+    background: #fff;
+    border: 1px solid rgba(34,37,43,0.15);
+    box-shadow: 0 4px 14px rgba(34,37,43,0.15);
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-family: var(--display);
+    font-size: 1.15rem;
+    color: var(--ink-purple);
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+    max-width: min(80vw, 420px);
+    text-align:center;
+  }
+  #promptBanner.show{ opacity:1; transform: translateX(-50%) translateY(0); }
+  #promptBanner .hint{
+    display:block;
+    font-family: var(--body);
+    font-size: 0.7rem;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+  .modal{
+    position: fixed; inset:0;
+    background: rgba(34,37,43,0.45);
+    display:flex; align-items:center; justify-content:center;
+    padding: 16px;
+    z-index: 20;
+  }
+  .modal.hidden{ display:none; }
+  .modal-card{
+    background: var(--paper);
+    border-radius: 14px;
+    padding: 22px;
+    max-width: 420px;
+    width: 100%;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+  }
+  .modal-card h2{
+    font-family: var(--display);
+    color: var(--ink-blue);
+    margin: 0 0 6px;
+    font-size: 1.4rem;
+  }
+  .modal-card p{
+    margin: 0 0 14px;
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+  #linkInput{
+    width:100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(34,37,43,0.25);
+    font-family: var(--body);
+    font-size: 0.85rem;
+    margin-bottom: 12px;
+  }
+  .modal-actions{
+    display:flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .snapshot-img{
+    width: 100%;
+    max-height: 45vh;
+    object-fit: contain;
+    background: #fff;
+    border: 1px solid rgba(34,37,43,0.15);
+    border-radius: 8px;
+    margin-bottom: 10px;
+    display:block;
+  }
+  @media (max-width: 480px){
+    .brand{ font-size: 1.1rem; }
+    .btn{ padding: 8px 10px; font-size: 0.8rem; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    #promptBanner{ transition: none; }
+  }
+</style>
+</head>
+<body>
+<div id="app">
+  <header id="toolbar">
+    <span class="brand">Hand it off</span>
+    <div class="group" id="swatches" role="group" aria-label="Ink color"></div>
+    <div class="group" role="group" aria-label="Line thickness">
+      <button class="btn" id="thinBtn" aria-pressed="true">thin</button>
+      <button class="btn" id="thickBtn" aria-pressed="false">thick</button>
+    </div>
+    <div class="group">
+      <button class="btn" id="undoBtn" aria-label="Undo last stroke">↶ undo</button>
+      <button class="btn" id="clearBtn" aria-label="Clear the page">clear</button>
+    </div>
+    <div class="spacer"></div>
+    <div class="group">
+      <button class="btn" id="promptBtn">🎲 random prompt</button>
+      <button class="btn" id="snapshotBtn">🖼️ snapshot</button>
+      <button class="btn primary" id="handoffBtn">📤 hand it off</button>
+    </div>
+  </header>
+  <main>
+    <canvas id="canvas" aria-label="Drawing area"></canvas>
+    <div id="promptBanner" role="status"></div>
+  </main>
+</div>
+
+<div class="modal hidden" id="handoffModal" role="dialog" aria-modal="true" aria-labelledby="handoffTitle">
+  <div class="modal-card">
+    <h2 id="handoffTitle">Your link is ready</h2>
+    <p>Send it to whoever's turn it is. They'll see exactly what's here, and can add whatever they want on top.</p>
+    <input id="linkInput" type="text" readonly>
+    <div class="modal-actions">
+      <button class="btn primary" id="copyBtn">Copy link</button>
+      <button class="btn" id="shareBtn" hidden>Share…</button>
+      <button class="btn" id="closeModalBtn">Keep drawing</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal hidden" id="snapshotModal" role="dialog" aria-modal="true" aria-labelledby="snapshotTitle">
+  <div class="modal-card">
+    <h2 id="snapshotTitle">Snapshot ready</h2>
+    <img id="snapshotPreview" class="snapshot-img" alt="Cropped drawing preview">
+    <p id="snapshotStatus">Working on it…</p>
+    <div class="modal-actions">
+      <button class="btn primary" id="snapshotDownloadBtn">Download</button>
+      <button class="btn" id="snapshotCopyBtn">Copy image</button>
+      <button class="btn" id="snapshotShareBtn" hidden>Share…</button>
+      <button class="btn" id="snapshotCloseBtn">Keep drawing</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var PALETTE = [
+    { hex: '#22252B', name: 'black' },
+    { hex: '#1F3F91', name: 'blue' },
+    { hex: '#5B3A8E', name: 'purple' },
+    { hex: '#B23A3A', name: 'red' }
+  ];
+  var WIDTHS = [3, 6.5];
+  var PROMPTS = [
+    "add a ghost 👻",
+    "there's a robot now",
+    "put in a wall",
+    "add mountains in the distance",
+    "someone's riding a bike through this",
+    "add a dog",
+    "there's a strange creature nearby",
+    "add a tree",
+    "someone dropped a book",
+    "add a second sun, why not",
+    "make one of them fly",
+    "add a cat that doesn't belong here",
+    "there's a tandem bike now",
+    "someone's throwing something",
+    "add a fence",
+    "put a bird on it",
+    "there's a puddle nobody's noticed",
+    "add a shadow that doesn't match anyone"
+  ];
+
+  var canvas = document.getElementById('canvas');
+  var ctx = canvas.getContext('2d');
+  var promptBanner = document.getElementById('promptBanner');
+  var modal = document.getElementById('handoffModal');
+  var linkInput = document.getElementById('linkInput');
+  var copyBtn = document.getElementById('copyBtn');
+  var shareBtn = document.getElementById('shareBtn');
+
+  var strokes = [];
+  var currentStroke = null;
+  var drawing = false;
+  var lastPoint = null;
+  var activeColor = 0;
+  var activeWidth = 0;
+  var lastPromptIdx = -1;
+
+  // ---------- swatches ----------
+  var swatchWrap = document.getElementById('swatches');
+  PALETTE.forEach(function(c, i){
+    var b = document.createElement('button');
+    b.className = 'swatch';
+    b.style.background = c.hex;
+    b.setAttribute('aria-label', c.name + ' ink');
+    b.setAttribute('aria-pressed', i === 0 ? 'true' : 'false');
+    b.addEventListener('click', function(){
+      activeColor = i;
+      Array.prototype.forEach.call(swatchWrap.children, function(el, idx){
+        el.setAttribute('aria-pressed', idx === i ? 'true' : 'false');
+      });
+    });
+    swatchWrap.appendChild(b);
+  });
+
+  var thinBtn = document.getElementById('thinBtn');
+  var thickBtn = document.getElementById('thickBtn');
+  function setWidth(i){
+    activeWidth = i;
+    thinBtn.setAttribute('aria-pressed', i === 0 ? 'true' : 'false');
+    thickBtn.setAttribute('aria-pressed', i === 1 ? 'true' : 'false');
+  }
+  thinBtn.addEventListener('click', function(){ setWidth(0); });
+  thickBtn.addEventListener('click', function(){ setWidth(1); });
+
+  // ---------- canvas sizing ----------
+  function resizeCanvas(){
+    var dpr = window.devicePixelRatio || 1;
+    var rect = canvas.getBoundingClientRect();
+    canvas.width = Math.max(1, Math.round(rect.width * dpr));
+    canvas.height = Math.max(1, Math.round(rect.height * dpr));
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    redraw();
+  }
+  window.addEventListener('resize', resizeCanvas);
+  window.addEventListener('orientationchange', resizeCanvas);
+
+  // Draws one stroke onto any 2D context, at any reference size/offset —
+  // used both for the live canvas and for the cropped snapshot export.
+  function drawStrokeOn(targetCtx, s, refW, refH, offX, offY){
+    if (!s.p.length) return;
+    offX = offX || 0; offY = offY || 0;
+    var pts = s.p.map(function(pt){ return [pt[0] * refW - offX, pt[1] * refH - offY]; });
+    targetCtx.strokeStyle = PALETTE[s.c].hex;
+    targetCtx.lineWidth = WIDTHS[s.w];
+    targetCtx.lineCap = 'round';
+    targetCtx.lineJoin = 'round';
+    targetCtx.beginPath();
+    targetCtx.moveTo(pts[0][0], pts[0][1]);
+    if (pts.length === 1){
+      targetCtx.lineTo(pts[0][0] + 0.1, pts[0][1] + 0.1);
+    } else {
+      var i;
+      for (i = 1; i < pts.length - 1; i++){
+        var midX = (pts[i][0] + pts[i+1][0]) / 2;
+        var midY = (pts[i][1] + pts[i+1][1]) / 2;
+        targetCtx.quadraticCurveTo(pts[i][0], pts[i][1], midX, midY);
+      }
+      var last = pts[pts.length - 1];
+      targetCtx.lineTo(last[0], last[1]);
+    }
+    targetCtx.stroke();
+  }
+
+  function redraw(){
+    var w = canvas.clientWidth, h = canvas.clientHeight;
+    ctx.clearRect(0, 0, w, h);
+    strokes.forEach(function(s){ drawStrokeOn(ctx, s, w, h, 0, 0); });
+    if (currentStroke) drawStrokeOn(ctx, currentStroke, w, h, 0, 0);
+  }
+
+  function getNormPoint(e){
+    var rect = canvas.getBoundingClientRect();
+    var x = (e.clientX - rect.left) / rect.width;
+    var y = (e.clientY - rect.top) / rect.height;
+    return [Math.min(1, Math.max(0, x)), Math.min(1, Math.max(0, y))];
+  }
+
+  canvas.addEventListener('pointerdown', function(e){
+    e.preventDefault();
+    canvas.setPointerCapture(e.pointerId);
+    drawing = true;
+    var p = getNormPoint(e);
+    currentStroke = { c: activeColor, w: activeWidth, p: [p] };
+    lastPoint = p;
+  });
+  canvas.addEventListener('pointermove', function(e){
+    if (!drawing) return;
+    e.preventDefault();
+    var p = getNormPoint(e);
+    var dx = (p[0] - lastPoint[0]) * canvas.clientWidth;
+    var dy = (p[1] - lastPoint[1]) * canvas.clientHeight;
+    if (Math.hypot(dx, dy) < 2) return;
+    currentStroke.p.push(p);
+    lastPoint = p;
+    redraw();
+  });
+  function endStroke(){
+    if (!drawing) return;
+    drawing = false;
+    if (currentStroke && currentStroke.p.length){
+      strokes.push(currentStroke);
+    }
+    currentStroke = null;
+    redraw();
+  }
+  window.addEventListener('pointerup', endStroke);
+  canvas.addEventListener('pointercancel', endStroke);
+
+  document.getElementById('undoBtn').addEventListener('click', function(){
+    strokes.pop();
+    redraw();
+  });
+  document.getElementById('clearBtn').addEventListener('click', function(){
+    if (!strokes.length) return;
+    if (window.confirm("Clear the whole page? There's no undo for this one.")){
+      strokes = [];
+      redraw();
+      history.replaceState(null, '', location.pathname + location.search);
+    }
+  });
+
+  // ---------- random prompt ----------
+  document.getElementById('promptBtn').addEventListener('click', function(){
+    var idx;
+    do { idx = Math.floor(Math.random() * PROMPTS.length); }
+    while (idx === lastPromptIdx && PROMPTS.length > 1);
+    lastPromptIdx = idx;
+    promptBanner.innerHTML = PROMPTS[idx] + '<span class="hint">tap to dismiss</span>';
+    promptBanner.classList.add('show');
+  });
+  promptBanner.addEventListener('click', function(){
+    promptBanner.classList.remove('show');
+  });
+
+  // ---------- encode / decode ----------
+  function toUrlSafe(b64){
+    return b64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  }
+  function fromUrlSafe(s){
+    var b64 = s.replace(/-/g, '+').replace(/_/g, '/');
+    while (b64.length % 4) b64 += '=';
+    return b64;
+  }
+  function encodeStrokes(list){
+    var compact = list.map(function(s){
+      return [s.c, s.w, s.p.map(function(pt){
+        return [Math.round(pt[0] * 1000), Math.round(pt[1] * 1000)];
+      })];
+    });
+    return toUrlSafe(btoa(JSON.stringify(compact)));
+  }
+  function decodeStrokes(str){
+    var json = atob(fromUrlSafe(str));
+    var compact = JSON.parse(json);
+    return compact.map(function(entry){
+      return {
+        c: entry[0],
+        w: entry[1],
+        p: entry[2].map(function(pt){ return [pt[0] / 1000, pt[1] / 1000]; })
+      };
+    });
+  }
+
+  // ---------- hand-off ----------
+  document.getElementById('handoffBtn').addEventListener('click', function(){
+    var encoded = encodeStrokes(strokes);
+    var url = location.origin + location.pathname + '#' + encoded;
+    history.replaceState(null, '', url);
+    linkInput.value = url;
+    modal.classList.remove('hidden');
+    linkInput.focus();
+    linkInput.select();
+  });
+  copyBtn.addEventListener('click', function(){
+    function fallbackCopy(){
+      linkInput.focus();
+      linkInput.select();
+      try { document.execCommand('copy'); } catch (err) { /* no-op */ }
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(linkInput.value).then(function(){
+        copyBtn.textContent = 'Copied!';
+        setTimeout(function(){ copyBtn.textContent = 'Copy link'; }, 1500);
+      }, fallbackCopy);
+    } else {
+      fallbackCopy();
+    }
+  });
+  if (navigator.share){
+    shareBtn.hidden = false;
+    shareBtn.addEventListener('click', function(){
+      navigator.share({ title: 'Add to this doodle', url: linkInput.value }).catch(function(){ /* cancelled */ });
+    });
+  }
+  document.getElementById('closeModalBtn').addEventListener('click', function(){
+    modal.classList.add('hidden');
+  });
+
+  // ---------- snapshot export ----------
+  var snapshotModal = document.getElementById('snapshotModal');
+  var snapshotPreview = document.getElementById('snapshotPreview');
+  var snapshotStatus = document.getElementById('snapshotStatus');
+  var snapshotDownloadBtn = document.getElementById('snapshotDownloadBtn');
+  var snapshotCopyBtn = document.getElementById('snapshotCopyBtn');
+  var snapshotShareBtn = document.getElementById('snapshotShareBtn');
+  var lastSnapshotCanvas = null;
+  var lastSnapshotBlob = null;
+
+  // Tight bounding box around every point drawn so far (plus current
+  // in-progress stroke), padded out by half the relevant line width.
+  function getInkBBox(){
+    var w = canvas.clientWidth, h = canvas.clientHeight;
+    var all = currentStroke ? strokes.concat([currentStroke]) : strokes;
+    var minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+    all.forEach(function(s){
+      var half = WIDTHS[s.w] / 2;
+      s.p.forEach(function(pt){
+        var px = pt[0] * w, py = pt[1] * h;
+        if (px - half < minX) minX = px - half;
+        if (px + half > maxX) maxX = px + half;
+        if (py - half < minY) minY = py - half;
+        if (py + half > maxY) maxY = py + half;
+      });
+    });
+    if (minX === Infinity) return null;
+    return { minX: minX, minY: minY, maxX: maxX, maxY: maxY };
+  }
+
+  // Replays the same ruled-paper look from the CSS onto a real canvas,
+  // aligned so the lines land in the same place as on the live page.
+  function drawPaperBackground(targetCtx, w, h, originX, originY){
+    targetCtx.fillStyle = '#F7F2E4';
+    targetCtx.fillRect(0, 0, w, h);
+    var marginX0 = Math.max(0, 40 - originX);
+    var marginX1 = Math.min(w, 42 - originX);
+    if (marginX1 > marginX0){
+      targetCtx.fillStyle = '#D98A8A';
+      targetCtx.fillRect(marginX0, 0, marginX1 - marginX0, h);
+    }
+    targetCtx.fillStyle = '#C9D3E4';
+    var firstLine = Math.ceil(originY / 28) * 28;
+    for (var ly = firstLine; ly < originY + h; ly += 28){
+      targetCtx.fillRect(0, ly - originY, w, 1);
+    }
+  }
+
+  // Renders just the drawn-on region (with padding) to a fresh canvas.
+  function renderSnapshotCanvas(){
+    var bbox = getInkBBox();
+    if (!bbox) return null;
+    var pad = 20;
+    var originX = bbox.minX - pad, originY = bbox.minY - pad;
+    var w = (bbox.maxX - bbox.minX) + pad * 2;
+    var h = (bbox.maxY - bbox.minY) + pad * 2;
+    var scale = Math.max(2, window.devicePixelRatio || 1);
+    var off = document.createElement('canvas');
+    off.width = Math.round(w * scale);
+    off.height = Math.round(h * scale);
+    var offCtx = off.getContext('2d');
+    offCtx.setTransform(scale, 0, 0, scale, 0, 0);
+    drawPaperBackground(offCtx, w, h, originX, originY);
+    var refW = canvas.clientWidth, refH = canvas.clientHeight;
+    var all = currentStroke ? strokes.concat([currentStroke]) : strokes;
+    all.forEach(function(s){ drawStrokeOn(offCtx, s, refW, refH, originX, originY); });
+    return off;
+  }
+
+  function canvasToBlob(c){
+    return new Promise(function(resolve, reject){
+      c.toBlob(function(blob){
+        if (blob) resolve(blob); else reject(new Error('toBlob failed'));
+      }, 'image/png');
+    });
+  }
+
+  function snapshotFilename(){
+    return 'doodle-' + new Date().toISOString().replace(/[:.]/g, '-') + '.png';
+  }
+
+  function downloadBlob(blob){
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = snapshotFilename();
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 4000);
+  }
+
+  document.getElementById('snapshotBtn').addEventListener('click', function(){
+    var off = renderSnapshotCanvas();
+    if (!off){
+      window.alert("There's nothing drawn yet to snapshot.");
+      return;
+    }
+    lastSnapshotCanvas = off;
+    lastSnapshotBlob = null;
+    snapshotStatus.textContent = 'Working on it…';
+    snapshotShareBtn.hidden = true;
+    snapshotModal.classList.remove('hidden');
+
+    // Clipboard write is started synchronously, right inside this click
+    // handler, with a Promise passed straight into ClipboardItem — Safari
+    // in particular requires this pattern to still count as user-initiated
+    // even though the image itself finishes encoding a moment later.
+    var clipboardTried = false;
+    if (window.ClipboardItem && navigator.clipboard && navigator.clipboard.write){
+      clipboardTried = true;
+      navigator.clipboard.write([
+        new ClipboardItem({ 'image/png': canvasToBlob(off) })
+      ]).then(function(){
+        snapshotStatus.textContent = 'Copied to your clipboard — paste it anywhere. A download has also started.';
+      }).catch(function(){
+        snapshotStatus.textContent = "Couldn't auto-copy on this browser — use the buttons below.";
+      });
+    }
+
+    canvasToBlob(off).then(function(blob){
+      lastSnapshotBlob = blob;
+      snapshotPreview.src = URL.createObjectURL(blob);
+      if (!clipboardTried){
+        snapshotStatus.textContent = 'A download has started. Use the buttons below for other options.';
+      }
+      downloadBlob(blob);
+      try {
+        var testFile = new File([blob], snapshotFilename(), { type: 'image/png' });
+        snapshotShareBtn.hidden = !(navigator.canShare && navigator.canShare({ files: [testFile] }));
+      } catch (err){
+        snapshotShareBtn.hidden = true;
+      }
+    }).catch(function(){
+      snapshotStatus.textContent = 'Something went wrong creating the image — try again.';
+    });
+  });
+
+  snapshotDownloadBtn.addEventListener('click', function(){
+    if (lastSnapshotBlob) downloadBlob(lastSnapshotBlob);
+  });
+  snapshotCopyBtn.addEventListener('click', function(){
+    if (!lastSnapshotCanvas || !(window.ClipboardItem && navigator.clipboard && navigator.clipboard.write)){
+      window.alert('Image clipboard copy is not supported in this browser — use Download instead.');
+      return;
+    }
+    navigator.clipboard.write([
+      new ClipboardItem({ 'image/png': canvasToBlob(lastSnapshotCanvas) })
+    ]).then(function(){
+      snapshotCopyBtn.textContent = 'Copied!';
+      setTimeout(function(){ snapshotCopyBtn.textContent = 'Copy image'; }, 1500);
+    }).catch(function(){
+      window.alert("Couldn't copy the image on this browser.");
+    });
+  });
+  snapshotShareBtn.addEventListener('click', function(){
+    if (!lastSnapshotBlob) return;
+    var file = new File([lastSnapshotBlob], snapshotFilename(), { type: 'image/png' });
+    navigator.share({ files: [file], title: 'My doodle' }).catch(function(){ /* cancelled */ });
+  });
+  document.getElementById('snapshotCloseBtn').addEventListener('click', function(){
+    snapshotModal.classList.add('hidden');
+  });
+
+  // ---------- load existing drawing from URL ----------
+  (function loadFromHash(){
+    if (location.hash.length > 1){
+      try {
+        strokes = decodeStrokes(location.hash.slice(1));
+      } catch (err){
+        console.warn('Could not read the handed-off drawing, starting fresh.', err);
+        strokes = [];
+      }
+    }
+  })();
+
+  resizeCanvas();
+})();
+</script>
+</body>
+</html>
