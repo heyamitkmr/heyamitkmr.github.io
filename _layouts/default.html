@@ -12,21 +12,37 @@
     <meta property="og:url" content="{{ page.url | absolute_url }}">
 
     {% assign first_image = '' %}
-    {% if page.content contains '![' %}
-      {% assign md_part = page.content | split: '!['  | last %}
-      {% assign first_image = md_part | split: '](' | last | split: ')' | first %}
-      {% unless first_image contains '/assets' %}
-        {% assign first_image = '' %}
-      {% endunless %}
+    {% assign has_html_img = page.content contains '<img' %}
+    {% assign has_md_img = page.content contains '![' %}
+
+    {% if has_html_img or has_md_img %}
+      {% assign img_pos = 999999999 %}
+      {% assign md_pos = 999999999 %}
+      {% if has_html_img %}
+        {% assign img_pos = page.content | split: '<img' | first | size %}
+      {% endif %}
+      {% if has_md_img %}
+        {% assign md_pos = page.content | split: '![' | first | size %}
+      {% endif %}
+
+      {% if img_pos <= md_pos %}
+        {% assign after_first_img = page.content | split: '<img' %}
+        {% assign after_first_img = after_first_img[1] %}
+        {% assign first_image = after_first_img | split: 'src="' %}
+        {% assign first_image = first_image[1] | split: '"' | first %}
+      {% else %}
+        {% assign after_first_md = page.content | split: '![' %}
+        {% assign after_first_md = after_first_md[1] %}
+        {% assign first_image = after_first_md | split: '](' %}
+        {% assign first_image = first_image[1] | split: ')' | first %}
+      {% endif %}
     {% endif %}
-    {% if first_image == '' and page.content contains '<img' %}
-      {% assign first_image = page.content | split: 'src="' | last | split: '"' | first %}
-      {% unless first_image contains '/assets' %}
-        {% assign first_image = '' %}
-      {% endunless %}
-    {% endif %}
+
     {% if first_image != '' %}
-      <meta property="og:image" content="{{ first_image | absolute_url }}">
+      {% unless first_image contains '://' %}
+        {% assign first_image = first_image | absolute_url %}
+      {% endunless %}
+      <meta property="og:image" content="{{ first_image }}">
     {% endif %}
 
     <!-- This line automatically loads the theme's stylesheet -->
