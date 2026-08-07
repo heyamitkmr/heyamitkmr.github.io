@@ -1,0 +1,1394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Nuance — the adjective navigator</title>
+<style>
+  :root{
+    --bg:#EFEDE2;
+    --bg-panel:#F8F6EC;
+    --bg-panel-raised:#FCFAF2;
+    --ink:#1B241E;
+    --ink-soft:#565F55;
+    --ink-faint:#8B9186;
+    --moss:#3E6656;
+    --moss-tint:#DDE7DD;
+    --ochre:#A8793A;
+    --rust:#9C4A34;
+    --line:#D8D2BE;
+    --line-soft:#E3DECB;
+    --shadow: 0 1px 2px rgba(27,36,30,0.06), 0 6px 20px rgba(27,36,30,0.05);
+    --radius:4px;
+    --font-display: Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Times New Roman', serif;
+    --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --font-mono: ui-monospace, 'SF Mono', 'Cascadia Code', 'Roboto Mono', Consolas, monospace;
+    color-scheme: light;
+  }
+  html[data-theme="dark"]{
+    --bg:#12160F;
+    --bg-panel:#191E15;
+    --bg-panel-raised:#1F2519;
+    --ink:#ECE9DD;
+    --ink-soft:#AAB2A2;
+    --ink-faint:#707A6C;
+    --moss:#84B79A;
+    --moss-tint:#233026;
+    --ochre:#D5A45F;
+    --rust:#D08267;
+    --line:#2B3226;
+    --line-soft:#232A1F;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+    color-scheme: dark;
+  }
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--font-body);
+    -webkit-font-smoothing:antialiased;
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
+  }
+  ::selection{background:var(--moss); color:var(--bg-panel-raised);}
+  button{font-family:inherit; cursor:pointer;}
+  :focus-visible{outline:2px solid var(--moss); outline-offset:2px; border-radius:2px;}
+
+  /* ---------- header ---------- */
+  header{
+    flex:0 0 auto;
+    display:flex;
+    align-items:center;
+    gap:18px;
+    padding:14px 20px;
+    border-bottom:1px solid var(--line);
+    background:var(--bg-panel);
+  }
+  .brand{display:flex; align-items:baseline; gap:9px; flex:0 0 auto;}
+  .brand h1{
+    font-family:var(--font-display);
+    font-size:1.32rem;
+    font-weight:700;
+    margin:0;
+    letter-spacing:0.01em;
+    white-space:nowrap;
+  }
+  .brand .tagline{
+    font-family:var(--font-mono);
+    font-size:0.62rem;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    white-space:nowrap;
+    display:none;
+  }
+  @media (min-width:640px){ .brand .tagline{display:inline;} }
+
+  .search-wrap{
+    position:relative;
+    flex:1 1 auto;
+    max-width:520px;
+  }
+  .search-box{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background:var(--bg-panel-raised);
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:8px 14px;
+  }
+  .search-box svg{flex:0 0 auto; color:var(--ink-faint); width:15px; height:15px;}
+  .search-box input{
+    border:none; outline:none; background:transparent;
+    font-family:var(--font-body);
+    font-size:0.88rem;
+    color:var(--ink);
+    width:100%;
+  }
+  .search-box input::placeholder{color:var(--ink-faint);}
+  .clear-btn{
+    display:none;
+    border:none; background:none; color:var(--ink-faint);
+    padding:2px; line-height:0;
+  }
+  .clear-btn.show{display:flex;}
+
+  .search-results{
+    position:absolute; top:calc(100% + 6px); left:0; right:0;
+    background:var(--bg-panel-raised);
+    border:1px solid var(--line);
+    border-radius:8px;
+    box-shadow:var(--shadow);
+    max-height:min(60vh,420px);
+    overflow-y:auto;
+    z-index:40;
+    display:none;
+  }
+  .search-results.open{display:block;}
+  .search-result{
+    display:flex; flex-direction:column; gap:2px;
+    padding:9px 14px;
+    border-bottom:1px solid var(--line-soft);
+  }
+  .search-result:last-child{border-bottom:none;}
+  .search-result:hover, .search-result.sel{background:var(--moss-tint);}
+  .search-result .r-term{font-family:var(--font-display); font-weight:700; font-size:0.98rem;}
+  .search-result .r-path{font-family:var(--font-mono); font-size:0.66rem; letter-spacing:0.04em; color:var(--ink-faint); text-transform:uppercase;}
+  .search-result .r-def{font-size:0.78rem; color:var(--ink-soft); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .search-result.is-root{border-left:3px solid var(--ochre); background:var(--bg-panel);}
+  .search-result.is-root .r-path{color:var(--ochre);}
+  .search-result.is-root .r-def{white-space:normal; font-style:italic; font-family:var(--font-display);}
+  .search-empty{padding:16px 14px; font-size:0.82rem; color:var(--ink-faint); font-style:italic;}
+
+  .header-actions{display:flex; align-items:center; gap:6px; flex:0 0 auto;}
+  .icon-btn{
+    display:flex; align-items:center; justify-content:center;
+    width:36px; height:36px;
+    border-radius:50%;
+    border:1px solid transparent;
+    background:transparent;
+    color:var(--ink-soft);
+    transition:background 0.15s, color 0.15s, border-color 0.15s;
+  }
+  .icon-btn svg{width:17px; height:17px;}
+  .icon-btn:hover{background:var(--moss-tint); color:var(--moss); border-color:var(--line);}
+
+  /* ---------- toast ---------- */
+  #toast{
+    position:fixed; bottom:22px; left:50%; transform:translateX(-50%) translateY(12px);
+    background:var(--ink); color:var(--bg);
+    font-family:var(--font-mono); font-size:0.78rem; letter-spacing:0.02em;
+    padding:9px 16px; border-radius:20px;
+    opacity:0; pointer-events:none;
+    transition:opacity 0.22s ease, transform 0.22s ease;
+    z-index:100;
+    box-shadow:var(--shadow);
+  }
+  html[data-theme="dark"] #toast{background:var(--moss); color:var(--bg-panel);}
+  #toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+
+  /* ---------- breadcrumb (mobile) ---------- */
+  .crumb-bar{
+    display:none;
+    align-items:center; gap:8px;
+    padding:10px 16px;
+    border-bottom:1px solid var(--line);
+    background:var(--bg-panel);
+    font-family:var(--font-mono);
+    font-size:0.72rem;
+    color:var(--ink-soft);
+    overflow-x:auto;
+    white-space:nowrap;
+  }
+  .crumb-bar button.back{
+    border:none; background:none; color:var(--moss);
+    display:flex; align-items:center; gap:3px;
+    font-family:var(--font-body); font-weight:600; font-size:0.82rem;
+    padding:2px 4px 2px 0; flex:0 0 auto;
+  }
+  .crumb-bar button.back svg{width:14px; height:14px;}
+  .crumb-seg{cursor:pointer;}
+  .crumb-seg:hover{color:var(--moss); text-decoration:underline;}
+  .crumb-sep{color:var(--ink-faint);}
+
+  /* ---------- main layout ---------- */
+  main{
+    flex:1 1 auto;
+    display:flex;
+    min-height:0;
+    overflow:hidden;
+  }
+  .miller{
+    display:flex;
+    flex:0 0 44%;
+    max-width:560px;
+    min-width:300px;
+    border-right:1px solid var(--line);
+    overflow:hidden;
+  }
+  .col{
+    flex:1 1 0;
+    min-width:0;
+    overflow-y:auto;
+    border-right:1px solid var(--line-soft);
+    background:var(--bg-panel);
+  }
+  .col:last-child{border-right:none;}
+  .col-roots{flex:0 0 168px;}
+  .col-clusters{flex:1 1 0;}
+  .col-subs{flex:1 1 0;}
+
+  .col-head{
+    position:sticky; top:0;
+    background:var(--bg-panel);
+    padding:11px 14px 8px;
+    font-family:var(--font-mono);
+    font-size:0.62rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    border-bottom:1px solid var(--line-soft);
+    z-index:2;
+  }
+  .col-blurb{
+    padding:6px 14px 14px;
+    font-family:var(--font-display);
+    font-style:italic;
+    font-size:0.82rem;
+    color:var(--ink-soft);
+    border-bottom:1px solid var(--line-soft);
+  }
+
+  .root-item{
+    display:flex; align-items:center; gap:10px;
+    padding:11px 14px;
+    border-left:3px solid transparent;
+    border-bottom:1px solid var(--line-soft);
+    transition:background 0.14s, border-color 0.14s, transform 0.14s;
+    background:none; width:100%; text-align:left; color:var(--ink);
+  }
+  .root-item .code{
+    font-family:var(--font-mono); font-size:0.68rem; color:var(--ink-faint);
+    width:20px; flex:0 0 auto;
+  }
+  .root-item .label{font-family:var(--font-display); font-size:0.94rem; line-height:1.25;}
+  .root-item:hover{background:var(--moss-tint); transform:translateX(2px);}
+  .root-item.active{border-left-color:var(--moss); background:var(--moss-tint);}
+  .root-item.active .code{color:var(--moss);}
+  .root-item.active .label{font-weight:700;}
+
+  .cluster-item, .sub-item{
+    display:flex; align-items:center; justify-content:space-between; gap:6px;
+    width:100%; text-align:left;
+    padding:10px 14px;
+    border-bottom:1px solid var(--line-soft);
+    background:none; color:var(--ink);
+    transition:background 0.14s;
+  }
+  .cluster-item .name, .sub-item .name{font-family:var(--font-body); font-size:0.86rem;}
+  .cluster-item .count, .sub-item .count{font-family:var(--font-mono); font-size:0.62rem; color:var(--ink-faint);}
+  .cluster-item svg, .sub-item svg{width:13px; height:13px; color:var(--ink-faint); flex:0 0 auto;}
+  .cluster-item:hover, .sub-item:hover{background:var(--moss-tint);}
+  .cluster-item.active, .sub-item.active{background:var(--moss-tint); font-weight:600;}
+  .cluster-item.active svg, .sub-item.active svg{color:var(--moss);}
+
+  .empty-col{padding:22px 14px; font-size:0.8rem; color:var(--ink-faint); font-style:italic;}
+
+  /* ---------- detail panel ---------- */
+  .detail{
+    flex:1 1 auto;
+    min-width:0;
+    overflow-y:auto;
+    padding:22px 26px 60px;
+  }
+  .detail-head{margin-bottom:16px;}
+  .detail-head .eyebrow{
+    font-family:var(--font-mono); font-size:0.64rem; letter-spacing:0.14em;
+    text-transform:uppercase; color:var(--ink-faint);
+  }
+  .detail-head h2{
+    font-family:var(--font-display); font-size:1.5rem; margin:2px 0 3px;
+    letter-spacing:0.01em;
+  }
+  .detail-head .sub{font-family:var(--font-display); font-style:italic; color:var(--ink-soft); font-size:0.92rem;}
+
+  .card-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(230px,1fr));
+    gap:16px;
+  }
+
+  .word-card{
+    position:relative;
+    background:var(--bg-panel-raised);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:16px 18px 14px 28px;
+    box-shadow:var(--shadow);
+    transition:box-shadow 0.16s, transform 0.16s, border-color 0.5s;
+  }
+  .word-card.flash{
+    border-color:var(--ochre);
+    animation:flashcard 1.7s ease;
+  }
+  @keyframes flashcard{
+    0%{box-shadow:0 0 0 3px var(--ochre), var(--shadow);}
+    100%{box-shadow:var(--shadow);}
+  }
+  .word-card::before, .word-card::after{
+    content:""; position:absolute; left:9px; width:7px; height:7px; border-radius:50%;
+    background:var(--bg); box-shadow:inset 0 0 0 1px var(--line);
+  }
+  .word-card::before{top:16px;}
+  .word-card::after{bottom:16px;}
+  .word-code{
+    font-family:var(--font-mono); font-size:0.65rem; letter-spacing:0.05em;
+    color:var(--moss); text-transform:uppercase; display:block; margin-bottom:4px;
+  }
+  .word-term{
+    font-family:var(--font-display); font-size:1.32rem; font-weight:700;
+    margin:0 0 6px; color:var(--ink);
+  }
+  .word-def{
+    font-size:0.86rem; line-height:1.48; color:var(--ink-soft); margin:0 0 10px;
+  }
+  .word-example{
+    font-family:var(--font-display); font-style:italic; font-size:0.85rem;
+    color:var(--ink-soft);
+    border-left:2px solid var(--ochre);
+    padding-left:10px; margin:0 0 12px;
+  }
+  .card-foot{display:flex; justify-content:flex-end;}
+  .copy-btn{
+    display:flex; align-items:center; gap:5px;
+    border:1px solid var(--line); background:var(--bg-panel);
+    border-radius:14px; padding:5px 11px 5px 9px;
+    font-size:0.72rem; color:var(--ink-soft);
+    transition:background 0.15s, color 0.15s, border-color 0.15s;
+  }
+  .copy-btn svg{width:12px; height:12px;}
+  .copy-btn:hover{background:var(--moss); color:var(--bg-panel-raised); border-color:var(--moss);}
+
+  .placeholder{
+    display:flex; flex-direction:column; align-items:flex-start; gap:6px;
+    padding:40px 4px; max-width:420px;
+  }
+  .placeholder .big{font-family:var(--font-display); font-size:1.2rem;}
+  .placeholder p{font-size:0.86rem; color:var(--ink-soft); line-height:1.5; margin:0;}
+
+  /* ---------- footer note ---------- */
+  footer{
+    flex:0 0 auto;
+    padding:6px 20px;
+    border-top:1px solid var(--line);
+    background:var(--bg-panel);
+    font-family:var(--font-mono);
+    font-size:0.62rem;
+    color:var(--ink-faint);
+    letter-spacing:0.03em;
+    display:flex; justify-content:space-between;
+  }
+
+  /* ---------- mobile ---------- */
+  @media (max-width:880px){
+    .miller{flex:1 1 auto; max-width:none; min-width:0; border-right:none;}
+    .col-roots, .col-clusters, .col-subs{flex:1 1 100%; display:none;}
+    .detail{display:none; flex:1 1 auto; padding:16px 16px 60px;}
+    main{position:relative;}
+    .crumb-bar{display:flex;}
+    body[data-screen="roots"] .col-roots{display:block;}
+    body[data-screen="clusters"] .col-clusters{display:block;}
+    body[data-screen="subs"] .col-subs{display:block;}
+    body[data-screen="words"] .detail{display:block;}
+    .brand .tagline{display:none;}
+    .card-grid{grid-template-columns:1fr;}
+  }
+  @media (min-width:881px){
+    .crumb-bar{display:none !important;}
+  }
+</style>
+</head>
+<body data-screen="roots">
+
+<header>
+  <div class="brand">
+    <h1>Nuance</h1>
+    <span class="tagline">the adjective navigator</span>
+  </div>
+  <div class="search-wrap">
+    <div class="search-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.2" y2="16.2"/></svg>
+      <input id="searchInput" type="text" placeholder="Search a word, feeling, or shade of meaning…" autocomplete="off" aria-label="Search adjectives">
+      <button class="clear-btn" id="clearSearch" aria-label="Clear search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="search-results" id="searchResults"></div>
+  </div>
+  <div class="header-actions">
+    <button class="icon-btn" id="randomBtn" title="Word of the moment" aria-label="Show a random word">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>
+    </button>
+    <button class="icon-btn" id="themeBtn" title="Toggle theme" aria-label="Toggle dark mode">
+      <svg id="themeIconSun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4.2"/><line x1="12" y1="19.8" x2="12" y2="22"/><line x1="4.2" y1="4.2" x2="5.7" y2="5.7"/><line x1="18.3" y1="18.3" x2="19.8" y2="19.8"/><line x1="2" y1="12" x2="4.2" y2="12"/><line x1="19.8" y1="12" x2="22" y2="12"/><line x1="4.2" y1="19.8" x2="5.7" y2="18.3"/><line x1="18.3" y1="5.7" x2="19.8" y2="4.2"/></svg>
+      <svg id="themeIconMoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M21 12.6A9 9 0 1 1 11.4 3a7 7 0 0 0 9.6 9.6z"/></svg>
+    </button>
+  </div>
+</header>
+
+<div class="crumb-bar" id="crumbBar"></div>
+
+<main>
+  <div class="miller">
+    <div class="col col-roots" id="colRoots"></div>
+    <div class="col col-clusters" id="colClusters"></div>
+    <div class="col col-subs" id="colSubs"></div>
+  </div>
+  <div class="detail" id="detail"></div>
+</main>
+
+<footer>
+  <span id="footStatus">162 words · 9 roots</span>
+  <span>runs entirely offline, on this device</span>
+</footer>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+"use strict";
+
+/* =====================================================
+   DATA — 9 root concepts, each broken into clusters of
+   meaning, each cluster into a nuance, each nuance into
+   a small set of precise words.
+   ===================================================== */
+var DATA = [
+{id:"AM", root:"Amazing / Good", blurb:"For when \u201camazing\u201d or \u201cgood\u201d can\u2019t carry the weight.", clusters:[
+  {name:"Aesthetic & Visual", subs:[
+    {nuance:"Breathtaking & Grand", words:[
+      {t:"Sublime", d:"Of such beauty or grandeur it inspires awe rather than mere admiration.", e:"The glacier's blue crevasses were sublime, silencing the whole group."},
+      {t:"Resplendent", d:"Dazzlingly bright or colorful, especially in a way that signals status.", e:"She arrived resplendent in emerald silk, and every head turned."},
+      {t:"Majestic", d:"Possessing a dignified scale that suggests power as well as beauty.", e:"The cathedral's nave was majestic, built to make visitors feel small."},
+      {t:"Stunning", d:"Strikingly beautiful or impressive, enough to make you pause.", e:"The view from the rooftop was stunning at sunset."}
+    ]},
+    {nuance:"Refined & Flawless", words:[
+      {t:"Exquisite", d:"So finely made or felt that every detail rewards attention.", e:"The chef plated an exquisite dessert, precise down to the last crumb."},
+      {t:"Impeccable", d:"Without a single flaw, especially in taste, conduct, or execution.", e:"His table manners were impeccable, honed by years of formal dinners."},
+      {t:"Pristine", d:"Kept in an original, untouched condition, as if fresh from the maker.", e:"The vintage jacket arrived pristine, with the tags still attached."},
+      {t:"Spot-on", d:"Exactly right, without a single mistake.", e:"Her presentation was spot-on, not one slide out of place."}
+    ]}
+  ]},
+  {name:"Achievement & Milestone", subs:[
+    {nuance:"Triumphant & Stellar", words:[
+      {t:"Phenomenal", d:"Outstandingly remarkable, often defying expectations.", e:"She gave a phenomenal presentation that secured the contract."},
+      {t:"Sensational", d:"Exceptionally good, causing great excitement or interest.", e:"The team pulled off a sensational victory in the final seconds."},
+      {t:"Stellar", d:"Outstandingly good, shining brightly among others.", e:"He has a stellar track record of closing complex deals."},
+      {t:"Triumphant", d:"Marked by a feeling of victory or great success.", e:"It was a triumphant return to the stage after years away."}
+    ]},
+    {nuance:"Deserved & Earned", words:[
+      {t:"Merited", d:"Fully deserved based on one's actions or qualities.", e:"Her promotion was merited, the result of years of dedication."},
+      {t:"Hard-won", d:"Achieved only through great effort or struggle.", e:"It was a hard-won victory after months of grueling negotiations."},
+      {t:"Well-earned", d:"Fully justified by effort or contribution.", e:"Enjoy your well-earned rest this weekend."},
+      {t:"Deserved", d:"Rightly earned or warranted, in plain terms.", e:"He got the recognition he deserved."}
+    ]}
+  ]},
+  {name:"Personal Character", subs:[
+    {nuance:"Exceptional Qualities", words:[
+      {t:"Extraordinary", d:"Beyond what is ordinary, in a highly striking way.", e:"She has an extraordinary ability to connect with people."},
+      {t:"Remarkable", d:"Worthy of attention due to being striking or unusual.", e:"His resilience through the crisis was remarkable."},
+      {t:"Exceptional", d:"Unusually good, standing out from the norm.", e:"He is an exceptional leader who brings out the best in everyone."},
+      {t:"Invaluable", d:"So useful or good that its worth cannot be measured.", e:"Her institutional knowledge makes her invaluable to the team."}
+    ]},
+    {nuance:"Exclamatory Praise", words:[
+      {t:"Brilliant", d:"Outstandingly impressive, often used as pure praise.", e:"You got the promotion? That's brilliant!"},
+      {t:"Fantastic", d:"Extraordinarily good, often used to express delight.", e:"That's fantastic news, I'm so happy for you."},
+      {t:"Wonderful", d:"Inspiring delight or admiration.", e:"It's a wonderful opportunity for your career."},
+      {t:"Fabulous", d:"Exceptionally good, often with a flair of enthusiasm.", e:"She did a fabulous job organizing the event."}
+    ]}
+  ]},
+  {name:"Skill & Craft", subs:[
+    {nuance:"Masterfully Executed", words:[
+      {t:"Masterful", d:"Executed with the complete authority of someone who has fully mastered a craft.", e:"It was a masterful negotiation; she never once raised her voice."},
+      {t:"Virtuosic", d:"Displaying a level of technical skill that borders on performance.", e:"The cellist's virtuosic solo drew a standing ovation mid-concert."},
+      {t:"Consummate", d:"Showing complete, practiced skill in every aspect of a role.", e:"He handled the crisis like a consummate professional, calm and exact."},
+      {t:"Top-notch", d:"Excellent, clearly a cut above the rest.", e:"The mechanic did a top-notch job on the brakes."}
+    ]},
+    {nuance:"Cleverly Conceived", words:[
+      {t:"Ingenious", d:"Cleverly inventive in a way that solves a real problem.", e:"Their ingenious workaround saved the launch three days before deadline."},
+      {t:"Inspired", d:"Showing a spark of creative insight beyond routine competence.", e:"It was an inspired choice of soundtrack for the closing scene."},
+      {t:"Deft", d:"Skillful in a light, economical way that makes difficulty look easy.", e:"She made a deft edit that fixed the plot hole in one line."},
+      {t:"Clever", d:"Quick-witted or resourceful in a way that's easy to notice.", e:"That's a clever fix \u2014 way simpler than what we had."}
+    ]}
+  ]},
+  {name:"Sensory & Taste", subs:[
+    {nuance:"Delicious", words:[
+      {t:"Delectable", d:"So appealing to taste that it demands to be savored slowly.", e:"The bakery's delectable croissants sell out within the hour."},
+      {t:"Ambrosial", d:"Extraordinarily pleasing to taste or smell, evoking something almost divine.", e:"The stew simmered into something ambrosial by nightfall."},
+      {t:"Succulent", d:"Richly juicy and full of flavor, especially in meat or fruit.", e:"The ribs were succulent, falling off the bone with no effort."},
+      {t:"Yummy", d:"Pleasant-tasting, in the simple, everyday sense.", e:"The kids said the pancakes were yummy."}
+    ]},
+    {nuance:"Deeply Satisfying", words:[
+      {t:"Sumptuous", d:"Lavishly rich and pleasurable, often implying expense or abundance.", e:"They served a sumptuous feast to mark the anniversary."},
+      {t:"Divine", d:"So pleasurable it feels beyond ordinary experience.", e:"This coffee is divine \u2014 where did you find the beans?"},
+      {t:"Gratifying", d:"Producing a deep, settled sense of satisfaction.", e:"Finishing the marathon was gratifying after months of early runs."},
+      {t:"Awesome", d:"Genuinely impressive or exciting, in casual everyday use.", e:"That concert was awesome, best one we've been to."}
+    ]}
+  ]}
+]},
+{id:"IN", root:"Interesting", blurb:"For when something deserves more than \u201cinteresting.\u201d", clusters:[
+  {name:"Thought-Provoking", subs:[
+    {nuance:"Intellectually Stimulating", words:[
+      {t:"Intriguing", d:"Arousing curiosity through an element of mystery.", e:"The footnote contained an intriguing detail the author never explained."},
+      {t:"Provocative", d:"Deliberately stirring thought, debate, or strong reaction.", e:"Her provocative essay reopened a debate the department had avoided for years."},
+      {t:"Thought-provoking", d:"Prompting serious reflection rather than passive interest.", e:"It was a thought-provoking documentary; we talked about it for hours."},
+      {t:"Eye-opening", d:"Revealing something surprising enough to shift how you see things.", e:"The documentary was eye-opening about how much food gets wasted."}
+    ]},
+    {nuance:"Unusual & Distinct", words:[
+      {t:"Idiosyncratic", d:"Peculiar in a way specific to one person or thing, not generic.", e:"His idiosyncratic filing system made sense to no one but him."},
+      {t:"Singular", d:"Remarkable precisely because there is nothing else quite like it.", e:"It was a singular performance, unlike any Hamlet we'd seen."},
+      {t:"Curious", d:"Strange enough to invite a second, closer look.", e:"We found a curious inscription carved into the underside of the desk."},
+      {t:"Quirky", d:"Charmingly odd or unconventional.", e:"He has a quirky sense of humor that grows on you."}
+    ]}
+  ]},
+  {name:"Conversationally Engaging", subs:[
+    {nuance:"Sparky & Dynamic", words:[
+      {t:"Scintillating", d:"Sparkling with intelligence and wit.", e:"The dinner party was filled with scintillating conversation."},
+      {t:"Piquant", d:"Engagingly provocative or intriguing.", e:"The article offered a piquant take on modern architecture."},
+      {t:"Lively", d:"Full of energy and active interest.", e:"It was a lively debate, with everyone chiming in."},
+      {t:"Zesty", d:"Having a lively, energetic quality.", e:"She writes with a zesty, engaging voice."}
+    ]}
+  ]},
+  {name:"Engaging & Absorbing", subs:[
+    {nuance:"Hard to Put Down", words:[
+      {t:"Riveting", d:"So gripping that attention is held completely, without effort.", e:"The trial testimony was riveting; nobody checked their phone once."},
+      {t:"Captivating", d:"Holding attention through charm as much as content.", e:"Her captivating storytelling kept the kids still for a full hour."},
+      {t:"Absorbing", d:"Drawing attention in so completely that time seems to pass unnoticed.", e:"The novel was so absorbing I missed my subway stop."},
+      {t:"Hooked", d:"So drawn in that stopping feels impossible.", e:"I was hooked after the first episode."}
+    ]},
+    {nuance:"Compelling", words:[
+      {t:"Compelling", d:"Forceful enough that it demands to be followed or believed.", e:"The prosecutor built a compelling case from circumstantial evidence alone."},
+      {t:"Enthralling", d:"Holding someone in a kind of spell, often through spectacle.", e:"The aerial ballet was enthralling, all silk and impossible angles."},
+      {t:"Fascinating", d:"Exercising a strong, almost magnetic pull on curiosity.", e:"Octopus cognition is a fascinating, still poorly understood field."},
+      {t:"Addictive", d:"So engaging that you keep coming back for more.", e:"The game is addictive; I lost track of time."}
+    ]}
+  ]},
+  {name:"Novel & Original", subs:[
+    {nuance:"Fresh Perspective", words:[
+      {t:"Novel", d:"New in kind, not merely new in time.", e:"The study proposed a novel explanation for the anomaly."},
+      {t:"Original", d:"Traceable to genuine independent thought rather than imitation.", e:"It was refreshingly original for a genre this crowded."},
+      {t:"Unconventional", d:"Departing deliberately from expected form or method.", e:"Her unconventional teaching style split the faculty into two camps."},
+      {t:"Fresh", d:"New and different from what's expected, in a simple everyday sense.", e:"It's a fresh take on a tired genre."}
+    ]},
+    {nuance:"Layered", words:[
+      {t:"Nuanced", d:"Containing fine distinctions that reward careful attention.", e:"His argument was nuanced enough to survive most objections."},
+      {t:"Multifaceted", d:"Composed of several distinct, meaningful angles at once.", e:"The character is multifaceted \u2014 sympathetic, selfish, and funny in turn."},
+      {t:"Textured", d:"Rich with layered detail rather than flat or simple.", e:"The album has a textured sound, dense with hidden instrumentation."},
+      {t:"Deep", d:"Having more meaning or complexity than first appears.", e:"The lyrics feel deep once you actually sit with them."}
+    ]}
+  ]}
+]},
+{id:"BD", root:"Bad / Poor", blurb:"Precision for the many shades of \u201cbad.\u201d", clusters:[
+  {name:"Disappointing & Substandard", subs:[
+    {nuance:"Below Standard", words:[
+      {t:"Substandard", d:"Falling short of an expected, often minimum, level of quality.", e:"The contractor used substandard wiring that failed inspection twice."},
+      {t:"Mediocre", d:"Neither good nor bad, but disappointingly average given expectations.", e:"The sequel was mediocre, coasting on the first film's goodwill."},
+      {t:"Shoddy", d:"Poorly made, often carelessly or cheaply so.", e:"The shelf collapsed within a week \u2014 shoddy construction throughout."},
+      {t:"Crappy", d:"Poor in quality, in blunt everyday language.", e:"The wifi in this hotel is crappy."}
+    ]},
+    {nuance:"Deeply Disappointing", words:[
+      {t:"Dismal", d:"So poor it induces a feeling of gloom.", e:"Turnout at the meeting was dismal, barely a dozen people."},
+      {t:"Abysmal", d:"Extremely bad, at the very bottom of any reasonable scale.", e:"Customer service was abysmal; we waited three hours for a callback."},
+      {t:"Deplorable", d:"Bad enough to deserve open disapproval or regret.", e:"Conditions in the warehouse were deplorable, unsafe by any standard."},
+      {t:"Terrible", d:"Very bad, in plain everyday language.", e:"The service was terrible; we waited an hour."}
+    ]}
+  ]},
+  {name:"Interpersonal & Behavior", subs:[
+    {nuance:"Unkind & Mean", words:[
+      {t:"Callous", d:"Insensitive and unsympathetic to others.", e:"His callous remark about the layoffs upset the whole room."},
+      {t:"Spiteful", d:"Showing a petty desire to hurt or annoy.", e:"It was a spiteful move to leave her off the email."},
+      {t:"Vicious", d:"Deliberately cruel or violent.", e:"The tabloids launched a vicious attack on her character."},
+      {t:"Mean", d:"Unkind or unfair, in everyday speech.", e:"That was a mean thing to say to your brother."}
+    ]},
+    {nuance:"Difficult to Deal With", words:[
+      {t:"Obnoxious", d:"Extremely unpleasant, often in a loud or intrusive way.", e:"The customer became obnoxious when his order was delayed."},
+      {t:"Insufferable", d:"Too extreme to tolerate.", e:"Her insufferable arrogance alienated her coworkers."},
+      {t:"Toxic", d:"Causing harmful stress or negativity over time.", e:"He finally quit a toxic work environment."},
+      {t:"Pesky", d:"Annoying in a persistent, often minor, way.", e:"We couldn't get rid of the pesky popup ads."}
+    ]}
+  ]},
+  {name:"Harmful & Malicious", subs:[
+    {nuance:"Damaging", words:[
+      {t:"Detrimental", d:"Causing harm, especially gradual or cumulative harm.", e:"Skipping sleep for a week proved detrimental to her focus."},
+      {t:"Pernicious", d:"Harmful in a slow, insidious way that's easy to miss.", e:"The rumor had a pernicious effect on team trust."},
+      {t:"Corrosive", d:"Wearing away something valuable, like trust or morale, over time.", e:"His sarcasm had a corrosive effect on the whole meeting."},
+      {t:"Harmful", d:"Causing damage, especially to health or wellbeing.", e:"Too much screen time before bed is harmful to sleep."}
+    ]},
+    {nuance:"Malicious", words:[
+      {t:"Malevolent", d:"Wishing harm on others, with clear ill intent.", e:"The villain's malevolent smile gave the plan away early."},
+      {t:"Vindictive", d:"Motivated by a desire to punish or get revenge.", e:"The review felt vindictive, unrelated to the actual product."},
+      {t:"Nefarious", d:"Wicked in a scheming, often criminal, way.", e:"Investigators uncovered a nefarious scheme to skim the accounts."},
+      {t:"Nasty", d:"Unpleasant or mean-spirited, in everyday terms.", e:"He left a nasty comment under the post."}
+    ]}
+  ]},
+  {name:"Ugly & Unpleasant", subs:[
+    {nuance:"Visually Unpleasant", words:[
+      {t:"Grotesque", d:"Distorted or exaggerated to the point of unsettling.", e:"The gargoyles were grotesque, deliberately so, to ward off evil."},
+      {t:"Hideous", d:"Extremely unattractive, often startlingly so.", e:"The renovation left a hideous extension bolted to a lovely old house."},
+      {t:"Garish", d:"Unpleasantly bright or overdone, lacking taste.", e:"The lobby's garish carpet clashed with everything around it."},
+      {t:"Ugly", d:"Unattractive to look at, in plain terms.", e:"The new logo is honestly pretty ugly."}
+    ]},
+    {nuance:"Morally Repellent", words:[
+      {t:"Abhorrent", d:"Inspiring disgust so strong it's hard to look at directly.", e:"The historical account described practices abhorrent by any era's standards."},
+      {t:"Repugnant", d:"Offensive enough to provoke active repulsion.", e:"She found the compromise morally repugnant and refused to sign."},
+      {t:"Odious", d:"Deeply hateful, deserving active dislike.", e:"His odious remarks ended the interview early."},
+      {t:"Gross", d:"Morally or physically disgusting, in casual speech.", e:"What he did to his business partner was just gross."}
+    ]}
+  ]}
+]},
+{id:"HD", root:"Hard / Difficult", blurb:"Beyond \u201chard\u201d \u2014 real degrees of difficulty and effort.", clusters:[
+  {name:"Mentally Taxing", subs:[
+    {nuance:"Complex", words:[
+      {t:"Convoluted", d:"Needlessly complicated in structure, making it hard to follow.", e:"The plot grew convoluted by the third act, with too many twists."},
+      {t:"Intricate", d:"Made of many finely interconnected parts, but not necessarily unclear.", e:"The watch's intricate mechanism took the jeweler an hour to explain."},
+      {t:"Byzantine", d:"Complicated in a way that suggests hidden, arbitrary rules.", e:"The visa process was byzantine, with forms that referenced other forms."},
+      {t:"Confusing", d:"Hard to make sense of.", e:"The instructions were confusing, so we just winged it."}
+    ]},
+    {nuance:"Puzzling", words:[
+      {t:"Perplexing", d:"Confusing enough to leave someone genuinely stuck.", e:"The error message was perplexing; nobody on the team recognized it."},
+      {t:"Baffling", d:"Defying explanation in a way that stops understanding cold.", e:"It was baffling how the package arrived a week early."},
+      {t:"Cryptic", d:"Deliberately or effectively obscure in meaning.", e:"The clue was cryptic, more riddle than instruction."},
+      {t:"Weird", d:"Odd enough to be hard to explain.", e:"It's weird that the numbers don't match up."}
+    ]}
+  ]},
+  {name:"Physically Tough", subs:[
+    {nuance:"Exhausting Effort", words:[
+      {t:"Arduous", d:"Requiring sustained, strenuous effort over a long stretch.", e:"The final ascent was arduous, three hours of loose scree."},
+      {t:"Grueling", d:"Physically punishing to the point of testing endurance.", e:"The recruits finished a grueling twelve-mile march before dawn."},
+      {t:"Taxing", d:"Draining, in a way that wears down reserves of energy.", e:"The double shift was taxing on even the most experienced nurses."},
+      {t:"Tiring", d:"Making you feel worn out, physically or mentally.", e:"Moving apartments alone was tiring."}
+    ]},
+    {nuance:"Unyielding", words:[
+      {t:"Formidable", d:"Impressive enough in difficulty or strength to inspire real respect.", e:"The opposing team was formidable, undefeated all season."},
+      {t:"Punishing", d:"Harsh enough to feel almost deliberately cruel.", e:"The training schedule was punishing, six sessions a week."},
+      {t:"Relentless", d:"Continuing without pause or mercy.", e:"The rain was relentless for the entire three-day hike."},
+      {t:"Tough", d:"Difficult to deal with or get through, plainly put.", e:"It's been a tough week at work."}
+    ]}
+  ]},
+  {name:"Emotional & Relational", subs:[
+    {nuance:"Delicate & Awkward", words:[
+      {t:"Fraught", d:"Causing anxiety due to underlying tension.", e:"The meeting was fraught with unspoken conflict."},
+      {t:"Awkward", d:"Requiring tact because it is uncomfortable to navigate.", e:"It was an awkward conversation about their failing marriage."},
+      {t:"Sensitive", d:"Likely to cause offense or upset if mishandled.", e:"Salary discussions are a sensitive topic."},
+      {t:"Touchy", d:"Easily offended or upset.", e:"He's a bit touchy about his recent performance review."}
+    ]},
+    {nuance:"Emotionally Heavy", words:[
+      {t:"Onerous", d:"Involving an oppressive burden that weighs on the mind.", e:"The decision to put her father in a home felt onerous."},
+      {t:"Anguishing", d:"Causing severe emotional distress.", e:"Waiting for the biopsy results was an anguishing week."},
+      {t:"Burdening", d:"Placing a heavy emotional load on someone.", e:"Keeping the secret felt like a burdening responsibility."},
+      {t:"Heavy", d:"Weighing on one's emotions, plainly put.", e:"It's been a heavy day, emotionally."}
+    ]}
+  ]},
+  {name:"Resistant to Solution", subs:[
+    {nuance:"Stubborn Problems", words:[
+      {t:"Intractable", d:"Resistant to being managed, solved, or controlled.", e:"Inflation proved intractable despite three rounds of rate hikes."},
+      {t:"Obstinate", d:"Stubbornly resistant, often applied to people or attitudes.", e:"The old printer was obstinate, jamming on every third page."},
+      {t:"Knotty", d:"Tangled enough that a clean solution isn't obvious.", e:"It's a knotty legal question with no clear precedent."},
+      {t:"Tricky", d:"Awkward or difficult to handle, in a mild everyday way.", e:"Parking downtown is tricky on weekends."}
+    ]},
+    {nuance:"Demanding Precision", words:[
+      {t:"Exacting", d:"Demanding a very high, precise standard.", e:"The client was exacting about font sizes down to the pixel."},
+      {t:"Rigorous", d:"Thorough and strict, leaving little room for error.", e:"The peer review process was rigorous, with three rounds of edits."},
+      {t:"Meticulous", d:"Extremely careful about every small detail.", e:"Meticulous record-keeping caught the discrepancy before it became a problem."},
+      {t:"Picky", d:"Fussy about small details.", e:"The client is picky about spacing and colors."}
+    ]}
+  ]}
+]},
+{id:"BR", root:"Boring / Plain", blurb:"Sharper words than \u201cboring\u201d for the unremarkable.", clusters:[
+  {name:"Lacking Energy", subs:[
+    {nuance:"Dull", words:[
+      {t:"Tedious", d:"Long and repetitive enough to feel like a chore.", e:"The onboarding video was tedious, twenty minutes for five minutes of content."},
+      {t:"Monotonous", d:"Unvaryingly repetitive in tone or rhythm.", e:"The lecturer's monotonous delivery put half the room to sleep."},
+      {t:"Dreary", d:"Gloomy and lifeless, often paired with weather or mood.", e:"It was a dreary commute, grey skies the whole way."},
+      {t:"Dry", d:"Lacking any liveliness or humor.", e:"The lecture was dry, just slides read aloud."}
+    ]},
+    {nuance:"Uninspired", words:[
+      {t:"Humdrum", d:"Ordinary to the point of being forgettable.", e:"It was a humdrum Tuesday, no different from the last ten."},
+      {t:"Insipid", d:"Lacking any flavor or spark, whether literal or figurative.", e:"The remake was insipid, stripped of the original's edge."},
+      {t:"Vapid", d:"Empty of substance or intelligence.", e:"The speech was vapid, all slogans and no argument."},
+      {t:"Blah", d:"Lacking any real spark or appeal, in casual speech.", e:"The party was kind of blah, nobody really talked."}
+    ]}
+  ]},
+  {name:"Lacking Detail", subs:[
+    {nuance:"Plain", words:[
+      {t:"Austere", d:"Stripped of ornament, sometimes to a severe degree.", e:"The monastery's austere rooms held nothing but a bed and desk."},
+      {t:"Spartan", d:"Simple and undecorated, often by necessity or discipline.", e:"His office was spartan \u2014 a desk, a chair, nothing else."},
+      {t:"Nondescript", d:"So ordinary it leaves no distinguishing impression.", e:"The building was nondescript, easy to walk past without noticing."},
+      {t:"Basic", d:"Simple to the point of being unremarkable.", e:"The hotel room was basic but clean."}
+    ]},
+    {nuance:"Bland", words:[
+      {t:"Bland", d:"Lacking any distinctive flavor, character, or excitement.", e:"The soup was bland, needing salt and something acidic."},
+      {t:"Colorless", d:"Lacking vividness or personality, figuratively speaking.", e:"His prose was colorless, technically correct but forgettable."},
+      {t:"Flat", d:"Lacking energy or lift, as if deflated.", e:"The joke fell flat in front of a quiet room."},
+      {t:"Meh", d:"Unremarkable, provoking no real reaction either way.", e:"The movie was meh, forgettable by the next day."}
+    ]}
+  ]},
+  {name:"Overused", subs:[
+    {nuance:"Clich\u00e9d", words:[
+      {t:"Hackneyed", d:"Worn out from overuse to the point of losing meaning.", e:"The metaphor was hackneyed, one you've read a hundred times."},
+      {t:"Trite", d:"Overused enough to feel insincere or lazy.", e:"The ending felt trite, tying every thread too neatly."},
+      {t:"Stale", d:"No longer fresh, having lost its original impact.", e:"The joke was stale by the third time he told it."},
+      {t:"Cheesy", d:"Corny or overly sentimental in a familiar way.", e:"The ending was a bit cheesy, but sweet."}
+    ]},
+    {nuance:"Predictable", words:[
+      {t:"Formulaic", d:"Following a set pattern with little variation or surprise.", e:"The movie was formulaic, hitting every beat you'd expect."},
+      {t:"Derivative", d:"Closely imitating existing work without adding much new.", e:"The band's early work was derivative, clearly indebted to their heroes."},
+      {t:"Predictable", d:"Easy to foresee, offering no real surprise.", e:"The plot twist was predictable from the first act."},
+      {t:"Same-old", d:"Repeating a familiar pattern with nothing new to offer.", e:"It's the same-old plot with a new cast."}
+    ]}
+  ]}
+]},
+{id:"HP", root:"Happy / Joyful", blurb:"The many registers of being \u201chappy.\u201d", clusters:[
+  {name:"High Energy", subs:[
+    {nuance:"Elated", words:[
+      {t:"Jubilant", d:"Openly, loudly joyful, often after a win or relief.", e:"The team was jubilant after clinching the final match."},
+      {t:"Ecstatic", d:"Overwhelmed with intense joy, almost beyond control.", e:"She was ecstatic when the acceptance letter arrived."},
+      {t:"Elated", d:"Lifted into a strong, buoyant state of happiness.", e:"He was elated by the surprise promotion."},
+      {t:"Pumped", d:"Excited and full of energy about something.", e:"She was pumped after acing the interview."}
+    ]},
+    {nuance:"Exuberant", words:[
+      {t:"Exuberant", d:"Full of unrestrained enthusiasm and energy.", e:"The puppy greeted every visitor with exuberant joy."},
+      {t:"Buoyant", d:"Lightly, resiliently cheerful, as if unburdened.", e:"Her buoyant mood lifted the whole office that morning."},
+      {t:"Effervescent", d:"Bubbling with lively, infectious enthusiasm.", e:"His effervescent personality made even meetings feel fun."},
+      {t:"Hyper", d:"Full of restless, high energy.", e:"The kids got hyper after the birthday cake."}
+    ]}
+  ]},
+  {name:"Deep Satisfaction", subs:[
+    {nuance:"Content", words:[
+      {t:"Content", d:"Settled into a quiet, sufficient satisfaction.", e:"After the move, they finally felt content in the new house."},
+      {t:"Fulfilled", d:"Satisfied at a deep, purpose-related level.", e:"Teaching left her fulfilled in a way the old job never did."},
+      {t:"Gratified", d:"Pleased in a way that feels earned or deserved.", e:"He felt gratified seeing his student succeed."},
+      {t:"Chill", d:"Calm and easygoing, at ease with how things are.", e:"He's pretty chill about the delay."}
+    ]},
+    {nuance:"Serene", words:[
+      {t:"Serene", d:"Calm and untroubled \u2014 a peaceful kind of happiness.", e:"The lake was serene at dawn, not a ripple in sight."},
+      {t:"Blissful", d:"Deeply, almost dreamily happy.", e:"They spent a blissful week with no phones and no plans."},
+      {t:"Tranquil", d:"Peaceful and free from disturbance.", e:"The garden was tranquil, just birdsong and rustling leaves."},
+      {t:"Peaceful", d:"Calm and undisturbed, in everyday terms.", e:"It was a peaceful morning by the lake."}
+    ]}
+  ]},
+  {name:"Relief & Warmth", subs:[
+    {nuance:"Relieved", words:[
+      {t:"Relieved", d:"Freed from anxiety or a burden that had been weighing.", e:"She was relieved when the test results came back clear."},
+      {t:"Reassured", d:"Restored to confidence after doubt.", e:"The pilot's calm voice reassured the nervous passengers."},
+      {t:"Unburdened", d:"Freed of a weight or worry that had been carried a long time.", e:"Confessing the mistake left him unburdened."},
+      {t:"Glad", d:"Pleased about something, simply and plainly.", e:"I'm glad that's finally sorted out."}
+    ]},
+    {nuance:"Warm", words:[
+      {t:"Heartwarming", d:"Producing a gentle, affectionate kind of happiness.", e:"The reunion video was heartwarming, shared across the whole office."},
+      {t:"Cheerful", d:"Consistently bright and good-humored in disposition.", e:"The barista's cheerful greeting started the morning right."},
+      {t:"Radiant", d:"Glowing with visible happiness, often literally in expression.", e:"She looked radiant on the wedding day."},
+      {t:"Sweet", d:"Warm and likable in a simple, endearing way.", e:"It was a sweet gesture, bringing coffee for everyone."}
+    ]}
+  ]}
+]},
+{id:"SD", root:"Sad / Upset", blurb:"Words that sit closer to what \u201csad\u201d actually feels like.", clusters:[
+  {name:"Melancholy", subs:[
+    {nuance:"Sorrowful", words:[
+      {t:"Melancholy", d:"Touched with a wistful, reflective sadness.", e:"The old photographs left her in a melancholy mood."},
+      {t:"Wistful", d:"Sad in a soft, longing way, often for the past.", e:"He gave a wistful smile at the mention of his hometown."},
+      {t:"Somber", d:"Serious and heavy with sadness.", e:"The mood at the funeral was somber and quiet."},
+      {t:"Down", d:"Feeling low or unhappy, in everyday language.", e:"She's been a bit down since the move."}
+    ]},
+    {nuance:"Deep Sorrow", words:[
+      {t:"Despondent", d:"Sunk into a hopeless kind of sadness.", e:"He grew despondent after the third rejection letter."},
+      {t:"Forlorn", d:"Sad and abandoned-looking, often alone.", e:"The dog looked forlorn, waiting by the door for hours."},
+      {t:"Woeful", d:"Marked by grief or misfortune.", e:"The team's woeful season ended without a single win."},
+      {t:"Heartbroken", d:"Overwhelmed with grief or loss, plainly put.", e:"He was heartbroken when the trip got cancelled."}
+    ]}
+  ]},
+  {name:"Anger & Frustration", subs:[
+    {nuance:"Irritated", words:[
+      {t:"Exasperated", d:"Worn down to frustration by repeated annoyance.", e:"She was exasperated after the third dropped call of the day."},
+      {t:"Irate", d:"Sharply angry, often over a specific grievance.", e:"Irate customers flooded the support line after the outage."},
+      {t:"Indignant", d:"Angry over something felt to be unfair or unjust.", e:"He was indignant at being blamed for someone else's mistake."},
+      {t:"Annoyed", d:"Mildly angered by something bothersome.", e:"I'm annoyed the meeting got moved again."}
+    ]},
+    {nuance:"Furious", words:[
+      {t:"Incensed", d:"Made deeply, visibly angry.", e:"Residents were incensed when the park was sold to developers."},
+      {t:"Apoplectic", d:"Enraged to the point of losing composure entirely.", e:"He was apoplectic when he saw the parking ticket."},
+      {t:"Livid", d:"Furious to an intense, often silent degree.", e:"She was livid when she found out about the leak."},
+      {t:"Fuming", d:"Silently or visibly very angry.", e:"She was fuming after the flight got cancelled twice."}
+    ]}
+  ]},
+  {name:"Despair & Grief", subs:[
+    {nuance:"Despairing", words:[
+      {t:"Inconsolable", d:"So grief-stricken that comfort has no effect.", e:"She was inconsolable after hearing the news."},
+      {t:"Desolate", d:"Empty and bleak with sorrow or loss.", e:"The empty house felt desolate after they moved out."},
+      {t:"Anguished", d:"In acute mental or emotional pain.", e:"His anguished letter revealed years of unspoken regret."},
+      {t:"Devastated", d:"Overwhelmed with shock and sadness.", e:"He was devastated by the news."}
+    ]},
+    {nuance:"Regretful", words:[
+      {t:"Remorseful", d:"Deeply sorry for a wrong committed.", e:"He was remorseful and apologized to the whole team."},
+      {t:"Rueful", d:"Sorry in a wry, self-aware way.", e:"She gave a rueful laugh at her own mistake."},
+      {t:"Contrite", d:"Genuinely repentant, seeking to make amends.", e:"His contrite apology finally repaired the friendship."},
+      {t:"Sorry", d:"Feeling regret, in the plainest possible way.", e:"I'm really sorry I missed your call."}
+    ]}
+  ]}
+]},
+{id:"BG", root:"Big / Large", blurb:"Real scale, beyond just \u201cbig.\u201d", clusters:[
+  {name:"Physical Size", subs:[
+    {nuance:"Enormous", words:[
+      {t:"Colossal", d:"Immense in scale, often to a startling degree.", e:"The colossal statue took ten years to carve."},
+      {t:"Massive", d:"Very large and heavy in a way that impresses.", e:"A massive oak stood at the center of the property."},
+      {t:"Gargantuan", d:"Absurdly, almost comically huge.", e:"They served a gargantuan burger no one could finish."},
+      {t:"Giant", d:"Big, in a simple everyday way that emphasizes scale.", e:"They ordered a giant pizza for the party."}
+    ]},
+    {nuance:"Vast", words:[
+      {t:"Vast", d:"Extending over an enormous area or scope.", e:"The vast desert stretched to the horizon in every direction."},
+      {t:"Immense", d:"So large it's hard to fully take in.", e:"The library's immense collection took days to catalog."},
+      {t:"Sprawling", d:"Spread out over a wide, often irregular area.", e:"The sprawling campus took twenty minutes to cross on foot."},
+      {t:"Huge", d:"Very big, in plain everyday language.", e:"The backyard is huge, way bigger than we expected."}
+    ]}
+  ]},
+  {name:"Importance & Scope", subs:[
+    {nuance:"Momentous", words:[
+      {t:"Monumental", d:"So significant it marks a turning point.", e:"It was a monumental decision that reshaped the company."},
+      {t:"Momentous", d:"Of major, lasting importance.", e:"The signing was a momentous occasion for both nations."},
+      {t:"Landmark", d:"Serving as a defining reference point going forward.", e:"The ruling was a landmark case in privacy law."},
+      {t:"Major", d:"Important enough to matter a lot, in everyday terms.", e:"That's a major decision, don't rush it."}
+    ]},
+    {nuance:"Extensive", words:[
+      {t:"Sweeping", d:"Covering a broad scope in one decisive stroke.", e:"The sweeping reforms touched every department in the ministry."},
+      {t:"Comprehensive", d:"Thorough enough to cover all relevant parts.", e:"The report was comprehensive, running to three hundred pages."},
+      {t:"Far-reaching", d:"Having effects that extend well beyond the immediate area.", e:"The policy had far-reaching consequences for small businesses."},
+      {t:"Thorough", d:"Careful to cover everything, leaving nothing out.", e:"He did a thorough job cleaning the garage."}
+    ]}
+  ]},
+  {name:"Quantity", subs:[
+    {nuance:"Abundant", words:[
+      {t:"Voluminous", d:"Very great in volume or quantity.", e:"She kept voluminous notes from every meeting."},
+      {t:"Copious", d:"Abundant, in generous supply.", e:"He took copious notes throughout the lecture."},
+      {t:"Prolific", d:"Producing a large output, especially of creative work.", e:"The prolific author published twelve novels in a decade."},
+      {t:"Generous", d:"More than enough, given freely.", e:"They gave a generous helping of fries."}
+    ]},
+    {nuance:"Plentiful", words:[
+      {t:"Bountiful", d:"Generously abundant, often of something good.", e:"The harvest was bountiful this year."},
+      {t:"Ample", d:"More than sufficient for the purpose.", e:"There was ample time to prepare before the flight."},
+      {t:"Substantial", d:"Large enough to be significant, not merely present.", e:"They made a substantial investment in the new factory."},
+      {t:"Loaded", d:"Having a large amount of something, in casual speech.", e:"The buffet was loaded with options."}
+    ]}
+  ]}
+]},
+{id:"SM", root:"Small / Tiny", blurb:"Precision for the many sizes of \u201csmall.\u201d", clusters:[
+  {name:"Physical Size", subs:[
+    {nuance:"Minuscule", words:[
+      {t:"Minuscule", d:"Extremely small, almost too small to notice.", e:"The chip contains a minuscule but powerful processor."},
+      {t:"Microscopic", d:"So small it requires magnification to see clearly.", e:"A microscopic crack caused the entire seal to fail."},
+      {t:"Diminutive", d:"Small in stature, often notably so.", e:"The diminutive car was perfect for narrow city streets."},
+      {t:"Teeny", d:"Very small, in casual, almost childlike language.", e:"There's a teeny gap under the door."}
+    ]},
+    {nuance:"Compact", words:[
+      {t:"Compact", d:"Small and efficiently arranged, taking up little space.", e:"The apartment was compact but cleverly designed."},
+      {t:"Petite", d:"Small and delicately proportioned, usually of a person or object.", e:"She ordered the petite size, plenty for one."},
+      {t:"Modest", d:"Small in size, without being cramped.", e:"They live in a modest two-bedroom house."},
+      {t:"Snug", d:"Small and close-fitting, in a cozy way.", e:"The cabin was snug but had everything we needed."}
+    ]}
+  ]},
+  {name:"Importance", subs:[
+    {nuance:"Trivial", words:[
+      {t:"Trivial", d:"Of little real importance or consequence.", e:"The disagreement was trivial, forgotten within the hour."},
+      {t:"Inconsequential", d:"Having no meaningful effect on the outcome.", e:"The typo was inconsequential; no one even noticed."},
+      {t:"Negligible", d:"So small it can reasonably be ignored.", e:"The price increase was negligible, a few cents per unit."},
+      {t:"Little", d:"Small in a way that barely matters.", e:"It's just a little thing, don't worry about it."}
+    ]},
+    {nuance:"Minor", words:[
+      {t:"Marginal", d:"At the edge of significance, barely counting.", e:"The improvement was marginal, not worth the extra cost."},
+      {t:"Nominal", d:"Small enough to be symbolic rather than substantial.", e:"They charged a nominal fee just to cover printing."},
+      {t:"Slight", d:"Small in degree, easy to overlook.", e:"There was a slight delay before the show began."},
+      {t:"Petty", d:"Small and unimportant, sometimes said dismissively.", e:"It was a petty complaint, easily resolved."}
+    ]}
+  ]},
+  {name:"Amount", subs:[
+    {nuance:"Scant", words:[
+      {t:"Scant", d:"Barely enough, falling just short of sufficient.", e:"They had scant evidence to support the claim."},
+      {t:"Meager", d:"Small in a way that feels insufficient or lacking.", e:"The meager harvest barely lasted the winter."},
+      {t:"Sparse", d:"Thinly distributed, with large gaps.", e:"Attendance was sparse for the midweek show."},
+      {t:"Low", d:"Below what's expected or needed, in plain terms.", e:"Supplies are running low."}
+    ]},
+    {nuance:"Limited", words:[
+      {t:"Limited", d:"Restricted in scope, quantity, or duration.", e:"The offer is available in limited quantities only."},
+      {t:"Restrained", d:"Deliberately kept small or controlled.", e:"They kept a restrained budget for the pilot project."},
+      {t:"Token", d:"Small enough to be merely symbolic of a larger gesture.", e:"He made a token effort to help before giving up."},
+      {t:"Bare-bones", d:"Reduced to only the essentials, nothing extra.", e:"The plan is bare-bones, just the core features."}
+    ]}
+  ]}
+]}
+];
+
+/* =====================================================
+   SYNONYM / TRIGGER MAP
+   Everyday and mid-register words people actually type
+   ("awesome", "huge", "annoyed"...) mapped to the root
+   whose whole cluster of curated words answers that
+   search, even though the trigger word itself never
+   appears in the data. Keeps a search from ever going
+   to "no matches" for a common adjective.
+   ===================================================== */
+var ROOT_TRIGGERS = {
+  AM: ["awesome","amazing","great","good","fantastic","wonderful","excellent","superb","terrific","incredible","fabulous","marvelous","marvellous","stellar","outstanding","phenomenal","first-rate","first class","brilliant","cool","nice","top-notch","glorious","splendid","magnificent","perfect","superior","world-class","impressive"],
+  IN: ["interesting","cool","neat","engaging","fun","intriguing","fascinating","stimulating","gripping","catchy","compelling","novel","noteworthy","remarkable","eye-catching"],
+  BD: ["bad","terrible","awful","horrible","poor","crappy","lousy","rubbish","garbage","trash","subpar","sub-par","inferior","disappointing","atrocious","dreadful","lame","sucky","crummy","rotten","appalling","unsatisfactory","second-rate","abysmal","wretched"],
+  HD: ["hard","difficult","tough","challenging","demanding","tricky","complicated","complex","strenuous","laborious","brutal","gnarly","rough"],
+  BR: ["boring","dull","plain","bland","tedious","meh","uninteresting","monotonous","lame","flat","stale","unexciting","drab","tiresome","stodgy","vanilla"],
+  HP: ["happy","joyful","glad","pleased","delighted","cheerful","thrilled","upbeat","content","satisfied","chipper","merry","gleeful","stoked","overjoyed","chuffed"],
+  SD: ["sad","upset","unhappy","angry","mad","furious","annoyed","frustrated","down","blue","gloomy","irritated","miserable","heartbroken","grumpy","cross","bummed","distressed","disheartened"],
+  BG: ["big","large","huge","giant","enormous","gigantic","humongous","massive","vast","colossal","tremendous","hefty","sizable","sizeable","whopping"],
+  SM: ["small","tiny","little","mini","teeny","petite","miniature","itty-bitty","microscopic","compact","puny","pint-sized","minute"]
+};
+
+/* =====================================================
+   STATE
+   ===================================================== */
+var state = { root:0, cluster:0, sub:0 };
+
+/* =====================================================
+   ELEMENTS
+   ===================================================== */
+var colRoots = document.getElementById('colRoots');
+var colClusters = document.getElementById('colClusters');
+var colSubs = document.getElementById('colSubs');
+var detailEl = document.getElementById('detail');
+var crumbBar = document.getElementById('crumbBar');
+var toastEl = document.getElementById('toast');
+var searchInput = document.getElementById('searchInput');
+var searchResultsEl = document.getElementById('searchResults');
+var clearSearchBtn = document.getElementById('clearSearch');
+
+/* =====================================================
+   HELPERS
+   ===================================================== */
+function pad2(n){ return n < 10 ? '0'+n : ''+n; }
+
+function totalWords(){
+  var c = 0;
+  DATA.forEach(function(r){
+    r.clusters.forEach(function(cl){
+      cl.subs.forEach(function(s){ c += s.words.length; });
+    });
+  });
+  return c;
+}
+
+function wordCode(rootId, clusterIdx, wordGlobalIdx){
+  return rootId + '-' + (clusterIdx+1) + '.' + pad2(wordGlobalIdx+1);
+}
+
+function escapeHtml(str){
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function svgChevron(){
+  return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>';
+}
+function svgBack(){
+  return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>';
+}
+function svgCopy(){
+  return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="1.5"/><path d="M5 15V5a1.5 1.5 0 0 1 1.5-1.5H15"/></svg>';
+}
+
+/* =====================================================
+   RENDER: columns
+   ===================================================== */
+function renderRoots(){
+  var html = '<div class="col-head">Roots</div>';
+  DATA.forEach(function(r, i){
+    html += '<button class="root-item'+(i===state.root?' active':'')+'" data-i="'+i+'">'+
+      '<span class="code">'+r.id+'</span><span class="label">'+r.root+'</span>'+
+    '</button>';
+  });
+  colRoots.innerHTML = html;
+  Array.prototype.forEach.call(colRoots.querySelectorAll('.root-item'), function(btn){
+    btn.addEventListener('click', function(){
+      state.root = parseInt(btn.getAttribute('data-i'), 10);
+      state.cluster = 0; state.sub = 0;
+      renderAll();
+      goScreen('clusters');
+    });
+  });
+}
+
+function renderClusters(){
+  var root = DATA[state.root];
+  var html = '<div class="col-head">'+escapeHtml(root.root)+'</div>';
+  html += '<div class="col-blurb">'+escapeHtml(root.blurb)+'</div>';
+  root.clusters.forEach(function(cl, i){
+    var wc = cl.subs.reduce(function(a,s){ return a + s.words.length; }, 0);
+    html += '<button class="cluster-item'+(i===state.cluster?' active':'')+'" data-i="'+i+'">'+
+      '<span class="name">'+escapeHtml(cl.name)+'</span><span class="count">'+wc+'</span>'+svgChevron()+
+    '</button>';
+  });
+  colClusters.innerHTML = html;
+  Array.prototype.forEach.call(colClusters.querySelectorAll('.cluster-item'), function(btn){
+    btn.addEventListener('click', function(){
+      state.cluster = parseInt(btn.getAttribute('data-i'), 10);
+      state.sub = 0;
+      renderAll();
+      goScreen('subs');
+    });
+  });
+}
+
+function renderSubs(){
+  var root = DATA[state.root];
+  var cluster = root.clusters[state.cluster];
+  var html = '<div class="col-head">'+escapeHtml(cluster.name)+'</div>';
+  cluster.subs.forEach(function(s, i){
+    html += '<button class="sub-item'+(i===state.sub?' active':'')+'" data-i="'+i+'">'+
+      '<span class="name">'+escapeHtml(s.nuance)+'</span><span class="count">'+s.words.length+'</span>'+svgChevron()+
+    '</button>';
+  });
+  colSubs.innerHTML = html;
+  Array.prototype.forEach.call(colSubs.querySelectorAll('.sub-item'), function(btn){
+    btn.addEventListener('click', function(){
+      state.sub = parseInt(btn.getAttribute('data-i'), 10);
+      renderAll();
+      goScreen('words');
+    });
+  });
+}
+
+function wordGlobalIndexInCluster(cluster, subIdx, wordIdx){
+  var idx = 0;
+  for (var i=0;i<subIdx;i++){ idx += cluster.subs[i].words.length; }
+  return idx + wordIdx;
+}
+
+function wordCardHtml(rootId, clusterIdx, cluster, subIdx, wordIdx){
+  var s = cluster.subs[subIdx];
+  var w = s.words[wordIdx];
+  var gIdx = wordGlobalIndexInCluster(cluster, subIdx, wordIdx);
+  var code = wordCode(rootId, clusterIdx, gIdx);
+  return '<div class="word-card" data-term="'+escapeHtml(w.t)+'" id="card-'+code+'">'+
+    '<span class="word-code">'+code+'</span>'+
+    '<h3 class="word-term">'+escapeHtml(w.t)+'</h3>'+
+    '<p class="word-def">'+escapeHtml(w.d)+'</p>'+
+    '<p class="word-example">\u201c'+escapeHtml(w.e)+'\u201d</p>'+
+    '<div class="card-foot"><button class="copy-btn" data-word="'+escapeHtml(w.t)+'">'+svgCopy()+'Copy</button></div>'+
+  '</div>';
+}
+
+function renderDetail(){
+  var root = DATA[state.root];
+  var cluster = root.clusters[state.cluster];
+  var sub = cluster.subs[state.sub];
+  var html = '<div class="detail-head">'+
+    '<span class="eyebrow">'+escapeHtml(root.root)+' \u2014 '+escapeHtml(cluster.name)+'</span>'+
+    '<h2>'+escapeHtml(sub.nuance)+'</h2>'+
+    '<span class="sub">'+sub.words.length+' curated word'+(sub.words.length===1?'':'s')+'</span>'+
+  '</div><div class="card-grid">';
+  sub.words.forEach(function(w, i){
+    html += wordCardHtml(root.id, state.cluster, cluster, state.sub, i);
+  });
+  html += '</div>';
+  detailEl.innerHTML = html;
+  bindCopyButtons();
+}
+
+function bindCopyButtons(){
+  Array.prototype.forEach.call(detailEl.querySelectorAll('.copy-btn'), function(btn){
+    btn.addEventListener('click', function(){
+      var word = btn.getAttribute('data-word');
+      copyWord(word);
+    });
+  });
+}
+
+function copyWord(word){
+  function done(ok){
+    showToast(ok ? '\u201c'+word+'\u201d copied' : 'Couldn\u2019t copy \u2014 select and copy manually');
+  }
+  try{
+    if (navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(word).then(function(){ done(true); }).catch(function(){ done(false); });
+    } else {
+      var ta = document.createElement('textarea');
+      ta.value = word; ta.style.position='fixed'; ta.style.opacity='0';
+      document.body.appendChild(ta); ta.focus(); ta.select();
+      var ok = false;
+      try{ ok = document.execCommand('copy'); }catch(e){ ok = false; }
+      document.body.removeChild(ta);
+      done(ok);
+    }
+  }catch(e){ done(false); }
+}
+
+var toastTimer = null;
+function showToast(msg){
+  toastEl.textContent = msg;
+  toastEl.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ toastEl.classList.remove('show'); }, 1800);
+}
+
+/* =====================================================
+   BREADCRUMB (mobile)
+   ===================================================== */
+function currentScreen(){ return document.body.getAttribute('data-screen') || 'roots'; }
+
+function goScreen(name){
+  document.body.setAttribute('data-screen', name);
+  renderCrumb();
+  if (window.innerWidth <= 880){ detailEl.scrollTop = 0; colClusters.scrollTop = 0; colSubs.scrollTop = 0; }
+}
+
+function renderCrumb(){
+  var screen = currentScreen();
+  var root = DATA[state.root];
+  var cluster = root.clusters[state.cluster];
+  var sub = cluster.subs[state.sub];
+  var html = '';
+  if (screen !== 'roots'){
+    html += '<button class="back" id="crumbBack">'+svgBack()+'Back</button>';
+  }
+  var segs = [];
+  segs.push({label:'Roots', screen:'roots'});
+  if (screen === 'clusters' || screen === 'subs' || screen === 'words'){
+    segs.push({label:root.id, screen:'clusters'});
+  }
+  if (screen === 'subs' || screen === 'words'){
+    segs.push({label:cluster.name, screen:'subs'});
+  }
+  if (screen === 'words'){
+    segs.push({label:sub.nuance, screen:'words'});
+  }
+  segs.forEach(function(seg, i){
+    if (i>0) html += '<span class="crumb-sep">/</span>';
+    html += '<span class="crumb-seg" data-screen="'+seg.screen+'">'+escapeHtml(seg.label)+'</span>';
+  });
+  crumbBar.innerHTML = html;
+  var backBtn = document.getElementById('crumbBack');
+  if (backBtn){
+    backBtn.addEventListener('click', function(){
+      if (screen==='clusters') goScreen('roots');
+      else if (screen==='subs') goScreen('clusters');
+      else if (screen==='words') goScreen('subs');
+    });
+  }
+  Array.prototype.forEach.call(crumbBar.querySelectorAll('.crumb-seg'), function(seg){
+    seg.addEventListener('click', function(){ goScreen(seg.getAttribute('data-screen')); });
+  });
+}
+
+/* =====================================================
+   MAIN RENDER
+   ===================================================== */
+function renderAll(){
+  renderRoots();
+  renderClusters();
+  renderSubs();
+  renderDetail();
+  renderCrumb();
+}
+
+/* =====================================================
+   NAVIGATE TO A SPECIFIC WORD (search / random)
+   ===================================================== */
+function navigateTo(rootIdx, clusterIdx, subIdx, wordIdx, code){
+  state.root = rootIdx; state.cluster = clusterIdx; state.sub = subIdx;
+  renderAll();
+  goScreen('words');
+  requestAnimationFrame(function(){
+    var card = document.getElementById('card-'+code);
+    if (card){
+      card.scrollIntoView({block:'center', behavior:'smooth'});
+      card.classList.add('flash');
+      setTimeout(function(){ card.classList.remove('flash'); }, 1700);
+    }
+  });
+}
+
+/* =====================================================
+   SEARCH
+   ===================================================== */
+var flatIndex = [];
+(function buildIndex(){
+  DATA.forEach(function(root, ri){
+    root.clusters.forEach(function(cl, ci){
+      cl.subs.forEach(function(s, si){
+        s.words.forEach(function(w, wi){
+          var gIdx = wordGlobalIndexInCluster(cl, si, wi);
+          flatIndex.push({
+            ri:ri, ci:ci, si:si, wi:wi,
+            code: wordCode(root.id, ci, gIdx),
+            term: w.t, def: w.d,
+            rootName: root.root, clusterName: cl.name, nuance: s.nuance,
+            hay: (w.t+' '+w.d+' '+s.nuance+' '+cl.name+' '+root.root).toLowerCase()
+          });
+        });
+      });
+    });
+  });
+})();
+
+var searchSelIdx = -1;
+var currentMatches = [];
+
+function rootWordCount(root){
+  var c = 0;
+  root.clusters.forEach(function(cl){ cl.subs.forEach(function(s){ c += s.words.length; }); });
+  return c;
+}
+
+function triggerHits(q, trig){
+  if (trig === q) return true;
+  if (q.length >= 3 && trig.indexOf(q) === 0) return true; // partial typing: "awe" -> "awesome"
+  var esc = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  var re = new RegExp('(^|[\\s-])' + esc + '($|[\\s-])');
+  return re.test(trig);
+}
+
+function findTriggerRootMatches(q, excludeRootIdxs){
+  var out = [];
+  DATA.forEach(function(root, ri){
+    if (excludeRootIdxs[ri]) return;
+    var trigs = ROOT_TRIGGERS[root.id] || [];
+    var hit = trigs.some(function(t){ return triggerHits(q, t); });
+    if (!hit) return;
+    var cluster0 = root.clusters[0], sub0 = cluster0.subs[0];
+    var gIdx = wordGlobalIndexInCluster(cluster0, 0, 0);
+    out.push({
+      ri: ri, ci: 0, si: 0, wi: 0,
+      code: wordCode(root.id, 0, gIdx),
+      term: root.root, def: root.blurb,
+      rootName: root.root, clusterName: cluster0.name, nuance: sub0.nuance,
+      isRoot: true, wordCount: rootWordCount(root)
+    });
+  });
+  return out;
+}
+
+function runSearch(q){
+  q = q.trim().toLowerCase();
+  clearSearchBtn.classList.toggle('show', q.length > 0);
+  if (!q){
+    searchResultsEl.classList.remove('open');
+    searchResultsEl.innerHTML = '';
+    currentMatches = [];
+    return;
+  }
+  var wordMatches = flatIndex.filter(function(item){ return item.hay.indexOf(q) !== -1; }).slice(0, 18);
+  var matchedRoots = {};
+  wordMatches.forEach(function(m){ matchedRoots[m.ri] = true; });
+  var rootMatches = findTriggerRootMatches(q, matchedRoots);
+  currentMatches = wordMatches.concat(rootMatches).slice(0, 24);
+  searchSelIdx = -1;
+  if (currentMatches.length === 0){
+    searchResultsEl.innerHTML = '<div class="search-empty">No matches for \u201c'+escapeHtml(q)+'\u201d \u2014 try a feeling or a related word.</div>';
+  } else {
+    searchResultsEl.innerHTML = currentMatches.map(function(m, i){
+      if (m.isRoot){
+        return '<div class="search-result is-root" data-i="'+i+'">'+
+          '<span class="r-term">'+escapeHtml(m.term)+'</span>'+
+          '<span class="r-path">ROOT \u00b7 '+m.wordCount+' curated words</span>'+
+          '<span class="r-def">'+escapeHtml(m.def)+'</span>'+
+        '</div>';
+      }
+      return '<div class="search-result" data-i="'+i+'">'+
+        '<span class="r-term">'+escapeHtml(m.term)+'</span>'+
+        '<span class="r-path">'+escapeHtml(m.rootName)+' \u2192 '+escapeHtml(m.clusterName)+' \u2192 '+escapeHtml(m.nuance)+'</span>'+
+        '<span class="r-def">'+escapeHtml(m.def)+'</span>'+
+      '</div>';
+    }).join('');
+    Array.prototype.forEach.call(searchResultsEl.querySelectorAll('.search-result'), function(el){
+      el.addEventListener('click', function(){
+        pickMatch(parseInt(el.getAttribute('data-i'),10));
+      });
+    });
+  }
+  searchResultsEl.classList.add('open');
+}
+
+function pickMatch(i){
+  var m = currentMatches[i];
+  if (!m) return;
+  navigateTo(m.ri, m.ci, m.si, m.wi, m.code);
+  searchResultsEl.classList.remove('open');
+  searchInput.value = '';
+  clearSearchBtn.classList.remove('show');
+  searchInput.blur();
+}
+
+searchInput.addEventListener('input', function(){ runSearch(searchInput.value); });
+searchInput.addEventListener('keydown', function(e){
+  if (!searchResultsEl.classList.contains('open')) return;
+  if (e.key === 'ArrowDown'){
+    e.preventDefault();
+    searchSelIdx = Math.min(searchSelIdx+1, currentMatches.length-1);
+    highlightSel();
+  } else if (e.key === 'ArrowUp'){
+    e.preventDefault();
+    searchSelIdx = Math.max(searchSelIdx-1, 0);
+    highlightSel();
+  } else if (e.key === 'Enter'){
+    e.preventDefault();
+    pickMatch(searchSelIdx >= 0 ? searchSelIdx : 0);
+  } else if (e.key === 'Escape'){
+    searchResultsEl.classList.remove('open');
+    searchInput.blur();
+  }
+});
+function highlightSel(){
+  Array.prototype.forEach.call(searchResultsEl.querySelectorAll('.search-result'), function(el, i){
+    el.classList.toggle('sel', i === searchSelIdx);
+    if (i === searchSelIdx) el.scrollIntoView({block:'nearest'});
+  });
+}
+clearSearchBtn.addEventListener('click', function(){
+  searchInput.value = ''; runSearch(''); searchInput.focus();
+});
+document.addEventListener('click', function(e){
+  if (!e.target.closest('.search-wrap')){ searchResultsEl.classList.remove('open'); }
+});
+
+/* =====================================================
+   RANDOM WORD
+   ===================================================== */
+document.getElementById('randomBtn').addEventListener('click', function(){
+  var m = flatIndex[Math.floor(Math.random() * flatIndex.length)];
+  navigateTo(m.ri, m.ci, m.si, m.wi, m.code);
+});
+
+/* =====================================================
+   THEME
+   ===================================================== */
+var memTheme = null;
+function readStoredTheme(){
+  try{
+    var v = window.localStorage.getItem('nuance-theme');
+    return v;
+  }catch(e){ return memTheme; }
+}
+function writeStoredTheme(v){
+  memTheme = v;
+  try{ window.localStorage.setItem('nuance-theme', v); }catch(e){ /* fall back to memory only */ }
+}
+function applyTheme(t){
+  document.documentElement.setAttribute('data-theme', t);
+  /* Icon shows the theme you'll switch TO, not the one that's active:
+     sun (switch to light) shows while dark is active, moon (switch to
+     dark) shows while light is active. */
+  document.getElementById('themeIconSun').style.display = (t==='dark') ? 'block' : 'none';
+  document.getElementById('themeIconMoon').style.display = (t==='dark') ? 'none' : 'block';
+}
+(function initTheme(){
+  var stored = readStoredTheme();
+  var theme = stored ? stored : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  applyTheme(theme);
+})();
+document.getElementById('themeBtn').addEventListener('click', function(){
+  var cur = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+  var next = cur === 'dark' ? 'light' : 'dark';
+  applyTheme(next);
+  writeStoredTheme(next);
+});
+
+/* =====================================================
+   INIT
+   ===================================================== */
+document.getElementById('footStatus').textContent = totalWords() + ' words \u00b7 ' + DATA.length + ' roots';
+renderAll();
+goScreen('roots');
+
+})();
+</script>
+</body>
+</html>
