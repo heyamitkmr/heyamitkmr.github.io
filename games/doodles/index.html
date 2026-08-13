@@ -292,6 +292,10 @@
   var canvas = document.getElementById('canvas');
   var ctx = canvas.getContext('2d');
   var promptBanner = document.getElementById('promptBanner');
+  function showBanner(html){
+    promptBanner.innerHTML = html;
+    promptBanner.classList.add('show');
+  }
   var modal = document.getElementById('handoffModal');
   var linkInput = document.getElementById('linkInput');
   var copyBtn = document.getElementById('copyBtn');
@@ -404,11 +408,42 @@
     lastPoint = p;
     redraw();
   });
+  // Ramer–Douglas–Peucker: drops points that don't meaningfully change
+  // a stroke's shape within `tolerance` (pixels). Runs once per finished
+  // stroke, not during drawing, so it never affects live responsiveness.
+  function perpDistance(p, a, b){
+    var dx = b[0] - a[0], dy = b[1] - a[1];
+    if (dx === 0 && dy === 0) return Math.hypot(p[0] - a[0], p[1] - a[1]);
+    var t = ((p[0] - a[0]) * dx + (p[1] - a[1]) * dy) / (dx * dx + dy * dy);
+    t = Math.max(0, Math.min(1, t));
+    return Math.hypot(p[0] - (a[0] + t * dx), p[1] - (a[1] + t * dy));
+  }
+  function simplifyPixelPoints(pts, tolerance){
+    if (pts.length < 3) return pts;
+    var maxDist = 0, splitAt = 0;
+    for (var i = 1; i < pts.length - 1; i++){
+      var d = perpDistance(pts[i], pts[0], pts[pts.length - 1]);
+      if (d > maxDist){ maxDist = d; splitAt = i; }
+    }
+    if (maxDist > tolerance){
+      var left = simplifyPixelPoints(pts.slice(0, splitAt + 1), tolerance);
+      var right = simplifyPixelPoints(pts.slice(splitAt), tolerance);
+      return left.slice(0, -1).concat(right);
+    }
+    return [pts[0], pts[pts.length - 1]];
+  }
+  function simplifyStroke(stroke, w, h){
+    if (stroke.p.length < 3) return stroke;
+    var px = stroke.p.map(function(pt){ return [pt[0] * w, pt[1] * h]; });
+    var simplified = simplifyPixelPoints(px, 1.2);
+    stroke.p = simplified.map(function(pt){ return [pt[0] / w, pt[1] / h]; });
+    return stroke;
+  }
   function endStroke(){
     if (!drawing) return;
     drawing = false;
     if (currentStroke && currentStroke.p.length){
-      strokes.push(currentStroke);
+      strokes.push(simplifyStroke(currentStroke, canvas.clientWidth, canvas.clientHeight));
     }
     currentStroke = null;
     redraw();
@@ -443,6 +478,13 @@
   });
 
   // ---------- encode / decode ----------
+  // Format: [flag byte][payload]. flag 0 = raw packed binary, flag 1 =
+  // gzip-compressed packed binary (via the native CompressionStream API —
+  // no library). Points are delta-encoded (zigzag varint) against the
+  // previous point in the same stroke, since consecutive points are
+  // usually only a few units apart — this is what makes gzip effective too.
+  var COORD_SCALE = 4095; // 12-bit coordinate precision, plenty for a doodle
+
   function toUrlSafe(b64){
     return b64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
   }
@@ -451,15 +493,104 @@
     while (b64.length % 4) b64 += '=';
     return b64;
   }
-  function encodeStrokes(list){
-    var compact = list.map(function(s){
-      return [s.c, s.w, s.p.map(function(pt){
-        return [Math.round(pt[0] * 1000), Math.round(pt[1] * 1000)];
-      })];
-    });
-    return toUrlSafe(btoa(JSON.stringify(compact)));
+  function bytesToBase64Url(bytes){
+    var binary = '';
+    for (var i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
+    return toUrlSafe(btoa(binary));
   }
-  function decodeStrokes(str){
+  function base64UrlToBytes(str){
+    var binary = atob(fromUrlSafe(str));
+    var bytes = new Uint8Array(binary.length);
+    for (var i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+    return bytes;
+  }
+
+  function ByteWriter(){ this.bytes = []; }
+  ByteWriter.prototype.pushByte = function(b){ this.bytes.push(b & 0xFF); };
+  ByteWriter.prototype.pushVarint = function(n){
+    n = n >>> 0;
+    while (n >= 0x80){ this.pushByte((n & 0x7F) | 0x80); n >>>= 7; }
+    this.pushByte(n);
+  };
+  ByteWriter.prototype.pushZigzagVarint = function(n){
+    this.pushVarint(n >= 0 ? n * 2 : (-n * 2 - 1));
+  };
+  ByteWriter.prototype.toUint8Array = function(){ return new Uint8Array(this.bytes); };
+
+  function ByteReader(bytes){ this.bytes = bytes; this.pos = 0; }
+  ByteReader.prototype.readByte = function(){ return this.bytes[this.pos++]; };
+  ByteReader.prototype.readVarint = function(){
+    var result = 0, shift = 0, b;
+    do { b = this.bytes[this.pos++]; result |= (b & 0x7F) << shift; shift += 7; } while (b & 0x80);
+    return result >>> 0;
+  };
+  ByteReader.prototype.readZigzagVarint = function(){
+    var zz = this.readVarint();
+    return (zz & 1) ? -((zz + 1) / 2) : zz / 2;
+  };
+
+  function packStrokes(list){
+    var w = new ByteWriter();
+    w.pushVarint(list.length);
+    list.forEach(function(s){
+      w.pushByte(s.c);
+      w.pushByte(s.w);
+      w.pushVarint(s.p.length);
+      var prevX = 0, prevY = 0;
+      s.p.forEach(function(pt){
+        var qx = Math.round(pt[0] * COORD_SCALE);
+        var qy = Math.round(pt[1] * COORD_SCALE);
+        w.pushZigzagVarint(qx - prevX);
+        w.pushZigzagVarint(qy - prevY);
+        prevX = qx; prevY = qy;
+      });
+    });
+    return w.toUint8Array();
+  }
+  function unpackStrokes(bytes){
+    var r = new ByteReader(bytes);
+    var numStrokes = r.readVarint();
+    var list = [];
+    for (var i = 0; i < numStrokes; i++){
+      var c = r.readByte();
+      var wgt = r.readByte();
+      var numPoints = r.readVarint();
+      var pts = [];
+      var prevX = 0, prevY = 0;
+      for (var j = 0; j < numPoints; j++){
+        prevX += r.readZigzagVarint();
+        prevY += r.readZigzagVarint();
+        pts.push([prevX / COORD_SCALE, prevY / COORD_SCALE]);
+      }
+      list.push({ c: c, w: wgt, p: pts });
+    }
+    return list;
+  }
+
+  function gzipBytes(bytes){
+    if (typeof CompressionStream === 'undefined') return Promise.resolve(null);
+    try {
+      var cs = new CompressionStream('gzip');
+      var writer = cs.writable.getWriter();
+      writer.write(bytes);
+      writer.close();
+      return new Response(cs.readable).arrayBuffer()
+        .then(function(buf){ return new Uint8Array(buf); })
+        .catch(function(){ return null; });
+    } catch (err){
+      return Promise.resolve(null);
+    }
+  }
+  function gunzipBytes(bytes){
+    var ds = new DecompressionStream('gzip');
+    var writer = ds.writable.getWriter();
+    writer.write(bytes);
+    writer.close();
+    return new Response(ds.readable).arrayBuffer().then(function(buf){ return new Uint8Array(buf); });
+  }
+
+  // Old format, kept only so links shared before this update still open.
+  function decodeStrokesLegacy(str){
     var json = atob(fromUrlSafe(str));
     var compact = JSON.parse(json);
     return compact.map(function(entry){
@@ -471,15 +602,97 @@
     });
   }
 
+  function encodeStrokes(list){
+    var packed = packStrokes(list);
+    return gzipBytes(packed).then(function(compressed){
+      var flag, body;
+      if (compressed && compressed.length < packed.length){
+        flag = 1; body = compressed;
+      } else {
+        flag = 0; body = packed;
+      }
+      var payload = new Uint8Array(body.length + 1);
+      payload[0] = flag;
+      payload.set(body, 1);
+      return bytesToBase64Url(payload);
+    });
+  }
+  function decodeStrokes(str){
+    return Promise.resolve().then(function(){
+      var payload = base64UrlToBytes(str);
+      if (!payload.length) throw new Error('empty link');
+      var flag = payload[0];
+      var body = payload.slice(1);
+      if (flag === 1){
+        if (typeof DecompressionStream === 'undefined'){
+          throw new Error('This link needs gzip support this browser lacks.');
+        }
+        return gunzipBytes(body).then(unpackStrokes);
+      }
+      if (flag === 0) return unpackStrokes(body);
+      throw new Error('unrecognized link format');
+    }).catch(function(newFormatErr){
+      // Not the new format (or this browser can't decompress it) — try
+      // the older plain JSON+base64 format before giving up.
+      try { return decodeStrokesLegacy(str); }
+      catch (legacyErr){ throw newFormatErr; }
+    });
+  }
+
   // ---------- hand-off ----------
+  // Default to a short link via paste.rs (no login, simple POST/GET API).
+  // If it's unreachable for any reason — offline, CORS, rate-limited, down —
+  // we fall straight back to the fully self-contained link. Either way the
+  // payload itself is unchanged; the short link is just a pointer to it.
+  var PASTE_HOST = 'https://paste.rs';
+  var PASTE_TIMEOUT_MS = 5000;
+
+  function withTimeout(ms){
+    if (typeof AbortController === 'undefined') return { signal: undefined, cancel: function(){} };
+    var controller = new AbortController();
+    var timer = setTimeout(function(){ controller.abort(); }, ms);
+    return { signal: controller.signal, cancel: function(){ clearTimeout(timer); } };
+  }
+  function postToPaste(text){
+    if (navigator.onLine === false) return Promise.resolve(null);
+    var t = withTimeout(PASTE_TIMEOUT_MS);
+    return fetch(PASTE_HOST + '/', { method: 'POST', body: text, signal: t.signal })
+      .then(function(res){ t.cancel(); return res.ok ? res.text() : null; })
+      .then(function(body){ return body ? (body.trim().split('/').pop() || null) : null; })
+      .catch(function(){ t.cancel(); return null; }); // network error, CORS block, timeout, etc.
+  }
+  function fetchFromPaste(id){
+    var t = withTimeout(PASTE_TIMEOUT_MS + 3000);
+    return fetch(PASTE_HOST + '/' + id, { signal: t.signal })
+      .then(function(res){
+        t.cancel();
+        if (!res.ok) throw new Error('paste not found or expired');
+        return res.text();
+      })
+      .catch(function(err){ t.cancel(); throw err; });
+  }
+
   document.getElementById('handoffBtn').addEventListener('click', function(){
-    var encoded = encodeStrokes(strokes);
-    var url = location.origin + location.pathname + '#' + encoded;
-    history.replaceState(null, '', url);
-    linkInput.value = url;
-    modal.classList.remove('hidden');
-    linkInput.focus();
-    linkInput.select();
+    var btn = this;
+    var originalLabel = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = '📤 preparing…';
+    encodeStrokes(strokes).then(function(encoded){
+      return postToPaste(encoded).then(function(id){
+        var url = location.origin + location.pathname + '#' + (id ? ('r:' + id) : encoded);
+        history.replaceState(null, '', url);
+        linkInput.value = url;
+        modal.classList.remove('hidden');
+        linkInput.focus();
+        linkInput.select();
+      });
+    }).catch(function(err){
+      console.error('Could not build the hand-off link', err);
+      window.alert("Something went wrong creating the link — try again.");
+    }).finally(function(){
+      btn.disabled = false;
+      btn.textContent = originalLabel;
+    });
   });
   copyBtn.addEventListener('click', function(){
     function fallbackCopy(){
@@ -671,18 +884,27 @@
   });
 
   // ---------- load existing drawing from URL ----------
-  (function loadFromHash(){
-    if (location.hash.length > 1){
-      try {
-        strokes = decodeStrokes(location.hash.slice(1));
-      } catch (err){
-        console.warn('Could not read the handed-off drawing, starting fresh.', err);
+  function loadFromHash(){
+    if (location.hash.length <= 1) return Promise.resolve();
+    var raw = location.hash.slice(1);
+    if (raw.indexOf('r:') === 0){
+      return fetchFromPaste(raw.slice(2)).then(decodeStrokes).then(function(loaded){
+        strokes = loaded;
+      }).catch(function(err){
+        console.warn('Could not fetch the shared drawing, starting fresh.', err);
         strokes = [];
-      }
+        showBanner("Couldn't load the shared drawing — it may have expired, or you're offline.<span class=\"hint\">tap to dismiss</span>");
+      });
     }
-  })();
+    return decodeStrokes(raw).then(function(loaded){
+      strokes = loaded;
+    }).catch(function(err){
+      console.warn('Could not read the handed-off drawing, starting fresh.', err);
+      strokes = [];
+    });
+  }
 
-  resizeCanvas();
+  loadFromHash().then(resizeCanvas);
 })();
 </script>
 </body>
