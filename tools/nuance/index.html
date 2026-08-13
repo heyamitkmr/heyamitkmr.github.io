@@ -4,6 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Nuance — the adjective navigator</title>
+<script>
+  window.siteAnalyticsPage = {
+    measurementId: 'G-FSL7VJBQMG',
+    pageType: 'tool',
+    contentType: 'interactive_tool',
+    contentCategory: 'tool',
+    contentTitle: 'Nuance — the adjective navigator',
+    contentSlug: 'tools-nuance',
+    contentDate: '',
+    layoutName: 'standalone',
+    siteSection: 'tool'
+  };
+</script>
+<script src="/assets/js/analytics.js" defer></script>
 <style>
   :root{
     --bg:#EFEDE2;
@@ -1221,6 +1235,7 @@ var flatIndex = [];
 
 var searchSelIdx = -1;
 var currentMatches = [];
+var searchTracked = false;
 
 function rootWordCount(root){
   var c = 0;
@@ -1300,6 +1315,10 @@ function runSearch(q){
 function pickMatch(i){
   var m = currentMatches[i];
   if (!m) return;
+  trackNuance('tool_result_select', {
+    experience_action: 'result_select',
+    result_category: m.rootName || 'root'
+  });
   navigateTo(m.ri, m.ci, m.si, m.wi, m.code);
   searchResultsEl.classList.remove('open');
   searchInput.value = '';
@@ -1307,7 +1326,19 @@ function pickMatch(i){
   searchInput.blur();
 }
 
-searchInput.addEventListener('input', function(){ runSearch(searchInput.value); });
+searchInput.addEventListener('input', function(){
+  var query = searchInput.value.trim();
+  if (query && !searchTracked){
+    searchTracked = true;
+    trackNuance('tool_search', {
+      experience_action: 'search_start',
+      query_length: query.length
+    });
+  } else if (!query){
+    searchTracked = false;
+  }
+  runSearch(searchInput.value);
+});
 searchInput.addEventListener('keydown', function(e){
   if (!searchResultsEl.classList.contains('open')) return;
   if (e.key === 'ArrowDown'){
@@ -1344,6 +1375,7 @@ document.addEventListener('click', function(e){
    ===================================================== */
 document.getElementById('randomBtn').addEventListener('click', function(){
   var m = flatIndex[Math.floor(Math.random() * flatIndex.length)];
+  trackNuance('tool_randomize', { experience_action: 'randomize' });
   navigateTo(m.ri, m.ci, m.si, m.wi, m.code);
 });
 

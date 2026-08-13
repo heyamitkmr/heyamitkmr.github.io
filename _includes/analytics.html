@@ -1,0 +1,92 @@
+{% assign analytics_page_type = 'static_page' %}
+{% assign analytics_content_type = 'profile' %}
+{% assign analytics_content_category = 'profile' %}
+{% assign analytics_site_section = 'static_page' %}
+{% assign analytics_content_date = '' %}
+
+{% if page.url == '/' %}
+  {% assign analytics_page_type = 'home' %}
+  {% assign analytics_content_type = 'homepage' %}
+  {% assign analytics_content_category = 'home' %}
+  {% assign analytics_site_section = 'home' %}
+{% elsif page.layout == 'post' %}
+  {% assign analytics_page_type = 'post' %}
+  {% assign analytics_content_type = 'blog_post' %}
+  {% assign analytics_content_category = 'writing' %}
+  {% assign analytics_site_section = 'writing' %}
+  {% if page.categories contains 'bits' %}
+    {% assign analytics_content_type = 'bit_post' %}
+    {% assign analytics_content_category = 'bits' %}
+    {% assign analytics_site_section = 'bits' %}
+  {% elsif page.categories contains 'project' %}
+    {% assign analytics_content_type = 'project_post' %}
+    {% assign analytics_content_category = 'project' %}
+    {% assign analytics_site_section = 'projects' %}
+  {% endif %}
+  {% assign analytics_content_date = page.date | date: '%Y-%m-%d' %}
+{% elsif page.layout == 'bit' %}
+  {% assign analytics_page_type = 'listing' %}
+  {% assign analytics_content_type = 'bits_index' %}
+  {% assign analytics_content_category = 'bits' %}
+  {% assign analytics_site_section = 'bits' %}
+{% elsif page.url contains '/archive/' %}
+  {% assign analytics_page_type = 'archive' %}
+  {% assign analytics_content_type = 'archive_page' %}
+  {% assign analytics_content_category = 'archive' %}
+  {% assign analytics_site_section = 'archive' %}
+  {% assign analytics_content_date = page.date | date: '%Y-%m-%d' %}
+{% elsif page.url == '/writing/' %}
+  {% assign analytics_page_type = 'listing' %}
+  {% assign analytics_content_type = 'writing_index' %}
+  {% assign analytics_content_category = 'writing' %}
+  {% assign analytics_site_section = 'writing' %}
+{% elsif page.url == '/projects/' %}
+  {% assign analytics_page_type = 'listing' %}
+  {% assign analytics_content_type = 'project_index' %}
+  {% assign analytics_content_category = 'project' %}
+  {% assign analytics_site_section = 'projects' %}
+{% elsif page.url == '/bits/' %}
+  {% assign analytics_page_type = 'listing' %}
+  {% assign analytics_content_type = 'bits_index' %}
+  {% assign analytics_content_category = 'bits' %}
+  {% assign analytics_site_section = 'bits' %}
+{% elsif page.url == '/read/' %}
+  {% assign analytics_content_type = 'curated_media' %}
+  {% assign analytics_content_category = 'reading' %}
+  {% assign analytics_site_section = 'read' %}
+{% elsif page.url == '/watched/' %}
+  {% assign analytics_content_type = 'curated_media' %}
+  {% assign analytics_content_category = 'watching' %}
+  {% assign analytics_site_section = 'watched' %}
+{% elsif page.url == '/thoughts/' %}
+  {% assign analytics_content_type = 'curated_media' %}
+  {% assign analytics_content_category = 'thoughts' %}
+  {% assign analytics_site_section = 'thoughts' %}
+{% elsif page.url == '/orbit/' %}
+  {% assign analytics_content_type = 'orbit_experiment' %}
+  {% assign analytics_content_category = 'orbit' %}
+  {% assign analytics_site_section = 'orbit' %}
+{% elsif page.url == '/about/' or page.url == '/amit/' %}
+  {% assign analytics_content_type = 'profile' %}
+  {% assign analytics_content_category = 'profile' %}
+  {% assign analytics_site_section = 'about' %}
+{% elsif page.url == '/now/' %}
+  {% assign analytics_content_type = 'profile' %}
+  {% assign analytics_content_category = 'profile' %}
+  {% assign analytics_site_section = 'now' %}
+{% endif %}
+
+<script>
+  window.siteAnalyticsPage = {
+    measurementId: 'G-FSL7VJBQMG',
+    pageType: {{ analytics_page_type | jsonify }},
+    contentType: {{ analytics_content_type | jsonify }},
+    contentCategory: {{ analytics_content_category | jsonify }},
+    contentTitle: {{ page.title | default: site.title | jsonify }},
+    contentSlug: {{ page.url | slugify | jsonify }},
+    contentDate: {{ analytics_content_date | jsonify }},
+    layoutName: {{ page.layout | default: 'default' | jsonify }},
+    siteSection: {{ analytics_site_section | jsonify }}
+  };
+</script>
+<script src="{{ '/assets/js/analytics.js' | relative_url }}" defer></script>

@@ -11,6 +11,8 @@
     <meta property="og:description" content="{{ page.excerpt | default: site.description | strip_html | truncate: 160 | escape }}">
     <meta property="og:url" content="{{ page.url | absolute_url }}">
 
+    {% include analytics.html %}
+
     {% assign first_image = '' %}
     {% assign has_html_img = page.content contains '<img' %}
     {% assign has_md_img = page.content contains '![' %}

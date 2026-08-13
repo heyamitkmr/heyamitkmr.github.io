@@ -4,6 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hand It Off — a doodle you didn't plan</title>
+<script>
+  window.siteAnalyticsPage = {
+    measurementId: 'G-FSL7VJBQMG',
+    pageType: 'game',
+    contentType: 'interactive_game',
+    contentCategory: 'game',
+    contentTitle: "Hand It Off — a doodle you didn't plan",
+    contentSlug: 'games-doodles',
+    contentDate: '',
+    layoutName: 'standalone',
+    siteSection: 'game'
+  };
+</script>
+<script src="/assets/js/analytics.js" defer></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -308,6 +322,15 @@
   var activeColor = 0;
   var activeWidth = 0;
   var lastPromptIdx = -1;
+  var drawingStarted = false;
+
+  function trackDoodles(eventName, parameters){
+    if (window.siteAnalytics){
+      window.siteAnalytics.track(eventName, Object.assign({
+        experience_name: 'doodles'
+      }, parameters || {}));
+    }
+  }
 
   // ---------- swatches ----------
   var swatchWrap = document.getElementById('swatches');
@@ -317,9 +340,10 @@
     b.style.background = c.hex;
     b.setAttribute('aria-label', c.name + ' ink');
     b.setAttribute('aria-pressed', i === 0 ? 'true' : 'false');
-    b.addEventListener('click', function(){
-      activeColor = i;
-      Array.prototype.forEach.call(swatchWrap.children, function(el, idx){
+     b.addEventListener('click', function(){
+       activeColor = i;
+       trackDoodles('drawing_style_change', { experience_action: 'ink_color' });
+       Array.prototype.forEach.call(swatchWrap.children, function(el, idx){
         el.setAttribute('aria-pressed', idx === i ? 'true' : 'false');
       });
     });
@@ -333,8 +357,8 @@
     thinBtn.setAttribute('aria-pressed', i === 0 ? 'true' : 'false');
     thickBtn.setAttribute('aria-pressed', i === 1 ? 'true' : 'false');
   }
-  thinBtn.addEventListener('click', function(){ setWidth(0); });
-  thickBtn.addEventListener('click', function(){ setWidth(1); });
+  thinBtn.addEventListener('click', function(){ setWidth(0); trackDoodles('drawing_style_change', { experience_action: 'line_thickness' }); });
+  thickBtn.addEventListener('click', function(){ setWidth(1); trackDoodles('drawing_style_change', { experience_action: 'line_thickness' }); });
 
   // ---------- canvas sizing ----------
   function resizeCanvas(){
@@ -393,6 +417,10 @@
     e.preventDefault();
     canvas.setPointerCapture(e.pointerId);
     drawing = true;
+    if (!drawingStarted){
+      drawingStarted = true;
+      trackDoodles('drawing_start', { experience_action: 'draw' });
+    }
     var p = getNormPoint(e);
     currentStroke = { c: activeColor, w: activeWidth, p: [p] };
     lastPoint = p;
@@ -452,13 +480,16 @@
   canvas.addEventListener('pointercancel', endStroke);
 
   document.getElementById('undoBtn').addEventListener('click', function(){
+    if (!strokes.length) return;
     strokes.pop();
+    trackDoodles('drawing_undo', { experience_action: 'undo' });
     redraw();
   });
   document.getElementById('clearBtn').addEventListener('click', function(){
     if (!strokes.length) return;
     if (window.confirm("Clear the whole page? There's no undo for this one.")){
       strokes = [];
+      trackDoodles('drawing_clear', { experience_action: 'clear' });
       redraw();
       history.replaceState(null, '', location.pathname + location.search);
     }
@@ -470,6 +501,7 @@
     do { idx = Math.floor(Math.random() * PROMPTS.length); }
     while (idx === lastPromptIdx && PROMPTS.length > 1);
     lastPromptIdx = idx;
+    trackDoodles('prompt_generate', { experience_action: 'prompt' });
     promptBanner.innerHTML = PROMPTS[idx] + '<span class="hint">tap to dismiss</span>';
     promptBanner.classList.add('show');
   });
@@ -683,6 +715,7 @@
         history.replaceState(null, '', url);
         linkInput.value = url;
         modal.classList.remove('hidden');
+        trackDoodles('handoff_create', { experience_action: 'create' });
         linkInput.focus();
         linkInput.select();
       });
@@ -702,6 +735,7 @@
     }
     if (navigator.clipboard && navigator.clipboard.writeText){
       navigator.clipboard.writeText(linkInput.value).then(function(){
+        trackDoodles('handoff_copy', { experience_action: 'copy' });
         copyBtn.textContent = 'Copied!';
         setTimeout(function(){ copyBtn.textContent = 'Copy link'; }, 1500);
       }, fallbackCopy);
@@ -712,6 +746,7 @@
   if (navigator.share){
     shareBtn.hidden = false;
     shareBtn.addEventListener('click', function(){
+      trackDoodles('handoff_share', { experience_action: 'share' });
       navigator.share({ title: 'Add to this doodle', url: linkInput.value }).catch(function(){ /* cancelled */ });
     });
   }
@@ -818,6 +853,7 @@
       return;
     }
     lastSnapshotCanvas = off;
+    trackDoodles('snapshot_create', { experience_action: 'create' });
     lastSnapshotBlob = null;
     snapshotStatus.textContent = 'Working on it…';
     snapshotShareBtn.hidden = true;
@@ -845,6 +881,7 @@
       if (!clipboardTried){
         snapshotStatus.textContent = 'A download has started. Use the buttons below for other options.';
       }
+      trackDoodles('snapshot_download', { experience_action: 'download' });
       downloadBlob(blob);
       try {
         var testFile = new File([blob], snapshotFilename(), { type: 'image/png' });
@@ -858,7 +895,10 @@
   });
 
   snapshotDownloadBtn.addEventListener('click', function(){
-    if (lastSnapshotBlob) downloadBlob(lastSnapshotBlob);
+    if (lastSnapshotBlob){
+      trackDoodles('snapshot_download', { experience_action: 'download' });
+      downloadBlob(lastSnapshotBlob);
+    }
   });
   snapshotCopyBtn.addEventListener('click', function(){
     if (!lastSnapshotCanvas || !(window.ClipboardItem && navigator.clipboard && navigator.clipboard.write)){
@@ -868,6 +908,7 @@
     navigator.clipboard.write([
       new ClipboardItem({ 'image/png': canvasToBlob(lastSnapshotCanvas) })
     ]).then(function(){
+      trackDoodles('snapshot_copy', { experience_action: 'copy' });
       snapshotCopyBtn.textContent = 'Copied!';
       setTimeout(function(){ snapshotCopyBtn.textContent = 'Copy image'; }, 1500);
     }).catch(function(){
@@ -876,6 +917,7 @@
   });
   snapshotShareBtn.addEventListener('click', function(){
     if (!lastSnapshotBlob) return;
+    trackDoodles('snapshot_share', { experience_action: 'share' });
     var file = new File([lastSnapshotBlob], snapshotFilename(), { type: 'image/png' });
     navigator.share({ files: [file], title: 'My doodle' }).catch(function(){ /* cancelled */ });
   });

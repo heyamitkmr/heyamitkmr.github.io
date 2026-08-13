@@ -4,6 +4,20 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>{{ page.title | default: "Bits" }}</title>
+  <script>
+    window.siteAnalyticsPage = {
+      measurementId: 'G-FSL7VJBQMG',
+      pageType: 'listing',
+      contentType: 'bits_index',
+      contentCategory: 'bits',
+      contentTitle: {{ page.title | default: 'Bits' | jsonify }},
+      contentSlug: 'bits',
+      contentDate: '',
+      layoutName: 'bit',
+      siteSection: 'bits'
+    };
+  </script>
+  <script src="{{ '/assets/js/analytics.js' | relative_url }}" defer></script>
   <link rel="stylesheet" href="{{ "/assets/css/style.css" | relative_url }}">
   <link rel="icon" type="image/png" href="/assets/favicon.jpeg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
