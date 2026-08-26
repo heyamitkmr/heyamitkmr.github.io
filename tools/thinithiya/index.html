@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Abhyasa &mdash; Kannada Verb Drill</title>
+<script>
+  window.siteAnalyticsPage = {
+    measurementId: 'G-FSL7VJBQMG',
+    pageType: 'tool',
+    contentType: 'interactive_tool',
+    contentCategory: 'tool',
+    contentTitle: 'Abhyasa — Kannada Verb Trainer',
+    contentSlug: 'tools-abhyasa',
+    contentDate: '',
+    layoutName: 'standalone',
+    siteSection: 'tool'
+  };
+</script>
+<script src="/assets/js/analytics.js" defer></script>
+<!-- Standalone Web App Meta Tags -->
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#FBF6EE">
+
+<!-- Neo-brutalist 'K' Favicon -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTYgMjU2Ij48cmVjdCB3aWR0aD0iMjU2IiBoZWlnaHQ9IjI1NiIgZmlsbD0iI0ZERkQ5NiIvPjxyZWN0IHg9IjI0IiB5PSIyNCIgd2lkdGg9IjIwOCIgaGVpZ2h0PSIyMDgiIHJ4PSIyNCIgZmlsbD0iI0IyRkJBNSIgc3Ryb2tlPSIjMUExQTFBIiBzdHJva2Utd2lkdGg9IjE2Ii8+PGxpbmUgeDE9Ijg4IiB5MT0iNzIiIHgyPSI4OCIgeTI9IjE4NCIgc3Ryb2tlPSIjMUExQTFBIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48bGluZSB4MT0iMTY4IiB5MT0iNzIiIHgyPSI4OCIgeTI9IjEyOCIgc3Ryb2tlPSIjMUExQTFBIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48bGluZSB4MT0iODgiIHkxPSIxMjgiIHgyPSIxNjgiIHkyPSIxODQiIHN0cm9rZT0iIzFBMUExQSIgc3Ryb2tlLXdpZHRoPSIyNCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PC9zdmc+">
+<link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTYgMjU2Ij48cmVjdCB3aWR0aD0iMjU2IiBoZWlnaHQ9IjI1NiIgZmlsbD0iI0ZERkQ5NiIvPjxyZWN0IHg9IjI0IiB5PSIyNCIgd2lkdGg9IjIwOCIgaGVpZ2h0PSIyMDgiIHJ4PSIyNCIgZmlsbD0iI0IyRkJBNSIgc3Ryb2tlPSIjMUExQTFBIiBzdHJva2Utd2lkdGg9IjE2Ii8+PGxpbmUgeDE9Ijg4IiB5MT0iNzIiIHgyPSI4OCIgeTI9IjE4NCIgc3Ryb2tlPSIjMUExQTFBIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48bGluZSB4MT0iMTY4IiB5MT0iNzIiIHgyPSI4OCIgeTI9IjEyOCIgc3Ryb2tlPSIjMUExQTFBIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48bGluZSB4MT0iODgiIHkxPSIxMjgiIHgyPSIxNjgiIHkyPSIxODQiIHN0cm9rZT0iIzFBMUExQSIgc3Ryb2tlLXdpZHRoPSIyNCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PC9zdmc+">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400;1,700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --cream: #FBF6EE;
+  --card: #FFFFFF;
+  --ink: #201A15;
+  --ink-soft: #6A5D54;
+  --ink-muted: #95877D;
+  --line: #E8DCCE;
+  
+  /* Gumroad Warm Pastel Palette */
+  --rose: #FFCCD5;
+  --rose-deep: #D94A6E;
+  --marigold: #FDE08B;
+  --marigold-deep: #D98207;
+  --sage: #C7ECCE;
+  --sage-deep: #438A56;
+  --terracotta: #FFC09F;
+  --terracotta-deep: #C7512E;
+  --sky: #BAE6FD;
+  --sky-deep: #2563EB;
+  --lavender: #E8DCFF;
+  
+  --bw: 2.5px;
+  --radius: 18px;
+  --sh: 4px;
+  --font-display: 'Baloo 2', 'Nunito', system-ui, -apple-system, sans-serif;
+  --font-body: 'Nunito', system-ui, -apple-system, sans-serif;
+}
+
+*{ box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--cream);
+  background-image: radial-gradient(circle at 1px 1px, rgba(32, 26, 21, 0.07) 1px, transparent 0);
+  background-size: 20px 20px;
+  color: var(--ink);
+  font-family: var(--font-body);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+}
+
+:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; border-radius: 6px; }
+
+.wrap { max-width: 780px; margin: 0 auto; padding: 16px 16px 48px; }
+
+/* ---------- Header ---------- */
+header.top {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  margin-bottom: 18px; position: relative;
+}
+.brand { display: flex; align-items: baseline; gap: 8px; }
+.brand .kn { font-family: var(--font-display); font-weight: 800; font-size: 1.55rem; color: var(--terracotta-deep); line-height: 1; }
+.brand h1 { font-family: var(--font-display); font-weight: 800; font-size: 1.3rem; margin: 0; letter-spacing: -0.01em; line-height: 1; }
+.brand .sub { font-size: 0.72rem; color: var(--ink-soft); display: block; margin-top: 2px; font-weight: 600; }
+
+.top-actions { display: flex; align-items: center; gap: 8px; }
+
+.btn-help {
+  width: 36px; height: 36px; border-radius: 999px;
+  background: var(--marigold); border: var(--bw) solid var(--ink);
+  font-family: var(--font-display); font-weight: 800; font-size: 1.05rem;
+  color: var(--ink); display: flex; align-items: center; justify-content: center;
+  box-shadow: 2px 2px 0 var(--ink); cursor: pointer;
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+}
+.btn-help:active { transform: translate(1px, 1px); box-shadow: 1px 1px 0 var(--ink); }
+
+/* Desktop Navigation Tabs */
+nav.desktop-tabs {
+  display: flex; gap: 4px; background: var(--card);
+  border: var(--bw) solid var(--ink); border-radius: 999px; padding: 4px;
+  box-shadow: 3px 3px 0 var(--ink);
+}
+nav.desktop-tabs button {
+  border: none; background: transparent; font-family: var(--font-display); font-weight: 700;
+  font-size: 0.84rem; padding: 6px 14px; border-radius: 999px; cursor: pointer; color: var(--ink-soft);
+  transition: all 0.1s ease;
+}
+nav.desktop-tabs button.active { background: var(--ink); color: var(--cream); }
+
+/* Mobile Hamburger Button & Dropdown Menu */
+.btn-menu {
+  display: none; width: 36px; height: 36px; border-radius: 10px;
+  background: var(--card); border: var(--bw) solid var(--ink);
+  font-family: var(--font-display); font-weight: 800; font-size: 1.15rem;
+  color: var(--ink); align-items: center; justify-content: center;
+  box-shadow: 2px 2px 0 var(--ink); cursor: pointer;
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+}
+.btn-menu:active { transform: translate(1px, 1px); box-shadow: 1px 1px 0 var(--ink); }
+
+.mobile-nav-dropdown {
+  display: none; position: absolute; top: calc(100% + 6px); right: 0;
+  background: var(--card); border: var(--bw) solid var(--ink);
+  border-radius: 14px; box-shadow: 4px 4px 0 var(--ink);
+  padding: 6px; z-index: 90; min-width: 140px;
+  flex-direction: column; gap: 4px;
+}
+.mobile-nav-dropdown.show { display: flex; }
+.mobile-nav-dropdown button {
+  border: none; background: transparent; font-family: var(--font-display);
+  font-weight: 700; font-size: 0.9rem; padding: 8px 12px; border-radius: 8px;
+  text-align: left; cursor: pointer; color: var(--ink);
+}
+.mobile-nav-dropdown button.active { background: var(--ink); color: var(--cream); }
+
+/* ---------- Panels & Cards ---------- */
+.panel { display: none; }
+.panel.active { display: block; }
+.card {
+  background: var(--card);
+  border: var(--bw) solid var(--ink);
+  border-radius: var(--radius);
+  box-shadow: var(--sh) var(--sh) 0 var(--ink);
+}
+
+/* ---------- Practice Ticket ---------- */
+.ticket { padding: 0; overflow: hidden; position: relative; }
+
+.ticket-head {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 18px;
+  border-bottom: var(--bw) dashed var(--ink);
+  background: #FFFDF9;
+}
+
+.badge {
+  font-family: var(--font-display); font-weight: 700; font-size: 0.75rem;
+  padding: 5px 12px; border-radius: 999px; border: 2px solid var(--ink);
+  text-transform: uppercase; letter-spacing: 0.04em; white-space: nowrap;
+}
+.badge.person { background: var(--sky); color: var(--ink); }
+.badge.tense { color: var(--ink); }
+.tense-past { background: var(--sky); }
+.tense-pastCont { background: var(--sage); }
+.tense-present { background: var(--marigold); }
+.tense-future { background: var(--rose); }
+.tense-presentCont { background: var(--terracotta); }
+
+/* Progress Bar in Card Header */
+.progress-wrap {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  min-width: 0; padding: 0 4px;
+}
+.progress-bar-track {
+  width: 100%; max-width: 280px; height: 13px;
+  background: #FFFFFF; border: 2px solid var(--ink);
+  border-radius: 999px; padding: 1.5px; overflow: hidden;
+  box-shadow: 1px 1px 0 var(--ink);
+}
+.progress-bar-fill {
+  height: 100%; width: 0%;
+  background: var(--ink);
+  border-radius: 999px;
+  transition: width 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.progress-subtext {
+  font-family: var(--font-display); font-weight: 700; font-size: 0.74rem;
+  color: var(--ink-soft); margin-top: 3px; white-space: nowrap; letter-spacing: 0.02em;
+}
+
+/* Ticket Body - Prompt & Kannada Answer */
+.ticket-body { padding: 34px 22px 26px; text-align: center; }
+.eng {
+  font-family: var(--font-display);
+  font-size: clamp(1.45rem, 4.5vw, 1.9rem);
+  font-weight: 800;
+  line-height: 1.35;
+  min-height: 2.8em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.kan {
+  margin-top: 14px;
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 4.8vw, 2.05rem);
+  font-weight: 700;
+  color: var(--terracotta-deep);
+  min-height: 1.5em;
+}
+
+/* Two-Level Hint Card */
+.hint-container {
+  margin-top: 16px;
+  display: none;
+  text-align: left;
+  gap: 8px;
+  flex-direction: column;
+}
+.hint-container.show { display: flex; }
+
+.hint-bubble {
+  background: #FFF9EE;
+  border: 2px dashed var(--ink);
+  border-radius: 12px;
+  padding: 9px 13px;
+  font-size: 0.84rem;
+  color: var(--ink);
+  box-shadow: 2px 2px 0 rgba(32, 26, 21, 0.08);
+  animation: popIn 0.15s ease-out;
+}
+@keyframes popIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.hint-bubble.level-2 {
+  background: #EFFBF2;
+  border-color: var(--sage-deep);
+}
+.hint-tag {
+  display: inline-block; font-family: var(--font-display); font-weight: 800;
+  font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.04em;
+  padding: 2px 7px; border-radius: 6px; background: var(--marigold);
+  border: 1.5px solid var(--ink); margin-bottom: 4px;
+}
+.hint-bubble.level-2 .hint-tag { background: var(--sage); }
+.hint-content { font-size: 0.85rem; line-height: 1.45; }
+.hint-content b { font-weight: 800; }
+.hint-content code {
+  background: rgba(32,26,21,0.08); padding: 2px 5px; border-radius: 4px;
+  font-family: monospace; font-size: 0.85em; font-weight: bold;
+}
+
+/* Actions & Buttons */
+.ticket-actions { display: flex; gap: 10px; padding: 14px 18px 18px; flex-wrap: wrap; justify-content: center; }
+.ticket-foot { border-top: var(--bw) dashed var(--ink); padding: 14px 18px 18px; background: #FFFDF9; }
+.rate-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.fix-link {
+  display: block; text-align: center; font-size: 0.78rem; font-weight: 700;
+  color: var(--ink-soft); margin-top: 10px; cursor: pointer; text-decoration: underline;
+}
+.fix-link:hover { color: var(--ink); }
+
+button { font-family: var(--font-body); cursor: pointer; }
+.btn {
+  font-family: var(--font-display); font-weight: 700; font-size: 0.9rem;
+  border: var(--bw) solid var(--ink); border-radius: 12px; padding: 10px 18px;
+  background: var(--card); color: var(--ink); box-shadow: 3px 3px 0 var(--ink);
+  transition: transform .06s ease, box-shadow .06s ease;
+}
+.btn:hover { background: #FAF7F2; }
+.btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--ink); }
+.btn.primary { background: var(--ink); color: var(--cream); }
+.btn.primary:hover { background: #2F2620; }
+.btn.wide { width: 100%; }
+.btn.small { padding: 6px 11px; font-size: 0.8rem; box-shadow: 2px 2px 0 var(--ink); border-width: 2px; }
+
+.rate { color: var(--ink); font-size: 0.76rem; padding: 10px 6px; text-align: center; }
+.rate b { display: block; font-size: 0.96rem; font-family: var(--font-display); }
+.rate.again { background: var(--rose); }
+.rate.hard { background: var(--marigold); }
+.rate.good { background: var(--sage); }
+.rate.easy { background: var(--sky); }
+
+/* ---------- Subtle Bottom Stats Bar ---------- */
+.subtle-stats {
+  display: flex; align-items: center; justify-content: center; gap: 14px;
+  margin-top: 20px; padding: 7px 18px;
+  background: rgba(32, 26, 21, 0.04);
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+  max-width: fit-content;
+  margin-left: auto; margin-right: auto;
+  font-size: 0.78rem; color: var(--ink-soft);
+}
+.subtle-stat { display: flex; align-items: center; gap: 5px; }
+.subtle-stat .val { font-family: var(--font-display); font-weight: 800; color: var(--ink); font-size: 0.9rem; }
+.subtle-stat .lbl { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--ink-muted); font-weight: 700; }
+.stat-sep { color: var(--line); font-weight: 900; }
+
+/* ---------- Chart Tab ---------- */
+.chart-wrap { overflow-x: auto; border: var(--bw) solid var(--ink); border-radius: var(--radius); background: var(--card); }
+table.chart { border-collapse: collapse; width: 100%; min-width: 640px; font-size: 0.86rem; }
+table.chart th, table.chart td { padding: 10px 11px; border-bottom: 1px solid var(--line); text-align: left; white-space: nowrap; }
+table.chart thead th { font-family: var(--font-display); background: var(--ink); color: var(--cream); position: sticky; top: 0; font-weight: 700; }
+table.chart tbody th { position: sticky; left: 0; background: #FFF9EE; font-weight: 800; border-right: 2px solid var(--ink); }
+table.chart td small { display: block; color: var(--ink-soft); font-size: 0.74rem; font-weight: 600; }
+.chart-note { padding: 14px 18px; font-size: 0.84rem; color: var(--ink-soft); line-height: 1.6; }
+
+/* ---------- Settings Tab ---------- */
+.verb-row {
+  display: grid; grid-template-columns: 1.2fr 1fr 1fr 1fr auto; gap: 8px; align-items: center;
+  padding: 8px 10px; border-bottom: 1px solid var(--line);
+}
+.verb-row input {
+  font-family: var(--font-body); border: 2px solid var(--line); border-radius: 8px;
+  padding: 6px 8px; font-size: 0.82rem; width: 100%; background: #FFFDF9; font-weight: 600;
+}
+.verb-row input:focus { border-color: var(--ink); outline: none; }
+.verb-head { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-soft); font-weight: 800; font-family: var(--font-display); }
+.settings-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+textarea#ioBox { width: 100%; min-height: 110px; font-family: monospace; font-size: 0.78rem; border: 2px solid var(--line); border-radius: 10px; padding: 10px; margin-top: 8px; background: #FFFDF9; }
+.section-title { font-family: var(--font-display); font-weight: 800; font-size: 1.1rem; margin: 24px 0 8px; }
+.section-title:first-child { margin-top: 0; }
+.small-note { font-size: 0.8rem; color: var(--ink-soft); margin: 4px 0 10px; line-height: 1.5; }
+
+/* ---------- Modals ---------- */
+.modal-bg {
+  position: fixed; inset: 0; background: rgba(32, 26, 21, 0.55);
+  display: none; align-items: center; justify-content: center;
+  padding: 20px 14px; overflow-y: auto; z-index: 100;
+}
+.modal-bg.show { display: flex; }
+.modal {
+  background: var(--cream); border: var(--bw) solid var(--ink);
+  border-radius: var(--radius); box-shadow: 6px 6px 0 var(--ink);
+  max-width: 580px; width: 100%; padding: 20px;
+}
+.modal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.modal-head h3 { font-family: var(--font-display); margin: 0; font-size: 1.25rem; font-weight: 800; }
+
+.modal-close {
+  background: transparent; border: 2px solid var(--ink); border-radius: 999px;
+  width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 0.9rem; cursor: pointer; box-shadow: 1px 1px 0 var(--ink);
+}
+
+.help-lead { font-size: 0.92rem; color: var(--ink); line-height: 1.55; margin: 0 0 14px; }
+.help-list { margin: 0 0 18px; padding-left: 18px; font-size: 0.86rem; color: var(--ink-soft); line-height: 1.6; }
+.help-list li { margin-bottom: 6px; }
+
+footer.foot { text-align: center; font-size: 0.74rem; color: var(--ink-muted); margin-top: 28px; font-weight: 600; }
+
+/* ---------- Responsive Mobile Reflow ---------- */
+@media (max-width: 600px){
+  header.top { margin-bottom: 14px; }
+  .brand .sub { display: none; } /* Disappears on small screens */
+  
+  /* Hide desktop tab bar, show hamburger button */
+  nav.desktop-tabs { display: none; }
+  .btn-menu { display: flex; }
+
+  .ticket-head {
+    display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; padding: 10px 12px;
+  }
+  .progress-wrap { order: 3; width: 100%; margin-top: 2px; }
+  .progress-bar-track { max-width: 100%; }
+  
+  .rate-grid { grid-template-columns: repeat(2, 1fr); }
+  .verb-row { grid-template-columns: 1fr 1fr; grid-template-areas: "en en" "root obj" "objkn del"; }
+  .verb-row input:nth-child(1){ grid-area: en; }
+  .verb-row input:nth-child(2){ grid-area: root; }
+  .verb-row input:nth-child(3){ grid-area: obj; }
+  .verb-row input:nth-child(4){ grid-area: objkn; }
+  .verb-row button{ grid-area: del; }
+  table.chart { min-width: 540px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- Top Bar -->
+  <header class="top">
+    <div class="brand">
+      <span class="kn">ಅಭ್ಯಾಸ</span>
+      <div>
+        <h1>Abhyasa</h1>
+        <span class="sub">Kannada Verb Drill &middot; v2</span>
+      </div>
+    </div>
+    
+    <div class="top-actions">
+      <button class="btn-help" id="openHelpBtn" aria-label="How this works" title="How this works">?</button>
+      
+      <!-- Desktop Tab Bar -->
+      <nav class="desktop-tabs">
+        <button class="tab-btn active" data-tab="practice">Practice</button>
+        <button class="tab-btn" data-tab="chart">Chart</button>
+        <button class="tab-btn" data-tab="settings">Verbs</button>
+      </nav>
+
+      <!-- Mobile Hamburger Button -->
+      <button class="btn-menu" id="mobileMenuBtn" aria-label="Open navigation menu" title="Menu">&#9776;</button>
+
+      <!-- Mobile Dropdown Menu -->
+      <div class="mobile-nav-dropdown" id="mobileNavDropdown">
+        <button class="mobile-tab-btn active" data-tab="practice">&#127919; Practice</button>
+        <button class="mobile-tab-btn" data-tab="chart">&#128202; Chart</button>
+        <button class="mobile-tab-btn" data-tab="settings">&#9881;&#65039; Verbs</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== PRACTICE TAB ==================== -->
+  <section id="panel-practice" class="panel active">
+
+    <!-- Practice Card Ticket -->
+    <div class="card ticket" id="ticket">
+      <div class="ticket-head">
+        <span class="badge person" id="cardPerson">Naanu</span>
+        
+        <!-- Practice run progress bar -->
+        <div class="progress-wrap">
+          <div class="progress-bar-track">
+            <div class="progress-bar-fill" id="progressFill"></div>
+          </div>
+          <div class="progress-subtext" id="progressLabel">Card 1 of 5 &bull; Target: Naanu / Past</div>
+        </div>
+
+        <span class="badge tense" id="cardTense">Past</span>
+      </div>
+
+      <div class="ticket-body">
+        <div class="eng" id="cardEnglish">&hellip;</div>
+        <div class="kan" id="cardKannada" style="display:none;"></div>
+        
+        <!-- Two-Level Hint Box -->
+        <div class="hint-container" id="cardHint">
+          <div class="hint-bubble level-1" id="hintLvl1" style="display:none;"></div>
+          <div class="hint-bubble level-2" id="hintLvl2" style="display:none;"></div>
+        </div>
+      </div>
+
+      <div class="ticket-actions" id="preRevealActions">
+        <button class="btn" id="btnHint">&#128161; Hint (1/2)</button>
+        <button class="btn primary" id="btnReveal">Show answer</button>
+      </div>
+
+      <div class="ticket-foot" id="postRevealActions" style="display:none;">
+        <div class="rate-grid">
+          <button class="btn rate again" data-q="0">Again<b>&lt;1m</b></button>
+          <button class="btn rate hard" data-q="1">Hard<b>&darr;</b></button>
+          <button class="btn rate good" data-q="2">Good<b>&check;</b></button>
+          <button class="btn rate easy" data-q="3">Easy<b>&uarr;</b></button>
+        </div>
+        <div class="fix-link" id="fixLink">Fix this Kannada sentence &rarr;</div>
+      </div>
+    </div>
+
+    <!-- Subtle, secondary bottom stats strip -->
+    <div class="subtle-stats">
+      <div class="subtle-stat">
+        <span class="lbl">Today</span>
+        <span class="val" id="statReviewed">0</span>
+      </div>
+      <span class="stat-sep">&bull;</span>
+      <div class="subtle-stat">
+        <span class="lbl">Streak</span>
+        <span class="val" id="statStreak">0</span>
+      </div>
+      <span class="stat-sep">&bull;</span>
+      <div class="subtle-stat">
+        <span class="lbl">Seen</span>
+        <span class="val" id="statSeen">0</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CHART TAB ==================== -->
+  <section id="panel-chart" class="panel">
+    <div class="card">
+      <div class="chart-note">
+        <b>Maadu (do)</b> &mdash; core reference chart. Present and Future share base spoken forms; future sentences often add a time word like <i>naale</i> (tomorrow).
+      </div>
+      <div class="chart-wrap">
+        <table class="chart" id="chartTable"></table>
+      </div>
+      <div class="chart-note">
+        <b>Standalone Auxiliary Forms:</b> was = <i>&ndash;ittu</i> &middot; is = <i>&ndash;ide</i> &middot; will be = <i>&ndash;irrutte</i>.
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SETTINGS / VERBS TAB ==================== -->
+  <section id="panel-settings" class="panel">
+    <div class="card" style="padding:16px;">
+      <div class="section-title">50 Foundational Verbs</div>
+      <p class="small-note">Edit any verb, its Kannada root, or default sentence object. Leave objects blank for intransitive verbs. Updates immediately reflect across all future drills.</p>
+      
+      <div id="verbHeadRow" class="verb-row" style="border-bottom:2px solid var(--ink);">
+        <span class="verb-head">English</span>
+        <span class="verb-head">Kannada root</span>
+        <span class="verb-head">Object (en)</span>
+        <span class="verb-head">Object (kn)</span>
+        <span></span>
+      </div>
+      <div id="verbList"></div>
+      <div class="settings-actions">
+        <button class="btn" id="addVerbBtn">+ Add verb</button>
+      </div>
+
+      <div class="section-title">Saved sentence corrections</div>
+      <p class="small-note" id="overrideSummary">None yet.</p>
+
+      <div class="section-title">Backup & Sync</div>
+      <p class="small-note">Progress and customizations are stored safely in local storage. Export to backup your progress across devices.</p>
+      <div class="settings-actions">
+        <button class="btn" id="exportBtn">Export as file</button>
+        <button class="btn" id="importFileBtn">Import from file</button>
+        <input type="file" id="importFileInput" accept="application/json" style="display:none;">
+      </div>
+      <p class="small-note">Or copy/paste backup text directly:</p>
+      <textarea id="ioBox" placeholder="Paste exported JSON here, then press Import from text"></textarea>
+      <div class="settings-actions">
+        <button class="btn small" id="fillExportText">Show my data here</button>
+        <button class="btn small" id="importTextBtn">Import from text</button>
+      </div>
+
+      <div class="section-title">Reset</div>
+      <div class="settings-actions">
+        <button class="btn small" id="resetProgressBtn">Clear all review progress</button>
+        <button class="btn small" id="resetVerbsBtn">Restore original 50 verbs</button>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">Abhyasa &middot; Offline Spaced Repetition Drill</footer>
+</div>
+
+<!-- ==================== HELP MODAL ==================== -->
+<div class="modal-bg" id="helpModal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>How this works</h3>
+      <button class="modal-close" id="closeHelpModal" aria-label="Close">✕</button>
+    </div>
+    <p class="help-lead">You'll see an English sentence. Say (or think) the Kannada out loud, then reveal the answer and grade yourself honestly &mdash; that's what drives the spaced repetition intervals.</p>
+    <ul class="help-list">
+      <li><b>Two-level Hint:</b> Level 1 reveals the verb root and past stem. Level 2 shows the <i>Maadu</i> transformation formula.</li>
+      <li><b>Target Cycles & Progress Bar:</b> Drills target combinations in randomized pivots (e.g. 5 tenses for a person or 8 persons for a tense).</li>
+      <li><b>Again / Hard / Good / Easy:</b> Adjusts scheduling based on your retention.</li>
+      <li><b>Fix this:</b> If a regional variation or custom phrasing fits better, edit and save it instantly.</li>
+    </ul>
+    <button class="btn primary wide" id="dismissHelpModal">Got it, start drilling</button>
+  </div>
+</div>
+
+<!-- ==================== FIX SENTENCE MODAL ==================== -->
+<div class="modal-bg" id="fixModal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>Correct this sentence</h3>
+      <button class="modal-close" id="closeFixModal" aria-label="Close">✕</button>
+    </div>
+    <p class="small-note" id="fixModalContext"></p>
+    <textarea id="fixInput" style="width:100%; min-height:80px; font-family:var(--font-display); font-size:1.05rem; font-weight:600; border:2px solid var(--line); border-radius:10px; padding:10px;"></textarea>
+    <div class="settings-actions">
+      <button class="btn primary" id="saveFixBtn">Save correction</button>
+      <button class="btn small" id="clearFixBtn">Remove custom fix</button>
+    </div>
+  </div>
+</div>
+
+<script>
+'use strict';
+
+/* =========================================================
+   GRAMMAR & 50 VERBS DATA
+   ========================================================= */
+const PERSON_KEYS = ['naanu','naavu','neenu','nivu','avanu','avalu','adu','avaru'];
+const TENSE_KEYS = ['past','pastCont','present','future','presentCont'];
+const TENSE_LABEL = {
+  past: 'Past',
+  pastCont: 'Past Cont.',
+  present: 'Present',
+  future: 'Future',
+  presentCont: 'Present Cont.'
+};
+
+const KAN_PRONOUN = {
+  naanu: 'Naanu', naavu: 'Naavu', neenu: 'Neenu', nivu: 'Nivu',
+  avanu: 'Avanu', avalu: 'Avalu', adu: 'Adu', avaru: 'Avaru'
+};
+
+const ENG_PRONOUN = {
+  naanu: {label: 'I', wasWere: 'was', amIsAre: 'am', usesBase: true},
+  naavu: {label: 'We', wasWere: 'were', amIsAre: 'are', usesBase: true},
+  neenu: {label: 'You', wasWere: 'were', amIsAre: 'are', usesBase: true},
+  nivu:  {label: 'You all', wasWere: 'were', amIsAre: 'are', usesBase: true},
+  avanu: {label: 'He', wasWere: 'was', amIsAre: 'is', usesBase: false},
+  avalu: {label: 'She', wasWere: 'was', amIsAre: 'is', usesBase: false},
+  adu:   {label: 'It', wasWere: 'was', amIsAre: 'is', usesBase: false},
+  avaru: {label: 'They', wasWere: 'were', amIsAre: 'are', usesBase: true}
+};
+
+/* Suffix table based directly on the Maadu chart */
+const SUFFIX = {
+  naanu: {past: 'de',   pastCont: 'thide',   present: 'thini', presentCont: 'thaidini'},
+  naavu: {past: 'devu', pastCont: 'tiddevu', present: 'thivi', presentCont: 'thaidivi'},
+  neenu: {past: 'de',   pastCont: 'thide',   present: 'thiya', presentCont: 'thaidiya'},
+  nivu:  {past: 'idri', pastCont: 'thidri',  present: 'thiri', presentCont: 'thaidri'},
+  avanu: {past: 'da',   pastCont: 'thidda',  present: 'thane', presentCont: 'thaidane'},
+  avalu: {past: 'lu',   pastCont: 'thiddlu', present: 'thale', presentCont: 'thaidale'},
+  adu:   {past: 'tu',   pastCont: 'thittu',  present: 'thade', presentCont: 'thaide'},
+  avaru: {past: 'idru', pastCont: 'thidru',  present: 'thare', presentCont: 'thaidare'}
+};
+
+function suffixFor(person, tense){
+  const t = tense === 'future' ? 'present' : tense;
+  return SUFFIX[person][t];
+}
+
+/* 50 Foundational Nominative Verbs with verified past forms & stems */
+const DEFAULT_VERBS = [
+  {id:'come', en:'come', past:'came', ing:'coming', s:'comes', root:'baru', stem:'bar',
+   pastForms:{naanu:'bande',naavu:'bandevu',neenu:'bande',nivu:'bandri',avanu:'banda',avalu:'bandlu',adu:'banthu',avaru:'bandru'}, obj:null},
+  {id:'go', en:'go', past:'went', ing:'going', s:'goes', root:'hogu', stem:'hog',
+   pastForms:{naanu:'hodde',naavu:'hoddevu',neenu:'hodde',nivu:'hodri',avanu:'hodda',avalu:'hodlu',adu:'hoythu',avaru:'hodru'}, obj:null},
+  {id:'walk', en:'walk', past:'walked', ing:'walking', s:'walks', root:'nade', stem:'nade',
+   pastForms:{naanu:'nadede',naavu:'nadedevu',neenu:'nadede',nivu:'nadedri',avanu:'nadeda',avalu:'nadedlu',adu:'nadedithu',avaru:'nadedru'}, obj:null},
+  {id:'run', en:'run', past:'ran', ing:'running', s:'runs', root:'odu', stem:'od',
+   pastForms:{naanu:'od-de',naavu:'od-devu',neenu:'od-de',nivu:'odidri',avanu:'od-da',avalu:'odlu',adu:'odtu',avaru:'odidru'}, obj:null},
+  {id:'jump', en:'jump', past:'jumped', ing:'jumping', s:'jumps', root:'haaru', stem:'haar',
+   pastForms:{naanu:'haarde',naavu:'haardevu',neenu:'haarde',nivu:'haaridri',avanu:'haarda',avalu:'haarlu',adu:'haartu',avaru:'haaridru'}, obj:null},
+  {id:'fall', en:'fall', past:'fell', ing:'falling', s:'falls', root:'beelu', stem:'beel',
+   pastForms:{naanu:'bidde',naavu:'biddevu',neenu:'bidde',nivu:'biddri',avanu:'bidda',avalu:'biddlu',adu:'bithu',avaru:'biddru'}, obj:null},
+  {id:'sit', en:'sit', past:'sat', ing:'sitting', s:'sits', root:'kuthko', stem:'kuthko',
+   pastForms:{naanu:'kuthkonde',naavu:'kuthkondevu',neenu:'kuthkonde',nivu:'kuthkondri',avanu:'kuthkonda',avalu:'kuthkondlu',adu:'kuthkonthu',avaru:'kuthkondru'}, obj:null},
+  {id:'stand', en:'stand', past:'stood', ing:'standing', s:'stands', root:'nillu', stem:'nill',
+   pastForms:{naanu:'ninthe',naavu:'ninthevu',neenu:'ninthe',nivu:'ninthri',avanu:'nintha',avalu:'ninthlu',adu:'ninthu',avaru:'ninthru'}, obj:null},
+  {id:'sleep', en:'sleep', past:'slept', ing:'sleeping', s:'sleeps', root:'malagu', stem:'malag',
+   pastForms:{naanu:'malagde',naavu:'malagdevu',neenu:'malagde',nivu:'malagidri',avanu:'malagda',avalu:'malaglu',adu:'malagtu',avaru:'malagidru'}, obj:null},
+  {id:'wakeup', en:'wake up', past:'woke up', ing:'waking up', s:'wakes up', root:'eddelu', stem:'eddel',
+   pastForms:{naanu:'eddelde',naavu:'eddeldevu',neenu:'eddelde',nivu:'eddelidri',avanu:'eddelda',avalu:'eddellu',adu:'eddeltu',avaru:'eddelidru'}, obj:null},
+  {id:'speak', en:'speak', past:'spoke', ing:'speaking', s:'speaks', root:'mathaadu', stem:'mathaad',
+   pastForms:{naanu:'mathaadde',naavu:'mathaaddevu',neenu:'mathaadde',nivu:'mathaadidri',avanu:'mathaadda',avalu:'mathaadlu',adu:'mathaadtu',avaru:'mathaadidru'}, obj:null},
+  {id:'tell', en:'tell', past:'told', ing:'telling', s:'tells', root:'helu', stem:'hel',
+   pastForms:{naanu:'helde',naavu:'heldevu',neenu:'helde',nivu:'helidri',avanu:'helda',avalu:'hellu',adu:'heltu',avaru:'helidru'}, obj:{en:'the story', kn:'kathe'}},
+  {id:'ask', en:'ask', past:'asked', ing:'asking', s:'asks', root:'kelu', stem:'kel',
+   pastForms:{naanu:'kelde',naavu:'keldevu',neenu:'kelde',nivu:'kelidri',avanu:'kelda',avalu:'kellu',adu:'keltu',avaru:'kelidru'}, obj:{en:'the question', kn:'prashne'}},
+  {id:'think', en:'think', past:'thought', ing:'thinking', s:'thinks', root:'yochane maadu', stem:'yochane maad',
+   pastForms:{naanu:'yochane maadde',naavu:'yochane maaddevu',neenu:'yochane maadde',nivu:'yochane maadidri',avanu:'yochane maadda',avalu:'yochane maadlu',adu:'yochane maadtu',avaru:'yochane maadidru'}, obj:null},
+  {id:'listen', en:'listen', past:'listened', ing:'listening', s:'listens', root:'kelisko', stem:'kelisko',
+   pastForms:{naanu:'keliskonde',naavu:'keliskondevu',neenu:'keliskonde',nivu:'keliskondri',avanu:'keliskonda',avalu:'keliskondlu',adu:'keliskonthu',avaru:'keliskondru'}, obj:null},
+  {id:'learn', en:'learn', past:'learned', ing:'learning', s:'learns', root:'kali', stem:'kali',
+   pastForms:{naanu:'kalithe',naavu:'kalithevu',neenu:'kalithe',nivu:'kalithri',avanu:'kalitha',avalu:'kalithlu',adu:'kalithu',avaru:'kalithru'}, obj:{en:'the lesson', kn:'paatha'}},
+  {id:'teach', en:'teach', past:'taught', ing:'teaching', s:'teaches', root:'kalisu', stem:'kalis',
+   pastForms:{naanu:'kalisde',naavu:'kalisdevu',neenu:'kalisde',nivu:'kalisidri',avanu:'kalisda',avalu:'kalislu',adu:'kalistu',avaru:'kalisidru'}, obj:{en:'the lesson', kn:'paatha'}},
+  {id:'read', en:'read', past:'read', ing:'reading', s:'reads', root:'odu', stem:'od',
+   pastForms:{naanu:'od-de',naavu:'od-devu',neenu:'od-de',nivu:'odidri',avanu:'od-da',avalu:'odlu',adu:'odtu',avaru:'odidru'}, obj:{en:'the book', kn:'pustaka'}},
+  {id:'write', en:'write', past:'wrote', ing:'writing', s:'writes', root:'bare', stem:'bare',
+   pastForms:{naanu:'barede',naavu:'baredevu',neenu:'barede',nivu:'baredri',avanu:'bareda',avalu:'baredlu',adu:'baredithu',avaru:'baredru'}, obj:{en:'the letter', kn:'patra'}},
+  {id:'do', en:'do', past:'did', ing:'doing', s:'does', root:'maadu', stem:'maad',
+   pastForms:{naanu:'maadde',naavu:'maaddevu',neenu:'maadde',nivu:'maadidri',avanu:'maadda',avalu:'maadlu',adu:'maadtu',avaru:'maadidru'}, obj:{en:'the work', kn:'kelasa'}},
+  {id:'work', en:'work', past:'worked', ing:'working', s:'works', root:'kelasa maadu', stem:'kelasa maad',
+   pastForms:{naanu:'kelasa maadde',naavu:'kelasa maaddevu',neenu:'kelasa maadde',nivu:'kelasa maadidri',avanu:'kelasa maadda',avalu:'kelasa maadlu',adu:'kelasa maadtu',avaru:'kelasa maadidru'}, obj:null},
+  {id:'eat', en:'eat', past:'ate', ing:'eating', s:'eats', root:'thinnu', stem:'thin',
+   pastForms:{naanu:'thinde',naavu:'thindevu',neenu:'thinde',nivu:'thindri',avanu:'thinda',avalu:'thindlu',adu:'thinthu',avaru:'thindru'}, obj:{en:'the apple', kn:'seb'}},
+  {id:'drink', en:'drink', past:'drank', ing:'drinking', s:'drinks', root:'kudi', stem:'kudi',
+   pastForms:{naanu:'kudide',naavu:'kudidevu',neenu:'kudide',nivu:'kudidri',avanu:'kudida',avalu:'kudidlu',adu:'kudidithu',avaru:'kudidru'}, obj:{en:'water', kn:'neeru'}},
+  {id:'cook', en:'cook', past:'cooked', ing:'cooking', s:'cooks', root:'aduge maadu', stem:'aduge maad',
+   pastForms:{naanu:'aduge maadde',naavu:'aduge maaddevu',neenu:'aduge maadde',nivu:'aduge maadidri',avanu:'aduge maadda',avalu:'aduge maadlu',adu:'aduge maadtu',avaru:'aduge maadidru'}, obj:{en:'the food', kn:'oota'}},
+  {id:'wash', en:'wash', past:'washed', ing:'washing', s:'washes', root:'toli', stem:'toli',
+   pastForms:{naanu:'tolide',naavu:'tolidevu',neenu:'tolide',nivu:'tolidri',avanu:'tolida',avalu:'tolidlu',adu:'tolidithu',avaru:'tolidru'}, obj:{en:'the clothes', kn:'batte'}},
+  {id:'bathe', en:'bathe', past:'bathed', ing:'bathing', s:'bathes', root:'snana maadu', stem:'snana maad',
+   pastForms:{naanu:'snana maadde',naavu:'snana maaddevu',neenu:'snana maadde',nivu:'snana maadidri',avanu:'snana maadda',avalu:'snana maadlu',adu:'snana maadtu',avaru:'snana maadidru'}, obj:null},
+  {id:'clean', en:'clean', past:'cleaned', ing:'cleaning', s:'cleans', root:'swachha maadu', stem:'swachha maad',
+   pastForms:{naanu:'swachha maadde',naavu:'swachha maaddevu',neenu:'swachha maadde',nivu:'swachha maadidri',avanu:'swachha maadda',avalu:'swachha maadlu',adu:'swachha maadtu',avaru:'swachha maadidru'}, obj:{en:'the house', kn:'mane'}},
+  {id:'buy', en:'buy', past:'bought', ing:'buying', s:'buys', root:'kondko', stem:'kondko',
+   pastForms:{naanu:'kondkonde',naavu:'kondkondevu',neenu:'kondkonde',nivu:'kondkondri',avanu:'kondkonda',avalu:'kondkondlu',adu:'kondkonthu',avaru:'kondkondru'}, obj:{en:'a ball', kn:'chendu'}},
+  {id:'sell', en:'sell', past:'sold', ing:'selling', s:'sells', root:'maaru', stem:'maar',
+   pastForms:{naanu:'maarde',naavu:'maardevu',neenu:'maarde',nivu:'maaridri',avanu:'maarda',avalu:'maarlu',adu:'maartu',avaru:'maaridru'}, obj:{en:'the car', kn:'car'}},
+  {id:'give', en:'give', past:'gave', ing:'giving', s:'gives', root:'kodu', stem:'kod',
+   pastForms:{naanu:'kotte',naavu:'kottevu',neenu:'kotte',nivu:'kottri',avanu:'kotta',avalu:'kottlu',adu:'kottu',avaru:'kottru'}, obj:{en:'the money', kn:'hana'}},
+  {id:'take', en:'take', past:'took', ing:'taking', s:'takes', root:'tegeduko', stem:'tegeduko',
+   pastForms:{naanu:'tegedukonde',naavu:'tegedukondevu',neenu:'tegedukonde',nivu:'tegedukondri',avanu:'tegedukonda',avalu:'tegedukondlu',adu:'tegedukonthu',avaru:'tegedukondru'}, obj:{en:'the key', kn:'beegada kai'}},
+  {id:'bring', en:'bring', past:'brought', ing:'bringing', s:'brings', root:'tharu', stem:'thar',
+   pastForms:{naanu:'thande',naavu:'thandevu',neenu:'thande',nivu:'thandri',avanu:'thanda',avalu:'thandlu',adu:'thanthu',avaru:'thandru'}, obj:{en:'the newspaper', kn:'paper'}},
+  {id:'put', en:'put', past:'put', ing:'putting', s:'puts', root:'idu', stem:'id',
+   pastForms:{naanu:'itte',naavu:'ittevu',neenu:'itte',nivu:'ittri',avanu:'itta',avalu:'ittlu',adu:'ittu',avaru:'ittru'}, obj:{en:'the box', kn:'petti'}},
+  {id:'send', en:'send', past:'sent', ing:'sending', s:'sends', root:'kaluhisu', stem:'kaluhis',
+   pastForms:{naanu:'kaluhisde',naavu:'kaluhisdevu',neenu:'kaluhisde',nivu:'kaluhisidri',avanu:'kaluhisda',avalu:'kaluhislu',adu:'kaluhistu',avaru:'kaluhisidru'}, obj:{en:'the letter', kn:'patra'}},
+  {id:'open', en:'open', past:'opened', ing:'opening', s:'opens', root:'tege', stem:'tege',
+   pastForms:{naanu:'tegede',naavu:'tegedevu',neenu:'tegede',nivu:'tegedri',avanu:'tegeda',avalu:'tegedlu',adu:'tegedithu',avaru:'tegedru'}, obj:{en:'the door', kn:'baagilu'}},
+  {id:'close', en:'close', past:'closed', ing:'closing', s:'closes', root:'muchchu', stem:'muchch',
+   pastForms:{naanu:'muchchde',naavu:'muchchdevu',neenu:'muchchde',nivu:'muchchidri',avanu:'muchchda',avalu:'muchchlu',adu:'muchchtu',avaru:'muchchidru'}, obj:{en:'the door', kn:'baagilu'}},
+  {id:'pull', en:'pull', past:'pulled', ing:'pulling', s:'pulls', root:'eli', stem:'eli',
+   pastForms:{naanu:'elede',naavu:'eledevu',neenu:'elede',nivu:'eledri',avanu:'eleda',avalu:'eledlu',adu:'eledithu',avaru:'eledru'}, obj:{en:'the rope', kn:'hagga'}},
+  {id:'push', en:'push', past:'pushed', ing:'pushing', s:'pushes', root:'tallu', stem:'tall',
+   pastForms:{naanu:'tallde',naavu:'talldevu',neenu:'tallde',nivu:'tallidri',avanu:'tallda',avalu:'talllu',adu:'talltu',avaru:'tallidru'}, obj:{en:'the cart', kn:'gaadi'}},
+  {id:'throw', en:'throw', past:'threw', ing:'throwing', s:'throws', root:'esi', stem:'esi',
+   pastForms:{naanu:'esede',naavu:'esedevu',neenu:'esede',nivu:'esedri',avanu:'eseda',avalu:'esedlu',adu:'esedithu',avaru:'esedru'}, obj:{en:'the ball', kn:'chendu'}},
+  {id:'catch', en:'catch', past:'caught', ing:'catching', s:'catches', root:'hidi', stem:'hidi',
+   pastForms:{naanu:'hidide',naavu:'hididevu',neenu:'hidide',nivu:'hididri',avanu:'hidida',avalu:'hididlu',adu:'hididithu',avaru:'hididru'}, obj:{en:'the ball', kn:'chendu'}},
+  {id:'drop', en:'drop', past:'dropped', ing:'dropping', s:'drops', root:'bidu', stem:'bid',
+   pastForms:{naanu:'bitte',naavu:'bittevu',neenu:'bitte',nivu:'bittri',avanu:'bitta',avalu:'bittlu',adu:'bittu',avaru:'bittru'}, obj:{en:'the glass', kn:'gilaas'}},
+  {id:'cut', en:'cut', past:'cut', ing:'cutting', s:'cuts', root:'kattharisu', stem:'kattharis',
+   pastForms:{naanu:'kattharisde',naavu:'kattharisdevu',neenu:'kattharisde',nivu:'kattharisidri',avanu:'kattharisda',avalu:'kattharislu',adu:'kattharistu',avaru:'kattharisidru'}, obj:{en:'the vegetables', kn:'tarakaari'}},
+  {id:'see', en:'see', past:'saw', ing:'seeing', s:'sees', root:'nodu', stem:'nod',
+   pastForms:{naanu:'nodde',naavu:'noddevu',neenu:'nodde',nivu:'nodidri',avanu:'nodda',avalu:'nodlu',adu:'nodtu',avaru:'nodidru'}, obj:{en:'the movie', kn:'cinema'}},
+  {id:'show', en:'show', past:'showed', ing:'showing', s:'shows', root:'torisu', stem:'toris',
+   pastForms:{naanu:'torisde',naavu:'torisdevu',neenu:'torisde',nivu:'torisidri',avanu:'torisda',avalu:'torislu',adu:'toristu',avaru:'torisidru'}, obj:{en:'the photo', kn:'photo'}},
+  {id:'search', en:'search', past:'searched', ing:'searching', s:'searches', root:'huduku', stem:'huduk',
+   pastForms:{naanu:'hudukde',naavu:'hudukdevu',neenu:'hudukde',nivu:'hudukidri',avanu:'hudukda',avalu:'huduklu',adu:'huduktu',avaru:'hudukidru'}, obj:{en:'the key', kn:'beegada kai'}},
+  {id:'wait', en:'wait', past:'waited', ing:'waiting', s:'waits', root:'kaayu', stem:'kaay',
+   pastForms:{naanu:'kaade',naavu:'kaadevu',neenu:'kaade',nivu:'kaadri',avanu:'kaada',avalu:'kaadlu',adu:'kaadithu',avaru:'kaadru'}, obj:null},
+  {id:'cry', en:'cry', past:'cried', ing:'crying', s:'cries', root:'alu', stem:'al',
+   pastForms:{naanu:'athe',naavu:'athevu',neenu:'athe',nivu:'athri',avanu:'atha',avalu:'athlu',adu:'athu',avaru:'athru'}, obj:null},
+  {id:'laugh', en:'laugh', past:'laughed', ing:'laughing', s:'laughs', root:'nagu', stem:'nag',
+   pastForms:{naanu:'nakke',naavu:'nakkevu',neenu:'nakke',nivu:'nakkri',avanu:'nakka',avalu:'nakklu',adu:'nakku',avaru:'nakkru'}, obj:null},
+  {id:'beat', en:'beat', past:'beat', ing:'beating', s:'beats', root:'hode', stem:'hode',
+   pastForms:{naanu:'hodede',naavu:'hodedevu',neenu:'hodede',nivu:'hodedri',avanu:'hodeda',avalu:'hodedlu',adu:'hodedithu',avaru:'hodedru'}, obj:{en:'the drum', kn:'dolu'}},
+  {id:'win', en:'win', past:'won', ing:'winning', s:'wins', root:'gellu', stem:'gell',
+   pastForms:{naanu:'gedde',naavu:'geddevu',neenu:'gedde',nivu:'geddri',avanu:'gedda',avalu:'geddlu',adu:'geddithu',avaru:'geddru'}, obj:{en:'the match', kn:'match'}}
+];
+
+const MAADU_REF = {id:'__maadu', en:'do', root:'maadu', stem:'maad', pastForms:{naanu:'maadde',naavu:'maaddevu',neenu:'maadde',nivu:'maadidri',avanu:'maadda',avalu:'maadlu',adu:'maadtu',avaru:'maadidru'}};
+
+/* =========================================================
+   STORAGE & STATE
+   ========================================================= */
+const STORE_KEY = 'abhyasa_kannada_drill_v2';
+function deepCopy(x){ return JSON.parse(JSON.stringify(x)); }
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem(STORE_KEY);
+    if(raw){
+      const parsed = JSON.parse(raw);
+      if(!parsed.verbs || !parsed.verbs.length) parsed.verbs = deepCopy(DEFAULT_VERBS);
+      parsed.srs = parsed.srs || {};
+      parsed.overrides = parsed.overrides || {};
+      parsed.stats = parsed.stats || {reviewedToday:0, lastReviewDay:null, streak:0, totalReviews:0};
+      parsed.introSeen = !!parsed.introSeen;
+      return parsed;
+    }
+  }catch(e){ console.warn('Could not read saved data, starting fresh.', e); }
+  return {
+    verbs: deepCopy(DEFAULT_VERBS),
+    srs:{}, overrides:{},
+    stats:{reviewedToday:0, lastReviewDay:null, streak:0, totalReviews:0},
+    introSeen:false
+  };
+}
+
+let STATE = loadState();
+function save(){
+  try{ localStorage.setItem(STORE_KEY, JSON.stringify(STATE)); }
+  catch(e){ console.warn('Save failed', e); }
+}
+
+function todayStr(){ return new Date().toISOString().slice(0,10); }
+function bumpStreakIfNeeded(){
+  const t = todayStr();
+  if(STATE.stats.lastReviewDay === t) return;
+  const y = new Date(Date.now() - 86400000).toISOString().slice(0,10);
+  STATE.stats.streak = (STATE.stats.lastReviewDay === y) ? STATE.stats.streak + 1 : 1;
+  STATE.stats.lastReviewDay = t;
+  STATE.stats.reviewedToday = 0;
+}
+
+/* =========================================================
+   CONJUGATION LOGIC
+   ========================================================= */
+function conjugateWord(stem, suffix){
+  const parts = stem.trim().split(/\s+/);
+  const last = parts.pop();
+  parts.push(last + suffix);
+  return parts.join(' ');
+}
+
+function getVerbConjugatedWord(verb, tense, person){
+  if(tense === 'past'){
+    if(verb.pastForms && verb.pastForms[person]) return verb.pastForms[person];
+    const pastStem = verb.pastStem || verb.stem || verb.root;
+    return conjugateWord(pastStem, suffixFor(person, 'past'));
+  }
+  const baseStem = verb.stem || verb.root;
+  const suf = suffixFor(person, tense);
+  return conjugateWord(baseStem, suf);
+}
+
+function comboKey(verbId, tense, person){ return verbId + '|' + tense + '|' + person; }
+
+function buildKannada(verb, tense, person){
+  const key = comboKey(verb.id, tense, person);
+  const ov = STATE.overrides[key];
+  if(ov && ov.kn) return ov.kn;
+
+  const pronoun = KAN_PRONOUN[person];
+  const verbWord = getVerbConjugatedWord(verb, tense, person);
+  const parts = [pronoun];
+  
+  if(tense === 'future') parts.push('naale');
+  if(verb.obj && verb.obj.kn) parts.push(verb.obj.kn);
+  parts.push(verbWord);
+  return capitalize(parts.join(' ')) + '.';
+}
+
+function buildEnglish(verb, tense, person){
+  const P = ENG_PRONOUN[person];
+  const objPhrase = (verb.obj && verb.obj.en) ? (' ' + verb.obj.en) : '';
+  let s;
+  switch(tense){
+    case 'past': s = `${P.label} ${verb.past || verb.en}${objPhrase}.`; break;
+    case 'pastCont': s = `${P.label} ${P.wasWere} ${verb.ing || (verb.en + 'ing')}${objPhrase}.`; break;
+    case 'present': s = `${P.label} ${P.usesBase ? verb.en : (verb.s || (verb.en + 's'))}${objPhrase}.`; break;
+    case 'future': s = `${P.label} will ${verb.en}${objPhrase} tomorrow.`; break;
+    case 'presentCont': s = `${P.label} ${P.amIsAre} ${verb.ing || (verb.en + 'ing')}${objPhrase}.`; break;
+    default: s = '';
+  }
+  return capitalize(s);
+}
+
+function capitalize(s){ return s.charAt(0).toUpperCase() + s.slice(1); }
+
+/* =========================================================
+   SRS (SuperMemo-2)
+   ========================================================= */
+function rate(card, quality){
+  const now = Date.now();
+  let {interval=0, ease=2.5, reps=0, lapses=0} = card || {};
+  if(quality === 0){
+    lapses++; reps = 0; ease = Math.max(1.3, ease - 0.2); interval = 0;
+    return {interval, ease, reps, lapses, due: now + 4*60*1000};
+  }
+  reps++;
+  if(quality === 1){ ease = Math.max(1.3, ease - 0.15); interval = interval ? Math.max(1, Math.round(interval*1.2)) : 1; }
+  else if(quality === 2){ interval = interval ? Math.round(interval*ease) : 1; }
+  else { ease = ease + 0.15; interval = interval ? Math.round(interval*ease*1.3) : 3; }
+  return {interval, ease, reps, lapses, due: now + interval*86400000};
+}
+
+/* =========================================================
+   DRILL RUN & PROGRESS TRACKING
+   ========================================================= */
+let pivotQueue = [];
+let cycleTotal = 5;
+let currentPivotInfo = {type:'person', target:'naanu'};
+let currentCard = null;
+let lastVerbId = null;
+let hintLevel = 0;
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1; i>0; i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+  return a;
+}
+function randomChoice(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+
+function refillPivotQueue(){
+  const mode = Math.random() < 0.5 ? 'person' : 'tense';
+  if(mode === 'person'){
+    const person = randomChoice(PERSON_KEYS);
+    pivotQueue = shuffle(TENSE_KEYS).map(t => ({person, tense:t}));
+    cycleTotal = pivotQueue.length;
+    currentPivotInfo = {type:'person', target:person};
+  } else {
+    const tense = randomChoice(TENSE_KEYS);
+    pivotQueue = shuffle(PERSON_KEYS).map(p => ({person:p, tense}));
+    cycleTotal = pivotQueue.length;
+    currentPivotInfo = {type:'tense', target:tense};
+  }
+}
+
+function pickVerbFor(slot){
+  const now = Date.now();
+  let candidates = STATE.verbs.filter(v => {
+    if(v.id === lastVerbId && STATE.verbs.length > 1) return false;
+    const c = STATE.srs[comboKey(v.id, slot.tense, slot.person)];
+    return !c || c.due <= now;
+  });
+  if(candidates.length === 0) candidates = STATE.verbs.filter(v => v.id !== lastVerbId);
+  if(candidates.length === 0) candidates = STATE.verbs;
+  return randomChoice(candidates);
+}
+
+function nextCard(){
+  if(pivotQueue.length === 0) refillPivotQueue();
+  
+  const currentSlotIndex = cycleTotal - pivotQueue.length + 1;
+  const slot = pivotQueue.shift();
+  const verb = pickVerbFor(slot);
+  lastVerbId = verb.id;
+  
+  currentCard = {
+    verbId: verb.id,
+    tense: slot.tense,
+    person: slot.person,
+    slotIndex: currentSlotIndex,
+    cycleTotal: cycleTotal,
+    pivot: currentPivotInfo
+  };
+  
+  hintLevel = 0;
+  renderCard();
+}
+
+/* =========================================================
+   UI RENDERING & HINT HANDLERS
+   ========================================================= */
+const el = id => document.getElementById(id);
+function verbById(id){ return STATE.verbs.find(v => v.id === id); }
+
+function updateProgressBar(){
+  const idx = currentCard.slotIndex;
+  const total = currentCard.cycleTotal;
+  const pct = Math.round((idx / total) * 100);
+  el('progressFill').style.width = pct + '%';
+
+  const targetLabel = currentCard.pivot.type === 'person'
+    ? `${KAN_PRONOUN[currentCard.pivot.target]} / ${TENSE_LABEL[currentCard.tense]}`
+    : `${TENSE_LABEL[currentCard.pivot.target]} / ${KAN_PRONOUN[currentCard.person]}`;
+  
+  el('progressLabel').textContent = `Card ${idx} of ${total} \u2022 Target: ${targetLabel}`;
+}
+
+function renderCard(){
+  const verb = verbById(currentCard.verbId);
+  if(!verb){ nextCard(); return; }
+
+  // Update badges
+  el('cardPerson').textContent = KAN_PRONOUN[currentCard.person] + ' \u00b7 ' + ENG_PRONOUN[currentCard.person].label;
+  const tenseBadge = el('cardTense');
+  tenseBadge.textContent = TENSE_LABEL[currentCard.tense];
+  tenseBadge.className = 'badge tense tense-' + currentCard.tense;
+
+  updateProgressBar();
+
+  // Prompt and answer
+  el('cardEnglish').textContent = buildEnglish(verb, currentCard.tense, currentCard.person);
+  el('cardKannada').style.display = 'none';
+  el('cardKannada').textContent = '';
+
+  // Reset Hint Box
+  el('cardHint').className = 'hint-container';
+  el('hintLvl1').style.display = 'none';
+  el('hintLvl2').style.display = 'none';
+  el('btnHint').textContent = '💡 Hint (1/2)';
+  el('btnHint').disabled = false;
+
+  el('preRevealActions').style.display = 'flex';
+  el('postRevealActions').style.display = 'none';
+}
+
+function handleHintClick(){
+  const verb = verbById(currentCard.verbId);
+  if(hintLevel === 0){
+    // Level 1: Root verb & object
+    hintLevel = 1;
+    el('cardHint').classList.add('show');
+    
+    let pastStemHelper = '';
+    if(currentCard.tense === 'past' && verb.pastForms && verb.pastForms.naanu){
+      pastStemHelper = ` &middot; Past base: <code>${verb.pastForms.naanu.replace(/(e|de)$/,'')}...</code>`;
+    }
+
+    el('hintLvl1').innerHTML = `
+      <span class="hint-tag">Level 1 &middot; Root Verb</span>
+      <div class="hint-content">
+        <b>Root:</b> <i>${verb.root}</i> (${verb.en})
+        ${verb.obj ? ` &middot; <b>Object:</b> <i>${verb.obj.kn}</i> (${verb.obj.en})` : ''}
+        ${pastStemHelper}
+      </div>
+    `;
+    el('hintLvl1').style.display = 'block';
+    el('btnHint').textContent = '💡 Show Rule Hint (2/2)';
+  }
+  else if(hintLevel === 1){
+    // Level 2: Maadu pattern rule
+    hintLevel = 2;
+    const maaduConjugated = getVerbConjugatedWord(MAADU_REF, currentCard.tense, currentCard.person);
+    const suf = suffixFor(currentCard.person, currentCard.tense);
+    
+    el('hintLvl2').innerHTML = `
+      <span class="hint-tag">Level 2 &middot; Maadu Pattern</span>
+      <div class="hint-content">
+        Pattern: <b>${KAN_PRONOUN[currentCard.person]}</b> ${currentCard.tense === 'future' ? '<i>naale</i> ' : ''}<b>${maaduConjugated}</b>.
+        <br><small style="color:var(--ink-soft); font-weight:600;">Suffix <code>-${suf}</code> applies to stem <i>${verb.stem || verb.root}</i></small>
+      </div>
+    `;
+    el('hintLvl2').style.display = 'block';
+    el('btnHint').textContent = '💡 Hints Shown';
+    el('btnHint').disabled = true;
+  }
+}
+
+function revealAnswer(){
+  const verb = verbById(currentCard.verbId);
+  el('cardKannada').textContent = buildKannada(verb, currentCard.tense, currentCard.person);
+  el('cardKannada').style.display = 'block';
+  el('preRevealActions').style.display = 'none';
+  el('postRevealActions').style.display = 'block';
+}
+
+function gradeCard(quality){
+  const key = comboKey(currentCard.verbId, currentCard.tense, currentCard.person);
+  STATE.srs[key] = rate(STATE.srs[key], quality);
+  bumpStreakIfNeeded();
+  STATE.stats.reviewedToday++;
+  STATE.stats.totalReviews++;
+  save();
+  renderStats();
+  nextCard();
+}
+
+function renderStats(){
+  el('statReviewed').textContent = STATE.stats.reviewedToday || 0;
+  el('statStreak').textContent = STATE.stats.streak || 0;
+  el('statSeen').textContent = Object.keys(STATE.srs).length;
+}
+
+/* =========================================================
+   CHART TAB
+   ========================================================= */
+function renderChart(){
+  const table = el('chartTable');
+  let html = '<thead><tr><th>Person</th>';
+  TENSE_KEYS.forEach(t => html += `<th>${TENSE_LABEL[t]}</th>`);
+  html += '</tr></thead><tbody>';
+
+  PERSON_KEYS.forEach(p => {
+    html += `<tr><th>${KAN_PRONOUN[p]}<br><small>${ENG_PRONOUN[p].label}</small></th>`;
+    TENSE_KEYS.forEach(t => {
+      const word = getVerbConjugatedWord(MAADU_REF, t, p);
+      const suf = suffixFor(p, t);
+      html += `<td>${word}<br><small>&ndash;${suf}</small></td>`;
+    });
+    html += '</tr>';
+  });
+  html += '</tbody>';
+  table.innerHTML = html;
+}
+
+/* =========================================================
+   SETTINGS TAB
+   ========================================================= */
+function renderVerbList(){
+  const list = el('verbList');
+  list.innerHTML = '';
+  STATE.verbs.forEach(v => {
+    const row = document.createElement('div');
+    row.className = 'verb-row';
+    row.innerHTML = `
+      <input data-field="en" value="${escAttr(v.en)}" placeholder="English">
+      <input data-field="root" value="${escAttr(v.root)}" placeholder="Kannada root">
+      <input data-field="objEn" value="${escAttr(v.obj ? v.obj.en : '')}" placeholder="Object (en)">
+      <input data-field="objKn" value="${escAttr(v.obj ? v.obj.kn : '')}" placeholder="Object (kn)">
+      <button class="btn small" data-action="del" title="Delete verb">\u2715</button>
+    `;
+    row.querySelectorAll('input').forEach(inp => {
+      inp.addEventListener('change', () => {
+        const field = inp.dataset.field;
+        if(field === 'en') v.en = inp.value.trim() || v.en;
+        if(field === 'root') {
+          v.root = inp.value.trim() || v.root;
+          v.stem = v.root;
+        }
+        if(field === 'objEn' || field === 'objKn'){
+          const objEn = row.querySelector('[data-field="objEn"]').value.trim();
+          const objKn = row.querySelector('[data-field="objKn"]').value.trim();
+          v.obj = (objEn || objKn) ? {en: objEn, kn: objKn} : null;
+        }
+        save();
+      });
+    });
+    row.querySelector('[data-action="del"]').addEventListener('click', () => {
+      if(!confirm(`Remove "${v.en}" from verb list?`)) return;
+      STATE.verbs = STATE.verbs.filter(x => x !== v);
+      save();
+      renderVerbList();
+    });
+    list.appendChild(row);
+  });
+}
+function escAttr(s){ return (s || '').replace(/"/g,'&quot;'); }
+
+function addVerb(){
+  const id = 'v_' + Date.now();
+  STATE.verbs.push({id, en:'new action', past:'', ing:'', s:'', root:'maadu', stem:'maad', pastForms:null, obj:null});
+  save();
+  renderVerbList();
+}
+
+function renderOverrideSummary(){
+  const n = Object.keys(STATE.overrides).length;
+  el('overrideSummary').textContent = n === 0
+    ? 'No custom overrides saved yet.'
+    : `${n} custom sentence correction${n===1?'':'s'} active. They will always be used in drills.`;
+}
+
+/* =========================================================
+   FIX MODAL & HOW IT WORKS MODAL
+   ========================================================= */
+function openFixModal(){
+  const verb = verbById(currentCard.verbId);
+  const key = comboKey(currentCard.verbId, currentCard.tense, currentCard.person);
+  el('fixModalContext').textContent = `${verb.en} \u00b7 ${TENSE_LABEL[currentCard.tense]} \u00b7 ${KAN_PRONOUN[currentCard.person]}`;
+  el('fixInput').value = (STATE.overrides[key] && STATE.overrides[key].kn) || buildKannada(verb, currentCard.tense, currentCard.person);
+  el('fixModal').classList.add('show');
+  el('fixModal').dataset.key = key;
+}
+
+function saveFix(){
+  const key = el('fixModal').dataset.key;
+  const val = el('fixInput').value.trim();
+  if(val) STATE.overrides[key] = {kn: val};
+  save();
+  renderOverrideSummary();
+  el('fixModal').classList.remove('show');
+  if(currentCard && comboKey(currentCard.verbId, currentCard.tense, currentCard.person) === key){
+    el('cardKannada').textContent = buildKannada(verbById(currentCard.verbId), currentCard.tense, currentCard.person);
+  }
+}
+
+function clearFix(){
+  const key = el('fixModal').dataset.key;
+  delete STATE.overrides[key];
+  save();
+  renderOverrideSummary();
+  el('fixModal').classList.remove('show');
+  if(currentCard && comboKey(currentCard.verbId, currentCard.tense, currentCard.person) === key){
+    el('cardKannada').textContent = buildKannada(verbById(currentCard.verbId), currentCard.tense, currentCard.person);
+  }
+}
+
+/* =========================================================
+   BACKUP & RESTORE
+   ========================================================= */
+function exportData(){
+  const payload = JSON.stringify(STATE, null, 2);
+  const blob = new Blob([payload], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `abhyasa-backup-${todayStr()}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function importData(raw){
+  try{
+    const parsed = JSON.parse(raw);
+    if(!parsed.verbs || !Array.isArray(parsed.verbs)) throw new Error('Missing verbs list');
+    STATE = {
+      verbs: parsed.verbs,
+      srs: parsed.srs || {},
+      overrides: parsed.overrides || {},
+      stats: parsed.stats || {reviewedToday:0, lastReviewDay:null, streak:0, totalReviews:0},
+      introSeen: true
+    };
+    save();
+    renderVerbList();
+    renderOverrideSummary();
+    renderStats();
+    nextCard();
+    alert('Data loaded successfully.');
+  }catch(e){
+    alert('Import failed: ' + e.message);
+  }
+}
+
+/* =========================================================
+   NAVIGATION & TABS
+   ========================================================= */
+function switchTab(tabId){
+  // Update desktop tabs
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.tab === tabId);
+  });
+  // Update mobile dropdown items
+  document.querySelectorAll('.mobile-tab-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.tab === tabId);
+  });
+  // Switch panel
+  document.querySelectorAll('.panel').forEach(p => {
+    p.classList.toggle('active', p.id === 'panel-' + tabId);
+  });
+  // Close mobile dropdown if open
+  el('mobileNavDropdown').classList.remove('show');
+}
+
+function initNavigation(){
+  // Desktop tabs click
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+  });
+
+  // Mobile hamburger toggle
+  el('mobileMenuBtn').addEventListener('click', (e) => {
+    e.stopPropagation();
+    el('mobileNavDropdown').classList.toggle('show');
+  });
+
+  // Mobile dropdown items click
+  document.querySelectorAll('.mobile-tab-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      switchTab(btn.dataset.tab);
+    });
+  });
+
+  // Click outside to close mobile dropdown
+  document.addEventListener('click', (e) => {
+    if(!e.target.closest('#mobileNavDropdown') && !e.target.closest('#mobileMenuBtn')){
+      el('mobileNavDropdown').classList.remove('show');
+    }
+  });
+}
+
+function init(){
+  initNavigation();
+
+  // Help Modal Handlers
+  el('openHelpBtn').addEventListener('click', () => el('helpModal').classList.add('show'));
+  el('closeHelpModal').addEventListener('click', () => {
+    STATE.introSeen = true; save();
+    el('helpModal').classList.remove('show');
+  });
+  el('dismissHelpModal').addEventListener('click', () => {
+    STATE.introSeen = true; save();
+    el('helpModal').classList.remove('show');
+  });
+
+  // Practice Card Interactions
+  el('btnHint').addEventListener('click', handleHintClick);
+  el('btnReveal').addEventListener('click', revealAnswer);
+  document.querySelectorAll('.rate').forEach(b => b.addEventListener('click', () => gradeCard(parseInt(b.dataset.q, 10))));
+
+  // Fix Modal
+  el('fixLink').addEventListener('click', openFixModal);
+  el('closeFixModal').addEventListener('click', () => el('fixModal').classList.remove('show'));
+  el('saveFixBtn').addEventListener('click', saveFix);
+  el('clearFixBtn').addEventListener('click', clearFix);
+
+  // Settings Actions
+  el('addVerbBtn').addEventListener('click', addVerb);
+  el('exportBtn').addEventListener('click', exportData);
+  el('importFileBtn').addEventListener('click', () => el('importFileInput').click());
+  el('importFileInput').addEventListener('change', (e) => {
+    const f = e.target.files[0]; if(!f) return;
+    const r = new FileReader();
+    r.onload = () => importData(r.result);
+    r.readAsText(f);
+  });
+  el('fillExportText').addEventListener('click', () => { el('ioBox').value = JSON.stringify(STATE, null, 2); });
+  el('importTextBtn').addEventListener('click', () => {
+    if(!el('ioBox').value.trim()) return alert('Paste JSON backup into the box first.');
+    importData(el('ioBox').value);
+  });
+
+  el('resetProgressBtn').addEventListener('click', () => {
+    if(!confirm('Clear review stats and intervals? Your verb list stays intact.')) return;
+    STATE.srs = {}; STATE.overrides = {};
+    STATE.stats = {reviewedToday:0, lastReviewDay:null, streak:0, totalReviews:0};
+    save(); renderStats(); renderOverrideSummary(); nextCard();
+  });
+  el('resetVerbsBtn').addEventListener('click', () => {
+    if(!confirm('Restore default 50 verbs? Progress remains saved.')) return;
+    STATE.verbs = deepCopy(DEFAULT_VERBS);
+    save(); renderVerbList();
+  });
+
+  renderStats();
+  renderChart();
+  renderVerbList();
+  renderOverrideSummary();
+  nextCard();
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
