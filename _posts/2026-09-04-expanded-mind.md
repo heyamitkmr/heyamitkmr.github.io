@@ -5,7 +5,6 @@ categories: bits
 date: 2026-09-04
 ---
 
-What do you call a thinking muse? A musing.
+A mind once expanded is a source of eternal frustration.
 
-[Meta introduces Muse Spark 1.3](https://about.fb.com/news/2026/04/introducing-muse-spark-meta-superintelligence-labs/)
-![](/assets/images/bits/a_musing.webp)
+![](/assets/images/bits/exxpanded_mind_frustration.webp)
