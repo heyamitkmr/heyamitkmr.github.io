@@ -3,6 +3,7 @@ layout: post
 title: "Use more often"
 categories: bits
 date: 2026-03-22
+redirect_from: /bits/2026/03/22/use-more-often.html
 ---
 
 Just a few of my possessions that I want to use more often... The Frisbee, Hapi drum, those color pens, the key caps and the crazy ball.

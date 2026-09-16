@@ -2,9 +2,10 @@
 layout: post
 title: "Ship first, think later"
 date: 2025-08-30
-category: blog
+category: writing
 tags: [thoughts, opinions]
 excerpt: "Over time, I've come to understand this hierarchy for ideas:Thinking < Talking < Showing < Building < Shipping"
+redirect_from: /blog/2025/08/30/ship_first.html
 ---
 
 Today I came across a very old note in one of my diaries from about 25 years back. Dated 05-12-2001, it read:

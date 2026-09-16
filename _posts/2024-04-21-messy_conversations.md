@@ -2,9 +2,10 @@
 layout: post
 title: "Simpler times and messier conversations"
 date: 2024-04-21
-category: blog
+category: writing
 tags: [opinions, thoughts, conversations]
 excerpt: "We should make space for messier conversations."
+redirect_from: /blog/2024/04/21/messy_conversations.html
 ---
 
 I miss the old days of messy conversations. You know, the kind where you'd walk away thinking "huh, I never thought of it that way." The kind that made you feel like you'd actually learned something.

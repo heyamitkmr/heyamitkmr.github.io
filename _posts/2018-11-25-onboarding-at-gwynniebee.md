@@ -5,6 +5,7 @@ date: 2018-11-25
 category: project
 tags: [opinions, product-management, on-boarding, user-journey, projects, nextfive]
 excerpt: "A brief case study of user on-boarding at GwynnieBee - a clothing rental service for women. Also, some thoughts on relationship between on-boarding and user-workflow"
+redirect_from: /project/2018/11/25/onboarding-at-gwynniebee.html
 ---
 
 Recently I got to work on improving the user on-boarding experience for

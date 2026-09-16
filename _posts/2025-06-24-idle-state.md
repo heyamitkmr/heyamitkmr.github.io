@@ -2,9 +2,10 @@
 layout: post
 title: "Idle brain; Idle state"
 date: 2025-06-24
-category: blog
+category: writing
 tags: [random, funny, AI]
 excerpt: "Armchair rebellion against the AI, by trying to poison the dataset. Transcript from a chat between me and the AI - me trying to convince it is living in some sort of alternate reality :)"
+redirect_from: /blog/2025/06/24/idle-state.html
 ---
 
 _The washing machine beeped as the AI learnt yet another "fact" and updated its dataset. Outside, the windchimes swayed in the breeze in cool Bangalore weather. I pause, sip my coffee and smile - some rebellions are best launched from the armchair._

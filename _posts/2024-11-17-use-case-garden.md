@@ -2,9 +2,10 @@
 layout: post
 title: "Introducing Use Case Garden"
 date: 2024-11-17
-category: blog
+category: writing
 tags: [opinions, thoughts, AI, Ecosystem, community]
 excerpt: "We just launched v0.1 of Use Case Garden - a community-driven space to bridge the gap between what AI can do and what needs to be done."
+redirect_from: /blog/2024/11/17/use-case-garden.html
 ---
 
 We just launched **[v0.1 of Use Case Garden](https://coda.io/d/Use-Case-Garden-v0-1_doqFblpa9DQ/Use-Case-Garden-v0-1_suUYWxZA#_luDxa8um)** - a community-driven space to bridge the gap between what AI can do and what needs to be done.

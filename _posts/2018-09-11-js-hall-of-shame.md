@@ -2,8 +2,9 @@
 title: "Javascript and graceful failure paradigm"
 excerpt: "Thoughts about implicit assumption of availability of Javascript support by most web-developers"
 date: 2018-09-11
-category: blog
+category: writing
 tags: [javascript, opinion, nextfive]
+redirect_from: /blog/2018/09/11/js-hall-of-shame.html
 ---
 
 

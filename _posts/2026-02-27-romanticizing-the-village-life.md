@@ -3,6 +3,7 @@ layout: post
 title: "Romanticizing the village life"
 categories: bits
 date: 2026-02-27
+redirect_from: /bits/2026/02/27/romanticizing-the-village-life.html
 ---
 
 From behind the windows of an AC car passing through lush vegetation and forests looking at the villages beyond, it makes you imagine people with hard work yet satisfying lives. And you kind of romanticize that life. 

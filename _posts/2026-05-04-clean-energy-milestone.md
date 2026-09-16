@@ -3,6 +3,7 @@ layout: post
 title: "Clean energy"
 categories: bits
 date: 2026-05-04
+redirect_from: /bits/2026/05/04/clean-energy-milestone.html
 ---
 
 ### Milestones

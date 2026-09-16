@@ -3,6 +3,7 @@ layout: post
 title: "State of agentic-AI: Circa 2026"
 categories: bits
 date: 2026-04-06
+redirect_from: /bits/2026/04/06/state-of-agentic-ai-circa-2026.html
 ---
 
 The agents are so smart now. OpenClaw and the likes can do so many things on their own. As long as the adversary does not tell them to forget everything. Sort of.

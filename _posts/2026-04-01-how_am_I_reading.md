@@ -2,8 +2,9 @@
 layout: post
 title: "How am I reading"
 date: 2026-04-01
-category: blog
+category: writing
 tags: [reading, writing]
+redirect_from: /blog/2026/04/01/how_am_I_reading.html
 ---
 
 I have always been a reader, for as far back as I can remember - from swapping Super Commander Dhruv and Parmanu comics in childhood to Substack, books, and a bunch of other materials today. The earlier days seemed benign though. It feels more like a condition now - there's so much more content available. No more waiting for new lot to arrive at the chai-shop once you read through their entire collection of comics they used to rent. The feed now is never ending.

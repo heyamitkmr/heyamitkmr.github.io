@@ -2,9 +2,10 @@
 layout: post
 title: "How not to die - Modern India edition "
 date: 2018-09-12
-category: blog
+category: writing
 tags: [satire, comic, nextfive]
 excerpt: "'Helpful' hints on surviving in a polarized society"
+redirect_from: /blog/2018/09/12/How-not-to-die.html
 ---
 
 -   Do not offer candies to random kids.

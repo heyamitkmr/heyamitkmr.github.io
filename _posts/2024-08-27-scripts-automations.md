@@ -2,9 +2,10 @@
 layout: post
 title: "Scripts and automations"
 date: 2024-08-27
-category: blog
+category: writing
 tags: [opinions, thoughts, tinkering]
 excerpt: "Over the last couple of years, I have been tinkering about and built / set-up a few things. Here's just a list of some of these:"
+redirect_from: /blog/2024/08/27/scripts-automations.html
 ---
 
 ### **Basic Customizations and tweaks and set-up**

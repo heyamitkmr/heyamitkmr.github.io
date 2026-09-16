@@ -2,7 +2,8 @@
 layout: post
 title: "Kashmir trip report from 2023"
 date: 2023-08-19
-category: blog
+category: writing
+redirect_from: /blog/2023/08/19/kashmir-report-3.html
 ---
  > Below is just a dump of misc. stuff from my 3rd trip to Kashmir - this time in Srinagar (again), Gurez, Pahalgam, Doodhpathri et al. May be some day I'll attempt to create something more coherent from it. Or use it for some other piece. Or not.
 

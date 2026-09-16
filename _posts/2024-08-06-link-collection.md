@@ -2,8 +2,9 @@
 layout: post
 title: "Things I found | link-collection 1"
 date: 2024-08-06
-category: blog
+category: writing
 excerpt: "Some interesting and often useful links on AI, Tech, Career, Self-improvement, Business, finance, Science, Misc."
+redirect_from: /blog/2024/08/06/link-collection.html
 ---
 
 <span style="font-size: 14px;">_[Originally shared on HEY](https://world.hey.com/akumar/things-i-found-link-collection-1-b0772cf7)_</span>

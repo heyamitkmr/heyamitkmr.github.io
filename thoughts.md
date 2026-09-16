@@ -20,7 +20,7 @@ permalink: /thoughts/
 On software, design, and simplicity and whatever else is on my mind.
 
 <ul class="post-list">
-  {% for post in site.categories.blog %}
+  {% for post in site.categories.writing %}
     <li>
       {%- if post.external_url -%}
         <!-- For external posts, link to the local post page first (not directly to external_url) -->

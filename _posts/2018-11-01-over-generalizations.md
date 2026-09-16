@@ -2,8 +2,9 @@
 title: "'Why humans are 3 feet tall' and other interesting misconceptions"
 excerpt: "An opinion piece on over-generalization and its problems"
 date: 2018-11-01
-category: blog
+category: writing
 tags: [research, over-generalization, hypothesis, opinion, nextfive]
+redirect_from: /blog/2018/11/01/over-generalizations.html
 ---
 
 From HackerNews front page on 2018-11-01:

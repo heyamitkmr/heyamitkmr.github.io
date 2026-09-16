@@ -3,6 +3,7 @@ layout: post
 title: "CareerMap | Updated"
 categories: bits
 date: 2026-07-12
+redirect_from: /bits/2026/07/12/careermap-updated.html
 ---
 
 Now discover careers based on what you love doing. And find the routes to them. And the people working in those roles. for a much larger set of careers.

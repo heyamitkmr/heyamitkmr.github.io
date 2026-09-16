@@ -2,6 +2,7 @@
 layout: post
 categories: bits
 date: 2026-03-15
+redirect_from: /bits/2026/03/15/public-living-room.html
 ---
 
 [**Public Living Room**](https://nextfive.xyz/about/#currently-exploring) is an idea I'm building slowly - warm spaces open for like minded curious strangers. 

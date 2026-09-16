@@ -2,7 +2,8 @@
 layout: post
 title: "You can't want what you can't see"
 date: 2026-04-11
-category: blog
+category: writing
+redirect_from: /blog/2026/04/11/careermap.html
 ---
 
 Most people think career is about choice or preference. It is mostly about exposure. Doors you do not know are there, you cannot knock on. 

@@ -3,6 +3,7 @@ layout: post
 title: "Thinking women"
 categories: bits
 date: 2026-07-03
+redirect_from: /bits/2026/07/03/thinking-women.html
 ---
 
 **Probably the biggest fear of politicians - thinking citizens**.<br>

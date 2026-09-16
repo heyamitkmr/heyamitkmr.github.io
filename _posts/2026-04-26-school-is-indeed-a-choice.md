@@ -3,6 +3,7 @@ layout: post
 title: "School is indeed a choice"
 categories: bits
 date: 2026-04-26
+redirect_from: /bits/2026/04/26/school-is-indeed-a-choice.html
 ---
 
 **"Why not go to a school near your house, like I do myself"**<br><br>

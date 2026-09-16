@@ -3,6 +3,7 @@ title: "Lightly-used brain"
 date: 2026-03-10
 categories: [bits]
 layout: post
+redirect_from: /bits/2026/03/10/unused-brain.html
 ---
 
 I wonder if there's a secondhand market ... 

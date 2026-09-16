@@ -2,6 +2,8 @@ title: Amit @NextFive
 excerpt_separator: "<!--more-->"
 url: "https://nextfive.xyz"
 author: "Amit@NextFive"
+permalink: /:categories/:title:output_ext
 repository: heyamitkmr/heyamitkmr.github.io
 plugins:
   - jekyll-feed
+  - jekyll-redirect-from

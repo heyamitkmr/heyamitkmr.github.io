@@ -2,9 +2,10 @@
 layout: post
 title: "Decisions"
 date: 2024-07-31
-category: blog
+category: writing
 tags: [opinions, thoughts]
 excerpt: "Fast decisions lead to more action, and action has its own magic."
+redirect_from: /blog/2024/07/31/decisions.html
 ---
 
 I read something recently that stuck with me: a company is just a group of people making decisions. It's the decisions part that resonated. I'm a slow decision-maker, but not indecisive. I'm clear on some things, but most of the time, I overthink.

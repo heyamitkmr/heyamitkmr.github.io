@@ -5,6 +5,7 @@ date: 2018-10-09
 category: project
 tags: [projects, organization, static site, GitHub, shell script, Expose, Hyde]
 excerpt: "An earlier version of what NextFive.xyz blog was created, why was it created like this and where it might go"
+redirect_from: /project/2018/10/09/old-publish-based-blog.html
 ---
 
 It has aged poorly, as now the current version of the blog is using Jekyll. But the previous one was not - and kinda, proudly so. Here's how it looked:

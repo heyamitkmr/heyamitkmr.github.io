@@ -3,6 +3,7 @@ title: "Screaming baby is a feature, not a bug"
 date: 2026-03-01
 categories: [bits]
 layout: post
+redirect_from: /bits/2026/03/01/good-baby-feature.html
 ---
 
 Screaming baby is a feature, not a bug

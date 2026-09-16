@@ -3,6 +3,7 @@ layout: post
 title: "Ideas, dime a dozen, belief"
 categories: bits
 date: 2026-06-30
+redirect_from: /bits/2026/06/30/ideas-dime-a-dozen-belief.html
 ---
 
 Latest in the series of "dime a dozen" ideas from my notes that I saw turning into reality sooner than later: 

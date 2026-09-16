@@ -2,9 +2,10 @@
 layout: post
 title: "Imaginary deadlines"
 date: 2025-12-02
-category: blog
+category: writing
 tags: [thoughts, opinions]
 excerpt: "On arbitrary pressure and excuses not to start."
+redirect_from: /blog/2025/12/02/unreal-deadlines.html
 ---
 
 <p align="center">

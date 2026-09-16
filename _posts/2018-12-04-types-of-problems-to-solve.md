@@ -2,8 +2,9 @@
 title: "Types of problems to solve (and avoid)"
 excerpt: "Some problems are better suited to get started-on than others. Of-course you can shoot for the moon, but be aware of the pitfalls. Especially in case of alluring but 'wicked-problems'"
 date: 2018-12-04
-category: blog
+category: writing
 tags: [startup, problems, opinion, nextfive]
+redirect_from: /blog/2018/12/04/types-of-problems-to-solve.html
 ---
 
 Some problems are better suited to get started on than others - in terms

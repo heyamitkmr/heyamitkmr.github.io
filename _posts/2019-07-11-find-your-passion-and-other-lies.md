@@ -2,9 +2,10 @@
 layout: post
 title: "'Finding your passion' and other lies"
 date: 2019-07-11
-category: blog
+category: writing
 tags: [self-discovery, growth mindset, motivation, failure, goal setting, opinion, nextfive]
 excerpt: "Just 'finding your passion' is a myth; passions and interests are not fixed, motivation is finite, failure does not mean lack of skill, and having a clear plan is crucial - self-discovery requires patience, perseverance, and a growth mindset."
+redirect_from: /blog/2019/07/11/find-your-passion-and-other-lies.html
 ---
 
 We often hear the advice to "find your passion" and follow it. But is

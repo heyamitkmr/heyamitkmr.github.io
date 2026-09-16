@@ -2,9 +2,10 @@
 layout: post
 title: "Chitra Santhe 2026"
 date: 2026-01-05
-category: blog
+category: writing
 tags: [photo, story, Bengaluru, art]
 excerpt: ""
+redirect_from: /blog/2026/01/05/chitra_santhe.html
 ---
 
 I went back to Chitra Santhe again, yesterday. My only the 3rd time.

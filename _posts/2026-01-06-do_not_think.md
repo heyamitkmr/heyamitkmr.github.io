@@ -2,9 +2,10 @@
 layout: post
 title: "Free. Bored. And exhausted. No more."
 date: 2026-01-06
-category: blog
+category: writing
 tags: [thoughts, opinions, commitment, flexibility, obsessions, action, dogs, done-begets-done, analysis-paralysis]
 excerpt: "Not being tied to something like a pet or children or a house does give that flexibility to ... do _anything else_. But it also takes away at least one type of purpose or compulsion to do something. So in the end, I often end up doing _nothing else_. I expect 2026 to be different."
+redirect_from: /blog/2026/01/06/do_not_think.html
 ---
 
 _"There's this 8-month-old indie dog,"_ G texted last evening.  _"Toilet trained, vaccinated, spayed. Perfect for a first-time pet parent."_

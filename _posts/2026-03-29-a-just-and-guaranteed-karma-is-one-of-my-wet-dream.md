@@ -3,6 +3,7 @@ layout: post
 title: "A just-and-guaranteed-karma is one of my wet-dreams"
 categories: bits
 date: 2026-03-29
+redirect_from: /bits/2026/03/29/a-just-and-guaranteed-karma-is-one-of-my-wet-dream.html
 ---
 
 For example, if there were **a "karma impact" guaranteed to strike anyone in power who triggers a war without serving on the front lines** - including politicians, dictators and such - how would the world change? Specifically, if this karma resulted in certain, significant bodily harm - loss of limbs or life - at any random time within one week of the provocation. 

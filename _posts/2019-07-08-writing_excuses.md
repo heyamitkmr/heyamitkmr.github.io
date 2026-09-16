@@ -2,9 +2,10 @@
 layout: post
 title: "Excuses for not writing"
 date: 2019-07-08
-category: blog
+category: writing
 tags: [writing, thoughts, habits]
 excerpt: "What reasons do I give myself for not writing intentionally."
+redirect_from: /blog/2019/07/08/writing_excuses.html
 ---
 
 

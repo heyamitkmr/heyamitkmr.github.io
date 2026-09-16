@@ -2,9 +2,10 @@
 layout: post
 title: "Best writing app for me"
 date: 2018-10-07
-category: blog
+category: writing
 tags: [writing, workflow, app, opinion, nextfive]
 excerpt: "A personal opinion about the features which will make the best writing app"
+redirect_from: /blog/2018/10/07/best-notes-taker.html
 ---
 
 ***Ideally, it should be outliner meets editor meets to-do-list***

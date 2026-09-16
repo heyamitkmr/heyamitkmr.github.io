@@ -2,9 +2,10 @@
 layout: post
 title: "Software's blog era"
 date: 2025-07-29
-category: blog
+category: writing
 tags: [thoughts, opinions]
 excerpt: "Software is getting as easy to create as a new blog post. But ease of distribution is yet to catch-up. What would that mean for how we consume software?"
+redirect_from: /blog/2025/07/29/software-blogification.html
 ---
 
 Like a lot of us, I too am building [web apps and utilities](https://blog.nextfive.in/products/) for myself. Leveraging my own personal notes and working with Claude / Gemini, to scratch my own itch. I cannot help but feel the excitement of the early days of blogging.

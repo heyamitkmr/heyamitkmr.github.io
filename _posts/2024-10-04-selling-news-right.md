@@ -2,9 +2,10 @@
 layout: post
 title: "Selling news right"
 date: 2024-10-04
-category: blog
+category: writing
 tags: [opinions, thoughts, satire]
 excerpt: "Find a set of labels - ideally those historically in conflict with each other. Stick with them. Generate outrage, drive traffic, boost engagement. Increases revenue. That's how you sell news."
+redirect_from: /blog/2024/10/04/selling-news-right.html
 ---
 
 Some guy from Jharkhand stabbed a Kannadiga bus conductor in a BMTC bus in Bengaluru.

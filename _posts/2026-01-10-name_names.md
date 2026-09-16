@@ -2,9 +2,10 @@
 layout: post
 title: "Name names."
 date: 2026-01-10
-category: blog
+category: writing
 tags: [thoughts, opinions, accountability, institutions, government, bad-juju]
 excerpt: "So you know specifically on whom to cast a bad juju on."
+redirect_from: /blog/2026/01/10/name_names.html
 ---
 
 The loudspeakers in the school seem particularly loud today. Offering a 100x force multiplier to the guest speaker who's asking children if they want to make their parents proud. And if so, chant: "Hare Krishna!"

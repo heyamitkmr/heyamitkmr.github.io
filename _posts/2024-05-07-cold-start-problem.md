@@ -2,9 +2,10 @@
 layout: post
 title: "The cold-start problem"
 date: 2024-05-07
-category: blog
+category: writing
 tags: [opinions, thoughts, conversations]
 excerpt: "Thoughts on learning by doing. At scale."
+redirect_from: /blog/2024/05/07/cold-start-problem.html
 ---
 
 We keep hearing that constant complaint about skill-shortage in India. While reports after reports highlight the rising unemployment. Which is only going to get worse with the AI coming it for everything.

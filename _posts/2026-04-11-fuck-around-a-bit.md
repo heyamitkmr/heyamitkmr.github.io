@@ -3,6 +3,7 @@ layout: post
 title: "Fuck around a bit."
 categories: bits
 date: 2026-04-11
+redirect_from: /bits/2026/04/11/fuck-around-a-bit.html
 ---
 
 Early Saturday morning and what a lovely 2-min piece by Kent Walters - [https://kentwalters.com/posts/corners/](https://kentwalters.com/posts/corners/)

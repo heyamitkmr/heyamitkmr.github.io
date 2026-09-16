@@ -3,6 +3,7 @@ layout: post
 title: "An experiment | Why AI"
 categories: bits
 date: 2026-03-31
+redirect_from: /bits/2026/03/31/an-experiment-why-ai.html
 ---
 
 AI usage has quickly become at least among the top things that I need internet for.

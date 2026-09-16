@@ -2,9 +2,10 @@
 layout: post
 title: "Showing up dailyish"
 date: 2025-11-19
-category: blog
+category: writing
 tags: [thoughts, opinions]
 excerpt: "On permission to go slower. Showing up dailyish is consistent enough. And that consistency compounds."
+redirect_from: /blog/2025/11/19/showing-up-dailyish.html
 ---
 
 A friend asked me for running advice a few weeks back and I completely blanked.

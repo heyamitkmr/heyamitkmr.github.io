@@ -2,9 +2,10 @@
 layout: post
 title: "Done begets done"
 date: 2025-10-31
-category: blog
+category: writing
 tags: [thoughts, opinions]
 excerpt: "Almost done… bingeing on “best hand-to-hand combat-scenes”. May be not that, but often, getting anything done builds momentum to get more of what you want, done."
+redirect_from: /blog/2025/10/31/done-begets-done.html
 ---
 
 <p align="center">

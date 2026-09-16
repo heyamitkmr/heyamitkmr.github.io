@@ -2,9 +2,10 @@
 layout: post
 title: "The last peer review"
 date: 2024-08-15
-category: blog
+category: writing
 tags: [fiction, ai-generated]
 excerpt: "An AI generated short story based on some real research and discussion; Notes at the bottom."
+redirect_from: /blog/2024/08/15/last-peer-review.html
 ---
 
 An "AI generated" short story based on some real research and discussion; [Notes at the bottom](#notes).

@@ -5,6 +5,7 @@ date: 2018-10-09
 category: project
 tags: [projects, organization, static site, GitHub, shell script, Expose, Hyde, nextfive]
 excerpt: "A shell script I cobbled together to create a static website with navigation based on folder structure of your posts - same as this site."
+redirect_from: /project/2018/10/09/publish-blog-script.html
 ---
 
 What is this

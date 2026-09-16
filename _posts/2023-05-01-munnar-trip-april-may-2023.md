@@ -2,8 +2,9 @@
 title: "A quick getaway to Munnar from Bangalore"
 excerpt: "Some notes from first trip to Munnar, Kerala"
 date: 2023-05-01
-category: blog
+category: writing
 tags: [travel, India, Kerala, Munnar, trip, nextfive]
+redirect_from: /blog/2023/05/01/munnar-trip-april-may-2023.html
 ---
 
 
