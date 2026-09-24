@@ -1,0 +1,1718 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FERMI // CRAFT — Order-of-Magnitude Estimation</title>
+<style>
+  :root {
+    --bg: #FAF7EE;
+    --card-bg: #FFFFFF;
+    --card-hover: #FFFDF8;
+    --text: #18181B;
+    --text-muted: #52525B;
+    --border: #18181B;
+    --shadow-color: #18181B;
+    --accent-yellow: #FFD027;
+    --accent-pink: #FF90E8;
+    --accent-mint: #23A094;
+    --accent-coral: #FF5D5D;
+    --accent-blue: #5887FF;
+    --input-bg: #FFFFFF;
+    --code-bg: #F4F0E4;
+    --badge-bg: #EDE8D6;
+    --border-width: 2.5px;
+    --radius: 12px;
+    --shadow-val: 4px 4px 0px var(--shadow-color);
+    --shadow-active: 1px 1px 0px var(--shadow-color);
+  }
+
+  [data-theme="dark"] {
+    --bg: #121316;
+    --card-bg: #1B1C22;
+    --card-hover: #22242B;
+    --text: #F4F4F5;
+    --text-muted: #A1A1AA;
+    --border: #3F424E;
+    --shadow-color: #090A0C;
+    --accent-yellow: #FFE248;
+    --accent-pink: #FF75D8;
+    --accent-mint: #38C7B2;
+    --accent-coral: #FF6E6E;
+    --accent-blue: #6E9BFF;
+    --input-bg: #15161A;
+    --code-bg: #23252E;
+    --badge-bg: #282A35;
+    --shadow-val: 4px 4px 0px var(--shadow-color);
+    --shadow-active: 1px 1px 0px var(--shadow-color);
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+    padding: 20px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 980px;
+    margin: 0 auto;
+    padding-bottom: 80px;
+  }
+
+  /* Header & Navigation */
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 16px 20px;
+    background: var(--card-bg);
+    border: var(--border-width) solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-val);
+    margin-bottom: 24px;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.35rem;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    text-transform: uppercase;
+  }
+
+  .brand-chip {
+    background: var(--accent-yellow);
+    color: #18181B;
+    font-size: 0.72rem;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-weight: 800;
+    border: 1.5px solid #18181B;
+  }
+
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  /* Gumroad tactile buttons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    font-weight: 800;
+    color: var(--text);
+    background: var(--card-bg);
+    border: var(--border-width) solid var(--border);
+    border-radius: 8px;
+    box-shadow: 3px 3px 0px var(--shadow-color);
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+    user-select: none;
+  }
+
+  .btn:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: 4px 4px 0px var(--shadow-color);
+  }
+
+  .btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: var(--shadow-active);
+  }
+
+  .btn-primary {
+    background: var(--accent-yellow);
+    color: #18181B;
+  }
+
+  .btn-pink {
+    background: var(--accent-pink);
+    color: #18181B;
+  }
+
+  .btn-mint {
+    background: var(--accent-mint);
+    color: #FFFFFF;
+  }
+
+  .btn-blue {
+    background: var(--accent-blue);
+    color: #FFFFFF;
+  }
+
+  .btn-sm {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+    border-width: 2px;
+    box-shadow: 2px 2px 0px var(--shadow-color);
+  }
+
+  .btn-sm:active {
+    box-shadow: 1px 1px 0px var(--shadow-color);
+  }
+
+  /* Tab Navigation */
+  .tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+
+  .tab-btn {
+    padding: 10px 18px;
+    font-weight: 800;
+    font-size: 0.95rem;
+    border: var(--border-width) solid var(--border);
+    border-radius: 10px;
+    background: var(--card-bg);
+    color: var(--text);
+    cursor: pointer;
+    box-shadow: 3px 3px 0px var(--shadow-color);
+    transition: all 0.1s ease;
+    white-space: nowrap;
+  }
+
+  .tab-btn.active {
+    background: var(--accent-pink);
+    color: #18181B;
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0px var(--shadow-color);
+  }
+
+  /* Mode Badge Pill */
+  .mode-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.78rem;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 20px;
+    border: 2px solid var(--border);
+    background: var(--badge-bg);
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #10B981;
+  }
+
+  .status-dot.offline {
+    background: #F59E0B;
+  }
+
+  /* Cards */
+  .card {
+    background: var(--card-bg);
+    border: var(--border-width) solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    box-shadow: var(--shadow-val);
+    margin-bottom: 24px;
+  }
+
+  .card-title {
+    font-size: 1.25rem;
+    font-weight: 900;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  /* Tooltip and Anchors Cheatsheet */
+  .anchors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin-top: 14px;
+  }
+
+  .anchor-item {
+    background: var(--code-bg);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 0.85rem;
+  }
+
+  .anchor-item strong {
+    display: block;
+    font-size: 0.95rem;
+    color: var(--accent-mint);
+  }
+
+  /* Worked sample walkthrough */
+  .callout {
+    background: var(--code-bg);
+    border-left: 6px solid var(--accent-yellow);
+    border-top: var(--border-width) solid var(--border);
+    border-right: var(--border-width) solid var(--border);
+    border-bottom: var(--border-width) solid var(--border);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 16px 0;
+  }
+
+  /* Practice problem elements */
+  .problem-header {
+    background: var(--badge-bg);
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 20px;
+  }
+
+  .problem-badge {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 800;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
+  }
+
+  .problem-question {
+    font-size: 1.25rem;
+    font-weight: 800;
+    margin-top: 6px;
+    line-height: 1.4;
+  }
+
+  .stepper-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .step-box {
+    border: var(--border-width) solid var(--border);
+    border-radius: 10px;
+    padding: 18px;
+    background: var(--card-bg);
+  }
+
+  .step-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    font-weight: 800;
+    font-size: 1rem;
+  }
+
+  .step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 6px;
+    background: var(--accent-yellow);
+    border: 1.5px solid var(--border);
+    color: #18181B;
+    margin-right: 8px;
+    font-size: 0.85rem;
+  }
+
+  /* Input fields */
+  input[type="text"], input[type="number"], select, textarea {
+    width: 100%;
+    padding: 10px 14px;
+    background: var(--input-bg);
+    color: var(--text);
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.1s ease;
+  }
+
+  input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:focus {
+    border-color: var(--accent-blue);
+  }
+
+  /* Variable Builder Table */
+  .var-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+
+  .var-table th {
+    text-align: left;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    padding: 8px;
+    border-bottom: 2px solid var(--border);
+  }
+
+  .var-table td {
+    padding: 8px;
+    vertical-align: middle;
+  }
+
+  .var-row {
+    background: var(--code-bg);
+    border-radius: 8px;
+    margin-bottom: 8px;
+  }
+
+  /* Geometric Mean Helper Widget */
+  .gm-widget {
+    background: var(--badge-bg);
+    border: 2px dashed var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    margin: 12px 0;
+    font-size: 0.85rem;
+  }
+
+  .gm-inputs {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-top: 8px;
+    flex-wrap: wrap;
+  }
+
+  .gm-inputs input {
+    max-width: 130px;
+    padding: 6px 10px;
+    font-size: 0.85rem;
+  }
+
+  /* Score Dashboard */
+  .score-result {
+    border: var(--border-width) solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    background: var(--card-bg);
+    box-shadow: var(--shadow-val);
+    margin-top: 24px;
+    animation: popIn 0.2s ease-out;
+  }
+
+  @keyframes popIn {
+    0% { transform: scale(0.97); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  .score-badge {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-weight: 900;
+    font-size: 1.1rem;
+    border: 2px solid var(--border);
+    margin-bottom: 12px;
+  }
+
+  .score-bullseye { background: var(--accent-mint); color: #FFFFFF; }
+  .score-great { background: var(--accent-yellow); color: #18181B; }
+  .score-ok { background: var(--accent-pink); color: #18181B; }
+  .score-off { background: var(--accent-coral); color: #FFFFFF; }
+
+  .comparison-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin: 16px 0;
+  }
+
+  .comp-box {
+    background: var(--code-bg);
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    text-align: center;
+  }
+
+  .comp-box span {
+    display: block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 800;
+    color: var(--text-muted);
+  }
+
+  .comp-box strong {
+    font-size: 1.25rem;
+    font-weight: 900;
+  }
+
+  /* Modal */
+  .modal-backdrop {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 16px;
+    backdrop-filter: blur(3px);
+  }
+
+  .modal-backdrop.open {
+    display: flex;
+  }
+
+  .modal {
+    background: var(--card-bg);
+    border: var(--border-width) solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    max-width: 540px;
+    width: 100%;
+    box-shadow: 6px 6px 0px var(--shadow-color);
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+
+  .form-group {
+    margin-bottom: 16px;
+  }
+
+  .form-group label {
+    display: block;
+    font-weight: 800;
+    font-size: 0.85rem;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+
+  .hint-box {
+    background: var(--code-bg);
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-top: 10px;
+    font-size: 0.9rem;
+    display: none;
+  }
+
+  .hint-box.active {
+    display: block;
+  }
+
+  /* Code block */
+  code, pre {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.88rem;
+  }
+
+  pre {
+    background: var(--code-bg);
+    padding: 12px;
+    border-radius: 8px;
+    border: 1.5px solid var(--border);
+    overflow-x: auto;
+    margin: 8px 0;
+  }
+
+  /* Toast notification */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--text);
+    color: var(--bg);
+    padding: 12px 20px;
+    border-radius: 8px;
+    border: 2px solid var(--border);
+    font-weight: 800;
+    font-size: 0.85rem;
+    z-index: 2000;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    pointer-events: none;
+  }
+
+  .toast.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Loading Spinner */
+  .spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 3px solid rgba(0,0,0,0.2);
+    border-radius: 50%;
+    border-top-color: currentColor;
+    animation: spin 0.7s linear infinite;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  @media (max-width: 640px) {
+    header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .nav-actions {
+      width: 100%;
+      justify-content: space-between;
+    }
+    .var-table, .var-table tbody, .var-table tr, .var-table td {
+      display: block;
+      width: 100%;
+    }
+    .var-table th { display: none; }
+    .var-table td {
+      padding: 4px 0;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Header -->
+  <header>
+    <div class="brand">
+      <span>📐 FERMI // CRAFT</span>
+      <span class="brand-chip">OOM TOOLKIT</span>
+    </div>
+    <div class="nav-actions">
+      <div id="modePill" class="mode-badge">
+        <span class="status-dot offline" id="modeDot"></span>
+        <span id="modeText">Offline Mode (8 Problems)</span>
+      </div>
+      <button class="btn btn-sm" id="btnSettings" title="API Configuration">⚙️ Settings</button>
+      <button class="btn btn-sm" id="btnThemeToggle" title="Dark/Light mode">🌙</button>
+    </div>
+  </header>
+
+  <!-- Navigation Tabs -->
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="practice">🎯 Practice Arena</button>
+    <button class="tab-btn" data-tab="toolkit">🧠 Principles & Anchors</button>
+    <button class="tab-btn" data-tab="walkthrough">✈️ Worked Sample</button>
+  </div>
+
+  <!-- TAB 1: PRACTICE ARENA -->
+  <section id="tab-practice" class="tab-content">
+    <div class="card">
+      <div class="card-title">
+        <span>Current Challenge</span>
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <button class="btn btn-sm btn-yellow" id="btnPrevProblem">‹ Prev</button>
+          <span id="problemCounter" style="font-size: 0.85rem; font-weight: 800;">1 / 8</span>
+          <button class="btn btn-sm btn-yellow" id="btnNextProblem">Next ›</button>
+          <button class="btn btn-sm btn-pink" id="btnLiveGen" style="display: none;">✨ New AI Problem</button>
+        </div>
+      </div>
+
+      <div class="problem-header">
+        <div class="problem-badge" id="problemCategory">Transportation & Scrapping</div>
+        <div class="problem-question" id="problemQuestion">Loading problem...</div>
+      </div>
+
+      <!-- Quick Geometric Mean Widget -->
+      <div class="gm-widget">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <strong>Geometric Mean Bounder:</strong>
+          <span style="font-size: 0.75rem; color:var(--text-muted);">GM = √(Low × High)</span>
+        </div>
+        <div class="gm-inputs">
+          <input type="number" id="gmLow" placeholder="Def. low (e.g. 100)">
+          <span>×</span>
+          <input type="number" id="gmHigh" placeholder="Def. high (e.g. 10000)">
+          <button class="btn btn-sm" id="btnCalcGm">Calculate GM</button>
+          <strong id="gmResult" style="color:var(--accent-mint); margin-left: 8px;"></strong>
+        </div>
+      </div>
+
+      <!-- Stepper Input Form -->
+      <div class="stepper-container">
+        <!-- Step 1: Equation Formulation -->
+        <div class="step-box">
+          <div class="step-head">
+            <div><span class="step-num">1</span> State Decomposition Equation</div>
+            <button class="btn btn-sm btn-pink" id="btnHintFormula">Need a Formula Hint?</button>
+          </div>
+          <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;">
+            Decompose into 3–5 multiplicative or divisional variables (e.g., <code>Pop × CarsPerCapita × (Tires / Lifespan)</code>).
+          </p>
+          <input type="text" id="eqInput" placeholder="e.g. (US_Pop * Cars_Per_Capita * Tires_Per_Car) / Tire_Life_Years">
+          <div class="hint-box" id="hintFormulaBox"></div>
+        </div>
+
+        <!-- Step 2: Variables & Justifications -->
+        <div class="step-box">
+          <div class="step-head">
+            <div><span class="step-num">2</span> Assumptions & 1-Sig-Fig Values</div>
+            <button class="btn btn-sm btn-mint" id="btnAddVarRow">+ Add Variable</button>
+          </div>
+          <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;">
+            Keep 1 significant figure mid-calculation. Overestimates cancel underestimates.
+          </p>
+
+          <table class="var-table" id="varTable">
+            <thead>
+              <tr>
+                <th style="width: 25%;">Variable Name</th>
+                <th style="width: 25%;">Value (scientific / raw)</th>
+                <th style="width: 42%;">1-Sentence Justification</th>
+                <th style="width: 8%;"></th>
+              </tr>
+            </thead>
+            <tbody id="varTableBody">
+              <!-- Rendered dynamically -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Step 3: Final Estimate & Submission -->
+        <div class="step-box">
+          <div class="step-head">
+            <div><span class="step-num">3</span> Synthesize & Evaluate</div>
+            <button class="btn btn-sm" id="btnAutoCompute">⚡ Auto-Multiply Rows</button>
+          </div>
+          <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+            <div style="flex:1; min-width:200px;">
+              <label style="font-size:0.75rem; text-transform:uppercase; font-weight:800; color:var(--text-muted);">Your Final Estimate</label>
+              <input type="number" id="finalEstimateInput" placeholder="e.g. 250000000" style="font-weight:900; font-size:1.1rem;">
+            </div>
+            <div style="padding-top:16px;">
+              <button class="btn btn-primary" id="btnSubmitEstimate" style="padding:11px 24px;">Evaluate My Estimate</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results & Evaluation Panel -->
+      <div id="evaluationSection" style="display:none;"></div>
+    </div>
+  </section>
+
+  <!-- TAB 2: TOOLKIT & ANCHORS -->
+  <section id="tab-toolkit" class="tab-content" style="display: none;">
+    <div class="card">
+      <div class="card-title">
+        <span>The Fermi Estimator’s Core Playbook</span>
+        <span class="brand-chip">6 RULES</span>
+      </div>
+
+      <div class="callout">
+        <strong>1. Error Cancellation (The Central Engine):</strong>
+        If you break an intractable problem into 5 sub-variables and estimate each within a factor of 3, your errors log-normally balance out. Expected total drift scales with <code>√N</code>, not <code>N</code>.
+      </div>
+
+      <div class="callout" style="border-left-color: var(--accent-pink);">
+        <strong>2. Supply vs. Demand Decomposition:</strong>
+        Decide whether to count consumers (demand) or capacity/providers (supply). Pick whichever side has fewer moving parts.
+        <br><em>Restaurant Revenue:</em> Demand = Diners × Average Bill. Supply = Seats × Turns × Average Bill.
+      </div>
+
+      <div class="callout" style="border-left-color: var(--accent-mint);">
+        <strong>3. Geometric Mean Bounding:</strong>
+        When blind on a variable, establish a lower bound that feels <em>definitely too low</em> ($L$) and an upper bound that is <em>definitely too high</em> ($H$).
+        <br>
+        <code>Estimate = √(L × H)</code>. (e.g. between 100 and 10,000 → $\sqrt{10^2 \times 10^4} = 1,000$).
+      </div>
+
+      <div class="callout" style="border-left-color: var(--accent-blue);">
+        <strong>4. Little’s Law for Flows:</strong>
+        For queueing, pipes, transit, or in-flight objects:
+        <br>
+        <code>L = λ × W</code> (Units in System = Arrival Rate × Average Residence Time).
+      </div>
+
+      <div class="callout" style="border-left-color: var(--accent-coral);">
+        <strong>5. Strict One Significant Figure:</strong>
+        Round relentlessly mid-flight ($365 \to 400$; $\pi \to 3$; $68\% \to 70\%$). Extra precision is cognitive waste and gives false confidence.
+      </div>
+
+      <h3 style="margin: 24px 0 8px; font-weight: 900;">Essential Anchors to Memorize</h3>
+      <p style="font-size:0.85rem; color:var(--text-muted);">Use these established baseline numbers to anchor your chains.</p>
+
+      <div class="anchors-grid">
+        <div class="anchor-item">
+          <strong>3.3 × 10⁸</strong>
+          US Population (~120M households, ~2.7 people/hh)
+        </div>
+        <div class="anchor-item">
+          <strong>8.0 × 10⁹</strong>
+          World Population (~8 Billion)
+        </div>
+        <div class="anchor-item">
+          <strong>π × 10⁷ s</strong>
+          Seconds per year (3.15 × 10⁷ s ≈ 31.5M s)
+        </div>
+        <div class="anchor-item">
+          <strong>1,000 kg / m³</strong>
+          Density of water (1 g/cm³ = 1 metric ton/m³)
+        </div>
+        <div class="anchor-item">
+          <strong>100 Watts</strong>
+          Average human basal metabolic rate (~2,000 kcal/day)
+        </div>
+        <div class="anchor-item">
+          <strong>~280 Million</strong>
+          Registered highway vehicles in the United States
+        </div>
+        <div class="anchor-item">
+          <strong>~12,000 miles</strong>
+          Average miles driven by an American passenger vehicle / year
+        </div>
+        <div class="anchor-item">
+          <strong>8.5 × 10⁶</strong>
+          New York City Population
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB 3: WORKED SAMPLE -->
+  <section id="tab-walkthrough" class="tab-content" style="display: none;">
+    <div class="card">
+      <div class="card-title">
+        <span>Worked Walkthrough: Commercial Planes in the Air</span>
+        <span class="mode-badge">CASE STUDY</span>
+      </div>
+
+      <p style="margin-bottom: 12px; font-size: 0.95rem;">
+        <strong>Question:</strong> How many commercial passenger airliners are airborne globally right now?
+      </p>
+
+      <div class="callout" style="border-left-color:var(--accent-blue);">
+        <strong>Structural Equation (Little's Law):</strong><br>
+        <code>Planes Airborne (L) = Total Daily Flights (λ) / 24 hrs × Average Flight Duration (W)</code>
+      </div>
+
+      <div style="margin: 16px 0;">
+        <h4 style="font-weight: 800; margin-bottom: 6px;">Step 1: Estimate Global Flight Volume</h4>
+        <ul style="padding-left: 20px; font-size: 0.9rem; color: var(--text-muted); display: flex; flex-direction: column; gap: 6px;">
+          <li>US has ~30 major hub airports (ATL, ORD, LAX, JFK...).</li>
+          <li>US represents ~25% of commercial aviation → Worldwide ~120 mega-hubs + ~380 active regional airports ≈ <strong>500 commercial airports</strong>.</li>
+          <li>Average busy runway does 1 movement every 2 mins ≈ 30 ops/hr. Over a 24-hr cycle (busy peak + quiet night), average <strong>20 departures/hour/airport</strong>.</li>
+          <li>Departures per day: 500 airports × 20 departures/hr × 24 hr ≈ <strong>~100,000 to 200,000 flights/day</strong>. Let's calibrate to <strong>100,000 flights/day</strong>.</li>
+        </ul>
+      </div>
+
+      <div style="margin: 16px 0;">
+        <h4 style="font-weight: 800; margin-bottom: 6px;">Step 2: Departure Rate (λ)</h4>
+        <p style="font-size: 0.9rem; color: var(--text-muted);">
+          <code>λ = 100,000 flights / 24 hours ≈ 4,000 flights/hour</code>
+        </p>
+      </div>
+
+      <div style="margin: 16px 0;">
+        <h4 style="font-weight: 800; margin-bottom: 6px;">Step 3: Average Duration (W)</h4>
+        <p style="font-size: 0.9rem; color: var(--text-muted);">
+          Short hops (1 hr), transcontinental (3-5 hr), long-haul international (8-12 hr). Domestic flights dominate passenger volume.
+          Weighted average: <strong>2.5 hours</strong>.
+        </p>
+      </div>
+
+      <div class="comp-box" style="margin-top: 16px; background: var(--badge-bg);">
+        <span>Result</span>
+        <strong style="color:var(--accent-mint); font-size: 1.6rem;">L = 4,000 × 2.5 = 10,000 planes in the air</strong>
+        <p style="font-size:0.8rem; margin-top:6px; color:var(--text-muted);">
+          Flightradar24 tracking confirms typical global airborne commercial peak is 10,000 to 14,000 planes. Accuracy: <strong>Within 25%</strong>.
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- Settings Modal -->
+<div class="modal-backdrop" id="settingsModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 style="font-weight: 900; font-size: 1.25rem;">⚙️ Provider & Live Engine</h3>
+      <button class="btn btn-sm" id="btnCloseSettings">✕</button>
+    </div>
+
+    <div class="form-group">
+      <label>Execution Mode</label>
+      <select id="settingMode">
+        <option value="offline">Offline Mode (Built-in Curated Bank)</option>
+        <option value="live">Live Mode (AI Infinite Problems & Coach)</option>
+      </select>
+    </div>
+
+    <div id="liveSettingsGroup">
+      <div class="form-group">
+        <label>LLM Provider</label>
+        <select id="settingProvider">
+          <option value="gemini">Google Gemini API</option>
+          <option value="openrouter">OpenRouter API</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>API Key</label>
+        <input type="password" id="settingApiKey" placeholder="Paste your API key here">
+        <small style="display:block; margin-top:4px; font-size:0.75rem; color:var(--text-muted);">
+          Keys are stored locally in your browser's <code>localStorage</code> and never sent anywhere else.
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label>Model Slug</label>
+        <input type="text" id="settingModel" placeholder="gemini-2.5-flash">
+        <div style="display:flex; gap:6px; margin-top:6px; flex-wrap:wrap;">
+          <button class="btn btn-sm" data-preset="gemini-2.5-flash">gemini-2.5-flash</button>
+          <button class="btn btn-sm" data-preset="gemini-1.5-flash">gemini-1.5-flash</button>
+          <button class="btn btn-sm" data-preset="google/gemini-2.0-flash-001">google/gemini-2.0-flash-001</button>
+          <button class="btn btn-sm" data-preset="meta-llama/llama-3.3-70b-instruct">llama-3.3-70b</button>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:10px; margin-top:16px;">
+        <button class="btn btn-mint" id="btnTestApi" style="flex:1;">Test Connection</button>
+      </div>
+      <div id="apiTestFeedback" style="margin-top:8px; font-size:0.85rem; font-weight:800;"></div>
+    </div>
+
+    <div style="margin-top: 24px; display: flex; justify-content: flex-end; gap: 8px;">
+      <button class="btn btn-primary" id="btnSaveSettings">Save & Apply</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">Notification</div>
+
+<script>
+/**
+ * FERMI // CRAFT APPLICATION LOGIC
+ * Offline-first, Standalone, LLM-extensible
+ */
+
+// 1. Built-in Curated Offline Bank
+const BUILTIN_PROBLEMS = [
+  {
+    id: 1,
+    title: "Discarded Car Tires",
+    category: "Automotive & Waste Streams",
+    question: "How many passenger car tires are discarded (scrapped or replaced) in the United States every year?",
+    target: 280000000, // ~280-300 million tires/yr (RMA/USTMA statistics: ~270M-300M)
+    unit: "tires / year",
+    formulaHint: "Tires_Discarded = Total_Cars × (4 Tires / Lifespan_in_Years)\nOr: (US_Pop × Cars_Per_Person × Annual_Miles) / (Tire_Lifespan_Miles)",
+    canonicalDecomp: {
+      equation: "US_Cars × (Tires_Per_Car / Tire_Lifespan_Years)",
+      params: [
+        { name: "US Population", val: "3.3e8", desc: "US population anchor" },
+        { name: "Cars Per Capita", val: "0.85", desc: "~280 million registered passenger vehicles" },
+        { name: "Tires Per Car", val: "4", desc: "Standard 4 wheels per car" },
+        { name: "Tire Lifespan", val: "4", desc: "Tires last ~45,000 miles; average driving is ~12,000 mi/yr = ~4 yrs" }
+      ]
+    },
+    defaultRows: [
+      { name: "US_Population", val: "330000000", desc: "Anchor for total people in the United States" },
+      { name: "Vehicles_Per_Capita", val: "0.8", desc: "US is highly car-dependent, roughly 8 cars for every 10 people" },
+      { name: "Tires_Per_Vehicle", val: "4", desc: "Active wheels on a passenger car" },
+      { name: "Tire_Lifespan_Years", val: "4", desc: "Average tire lasts ~45k miles; at ~12k miles/yr, that is ~4 years" }
+    ],
+    calcExpr: "(row[0] * row[1] * row[2]) / row[3]",
+    analysisNotes: "US Tire Manufacturers Association (USTMA) tracks ~270M–300M scrap tires generated annually. Modeling 280M cars replacing 1 tire every year (4 tires over 4 years) lands within 5% of ground truth."
+  },
+  {
+    id: 2,
+    title: "Airborne Commercial Planes",
+    category: "Aviation & Little's Law",
+    question: "How many commercial passenger planes are in the air globally right now?",
+    target: 12000, // Peak is ~12k-15k, global 24hr mean is ~10k-12k
+    unit: "airplanes in flight",
+    formulaHint: "Airborne_Planes = (Global_Daily_Flights / 24 hours) × Average_Flight_Duration_Hours",
+    canonicalDecomp: {
+      equation: "Departure_Rate (λ) × Average_Flight_Duration (W)",
+      params: [
+        { name: "Commercial Airports", val: "500", desc: "Hubs + mid-sized regional airports globally" },
+        { name: "Hourly Departures", val: "20", desc: "Average operations per airport across day/night cycles" },
+        { name: "Avg Duration (hrs)", val: "2.5", desc: "Weighted heavily toward domestic/regional flights" }
+      ]
+    },
+    defaultRows: [
+      { name: "Major_Airports", val: "500", desc: "Global hubs and significant regional airports" },
+      { name: "Departures_Per_Hr", val: "20", desc: "Conservative 24-hr average per airport" },
+      { name: "Flight_Duration_Hrs", val: "2.5", desc: "Domestic routes outnumber transoceanic long hauls" }
+    ],
+    calcExpr: "row[0] * row[1] * row[2]",
+    analysisNotes: "Flightradar24 routinely tracks 10,000 to 16,000 commercial flights simultaneously during daytime peaks across the Northern hemisphere."
+  },
+  {
+    id: 3,
+    title: "NYC Daily Water Consumption",
+    category: "Municipal Utilities",
+    question: "How many gallons of municipal water does New York City consume in a single day?",
+    target: 1000000000, // ~1.0 billion gallons/day (DEP official reports ~1.0B gpd)
+    unit: "gallons / day",
+    formulaHint: "Total_Gallons = NYC_Population × (Residential_Gallons_Per_Person + Commercial_Loss_Buffer)",
+    canonicalDecomp: {
+      equation: "NYC_Pop × Per_Capita_Usage × Non_Residential_Multiplier",
+      params: [
+        { name: "NYC Pop", val: "8.5e6", desc: "Anchor for NYC 5 boroughs" },
+        { name: "Direct Residential", val: "80", desc: "Showers (20), toilets (25), dishes/laundry/drinking (35)" },
+        { name: "Commercial Multiplier", val: "1.4", desc: "Restaurants, hotels, street cleaning, pipe leakage" }
+      ]
+    },
+    defaultRows: [
+      { name: "NYC_Population", val: "8500000", desc: "Total population across the five boroughs" },
+      { name: "Daily_Gal_Per_Person", val: "80", desc: "Showers, laundry, toilet flushes, cooking" },
+      { name: "Commercial_System_Factor", val: "1.4", desc: "Factor for offices, restaurants, fire fighting, pipe leaks" }
+    ],
+    calcExpr: "row[0] * row[1] * row[2]",
+    analysisNotes: "Official NYC Department of Environmental Protection (DEP) records show average daily system demand of approximately 1.0 to 1.1 billion gallons per day."
+  },
+  {
+    id: 4,
+    title: "Italian Espresso Consumption",
+    category: "Commodities & Daily Habits",
+    question: "How many kilograms of coffee beans are consumed in Italy every single day?",
+    target: 800000, // ~800,000 kg/day (Italy consumes ~300M kg/yr = ~820k kg/day)
+    unit: "kg of coffee beans / day",
+    formulaHint: "Kg_Coffee = Population × % Coffee_Drinkers × Cups_Per_Day × (Grams_Per_Espresso / 1000)",
+    canonicalDecomp: {
+      equation: "Drinkers × Cups_Per_Day × Grams_Per_Cup / 1000",
+      params: [
+        { name: "Italy Population", val: "60e6", desc: "Population anchor" },
+        { name: "Adult Drinkers", val: "0.75", desc: "~45 million regular coffee drinkers" },
+        { name: "Cups / Day", val: "2.5", desc: "Morning, post-lunch, afternoon espresso" },
+        { name: "Grams / Cup", val: "7.5", desc: "Standard Italian barista portafilter dose is 7-8g" }
+      ]
+    },
+    defaultRows: [
+      { name: "Italy_Pop", val: "60000000", desc: "National population anchor" },
+      { name: "Drinker_Fraction", val: "0.75", desc: "Excludes small kids; coffee culture is nearly universal" },
+      { name: "Cups_Per_Drinker", val: "2.5", desc: "Morning bar stop, lunch espresso, home moka" },
+      { name: "Grams_Per_Shot", val: "0.0075", desc: "7.5 grams per single shot (in kilograms)" }
+    ],
+    calcExpr: "row[0] * row[1] * row[2] * row[3]",
+    analysisNotes: "Italy consumes roughly 5.5 to 6.0 kg per capita annually, yielding ~330 million kg per year, which equates to ~900,000 kg per day."
+  },
+  {
+    id: 5,
+    title: "Chicago Piano Tuners",
+    category: "The Classical Fermi Problem",
+    question: "How many professional piano tuners reside and work in Chicago?",
+    target: 30, // Reference canonical answer is 25-40
+    unit: "piano tuners",
+    formulaHint: "Tuners = (Chicago_Pianos × Tunings_Per_Year) / (Tunings_Per_Tuner_Per_Year)",
+    canonicalDecomp: {
+      equation: "(Pop / HH_Size × % Pianos × Tunings_Yr) / (Tunings_Day × Workdays)",
+      params: [
+        { name: "Chicago Pop", val: "2.7e6", desc: "City proper anchor" },
+        { name: "Households", val: "1.0e6", desc: "~2.7 persons per household" },
+        { name: "Piano Ownership", val: "0.02", desc: "1 in 50 homes has a piano = 20,000 pianos" },
+        { name: "Tunings per Year", val: "0.5", desc: "Tuned once every 2 years = 10,000 tunings/yr" },
+        { name: "Tuner Capacity", val: "400", desc: "2 tunings/day × 200 days/yr = 400 tunings/tuner/yr" }
+      ]
+    },
+    defaultRows: [
+      { name: "Chicago_Households", val: "1000000", desc: "2.7M people divided by ~2.7 per household" },
+      { name: "Piano_Rate", val: "0.02", desc: "2% of homes possess an acoustic piano" },
+      { name: "Tunings_Per_Year", val: "0.5", desc: "Tunings occur roughly once every other year" },
+      { name: "Tuner_Annual_Capacity", val: "400", desc: "2 pianos/day × 200 workdays per year" }
+    ],
+    calcExpr: "(row[0] * row[1] * row[2]) / row[3]",
+    analysisNotes: "Canonical solution by Enrico Fermi estimated ~30 tuners. Modern directory listings for the Chicago metropolitan core indicate 25 to 35 practicing tuners."
+  },
+  {
+    id: 6,
+    title: "Manhattan Hot Dog Carts",
+    category: "Urban Micro-Economics",
+    question: "What is the total annual gross revenue of all sidewalk hot dog and street food carts in Manhattan?",
+    target: 40000000, // ~$30M - $50M
+    unit: "USD / year",
+    formulaHint: "Total_Revenue = Active_Carts × Operating_Days × Average_Daily_Sales_USD",
+    canonicalDecomp: {
+      equation: "Carts × Days × (HotDogs_Sold × Price)",
+      params: [
+        { name: "Carts", val: "600", desc: "Permitted pushcarts active across Midtown and parks" },
+        { name: "Days / Year", val: "300", desc: "Operating most non-stormy days" },
+        { name: "Customers / Day", val: "150", desc: "Peak lunch rush plus tourists" },
+        { name: "Avg Spend", val: "5.00", desc: "Hot dog + pretzel / beverage" }
+      ]
+    },
+    defaultRows: [
+      { name: "Active_Pushcarts", val: "600", desc: "Permitted mobile food carts in Manhattan" },
+      { name: "Operating_Days", val: "300", desc: "Excludes severe winter/rain days" },
+      { name: "Daily_Transactions", val: "150", desc: "Average street foot traffic conversions" },
+      { name: "Average_Ticket_USD", val: "5", desc: "1 dog + drink or pretzel" }
+    ],
+    calcExpr: "row[0] * row[1] * row[2] * row[3]",
+    analysisNotes: "NYC issues ~3,000 citywide mobile vendor permits, with roughly 500-700 classic food carts in Manhattan. At $750/day gross, total revenue lands near $40–45 Million."
+  },
+  {
+    id: 7,
+    title: "US Supermarket Food Waste",
+    category: "Industrial Logistics & Waste",
+    question: "How many metric tons of food waste are generated by supermarkets in the US every year?",
+    target: 18000000, // ~15-20 Million metric tons (USDA / ReFED benchmark: ~16M-19M tons)
+    unit: "metric tons / year",
+    formulaHint: "Waste_Tons = US_Supermarkets × Tons_Wasted_Per_Store_Per_Day × 365 days",
+    canonicalDecomp: {
+      equation: "Supermarkets × Daily_Waste_Tons × 365",
+      params: [
+        { name: "Supermarkets", val: "40000", desc: "Kroger, Walmart, Safeway, Trader Joe's, regional grocers" },
+        { name: "Daily Waste (Tons)", val: "1.2", desc: "Expired produce, dairy, bakery discards" },
+        { name: "Days / Yr", val: "365", desc: "Supermarkets operate year round" }
+      ]
+    },
+    defaultRows: [
+      { name: "US_Supermarkets", val: "40000", desc: "Industry count for commercial grocery stores" },
+      { name: "Daily_Discards_Tons", val: "1.2", desc: "Overstocked vegetables, bread, prepared foods per store" },
+      { name: "Days_Per_Year", val: "365", desc: "Annual continuous operation" }
+    ],
+    calcExpr: "row[0] * row[1] * row[2]",
+    analysisNotes: "ReFED and USDA research calculates annual US grocery retail surplus and food waste between 16M and 20M metric tons."
+  },
+  {
+    id: 8,
+    title: "Daily Global Lightning Strikes",
+    category: "Geophysics & Nature",
+    question: "How many lightning strikes hit the Earth's surface across the entire globe in 24 hours?",
+    target: 8000000, // ~8 million strikes/day (~100 strikes per second globally)
+    unit: "lightning strikes / day",
+    formulaHint: "Strikes_Per_Day = Global_Strike_Frequency (per second) × 86,400 seconds",
+    canonicalDecomp: {
+      equation: "Active_Storm_Cells × Strikes_Per_Cell_Minute × 1,440 Minutes",
+      params: [
+        { name: "Active Storms", val: "2000", desc: "Tropical belts, rainforests, afternoon fronts" },
+        { name: "Flashes / Min", val: "3", desc: "Cloud-to-ground strike cadence" },
+        { name: "Minutes / Day", val: "1440", desc: "24 hours × 60 minutes" }
+      ]
+    },
+    defaultRows: [
+      { name: "Strikes_Per_Second", val: "100", desc: "NASA satellite optical transient detector benchmark" },
+      { name: "Seconds_Per_Day", val: "86400", desc: "24 × 60 × 60 seconds" }
+    ],
+    calcExpr: "row[0] * row[1]",
+    analysisNotes: "Satellite sensors (NASA LIS/OTD) record roughly 45 to 100 lightning flashes per second globally, translating to ~4M to 8.6M daily strikes."
+  }
+];
+
+// App State
+let state = {
+  currentProblemIndex: 0,
+  currentProblem: BUILTIN_PROBLEMS[0],
+  mode: "offline", // "offline" or "live"
+  provider: "gemini", // "gemini" or "openrouter"
+  apiKey: "",
+  model: "gemini-2.5-flash",
+  theme: "light"
+};
+
+// Storage Keys
+const STORAGE_KEY = "fermi_craft_config_v1";
+
+function loadSettings() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      state.mode = parsed.mode || "offline";
+      state.provider = parsed.provider || "gemini";
+      state.apiKey = parsed.apiKey || "";
+      state.model = parsed.model || (state.provider === "gemini" ? "gemini-2.5-flash" : "google/gemini-2.0-flash-001");
+      state.theme = parsed.theme || "light";
+    }
+  } catch(e) {
+    console.warn("Storage load error", e);
+  }
+}
+
+function saveSettings() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      mode: state.mode,
+      provider: state.provider,
+      apiKey: state.apiKey,
+      model: state.model,
+      theme: state.theme
+    }));
+  } catch(e) {
+    console.warn("Storage save error", e);
+  }
+}
+
+// UI Notification
+function showToast(msg) {
+  const toast = document.getElementById("toast");
+  toast.innerText = msg;
+  toast.classList.add("show");
+  setTimeout(() => toast.classList.remove("show"), 2800);
+}
+
+// Format numbers in readable scientific & human strings
+function formatFermiNumber(num) {
+  if (num === null || isNaN(num)) return "0";
+  const abs = Math.abs(num);
+  if (abs >= 1e9) return (num / 1e9).toFixed(1) + " Billion (" + num.toExponential(1) + ")";
+  if (abs >= 1e6) return (num / 1e6).toFixed(1) + " Million (" + num.toExponential(1) + ")";
+  if (abs >= 1e3) return (num / 1e3).toFixed(1) + " Thousand (" + num.toExponential(1) + ")";
+  if (abs < 0.01 && abs > 0) return num.toExponential(1);
+  return num.toLocaleString();
+}
+
+// DOM Elements
+const modePill = document.getElementById("modePill");
+const modeDot = document.getElementById("modeDot");
+const modeText = document.getElementById("modeText");
+const problemCounter = document.getElementById("problemCounter");
+const problemCategory = document.getElementById("problemCategory");
+const problemQuestion = document.getElementById("problemQuestion");
+const eqInput = document.getElementById("eqInput");
+const hintFormulaBox = document.getElementById("hintFormulaBox");
+const varTableBody = document.getElementById("varTableBody");
+const finalEstimateInput = document.getElementById("finalEstimateInput");
+const evaluationSection = document.getElementById("evaluationSection");
+const btnLiveGen = document.getElementById("btnLiveGen");
+
+// Initialize Problem
+function renderProblem(prob) {
+  state.currentProblem = prob;
+  problemCategory.innerText = prob.category || "General Fermi Challenge";
+  problemQuestion.innerText = prob.question;
+  problemCounter.innerText = state.mode === "offline" 
+    ? `${state.currentProblemIndex + 1} / ${BUILTIN_PROBLEMS.length}`
+    : "Live Mode ✨";
+
+  eqInput.value = prob.canonicalDecomp?.equation || "";
+  hintFormulaBox.classList.remove("active");
+  hintFormulaBox.innerText = "";
+  evaluationSection.style.display = "none";
+  finalEstimateInput.value = "";
+
+  // Render Table Rows
+  varTableBody.innerHTML = "";
+  const rows = prob.defaultRows || [
+    { name: "Var_A", val: "100", desc: "Initial parameter" },
+    { name: "Var_B", val: "10", desc: "Rate or multiplier" }
+  ];
+
+  rows.forEach(r => addVariableRow(r.name, r.val, r.desc));
+}
+
+function addVariableRow(name = "", val = "", desc = "") {
+  const tr = document.createElement("tr");
+  tr.className = "var-row";
+  tr.innerHTML = `
+    <td><input type="text" class="var-name" value="${name}" placeholder="Parameter"></td>
+    <td><input type="text" class="var-val" value="${val}" placeholder="e.g. 3.3e8"></td>
+    <td><input type="text" class="var-desc" value="${desc}" placeholder="1-sentence rationale"></td>
+    <td style="text-align:center;">
+      <button class="btn btn-sm btn-pink btn-del-row" title="Remove" style="padding:4px 8px;">✕</button>
+    </td>
+  `;
+  tr.querySelector(".btn-del-row").addEventListener("click", () => tr.remove());
+  varTableBody.appendChild(tr);
+}
+
+// Evaluate Row Multipliers
+function computeFromRows() {
+  const rows = varTableBody.querySelectorAll(".var-row");
+  const values = [];
+  rows.forEach(r => {
+    const valStr = r.querySelector(".var-val").value.trim();
+    const parsed = Number(valStr);
+    if (!isNaN(parsed) && valStr !== "") {
+      values.push(parsed);
+    }
+  });
+
+  if (values.length === 0) {
+    showToast("Please enter numeric values in the table rows.");
+    return;
+  }
+
+  // If problem has a specific formula expression, evaluate it safely
+  let total = 0;
+  if (state.currentProblem.calcExpr) {
+    try {
+      const row = values;
+      total = eval(state.currentProblem.calcExpr);
+    } catch (e) {
+      // Fallback product
+      total = values.reduce((acc, v) => acc * v, 1);
+    }
+  } else {
+    // Default simple product
+    total = values.reduce((acc, v) => acc * v, 1);
+  }
+
+  // 1 significant figure round
+  const order = Math.pow(10, Math.floor(Math.log10(Math.abs(total))));
+  const oneSig = Math.round(total / order) * order;
+
+  finalEstimateInput.value = oneSig;
+  showToast(`Computed ~${formatFermiNumber(oneSig)} (1 Sig Fig)`);
+}
+
+// Geometric Mean Quick Calc
+document.getElementById("btnCalcGm").addEventListener("click", () => {
+  const low = parseFloat(document.getElementById("gmLow").value);
+  const high = parseFloat(document.getElementById("gmHigh").value);
+  const resElem = document.getElementById("gmResult");
+  if (isNaN(low) || isNaN(high) || low <= 0 || high <= 0) {
+    resElem.innerText = "Enter positive numbers";
+    return;
+  }
+  const gm = Math.sqrt(low * high);
+  const order = Math.pow(10, Math.floor(Math.log10(gm)));
+  const rounded = Math.round(gm / order) * order;
+  resElem.innerText = `≈ ${formatFermiNumber(rounded)}`;
+});
+
+// Hint Toggle
+document.getElementById("btnHintFormula").addEventListener("click", async () => {
+  if (hintFormulaBox.classList.contains("active")) {
+    hintFormulaBox.classList.remove("active");
+    return;
+  }
+
+  if (state.mode === "live" && state.apiKey) {
+    hintFormulaBox.innerText = "Consulting AI Coach...";
+    hintFormulaBox.classList.add("active");
+    const hint = await getAiHint(state.currentProblem.question, eqInput.value);
+    hintFormulaBox.innerText = hint;
+  } else {
+    hintFormulaBox.innerText = state.currentProblem.formulaHint || "Try breaking into: [Target Population] × [Rate of activity per unit time] × [Unit consumption]";
+    hintFormulaBox.classList.add("active");
+  }
+});
+
+// Scoring Engine
+function calculateFermiScore(userVal, targetVal) {
+  if (userVal <= 0 || targetVal <= 0) return { oomDiff: 99, score: 0, badge: "Invalid", badgeClass: "score-off" };
+  const userLog = Math.log10(userVal);
+  const targetLog = Math.log10(targetVal);
+  const oomDiff = Math.abs(userLog - targetLog);
+
+  let score = 0;
+  let badge = "";
+  let badgeClass = "";
+
+  if (oomDiff <= 0.301) { // Within factor of 2
+    score = 100;
+    badge = "🎯 BULLSEYE (Within Factor of 2)";
+    badgeClass = "score-bullseye";
+  } else if (oomDiff <= 0.70) { // Within factor of 5
+    score = 88;
+    badge = "⭐ EXCEPTIONAL (Within 0.7 OOM)";
+    badgeClass = "score-great";
+  } else if (oomDiff <= 1.0) { // Within 1 order of magnitude (factor of 10)
+    score = 72;
+    badge = "👍 SOLID FERMI HIT (Within 1 OOM)";
+    badgeClass = "score-great";
+  } else if (oomDiff <= 1.7) { // Within ~50x
+    score = 45;
+    badge = "⚠️ ROUGH ESTIMATE (1.5 OOM Drift)";
+    badgeClass = "score-ok";
+  } else {
+    score = 15;
+    badge = "🚨 OFF BY MULTIPLE ORDERS";
+    badgeClass = "score-off";
+  }
+
+  return { oomDiff: oomDiff.toFixed(2), score, badge, badgeClass };
+}
+
+// Evaluate Estimate Button
+document.getElementById("btnSubmitEstimate").addEventListener("click", async () => {
+  const userVal = parseFloat(finalEstimateInput.value);
+  if (isNaN(userVal) || userVal <= 0) {
+    showToast("Please provide a valid positive final estimate.");
+    return;
+  }
+
+  const target = state.currentProblem.target;
+  const result = calculateFermiScore(userVal, target);
+
+  evaluationSection.style.display = "block";
+  evaluationSection.innerHTML = `
+    <div class="score-result">
+      <div class="score-badge ${result.badgeClass}">${result.badge}</div>
+      <h3 style="font-weight:900; font-size:1.3rem;">Order of Magnitude Score: ${result.score}/100</h3>
+      <p style="color:var(--text-muted); font-size:0.9rem; margin-top:4px;">
+        Log₁₀ Drift: <strong>${result.oomDiff} orders of magnitude</strong>.
+      </p>
+
+      <div class="comparison-grid">
+        <div class="comp-box">
+          <span>Your Estimate</span>
+          <strong style="color:var(--accent-blue);">${formatFermiNumber(userVal)}</strong>
+        </div>
+        <div class="comp-box">
+          <span>Benchmark Target</span>
+          <strong style="color:var(--accent-mint);">${formatFermiNumber(target)}</strong>
+        </div>
+        <div class="comp-box">
+          <span>Unit</span>
+          <strong>${state.currentProblem.unit || 'units'}</strong>
+        </div>
+      </div>
+
+      <div class="callout" style="margin-top:16px;">
+        <strong>Process & Error Breakdown:</strong>
+        <p style="font-size:0.9rem; margin-top:6px;" id="breakdownContent">
+          ${state.currentProblem.analysisNotes || "Your steps broke down the main factors. Notice whether multiple factors compounded in the same direction or canceled out!"}
+        </p>
+      </div>
+
+      ${state.mode === "live" ? `
+        <div style="margin-top: 14px;">
+          <button class="btn btn-pink btn-sm" id="btnRequestAiReview">🤖 Request In-Depth AI Audit</button>
+        </div>
+        <div id="aiReviewBox" style="margin-top:12px; font-size:0.9rem; display:none;" class="callout"></div>
+      ` : ''}
+    </div>
+  `;
+
+  // Attach live AI review listener if present
+  const btnReview = document.getElementById("btnRequestAiReview");
+  if (btnReview) {
+    btnReview.addEventListener("click", async () => {
+      btnReview.innerHTML = `<span class="spinner"></span> Analyzing decomposition...`;
+      const review = await getAiStepReview();
+      const box = document.getElementById("aiReviewBox");
+      box.style.display = "block";
+      box.innerHTML = `<strong>AI Coach Review:</strong><br>${review.replace(/\n/g, '<br>')}`;
+      btnReview.style.display = "none";
+    });
+  }
+
+  evaluationSection.scrollIntoView({ behavior: 'smooth' });
+});
+
+// UI Event Listeners for Nav, Tabs, Problems
+document.getElementById("btnPrevProblem").addEventListener("click", () => {
+  if (state.currentProblemIndex > 0) {
+    state.currentProblemIndex--;
+    renderProblem(BUILTIN_PROBLEMS[state.currentProblemIndex]);
+  }
+});
+
+document.getElementById("btnNextProblem").addEventListener("click", () => {
+  if (state.currentProblemIndex < BUILTIN_PROBLEMS.length - 1) {
+    state.currentProblemIndex++;
+    renderProblem(BUILTIN_PROBLEMS[state.currentProblemIndex]);
+  }
+});
+
+document.getElementById("btnAddVarRow").addEventListener("click", () => addVariableRow());
+document.getElementById("btnAutoCompute").addEventListener("click", computeFromRows);
+
+// Tab Switcher
+document.querySelectorAll(".tab-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+    document.querySelectorAll(".tab-content").forEach(c => c.style.display = "none");
+    btn.classList.add("active");
+    document.getElementById(`tab-${btn.dataset.tab}`).style.display = "block";
+  });
+});
+
+// Theme Switcher
+const btnThemeToggle = document.getElementById("btnThemeToggle");
+function applyTheme(theme) {
+  state.theme = theme;
+  document.documentElement.setAttribute("data-theme", theme);
+  btnThemeToggle.innerText = theme === "dark" ? "☀️" : "🌙";
+  saveSettings();
+}
+btnThemeToggle.addEventListener("click", () => {
+  applyTheme(state.theme === "dark" ? "light" : "dark");
+});
+
+// Settings Modal Management
+const settingsModal = document.getElementById("settingsModal");
+const btnSettings = document.getElementById("btnSettings");
+const btnCloseSettings = document.getElementById("btnCloseSettings");
+const settingMode = document.getElementById("settingMode");
+const settingProvider = document.getElementById("settingProvider");
+const settingApiKey = document.getElementById("settingApiKey");
+const settingModel = document.getElementById("settingModel");
+const liveSettingsGroup = document.getElementById("liveSettingsGroup");
+const apiTestFeedback = document.getElementById("apiTestFeedback");
+
+function syncSettingsModal() {
+  settingMode.value = state.mode;
+  settingProvider.value = state.provider;
+  settingApiKey.value = state.apiKey;
+  settingModel.value = state.model;
+  liveSettingsGroup.style.display = state.mode === "live" ? "block" : "none";
+}
+
+btnSettings.addEventListener("click", () => {
+  syncSettingsModal();
+  apiTestFeedback.innerText = "";
+  settingsModal.classList.add("open");
+});
+
+btnCloseSettings.addEventListener("click", () => settingsModal.classList.remove("open"));
+
+settingMode.addEventListener("change", (e) => {
+  liveSettingsGroup.style.display = e.target.value === "live" ? "block" : "none";
+});
+
+settingProvider.addEventListener("change", (e) => {
+  if (e.target.value === "gemini") {
+    settingModel.value = "gemini-2.5-flash";
+  } else {
+    settingModel.value = "google/gemini-2.0-flash-001";
+  }
+});
+
+document.querySelectorAll("[data-preset]").forEach(presetBtn => {
+  presetBtn.addEventListener("click", () => {
+    settingModel.value = presetBtn.dataset.preset;
+  });
+});
+
+document.getElementById("btnSaveSettings").addEventListener("click", () => {
+  state.mode = settingMode.value;
+  state.provider = settingProvider.value;
+  state.apiKey = settingApiKey.value.trim();
+  state.model = settingModel.value.trim();
+  saveSettings();
+  updateModeIndicator();
+  settingsModal.classList.remove("open");
+  showToast("Settings applied & saved!");
+});
+
+function updateModeIndicator() {
+  if (state.mode === "live" && state.apiKey) {
+    modeDot.className = "status-dot";
+    modeText.innerText = `Live: ${state.provider.toUpperCase()} (${state.model})`;
+    btnLiveGen.style.display = "inline-flex";
+  } else {
+    state.mode = "offline";
+    modeDot.className = "status-dot offline";
+    modeText.innerText = `Offline Mode (${BUILTIN_PROBLEMS.length} Problems)`;
+    btnLiveGen.style.display = "none";
+  }
+}
+
+// -------------------------------------------------------------
+// LLM API Connectors (Gemini & OpenRouter)
+// -------------------------------------------------------------
+
+async function callLLM(prompt) {
+  if (!state.apiKey) throw new Error("API Key is missing. Check settings.");
+
+  if (state.provider === "gemini") {
+    // Official Google Gemini generateContent endpoint
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(state.model)}:generateContent?key=${encodeURIComponent(state.apiKey)}`;
+    const payload = {
+      contents: [{ parts: [{ text: prompt }] }],
+      generationConfig: {
+        temperature: 0.6,
+        maxOutputTokens: 1000
+      }
+    };
+
+    const resp = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+
+    if (!resp.ok) {
+      const err = await resp.json().catch(() => ({}));
+      throw new Error(`Gemini API Error: ${err.error?.message || resp.statusText}`);
+    }
+
+    const data = await resp.json();
+    return data.candidates?.[0]?.content?.parts?.[0]?.text || "No response received.";
+
+  } else {
+    // OpenRouter chat/completions endpoint
+    const url = "https://openrouter.ai/api/v1/chat/completions";
+    const payload = {
+      model: state.model,
+      messages: [{ role: "user", content: prompt }],
+      temperature: 0.6
+    };
+
+    const resp = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${state.apiKey}`,
+        "HTTP-Referer": window.location.origin || "https://fermicraft.local",
+        "X-Title": "FermiCraft"
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if (!resp.ok) {
+      const err = await resp.json().catch(() => ({}));
+      throw new Error(`OpenRouter Error: ${err.error?.message || resp.statusText}`);
+    }
+
+    const data = await resp.json();
+    return data.choices?.[0]?.message?.content || "No response received.";
+  }
+}
+
+// Test Connection Button
+document.getElementById("btnTestApi").addEventListener("click", async () => {
+  const tempKey = settingApiKey.value.trim();
+  const tempModel = settingModel.value.trim();
+  const tempProvider = settingProvider.value;
+
+  if (!tempKey) {
+    apiTestFeedback.innerHTML = `<span style="color:var(--accent-coral);">Please enter an API Key first.</span>`;
+    return;
+  }
+
+  apiTestFeedback.innerHTML = `<span class="spinner"></span> Testing connection to ${tempProvider}...`;
+
+  try {
+    const originalKey = state.apiKey;
+    const originalModel = state.model;
+    const originalProv = state.provider;
+
+    state.apiKey = tempKey;
+    state.model = tempModel;
+    state.provider = tempProvider;
+
+    const start = Date.now();
+    const reply = await callLLM("Respond with only the single word: READY");
+    const elapsed = Date.now() - start;
+
+    apiTestFeedback.innerHTML = `<span style="color:var(--accent-mint);">✓ Connected successfully! (${elapsed}ms) Response: "${reply.trim()}"</span>`;
+
+    // Restore unless saved
+    state.apiKey = originalKey;
+    state.model = originalModel;
+    state.provider = originalProv;
+  } catch (err) {
+    apiTestFeedback.innerHTML = `<span style="color:var(--accent-coral);">✕ Connection Failed: ${err.message}</span>`;
+  }
+});
+
+// Live Mode: Generate Fresh Problem
+btnLiveGen.addEventListener("click", async () => {
+  btnLiveGen.innerHTML = `<span class="spinner"></span> Generating...`;
+  btnLiveGen.disabled = true;
+
+  const prompt = `You are a Fermi Problem generator. Create a novel, intriguing, real-world Fermi Estimation problem.
+Return ONLY valid raw JSON with NO markdown ticks or prefix. Format:
+{
+  "title": "Short Title",
+  "category": "Field/Industry",
+  "question": "The specific question?",
+  "target": 1234567,
+  "unit": "unit description",
+  "formulaHint": "Suggested decomposition formula",
+  "defaultRows": [
+    {"name": "Var1", "val": "100", "desc": "description"},
+    {"name": "Var2", "val": "50", "desc": "description"}
+  ],
+  "calcExpr": "row[0] * row[1]",
+  "analysisNotes": "1-2 sentences on ground truth benchmark."
+}`;
+
+  try {
+    const raw = await callLLM(prompt);
+    const cleaned = raw.replace(/```json/g, "").replace(/```/g, "").trim();
+    const parsed = JSON.parse(cleaned);
+    renderProblem(parsed);
+    showToast("Generated new live Fermi problem!");
+  } catch(e) {
+    showToast(`Error: ${e.message}`);
+  } finally {
+    btnLiveGen.innerHTML = `✨ New AI Problem`;
+    btnLiveGen.disabled = false;
+  }
+});
+
+// Live Mode: AI Step Hint
+async function getAiHint(question, userEq) {
+  const prompt = `You are a sharp, rigorous Fermi Estimation coach.
+Problem: "${question}"
+User's current formula: "${userEq || 'None yet'}"
+Provide a 2-3 sentence strategic hint on how to decompose this problem into supply/demand or Little's law flows without revealing exact final numbers. Keep it tactical.`;
+  try {
+    return await callLLM(prompt);
+  } catch (e) {
+    return `AI hint unavailable: ${e.message}`;
+  }
+}
+
+// Live Mode: In-depth Step Review
+async function getAiStepReview() {
+  const rows = [];
+  varTableBody.querySelectorAll(".var-row").forEach(r => {
+    rows.push({
+      name: r.querySelector(".var-name").value,
+      val: r.querySelector(".var-val").value,
+      desc: r.querySelector(".var-desc").value
+    });
+  });
+
+  const prompt = `You are a top Fermi estimation coach. Review this user submission concisely.
+Problem: "${state.currentProblem.question}"
+Benchmark Answer: ${state.currentProblem.target} ${state.currentProblem.unit}
+User's Formula: "${eqInput.value}"
+User's Assumed Variables: ${JSON.stringify(rows)}
+User's Final Calculation: ${finalEstimateInput.value}
+
+Provide a critique in 3 short bullet points:
+1. Structural soundness of their decomposition
+2. Accuracy and sanity of their specific variable assumptions
+3. Error cancellation audit (did errors balance or blow up?)`;
+
+  try {
+    return await callLLM(prompt);
+  } catch (e) {
+    return `Could not load AI review: ${e.message}`;
+  }
+}
+
+// Bootstrap
+window.addEventListener("DOMContentLoaded", () => {
+  loadSettings();
+  applyTheme(state.theme);
+  updateModeIndicator();
+  renderProblem(BUILTIN_PROBLEMS[0]);
+});
+</script>
+</body>
+</html>
