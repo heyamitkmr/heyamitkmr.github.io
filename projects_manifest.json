@@ -9,6 +9,14 @@
   },
   {
     "category": "tools",
+    "slug": "fitfile",
+    "title": "12 Week Fitness Program",
+    "description": "",
+    "emoji": "\ud83d\udee0\ufe0f",
+    "url": "/tools/fitfile/"
+  },
+  {
+    "category": "tools",
     "slug": "abhyasa",
     "title": "Abhyasa - Kannada Verb Drill",
     "description": "",
@@ -25,10 +33,50 @@
   },
   {
     "category": "tools",
+    "slug": "courageCompass",
+    "title": "Courage Compass",
+    "description": "",
+    "emoji": "\ud83d\udee0\ufe0f",
+    "url": "/tools/courageCompass/"
+  },
+  {
+    "category": "tools",
+    "slug": "microadventures",
+    "title": "Micro-Adventure Tracker",
+    "description": "",
+    "emoji": "\ud83d\udee0\ufe0f",
+    "url": "/tools/microadventures/"
+  },
+  {
+    "category": "tools",
+    "slug": "publisher",
+    "title": "NextFive Publisher",
+    "description": "",
+    "emoji": "\ud83d\udee0\ufe0f",
+    "url": "/tools/publisher/"
+  },
+  {
+    "category": "tools",
     "slug": "nuance",
     "title": "Nuance \u2014 the adjective navigator",
     "description": "",
     "emoji": "\ud83d\udee0\ufe0f",
     "url": "/tools/nuance/"
+  },
+  {
+    "category": "tools",
+    "slug": "breakbox",
+    "title": "Spontaneous Action Generator",
+    "description": "",
+    "emoji": "\ud83d\udee0\ufe0f",
+    "url": "/tools/breakbox/"
+  },
+  {
+    "category": "tools",
+    "slug": "subtext",
+    "title": "Subtext. (From NextFive)",
+    "description": "",
+    "emoji": "\ud83d\udee0\ufe0f",
+    "url": "/tools/subtext/"
   }
 ]
