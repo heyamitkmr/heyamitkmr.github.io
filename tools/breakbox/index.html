@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spontaneous Action Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px; /* Standard padding */
+      padding-bottom: 140px; /* Add space at the bottom for the fixed input area */
+      max-width: 800px;
+      margin: 0 auto;
+      /* Flexbox for body no longer needed for this layout */
+    }
+    /* Removed .content wrapper style */
+
+    #suggestion {
+      margin-top: 25px;
+      margin-bottom: 20px;
+      font-size: 1.3em;
+      min-height: 2em;
+      line-height: 1.5;
+      padding: 0 10px;
+    }
+    #timerDisplay {
+      margin-top: 15px;
+      min-height: 40px;
+    }
+    #timerText {
+      color: #888;
+      margin-bottom: 5px;
+    }
+    #progressBarContainer {
+      width: 80%;
+      max-width: 400px;
+      height: 15px;
+      background-color: #e0e0e0;
+      border-radius: 7px;
+      margin: 5px auto 20px auto;
+      overflow: hidden;
+      display: none;
+    }
+    #progressBarFill {
+      height: 100%;
+      width: 0%;
+      background-color: #007bff;
+      border-radius: 7px;
+      transition: width 0.5s ease-out;
+    }
+
+    button {
+      display: inline-block;
+      margin: 8px 5px;
+      padding: 12px 25px;
+      font-size: 1.1em;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      background-color: #007bff;
+      color: white;
+      transition: background-color 0.2s ease;
+      vertical-align: middle;
+    }
+    button:hover:not(:disabled) {
+      background-color: #0056b3;
+    }
+    button:disabled {
+        background-color: #cccccc;
+        cursor: not-allowed;
+    }
+    #elseBtn {
+      background-color: #6c757d;
+    }
+    #elseBtn:hover:not(:disabled) {
+      background-color: #5a6268;
+    }
+
+    /* --- Custom Action Area Styles --- */
+    #customActionArea {
+      position: fixed; /* Position relative to the viewport */
+      bottom: 20px;    /* Distance from the bottom edge */
+      left: 50%;       /* Center horizontally */
+      transform: translateX(-50%); /* Correct centering */
+      width: 90%;      /* Width relative to viewport */
+      max-width: 500px;/* Maximum width */
+      padding: 15px;
+      /* border-top: 1px solid #ccc; Remove or keep based on preference */
+      background-color: #f8f9fa;
+      border-radius: 8px; /* Slightly more rounded */
+      text-align: center;
+      box-sizing: border-box; /* Include padding in width */
+      z-index: 10;      /* Ensure it's above other elements */
+      box-shadow: 0 -3px 6px rgba(0, 0, 0, 0.1); /* Shadow for separation */
+      /* margin-top is removed as it's irrelevant for fixed positioning */
+    }
+    #customActionInput {
+      padding: 10px;
+      font-size: 1em;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      margin-right: 5px;
+      width: 60%; /* Adjust as needed */
+      max-width: 350px;
+      box-sizing: border-box;
+      vertical-align: middle;
+    }
+    #addActionBtn {
+      background-color: #28a745;
+      font-size: 1em;
+      padding: 10px 15px;
+      vertical-align: middle;
+    }
+    #addActionBtn:hover {
+        background-color: #218838;
+    }
+
+    /* --- Mobile Styles --- */
+    @media (max-width: 600px) {
+      h1 { font-size: 1.8em; }
+      button#surpriseBtn, button#elseBtn { /* Target main buttons specifically */
+        display: block;
+        width: 80%;
+        margin: 15px auto;
+      }
+       #suggestion { font-size: 1.2em; }
+       body {
+          padding: 10px; /* Adjust base padding */
+          padding-bottom: 150px; /* Ensure enough space on mobile too, might need more due to stacked input/button */
+       }
+       #progressBarContainer { width: 90%; }
+
+       #customActionArea {
+            padding: 12px; /* Slightly less padding */
+            bottom: 10px; /* Closer to bottom on mobile */
+            width: 95%; /* Almost full width */
+       }
+       #customActionInput {
+           display: block;
+           width: 100%; /* Full width within the container */
+           margin: 0 auto 10px auto;
+           max-width: none;
+       }
+       #addActionBtn {
+           display: block;
+           width: 80%; /* Wider button */
+           margin: 0 auto;
+       }
+    }
+  </style>
+</head>
+<body>
+  <!-- Main content area - no longer needs a special wrapper -->
+  <h1>Take a break.</h1>
+  <button id="surpriseBtn">Surprise Me!</button>
+  <button id="elseBtn" style="display:none;">Something Else</button>
+  <div id="suggestion"></div>
+  <div id="timerDisplay">
+      <div id="timerText"></div>
+      <div id="progressBarContainer">
+          <div id="progressBarFill"></div>
+      </div>
+  </div>
+  <!-- Add more content here if needed to test scrolling -->
+  <!-- <p style="height: 1000px;">Scrollable content test</p> -->
+
+
+  <!-- Custom Action Input Area (fixed position) -->
+  <div id="customActionArea">
+      <input type="text" id="customActionInput" placeholder="Enter your own quick task...">
+      <button id="addActionBtn">Add Task for a Surprise Pick!</button>
+  </div>
+
+  <script>
+    // --- Default Actions ---
+    const defaultActions = [
+      "🚶‍♂️ Take a 15-minute brisk walk outside",
+      "📞 Call or text a friend you haven't spoken to recently",
+      "🍳 Try a new quick recipe (like a smoothie or snack)",
+      "📖 Read a chapter of a book",
+      "🧘 Do a quick 5-10 minute meditation or deep breathing exercise",
+      "🙏 Write down 3 things you're grateful for",
+      "🎧 Listen to a new podcast episode",
+      "🤸 Do 10 minutes of stretching",
+      "🧹 Tidy up one small area (desk, countertop, shelf)",
+      "🎥 Watch a short TED Talk",
+      "🎨 Draw or doodle something for 15 minutes",
+      "🍽️ Plan your meals for the next two days",
+      "🌱 Water your plants",
+      "🎵 Listen to an album you love, distraction-free",
+      "🗣️ Learn 5 basic phrases in a new language online",
+      "❓ Do a quick online quiz (e.g., geography, trivia)",
+      "✍️ Write a short poem or story paragraph",
+      "👛 Declutter your wallet or purse",
+      "🌳 Step outside and just observe your surroundings for 5 minutes",
+      "☁️ Look up at the clouds or stars",
+      "🧩 Do a simple crossword or Sudoku puzzle",
+      "💻 Organize your computer desktop files",
+      "🐶 Watch a couple of funny animal videos",
+      "🎤 Sing along loudly to your favorite song",
+      "🛩️ Make a paper airplane and fly it",
+      "✈️ Browse a travel website and dream about a destination",
+      "🍲 Find a recipe you want to try later this week",
+      "🃏 Practice shuffling a deck of cards",
+      "💌 Send a 'thinking of you' email or message",
+      "📷 Look through old photos for 10 minutes",
+      "💃 Put on some music and dance for one song"
+    ];
+
+    // --- Constants ---
+    const COOLDOWN = 60 * 60 * 1000; // TESTING - Change to 60 * 60 * 1000 for 1 hour
+    const ELSE_WINDOW = 10 * 60 * 1000;
+    const MAX_ELSE = 2;
+    const USER_ACTIONS_KEY = 'userSpontaneousActions';
+
+    // --- DOM Elements ---
+    const surpriseBtn = document.getElementById('surpriseBtn');
+    const elseBtn = document.getElementById('elseBtn');
+    const suggestionDiv = document.getElementById('suggestion');
+    const timerTextDiv = document.getElementById('timerText');
+    const progressBarContainer = document.getElementById('progressBarContainer');
+    const progressBarFill = document.getElementById('progressBarFill');
+    const customActionInput = document.getElementById('customActionInput');
+    const addActionBtn = document.getElementById('addActionBtn');
+
+    // --- State Variables & Initialization ---
+    let lastClick = localStorage.getItem('lastClick');
+    let suggestionTime = localStorage.getItem('suggestionTime');
+    let elseCount = localStorage.getItem('elseCount');
+    let currentSuggestion = localStorage.getItem('currentSuggestion');
+    let userActions = []; // Initialize empty
+
+    if (lastClick) lastClick = parseInt(lastClick);
+    if (suggestionTime) suggestionTime = parseInt(suggestionTime);
+    elseCount = elseCount ? parseInt(elseCount) : 0;
+
+    // Load user actions
+    try {
+        const storedUserActions = localStorage.getItem(USER_ACTIONS_KEY);
+        if (storedUserActions) {
+            userActions = JSON.parse(storedUserActions);
+            if (!Array.isArray(userActions)) userActions = [];
+        }
+    } catch (e) { console.error("Error parsing user actions:", e); userActions = []; }
+
+    // --- Functions --- (getRandomSuggestion, displayCurrentState, updateTimer, resetState, saveUserActions - remain unchanged)
+
+    function getRandomSuggestion() {
+      const allActions = [...defaultActions, ...userActions];
+      if (allActions.length === 0) return "Add some custom actions first!";
+      const index = Math.floor(Math.random() * allActions.length);
+      return allActions[index];
+    }
+
+    function displayCurrentState() {
+      if (currentSuggestion && lastClick) {
+        suggestionDiv.innerText = currentSuggestion;
+        const now = Date.now();
+        if (now - suggestionTime < ELSE_WINDOW && elseCount < MAX_ELSE && now - lastClick < COOLDOWN) {
+          // Adjust display based on media query for main buttons
+           const displayStyle = window.innerWidth <= 600 ? "block" : "inline-block";
+           // Apply style only if button exists
+           if(elseBtn) elseBtn.style.display = displayStyle;
+        } else if (elseBtn) {
+          elseBtn.style.display = "none";
+        }
+      } else {
+        suggestionDiv.innerText = "";
+        if(elseBtn) elseBtn.style.display = "none";
+      }
+    }
+
+
+    function updateTimer() {
+      if (!lastClick) {
+        timerTextDiv.innerText = "";
+        progressBarContainer.style.display = 'none';
+        progressBarFill.style.width = '0%';
+        if(surpriseBtn) surpriseBtn.disabled = false;
+        return;
+      }
+      const now = Date.now();
+      const elapsed = now - lastClick;
+      const remaining = COOLDOWN - elapsed;
+
+      if (remaining > 0) {
+        const minutes = Math.floor(remaining / 60000);
+        const seconds = Math.floor((remaining % 60000) / 1000);
+        timerTextDiv.innerText = `Hold your horses! Try again in ${minutes}m ${seconds}s`;
+        const percentageElapsed = Math.min((elapsed / COOLDOWN) * 100, 100);
+        progressBarFill.style.width = `${percentageElapsed}%`;
+        progressBarContainer.style.display = 'block';
+        if(surpriseBtn) surpriseBtn.disabled = true;
+      } else {
+        timerTextDiv.innerText = "Ready for a new surprise!";
+        progressBarContainer.style.display = 'none';
+        progressBarFill.style.width = '0%'; // Reset bar when done
+        if(surpriseBtn) surpriseBtn.disabled = false;
+        if (currentSuggestion && elseBtn) {
+             elseBtn.style.display = 'none';
+        }
+      }
+    }
+
+     function resetState() {
+        lastClick = null;
+        suggestionTime = null;
+        elseCount = 0;
+        currentSuggestion = "";
+        localStorage.removeItem('lastClick');
+        localStorage.removeItem('suggestionTime');
+        localStorage.removeItem('elseCount');
+        localStorage.removeItem('currentSuggestion');
+        if(elseBtn) elseBtn.style.display = "none";
+        suggestionDiv.innerText = "";
+        timerTextDiv.innerText = "";
+        progressBarContainer.style.display = 'none';
+        progressBarFill.style.width = '0%';
+        if(surpriseBtn) surpriseBtn.disabled = false;
+     }
+
+     function saveUserActions() {
+         try {
+             localStorage.setItem(USER_ACTIONS_KEY, JSON.stringify(userActions));
+         } catch (e) {
+             console.error("Error saving user actions:", e);
+             alert("Could not save your custom action. Local storage might be full or disabled.");
+         }
+     }
+
+    // --- Event Listeners --- (surpriseBtn, elseBtn, addActionBtn - remain unchanged)
+
+    if(surpriseBtn) {
+      surpriseBtn.addEventListener('click', () => {
+        const now = Date.now();
+        if (surpriseBtn.disabled && lastClick && now - lastClick < COOLDOWN) { return; }
+        if (lastClick && now - lastClick >= COOLDOWN) { resetState(); }
+
+        const suggestion = getRandomSuggestion();
+        suggestionDiv.innerText = suggestion;
+        lastClick = now;
+        suggestionTime = now;
+        elseCount = 0;
+        currentSuggestion = suggestion;
+
+        localStorage.setItem('lastClick', lastClick);
+        localStorage.setItem('suggestionTime', suggestionTime);
+        localStorage.setItem('elseCount', elseCount);
+        localStorage.setItem('currentSuggestion', currentSuggestion);
+
+        progressBarFill.style.width = '0%';
+        progressBarContainer.style.display = 'block';
+        updateTimer();
+        displayCurrentState();
+      });
+    }
+
+    if(elseBtn) {
+      elseBtn.addEventListener('click', () => {
+        const now = Date.now();
+        if (!suggestionTime || now - suggestionTime >= ELSE_WINDOW || elseCount >= MAX_ELSE || !lastClick || now - lastClick >= COOLDOWN) {
+            elseBtn.style.display = "none";
+            return;
+        }
+
+        let newSuggestion;
+        let attempts = 0;
+        const allActions = [...defaultActions, ...userActions];
+        const maxAttempts = allActions.length > 1 ? allActions.length * 2 : 1;
+
+        do {
+            newSuggestion = getRandomSuggestion();
+            attempts++;
+        } while (newSuggestion === currentSuggestion && attempts < maxAttempts && allActions.length > 1);
+
+        suggestionDiv.innerText = newSuggestion;
+        elseCount++;
+        currentSuggestion = newSuggestion;
+
+        localStorage.setItem('elseCount', elseCount);
+        localStorage.setItem('currentSuggestion', currentSuggestion);
+
+        if (elseCount >= MAX_ELSE) {
+            elseBtn.style.display = "none";
+        }
+      });
+    }
+
+    if(addActionBtn) {
+      addActionBtn.addEventListener('click', () => {
+        const newActionText = customActionInput.value.trim();
+        if (!newActionText) {
+            alert("Please enter an action description.");
+            return;
+        }
+        userActions.push(newActionText);
+        saveUserActions();
+        customActionInput.value = "";
+        alert(`Action added: "${newActionText}"`);
+      });
+    }
+
+    // --- Initial Page Load Setup ---
+    // Add checks for element existence before calling functions/intervals
+    if (suggestionDiv && timerTextDiv && progressBarContainer && progressBarFill) {
+        displayCurrentState();
+        updateTimer();
+        setInterval(updateTimer, 1000);
+    } else {
+        console.error("One or more essential elements are missing from the page.");
+    }
+
+  </script>
+</body>
+</html>

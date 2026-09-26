@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NextFive Publisher</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+<style>
+:root {
+  --base3:#fdf6e3;--base2:#eee8d5;--base01:#586e75;--base00:#657b83;
+  --base1:#93a1a1;--warm_gray:#272E33;--warm_white:#D3C6AA;
+  --blue:#268bd2;--cyan:#2aa198;--pastel_red:#E67E80;--pastel_green:#329D75;
+  --bg:var(--base3);--bg2:var(--base2);--text:var(--base00);
+  --text2:var(--base01);--text3:var(--base1);--accent:var(--cyan);
+  --border:var(--base2);--shadow:rgba(0,43,54,0.1);
+  --header-color:var(--pastel_red);
+}
+[data-theme="dark"]{
+  --bg:var(--warm_gray);--bg2:#1e2529;--text:var(--warm_white);
+  --text2:var(--base1);--text3:var(--base01);--accent:var(--pastel_green);
+  --border:#1e2529;--shadow:rgba(0,0,0,0.3);
+}
+*{box-sizing:border-box;margin:0;padding:0;transition:background-color .2s,color .2s,border-color .2s}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-size:16px;line-height:1.6;min-height:100vh}
+a{color:var(--accent);text-decoration:none}
+.app{max-width:800px;margin:0 auto;padding:0 20px 100px}
+header{padding:2rem 0 1.5rem;border-bottom:1px solid var(--border);margin-bottom:2rem;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:1.4rem;font-weight:600;color:var(--header-color)}
+.logo span{color:var(--text2);font-weight:400;font-size:1rem;margin-left:.5rem}
+.theme-btn{background:none;border:1.5px solid var(--border);border-radius:50px;width:40px;height:40px;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;color:var(--text2)}
+.theme-btn:hover{border-color:var(--accent)}
+.btn{padding:.65rem 1.4rem;border-radius:8px;font-size:.95rem;font-weight:500;cursor:pointer;border:1.5px solid var(--accent);background:transparent;color:var(--accent);transition:all .2s}
+.btn:hover{background:var(--accent);color:var(--bg)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn-primary{background:var(--accent);color:var(--bg)}
+.btn-primary:hover{opacity:.85}
+.btn-sm{padding:.4rem .9rem;font-size:.85rem}
+.btn-danger{border-color:var(--pastel_red);color:var(--pastel_red)}
+.btn-danger:hover{background:var(--pastel_red);color:var(--bg)}
+.btn-ghost{border-color:var(--border);color:var(--text2)}
+.btn-ghost:hover{border-color:var(--text2);background:transparent;color:var(--text)}
+
+/* Auth */
+.auth-screen{padding:3rem 0}
+.auth-screen h2{font-size:1.5rem;font-weight:600;margin-bottom:.75rem;color:var(--text);text-align:center}
+.auth-screen > p{color:var(--text2);margin-bottom:1.5rem;max-width:420px;margin-left:auto;margin-right:auto;text-align:center}
+.repo-entry{max-width:480px;margin:0 auto 1.5rem;background:var(--bg2);border-radius:12px;padding:1.25rem 1.5rem}
+.repo-entry p{font-size:.9rem;color:var(--text2);margin-bottom:.75rem}
+.repo-row{display:flex;gap:8px}
+.repo-row input{flex:1;padding:.6rem 1rem;border:1.5px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);font-family:'JetBrains Mono',monospace;font-size:.88rem}
+.repo-row input:focus{outline:none;border-color:var(--accent)}
+.repo-status{font-size:.82rem;margin-top:.6rem;min-height:1.2em}
+.repo-status.ok{color:var(--pastel_green)}
+.repo-status.err{color:var(--pastel_red)}
+.repo-status.loading{color:var(--text3)}
+.repo-status.loading::after{content:'';display:inline-block;width:10px;height:10px;border:2px solid var(--accent);border-top-color:transparent;border-radius:50%;animation:spin .7s linear infinite;margin-left:6px;vertical-align:middle}
+.instructions{background:var(--bg2);border-radius:12px;padding:1.5rem;max-width:480px;margin:0 auto 1.5rem}
+.instructions ol{padding-left:1.25rem;color:var(--text2);font-size:.9rem}
+.instructions li{margin-bottom:.6rem}
+.instructions code{font-family:'JetBrains Mono',monospace;background:var(--bg);padding:2px 6px;border-radius:4px;font-size:.85rem;color:var(--accent)}
+.token-row{display:flex;gap:8px;margin-top:1rem}
+.token-row input{flex:1;padding:.65rem 1rem;border:1.5px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);font-family:'JetBrains Mono',monospace;font-size:.85rem}
+.token-row input:focus{outline:none;border-color:var(--accent)}
+#auth-error{color:var(--pastel_red);font-size:.85rem;margin-top:.75rem;text-align:center}
+
+/* Settings modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:100;display:flex;align-items:flex-start;justify-content:center;padding:2rem 1rem;overflow-y:auto}
+.modal{background:var(--bg);border-radius:14px;padding:1.75rem;width:100%;max-width:560px;position:relative}
+.modal h3{font-size:1.1rem;font-weight:600;margin-bottom:1.5rem;color:var(--text)}
+.modal-close{position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--text2);line-height:1}
+.sfield{margin-bottom:1.25rem}
+.sfield label{display:block;font-size:.82rem;font-weight:500;color:var(--text2);margin-bottom:.35rem;text-transform:uppercase;letter-spacing:.05em}
+.sfield input,.sfield select{width:100%;padding:.6rem .9rem;border:1.5px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:.9rem}
+.sfield input:focus,.sfield select:focus{outline:none;border-color:var(--accent)}
+.sfield .hint{font-size:.78rem;color:var(--text3);margin-top:.3rem}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:1.5rem;flex-wrap:wrap}
+.modal-io{display:flex;gap:8px;margin-top:.75rem}
+.section-divider{font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin:1.5rem 0 .75rem;padding-top:1rem;border-top:1px solid var(--border)}
+
+/* Editor */
+.type-toggle{display:flex;gap:8px;margin-bottom:2rem}
+.type-btn{flex:1;padding:.7rem;border:1.5px solid var(--border);border-radius:10px;background:var(--bg2);color:var(--text2);cursor:pointer;font-size:.95rem;font-weight:500;text-align:center;transition:all .2s}
+.type-btn.active{border-color:var(--accent);color:var(--accent);background:var(--bg)}
+.type-btn:hover{border-color:var(--accent)}
+.type-desc{font-size:.8rem;font-weight:400;margin-top:3px;opacity:.7}
+.field{margin-bottom:1.5rem}
+.field label{display:block;font-size:.85rem;font-weight:500;color:var(--text2);margin-bottom:.4rem}
+.field input[type=text],.field input[type=date]{width:100%;padding:.65rem 1rem;border:1.5px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:.95rem}
+.field input:focus{outline:none;border-color:var(--accent)}
+.editor-tabs{display:flex;gap:0;border-bottom:1.5px solid var(--border)}
+.editor-tab{padding:.5rem 1rem;font-size:.85rem;font-weight:500;cursor:pointer;color:var(--text3);border:none;background:none;border-bottom:2px solid transparent;margin-bottom:-1.5px}
+.editor-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.editor-pane{display:none}
+.editor-pane.active{display:block}
+textarea#content{width:100%;min-height:280px;padding:1rem;border:1.5px solid var(--border);border-radius:0 0 10px 10px;background:var(--bg);color:var(--text);font-family:'JetBrains Mono',monospace;font-size:.88rem;line-height:1.7;resize:vertical}
+textarea#content:focus{outline:none;border-color:var(--accent)}
+.preview-pane{border:1.5px solid var(--border);border-top:none;border-radius:0 0 10px 10px;padding:1rem 1.25rem;min-height:280px;background:var(--bg);font-size:.95rem;line-height:1.7}
+.preview-pane h1,.preview-pane h2,.preview-pane h3{margin:1rem 0 .5rem;color:var(--text)}
+.preview-pane p{margin:.75rem 0;color:var(--text2)}
+.preview-pane img{max-width:100%;border-radius:8px;margin:.5rem 0}
+.preview-pane code{font-family:'JetBrains Mono',monospace;background:var(--bg2);padding:2px 5px;border-radius:4px;font-size:.85rem}
+.preview-pane blockquote{border-left:3px solid var(--accent);padding:.5rem 1rem;background:var(--bg2);border-radius:0 8px 8px 0;margin:.75rem 0}
+.preview-empty{color:var(--text3);font-style:italic}
+.img-upload{border:1.5px dashed var(--border);border-radius:10px;padding:1.5rem;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg)}
+.img-upload:hover,.img-upload.dragover{border-color:var(--accent);background:var(--bg2)}
+.img-upload p{color:var(--text3);font-size:.9rem;margin-bottom:.5rem}
+.img-upload input{display:none}
+.img-list{margin-top:1rem;display:flex;flex-direction:column;gap:8px}
+.img-item{display:flex;align-items:center;gap:10px;background:var(--bg2);border-radius:8px;padding:.5rem .75rem;font-size:.85rem}
+.img-item img{width:40px;height:40px;object-fit:cover;border-radius:6px}
+.img-item .img-name{flex:1;color:var(--text2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.img-item .img-remove{cursor:pointer;color:var(--pastel_red);font-size:.85rem;padding:2px 6px}
+.folder-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.folder-row select{flex:1;min-width:140px;padding:.5rem .75rem;border:1.5px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:.88rem}
+.folder-row select:focus{outline:none;border-color:var(--accent)}
+.folder-row input[type=text]{flex:2;min-width:140px;padding:.5rem .75rem;border:1.5px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);font-family:'JetBrains Mono',monospace;font-size:.85rem}
+.folder-row input:focus{outline:none;border-color:var(--accent)}
+.tags-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:.4rem}
+.tag-chip{padding:.25rem .75rem;border-radius:20px;font-size:.8rem;border:1.5px solid var(--border);cursor:pointer;color:var(--text2);background:var(--bg2)}
+.tag-chip.active{border-color:var(--accent);color:var(--accent);background:var(--bg)}
+.publish-bar{position:fixed;bottom:0;left:0;right:0;background:var(--bg);border-top:1px solid var(--border);padding:1rem 20px;display:flex;gap:12px;align-items:center}
+.publish-bar .status{flex:1;font-size:.85rem;color:var(--text2)}
+.publish-bar .status.ok{color:var(--pastel_green)}
+.publish-bar .status.err{color:var(--pastel_red)}
+.publish-bar .status.loading::after{content:'';display:inline-block;width:12px;height:12px;border:2px solid var(--accent);border-top-color:transparent;border-radius:50%;animation:spin .7s linear infinite;margin-left:8px;vertical-align:middle}
+.user-badge{display:flex;align-items:center;gap:8px}
+.user-badge img{width:28px;height:28px;border-radius:50%}
+.user-badge span{font-size:.85rem;color:var(--text2)}
+hr.divider{border:none;border-top:1px solid var(--border);margin:1.75rem 0}
+.section-label{font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin-bottom:.75rem}
+.hidden{display:none!important}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(max-width:600px){
+  .app{padding:0 14px 100px}
+  header{padding:1.25rem 0 1rem}
+  textarea#content{min-height:220px}
+  .publish-bar{max-width:100%}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="logo">NextFive <span>publisher</span></div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <div class="user-badge hidden" id="user-badge">
+        <img id="user-avatar" src="" alt="">
+        <span id="user-name"></span>
+      </div>
+      <button class="btn btn-sm btn-ghost hidden" id="settings-btn" onclick="openSettings()">Settings</button>
+      <button class="btn btn-sm btn-danger hidden" id="disconnect-btn" onclick="disconnect()">Disconnect</button>
+      <button class="theme-btn" id="theme-btn" onclick="toggleTheme()">🌙</button>
+    </div>
+  </header>
+
+  <!-- Auth screen -->
+  <div id="auth-screen" class="auth-screen">
+    <h2>Connect to GitHub</h2>
+    <p>You'll need a Personal Access Token with access to your blog repo. This is stored locally on your device only.</p>
+
+    <div class="repo-entry">
+      <p>First, enter your blog's GitHub repo path:</p>
+      <div class="repo-row">
+        <input type="text" id="repo-input" placeholder="username/repo-name" autocomplete="off" oninput="onRepoInput()">
+      </div>
+      <div class="repo-status" id="repo-status"></div>
+    </div>
+
+    <div class="instructions" id="pat-instructions">
+      <ol>
+        <li>Go to <a href="https://github.com/settings/personal-access-tokens/new" target="_blank">github.com → Settings → Fine-grained tokens</a></li>
+        <li>Name it <code>nextfive-publisher</code></li>
+        <li>Set <strong>Resource owner</strong> to your account</li>
+        <li>Under <strong>Repository access</strong>, select only <code id="repo-hint">your-repo</code></li>
+        <li>Under <strong>Permissions → Contents</strong>, set to <code>Read and write</code></li>
+        <li>Generate and copy the token</li>
+      </ol>
+      <div class="token-row">
+        <input type="password" id="token-input" placeholder="github_pat_…" autocomplete="off">
+        <button class="btn btn-primary" onclick="connect()">Connect</button>
+      </div>
+    </div>
+    <p id="auth-error"></p>
+  </div>
+
+  <!-- Editor screen -->
+  <div id="editor-screen" class="hidden">
+    <div class="section-label">Post type</div>
+    <div class="type-toggle">
+      <button class="type-btn active" id="type-standard" onclick="setType('standard')">
+        Standard post<div class="type-desc">Full article with title</div>
+      </button>
+      <button class="type-btn" id="type-bit" onclick="setType('bit')">
+        Bit<div class="type-desc">Short note or image</div>
+      </button>
+    </div>
+
+    <div class="field">
+      <label for="title" id="title-label">Title</label>
+      <input type="text" id="title" placeholder="Post title…">
+    </div>
+
+    <div class="field">
+      <label>Content</label>
+      <div class="editor-tabs">
+        <button class="editor-tab active" onclick="switchTab('write')">Write</button>
+        <button class="editor-tab" onclick="switchTab('preview')">Preview</button>
+      </div>
+      <div class="editor-pane active" id="pane-write">
+        <textarea id="content" placeholder="Write in Markdown…" oninput="updatePreview()"></textarea>
+      </div>
+      <div class="editor-pane" id="pane-preview">
+        <div class="preview-pane" id="preview-output"><span class="preview-empty">Nothing to preview yet.</span></div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Images <span style="font-weight:400;color:var(--text3)">(optional)</span></label>
+      <div class="img-upload" id="drop-zone" onclick="document.getElementById('img-input').click()" ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event)">
+        <p>Tap to choose or drag images here</p>
+        <p style="font-size:.78rem">PNG, JPG, GIF, WebP</p>
+        <input type="file" id="img-input" multiple accept="image/*" onchange="onFileSelect(event)">
+      </div>
+      <div class="img-list" id="img-list"></div>
+    </div>
+
+    <div class="field">
+      <label>Image folder</label>
+      <div class="folder-row">
+        <select id="folder-preset" onchange="onFolderPreset()">
+          <option value="assets/images">assets/images</option>
+          <option value="assets/images/bits">assets/images/bits</option>
+          <option value="images">images</option>
+          <option value="img">img</option>
+          <option value="uploads">uploads</option>
+          <option value="custom">Custom path…</option>
+        </select>
+        <input type="text" id="folder-custom" placeholder="path/to/folder" style="display:none">
+      </div>
+    </div>
+
+    <div class="field hidden" id="tags-field">
+      <label>Tags <span style="font-weight:400;color:var(--text3)">(optional)</span></label>
+      <div class="tags-row" id="tags-row"></div>
+      <input type="text" id="custom-tag" placeholder="Add custom tag and press Enter…" style="margin-top:.5rem;padding:.4rem .75rem;border:1.5px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);font-size:.85rem;width:100%" onkeydown="addCustomTag(event)">
+    </div>
+
+    <hr class="divider">
+    <div class="field">
+      <label for="post-date">Date <span style="font-weight:400;color:var(--text3)">(defaults to today)</span></label>
+      <input type="date" id="post-date">
+    </div>
+  </div>
+</div>
+
+<!-- Publish bar -->
+<div class="publish-bar hidden" id="publish-bar">
+  <div class="status" id="pub-status"></div>
+  <button class="btn btn-ghost btn-sm" onclick="resetForm()">Clear</button>
+  <button class="btn btn-primary" id="pub-btn" onclick="publish()">Publish</button>
+</div>
+
+<!-- Settings modal -->
+<div class="modal-overlay hidden" id="settings-modal" onclick="onOverlayClick(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeSettings()">✕</button>
+    <h3>Settings</h3>
+
+    <div class="section-divider">Repository</div>
+    <div class="sfield">
+      <label>GitHub repo</label>
+      <input type="text" id="s-repo" placeholder="username/repo-name">
+      <div class="hint" style="font-size:.78rem;color:var(--text3);margin-top:.3rem">e.g. username/username.github.io</div>
+    </div>
+    <div class="sfield">
+      <label>Branch</label>
+      <input type="text" id="s-branch" placeholder="main">
+    </div>
+
+    <div class="section-divider">Post layouts</div>
+    <div class="sfield">
+      <label>Standard post layout</label>
+      <input type="text" id="s-layout-post" placeholder="post">
+    </div>
+    <div class="sfield">
+      <label>Bit post layout</label>
+      <input type="text" id="s-layout-bit" placeholder="post">
+    </div>
+    <div class="sfield">
+      <label>Bits category name</label>
+      <input type="text" id="s-bits-cat" placeholder="bits">
+    </div>
+
+    <div class="section-divider">Images</div>
+    <div class="sfield">
+      <label>Default image folder — standard posts</label>
+      <input type="text" id="s-img-standard" placeholder="assets/images">
+    </div>
+    <div class="sfield">
+      <label>Default image folder — bits</label>
+      <input type="text" id="s-img-bits" placeholder="assets/images/bits">
+    </div>
+
+    <div class="section-divider">Tags</div>
+    <div class="sfield">
+      <label>Suggested tags (comma-separated)</label>
+      <input type="text" id="s-tags" placeholder="writing, tech, photography, life">
+    </div>
+
+    <div class="modal-actions">
+      <div class="modal-io">
+        <button class="btn btn-sm btn-ghost" onclick="exportSettings()">Export JSON</button>
+        <button class="btn btn-sm btn-ghost" onclick="document.getElementById('import-file').click()">Import JSON</button>
+        <input type="file" id="import-file" accept=".json" style="display:none" onchange="importSettings(event)">
+      </div>
+      <button class="btn btn-primary" onclick="saveSettings()">Save</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const API = 'https://api.github.com';
+const RAW = 'https://raw.githubusercontent.com';
+
+const DEFAULTS = {
+  repo: '', branch: 'main',
+  layoutPost: '', layoutBit: '', bitsCat: '',
+  imgStandard: 'assets/images', imgBits: 'assets/images/bits',
+  tags: ''
+};
+
+let cfg = Object.assign({}, DEFAULTS, JSON.parse(localStorage.getItem('nf_cfg') || '{}'));
+let token = localStorage.getItem('nf_token') || '';
+let postType = 'standard';
+let images = [];
+let activeTags = new Set();
+let repoDetectTimer = null;
+
+// Theme
+let theme = localStorage.getItem('nf_theme') || (window.matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light');
+applyTheme(theme);
+function applyTheme(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  document.getElementById('theme-btn').textContent = t === 'dark' ? '☀️' : '🌙';
+  theme = t; localStorage.setItem('nf_theme', t);
+}
+function toggleTheme() { applyTheme(theme === 'dark' ? 'light' : 'dark'); }
+
+window.addEventListener('DOMContentLoaded', async () => {
+  setTodayDate();
+  if (cfg.repo) {
+    document.getElementById('repo-input').value = cfg.repo;
+    document.getElementById('repo-hint').textContent = cfg.repo.split('/')[1] || cfg.repo;
+  }
+  if (token) await tryConnect(token, true);
+});
+
+// ── Repo auto-detect ──
+function parseRepo(val) {
+  val = val.trim();
+  // strip https://github.com/ or github.com/ prefix if present
+  val = val.replace(/^https?:\/\//i, '').replace(/^github\.com\//i, '').replace(/\/$/, '');
+  return val;
+}
+
+function onRepoInput() {
+  clearTimeout(repoDetectTimer);
+  const raw = document.getElementById('repo-input').value;
+  const val = parseRepo(raw);
+  const parts = val.split('/');
+  const repoName = parts[1] || parts[0] || 'your-repo';
+  document.getElementById('repo-hint').textContent = repoName;
+  if (!val.includes('/') || parts.length < 2) { setRepoStatus('', ''); return; }
+  setRepoStatus('Detecting repo structure…', 'loading');
+  repoDetectTimer = setTimeout(() => detectRepo(val), 700);
+}
+
+async function detectRepo(repo) {
+  try {
+    const branches = ['main', 'gh-pages', 'master'];
+    let branch = null;
+    let yml = null;
+    for (const b of branches) {
+      const r = await fetch(`${RAW}/${repo}/${b}/_config.yml`);
+      if (r.ok) { branch = b; yml = await r.text(); break; }
+    }
+    if (!branch) {
+      // repo exists but no _config.yml found — still valid, use defaults
+      // try any branch to confirm repo is public
+      const probe = await fetch(`${RAW}/${repo}/main/README.md`);
+      const probe2 = await fetch(`${RAW}/${repo}/master/README.md`);
+      if (!probe.ok && !probe2.ok) throw new Error('private');
+      branch = probe.ok ? 'main' : 'master';
+    }
+    cfg.repo = repo;
+    cfg.branch = branch;
+
+    // Parse _config.yml for layout hints
+    const layoutMatch = yml.match(/layout:\s*(\S+)/);
+    if (layoutMatch) { cfg.layoutPost = layoutMatch[1]; cfg.layoutBit = layoutMatch[1]; }
+
+    // Detect image folder
+    const imgFolders = ['assets/images', 'images', 'img', 'uploads'];
+    for (const f of imgFolders) {
+      const check = await fetch(`${RAW}/${repo}/${branch}/${f}/.gitkeep`);
+      if (check.ok) { cfg.imgStandard = f; break; }
+      // also try listing a known subpath
+      const check2 = await fetch(`${RAW}/${repo}/${branch}/${f}/`);
+      if (check2.ok) { cfg.imgStandard = f; break; }
+    }
+    // Bits subfolder
+    const bitsCheck = await fetch(`${RAW}/${repo}/${branch}/assets/images/bits/.gitkeep`);
+    cfg.imgBits = bitsCheck.ok ? 'assets/images/bits' : cfg.imgStandard;
+
+    saveCfg();
+    setRepoStatus(`✓ Detected — branch: ${branch}, images: ${cfg.imgStandard}`, 'ok');
+  } catch(e) {
+    const isPrivate = e.message === 'private';
+    setRepoStatus(
+      isPrivate
+        ? 'Private repo or not found — configure manually in Settings after connecting.'
+        : 'Could not auto-detect. You can configure manually in Settings after connecting.',
+      'err'
+    );
+    cfg.repo = document.getElementById('repo-input').value.trim();
+    saveCfg();
+  }
+}
+
+function setRepoStatus(msg, type) {
+  const el = document.getElementById('repo-status');
+  el.textContent = msg;
+  el.className = 'repo-status' + (type ? ' ' + type : '');
+}
+
+// ── Auth ──
+async function connect() {
+  const t = document.getElementById('token-input').value.trim();
+  if (!t) return;
+  const repo = parseRepo(document.getElementById('repo-input').value);
+  if (repo) cfg.repo = repo;
+  saveCfg();
+  await tryConnect(t);
+}
+
+async function tryConnect(t, silent=false) {
+  if (!silent) setStatus('Connecting…', 'loading');
+  try {
+    const r = await ghFetch('/user', t);
+    if (!r.ok) throw new Error('Bad token');
+    const u = await r.json();
+    token = t;
+    localStorage.setItem('nf_token', t);
+    setStatus('Analysing your blog…', 'loading');
+    await scanPosts(t);
+    showEditor(u);
+  } catch(e) {
+    if (!silent) document.getElementById('auth-error').textContent = 'Could not connect. Check your token and try again.';
+    setStatus('');
+  }
+}
+
+async function scanPosts(t) {
+  if (!cfg.repo) return;
+  try {
+    const r = await ghFetch(`/repos/${cfg.repo}/contents/_posts?ref=${cfg.branch}`, t);
+    if (!r.ok) return;
+    const files = await r.json();
+    if (!Array.isArray(files)) return;
+
+    // grab up to 3 most recent .md files (they're usually sorted oldest-first, so reverse)
+    const mdFiles = files.filter(f => f.name.endsWith('.md') || f.name.endsWith('.markdown')).reverse().slice(0, 3);
+    if (!mdFiles.length) return;
+
+    const layouts = new Set(), categories = new Set(), tags = new Set();
+
+    for (const file of mdFiles) {
+      const fr = await ghFetch(`/repos/${cfg.repo}/contents/${file.path}?ref=${cfg.branch}`, t);
+      if (!fr.ok) continue;
+      const data = await fr.json();
+      const content = decodeURIComponent(escape(atob(data.content.replace(/\n/g,''))));
+      const fm = extractFrontMatter(content);
+      if (fm.layout) layouts.add(fm.layout);
+      if (fm.categories) [].concat(fm.categories).forEach(c => categories.add(c));
+      if (fm.tags) [].concat(fm.tags).forEach(tg => tags.add(tg));
+    }
+
+    // only update cfg fields that are still blank or default
+    if (layouts.size) {
+      const layoutArr = Array.from(layouts);
+      if (!cfg.layoutPost) cfg.layoutPost = layoutArr[0];
+      if (!cfg.layoutBit) cfg.layoutBit = layoutArr[0];
+    }
+    if (categories.size && !cfg.bitsCat) {
+      // pick the most "bit-like" category name if present, else first one
+      const catArr = Array.from(categories);
+      const bitLike = catArr.find(c => /bit|note|micro|short/i.test(c));
+      cfg.bitsCat = bitLike || catArr[0];
+    }
+    if (tags.size && !cfg.tags) {
+      cfg.tags = Array.from(tags).join(', ');
+    }
+    saveCfg();
+  } catch(e) {
+    // silent — don't block the connect flow
+  }
+}
+
+function extractFrontMatter(content) {
+  const match = content.match(/^---\s*\n([\s\S]*?)\n---/);
+  if (!match) return {};
+  const fm = {};
+  const lines = match[1].split('\n');
+  for (const line of lines) {
+    const m = line.match(/^(\w+):\s*(.+)/);
+    if (!m) continue;
+    const key = m[1].trim();
+    let val = m[2].trim().replace(/^["']|["']$/g, '');
+    // handle inline arrays: [a, b, c]
+    if (val.startsWith('[')) {
+      val = val.replace(/[\[\]]/g,'').split(',').map(s=>s.trim().replace(/^["']|["']$/g,''));
+    }
+    fm[key] = val;
+  }
+  return fm;
+}
+
+function showEditor(user) {
+  document.getElementById('auth-screen').classList.add('hidden');
+  document.getElementById('editor-screen').classList.remove('hidden');
+  document.getElementById('publish-bar').classList.remove('hidden');
+  document.getElementById('disconnect-btn').classList.remove('hidden');
+  document.getElementById('settings-btn').classList.remove('hidden');
+  document.getElementById('user-badge').classList.remove('hidden');
+  document.getElementById('user-avatar').src = user.avatar_url;
+  document.getElementById('user-name').textContent = user.login;
+  applyConfig();
+  setStatus('Ready');
+}
+
+function disconnect() {
+  localStorage.removeItem('nf_token');
+  token = '';
+  location.reload();
+}
+
+// ── Config apply ──
+function applyConfig() {
+  // Set folder presets from config
+  setFolderForType(postType);
+  // Render tags
+  renderTagChips();
+  // Update title label hint
+  document.getElementById('title-label').textContent = postType === 'bit' ? 'Title (optional)' : 'Title';
+}
+
+function setFolderForType(t) {
+  const folder = t === 'bit' ? cfg.imgBits : cfg.imgStandard;
+  const sel = document.getElementById('folder-preset');
+  let matched = false;
+  for (const opt of sel.options) {
+    if (opt.value === folder) { sel.value = folder; matched = true; break; }
+  }
+  if (!matched) {
+    sel.value = 'custom';
+    document.getElementById('folder-custom').style.display = 'block';
+    document.getElementById('folder-custom').value = folder;
+  } else {
+    document.getElementById('folder-custom').style.display = 'none';
+  }
+}
+
+function renderTagChips() {
+  const row = document.getElementById('tags-row');
+  row.innerHTML = '';
+  cfg.tags.split(',').map(t => t.trim()).filter(Boolean).forEach(tag => {
+    const chip = document.createElement('div');
+    chip.className = 'tag-chip';
+    chip.textContent = tag;
+    chip.onclick = () => toggleTag(chip, tag);
+    row.appendChild(chip);
+  });
+}
+
+// ── Settings modal ──
+function openSettings() {
+  document.getElementById('s-repo').value = cfg.repo;
+  document.getElementById('s-branch').value = cfg.branch;
+  document.getElementById('s-layout-post').value = cfg.layoutPost;
+  document.getElementById('s-layout-bit').value = cfg.layoutBit;
+  document.getElementById('s-bits-cat').value = cfg.bitsCat;
+  document.getElementById('s-img-standard').value = cfg.imgStandard;
+  document.getElementById('s-img-bits').value = cfg.imgBits;
+  document.getElementById('s-tags').value = cfg.tags;
+  document.getElementById('settings-modal').classList.remove('hidden');
+}
+
+function closeSettings() { document.getElementById('settings-modal').classList.add('hidden'); }
+function onOverlayClick(e) { if (e.target === document.getElementById('settings-modal')) closeSettings(); }
+
+function saveSettings() {
+  cfg.repo = document.getElementById('s-repo').value.trim();
+  cfg.branch = document.getElementById('s-branch').value.trim() || 'main';
+  cfg.layoutPost = document.getElementById('s-layout-post').value.trim() || 'post';
+  cfg.layoutBit = document.getElementById('s-layout-bit').value.trim() || 'post';
+  cfg.bitsCat = document.getElementById('s-bits-cat').value.trim() || 'bits';
+  cfg.imgStandard = document.getElementById('s-img-standard').value.trim() || 'assets/images';
+  cfg.imgBits = document.getElementById('s-img-bits').value.trim() || 'assets/images/bits';
+  cfg.tags = document.getElementById('s-tags').value.trim();
+  saveCfg();
+  renderTagChips();
+  setFolderForType(postType);
+  closeSettings();
+  setStatus('Settings saved', 'ok');
+}
+
+function saveCfg() { localStorage.setItem('nf_cfg', JSON.stringify(cfg)); }
+
+function exportSettings() {
+  const blob = new Blob([JSON.stringify(cfg, null, 2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'nextfive-publisher-settings.json';
+  a.click();
+}
+
+function importSettings(e) {
+  const f = e.target.files[0]; if (!f) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    try {
+      const imported = JSON.parse(ev.target.result);
+      cfg = Object.assign({}, DEFAULTS, imported);
+      saveCfg();
+      openSettings();
+      setStatus('Settings imported', 'ok');
+    } catch { setStatus('Invalid settings file', 'err'); }
+  };
+  reader.readAsText(f);
+}
+
+// ── Post type ──
+function setType(t) {
+  postType = t;
+  document.getElementById('type-standard').classList.toggle('active', t === 'standard');
+  document.getElementById('type-bit').classList.toggle('active', t === 'bit');
+  document.getElementById('title-label').textContent = t === 'bit' ? 'Title (optional)' : 'Title';
+  document.getElementById('tags-field').classList.toggle('hidden', t === 'bit');
+  setFolderForType(t);
+}
+
+function switchTab(tab) {
+  document.querySelectorAll('.editor-tab').forEach((b,i) => b.classList.toggle('active',(i===0&&tab==='write')||(i===1&&tab==='preview')));
+  document.getElementById('pane-write').classList.toggle('active', tab==='write');
+  document.getElementById('pane-preview').classList.toggle('active', tab==='preview');
+  if (tab==='preview') updatePreview();
+}
+
+function updatePreview() {
+  const md = document.getElementById('content').value;
+  const out = document.getElementById('preview-output');
+  out.innerHTML = md ? marked.parse(md) : '<span class="preview-empty">Nothing to preview yet.</span>';
+}
+
+function onFolderPreset() {
+  const v = document.getElementById('folder-preset').value;
+  document.getElementById('folder-custom').style.display = v==='custom' ? 'block' : 'none';
+}
+
+function getFolder() {
+  const v = document.getElementById('folder-preset').value;
+  return v==='custom' ? (document.getElementById('folder-custom').value.trim() || 'assets/images') : v;
+}
+
+// ── Images ──
+function onFileSelect(e) { addFiles(Array.from(e.target.files)); }
+function onDragOver(e) { e.preventDefault(); document.getElementById('drop-zone').classList.add('dragover'); }
+function onDragLeave() { document.getElementById('drop-zone').classList.remove('dragover'); }
+function onDrop(e) { e.preventDefault(); document.getElementById('drop-zone').classList.remove('dragover'); addFiles(Array.from(e.dataTransfer.files).filter(f=>f.type.startsWith('image/'))); }
+
+function addFiles(files) {
+  files.forEach(f => {
+    const reader = new FileReader();
+    reader.onload = ev => {
+      const id = Date.now() + Math.random();
+      images.push({id, file:f, dataUrl:ev.target.result, base64:ev.target.result.split(',')[1]});
+      renderImgList();
+      insertImageMd(f.name);
+    };
+    reader.readAsDataURL(f);
+  });
+}
+
+function insertImageMd(filename) {
+  const folder = getFolder();
+  const md = `\n![](/${folder}/${filename})\n`;
+  const ta = document.getElementById('content');
+  ta.value += md;
+  updatePreview();
+}
+
+function renderImgList() {
+  document.getElementById('img-list').innerHTML = images.map(img => `
+    <div class="img-item">
+      <img src="${img.dataUrl}" alt="">
+      <span class="img-name">${img.file.name}</span>
+      <span class="img-remove" onclick="removeImg(${img.id})">✕</span>
+    </div>`).join('');
+}
+
+function removeImg(id) { images = images.filter(i=>i.id!==id); renderImgList(); }
+
+// ── Tags ──
+function toggleTag(el, tag) {
+  if (activeTags.has(tag)) { activeTags.delete(tag); el.classList.remove('active'); }
+  else { activeTags.add(tag); el.classList.add('active'); }
+}
+
+function addCustomTag(e) {
+  if (e.key !== 'Enter') return;
+  const v = e.target.value.trim(); if (!v) return;
+  activeTags.add(v);
+  const row = document.getElementById('tags-row');
+  const chip = document.createElement('div');
+  chip.className = 'tag-chip active';
+  chip.textContent = v;
+  chip.onclick = () => toggleTag(chip, v);
+  row.appendChild(chip);
+  e.target.value = '';
+}
+
+// ── Publish ──
+async function publish() {
+  const btn = document.getElementById('pub-btn');
+  btn.disabled = true;
+  setStatus('Publishing…', 'loading');
+  try {
+    if (!cfg.repo) throw new Error('No repo configured. Open Settings.');
+    const dateVal = document.getElementById('post-date').value;
+    const date = dateVal || new Date().toISOString().split('T')[0];
+    const content = document.getElementById('content').value.trim();
+    const titleVal = document.getElementById('title').value.trim();
+
+    // Upload images
+    const folder = getFolder();
+    for (const img of images) {
+      await uploadFile(`${folder}/${img.file.name}`, img.base64);
+    }
+
+    let slug, fm, filePath;
+    if (postType === 'bit') {
+      if (titleVal) slug = slugify(titleVal);
+      else if (content) slug = slugify(content.slice(0, 30));
+      else if (images.length) slug = slugify(images[0].file.name.replace(/\.[^.]+$/, ''));
+      else slug = 'bit';
+      filePath = `_posts/${date}-${slug}.md`;
+      const titleLine = titleVal ? `title: "${titleVal}"\n` : '';
+      fm = `---\nlayout: ${cfg.layoutBit}\n${titleLine}categories: ${cfg.bitsCat}\ndate: ${date}\n---\n\n`;
+    } else {
+      if (!titleVal) { setStatus('Title is required for standard posts.', 'err'); btn.disabled=false; return; }
+      if (!content) { setStatus('Content cannot be empty.', 'err'); btn.disabled=false; return; }
+      slug = slugify(titleVal);
+      filePath = `_posts/${date}-${slug}.md`;
+      const tags = Array.from(activeTags);
+      fm = `---\nlayout: ${cfg.layoutPost}\ntitle: "${titleVal}"\ndate: ${date}\n${tags.length?'tags: ['+tags.map(t=>`"${t}"`).join(', ')+']\n':''}---\n\n`;
+    }
+
+    await uploadFile(filePath, btoa(unescape(encodeURIComponent(fm + content))));
+    setStatus(`Published → ${filePath}`, 'ok');
+    btn.disabled = false;
+  } catch(e) {
+    setStatus('Error: ' + e.message, 'err');
+    btn.disabled = false;
+  }
+}
+
+async function uploadFile(path, base64Content) {
+  const check = await ghFetch(`/repos/${cfg.repo}/contents/${path}`);
+  const body = {message:`publish: ${path}`, content:base64Content, branch:cfg.branch};
+  if (check.ok) { const ex = await check.json(); body.sha = ex.sha; }
+  const r = await ghFetch(`/repos/${cfg.repo}/contents/${path}`, token, 'PUT', body);
+  if (!r.ok) { const e = await r.json(); throw new Error(e.message || 'Upload failed'); }
+}
+
+async function ghFetch(path, tok, method='GET', body=null) {
+  const t = tok || token;
+  const opts = {method, headers:{Authorization:`Bearer ${t}`,Accept:'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'}};
+  if (body) { opts.headers['Content-Type']='application/json'; opts.body=JSON.stringify(body); }
+  return fetch(API + path, opts);
+}
+
+function slugify(s) {
+  return s.toLowerCase().replace(/[^\w\s-]/g,'').replace(/\s+/g,'-').replace(/-+/g,'-').slice(0,50);
+}
+
+function setStatus(msg, type='') {
+  const el = document.getElementById('pub-status');
+  el.textContent = msg;
+  el.className = 'status' + (type ? ' '+type : '');
+}
+
+function setTodayDate() {
+  document.getElementById('post-date').value = new Date().toISOString().split('T')[0];
+}
+
+function resetForm() {
+  document.getElementById('content').value = '';
+  document.getElementById('title').value = '';
+  images = []; activeTags.clear();
+  document.querySelectorAll('.tag-chip').forEach(c=>c.classList.remove('active'));
+  renderImgList(); updatePreview(); setTodayDate(); setStatus('Cleared');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Micro-Adventure Tracker</title>
+    <style>
+        /* Copied Styles from the target example */
+        :root {
+            --primary: #3a7563; /* Main green */
+            --secondary: #1d3b31; /* Darker green */
+            --light: #f5f5f5; /* Light background */
+            --dark: #333; /* Dark text */
+            --accent: #f3a712; /* Yellow accent */
+            --border-light: #eee; /* Light border color */
+            --card-bg: white; /* Card background */
+            --tag-bg: #e8e8e8; /* Default tag background */
+            --tag-color: #555; /* Default tag text color */
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: var(--light);
+            /* Container handles max-width now */
+        }
+
+        .container {
+            max-width: 800px; /* Applied here */
+            margin: 20px auto;
+            padding: 20px;
+            background-color: var(--light); /* Use card background for main container? Or keep light? Let's keep light body, white container */
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 1.5rem; /* Use rem */
+            padding-bottom: 1rem;
+            /* border-bottom: 1px solid var(--border-light); */
+        }
+        header h1 {
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+         header p { /* Added for subtitle if needed */
+             color: var(--secondary);
+             font-size: 1.0rem;
+         }
+
+        h2 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+
+        /* Navigation - Adapted from target's .nav a style */
+        nav {
+            display: flex;
+            justify-content: space-around; /* Use space-around */
+            margin: 1.5rem 0;
+            /* border-bottom: 1px solid var(--border-light); */ /* Add bottom border */
+            padding-bottom: 0.5rem; /* Space below nav */
+        }
+        nav button {
+            /* Reset default button styles */
+            background: none;
+            border: none;
+            cursor: pointer;
+            font: inherit;
+            /* Apply target link styles */
+            color: var(--primary);
+            text-decoration: none;
+            padding: 5px 20px;
+            border-bottom: 2px solid transparent;
+            transition: border-bottom 0.2s ease, color 0.2s ease;
+        }
+        nav button:hover {
+            color: var(--secondary); /* Slightly darker on hover */
+            border-bottom: 2px solid var(--secondary);
+        }
+        nav button.active {
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+            font-weight: bold; /* Make active stand out more */
+        }
+        nav button:disabled { /* Keep disabled style simple */
+             color: #ccc;
+             cursor: not-allowed;
+             border-bottom: 2px solid transparent;
+        }
+
+
+        /* View containers */
+        .view {
+            /* display: none; */ /* Hidden by default */
+            padding-top: 10px;
+            margin-bottom: 2rem; /* Spacing between views */
+        }
+        /* KEEP the hidden class definition */
+        .hidden { display: none !important; }
+        .view.active {
+            display: block; /* Show active view */
+        }
+
+        /* Button Styles - Generic .btn class */
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.2s;
+            text-decoration: none;
+            margin: 5px; /* Add default margin */
+        }
+        .btn:hover:not(:disabled) {
+            background-color: var(--secondary);
+        }
+        .btn-secondary {
+            background-color: var(--accent);
+            color: var(--dark); /* Use dark text on accent */
+        }
+        .btn-secondary:hover:not(:disabled) {
+            background-color: #d89000; /* Darker accent */
+        }
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 0.85rem; /* Adjusted size */
+        }
+        .btn-remove { /* Specific style for remove/delete actions */
+             background-color: #e74c3c; /* Reddish */
+             color: white;
+        }
+         .btn-remove:hover:not(:disabled) {
+             background-color: #c0392b;
+         }
+
+
+        /* Suggestion View - Apply card style */
+        #suggestionView .center { text-align: center; margin-bottom: 1rem; }
+        #suggestionDisplay {
+            background-color: var(--card-bg); /* Use card background */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Softer shadow */
+            margin-bottom: 1rem;
+            border: 1px solid var(--border-light); /* Add subtle border */
+            min-height: 80px;
+        }
+        #suggestionDisplay .text {
+            font-size: 1.2em;
+            font-weight: 500;
+            margin-bottom: 10px;
+            color: var(--secondary); /* Use secondary color for title */
+        }
+        #suggestionDisplay .tags {
+            font-size: 0.85em;
+            color: var(--tag-color);
+        }
+        /* General Tag Style */
+        .tag {
+            display: inline-block;
+            background-color: var(--tag-bg);
+            color: var(--tag-color);
+            padding: 2px 8px;
+            margin: 2px 4px 2px 0;
+            border-radius: 10px; /* More rounded tags */
+            font-size: 0.8rem; /* Smaller tags */
+        }
+        .suggestion-actions { /* Center the action buttons */
+             text-align: center;
+             margin-top: 1rem;
+        }
+        /* Specific button IDs styled via classes now, remove old styles */
+
+        /* Browse View */
+        #browseFilters {
+            margin-bottom: 1rem;
+            display: flex; /* Use flex for filter layout */
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        #browseFilters label { margin-right: 5px; color: var(--secondary); }
+        #browseFilters select {
+            padding: 6px 10px; /* Style select */
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            background-color: white;
+            font-size: 0.9rem;
+            min-width: 150px; /* Give it some width */
+        }
+
+        /* Adventure List Styles (Used in Browse & My Adventures) */
+        .adventure-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 1rem;
+        }
+        .adventure-list li {
+            background-color: transparent; /* Remove inner background */
+            border: none; /* Remove inner border */
+            border-bottom: 1px solid var(--border-light); /* Use bottom border */
+            border-radius: 0; /* No radius on list items */
+            padding: 15px 10px; /* Adjust padding */
+            margin-bottom: 0; /* No margin between items */
+            display: flex;
+            justify-content: space-between;
+            align-items: center; /* Center items vertically */
+            flex-wrap: wrap;
+            gap: 10px; /* Add gap for wrapping */
+            transition: background-color 0.15s ease;
+        }
+         .adventure-list li:hover {
+             background-color: #f9f9f9; /* Subtle hover */
+         }
+
+         .adventure-list li .info {
+             flex-grow: 1;
+             margin-right: 10px;
+         }
+        .adventure-list li .text {
+            font-weight: 500;
+            margin-bottom: 5px;
+            color: var(--dark);
+            display: block;
+        }
+        .adventure-list li .tags {
+             font-size: 0.8rem; /* Match general tag size */
+             color: var(--tag-color);
+             line-height: 1.4; /* Adjust line height for tags */
+        }
+         /* Use the general .tag style defined above */
+
+        .adventure-list .actions {
+            display: flex;
+            flex-wrap: wrap; /* Allow buttons to wrap */
+            gap: 8px; /* Space between buttons */
+            align-items: center;
+            justify-content: flex-end; /* Align buttons right */
+        }
+         /* List action buttons use btn classes now, remove old specific styles */
+
+
+        /* My Adventures View */
+        /* Uses .adventure-list styles above */
+        .empty-placeholder {
+             color: #888;
+             font-style: italic;
+             padding: 15px 10px;
+             text-align: center;
+        }
+
+        /* Progress View */
+        #progressDisplay {
+             margin-top: 2rem; /* More space above progress */
+             padding: 15px;
+             background-color: #e8f5e9; /* Light green background */
+             border: 1px solid #c8e6c9; /* Matching border */
+             border-radius: 5px;
+             text-align: center; /* Center progress text */
+        }
+         #progressDisplay h3 {
+             margin-top: 0;
+             margin-bottom: 1rem;
+             color: var(--secondary);
+             font-size: 1.2rem;
+         }
+         #progressDisplay ul { list-style: none; padding: 0; }
+         #progressDisplay li {
+             margin-bottom: 8px;
+             font-size: 0.95rem;
+             display: flex; /* Use flex to align name and count */
+             justify-content: space-between;
+             padding: 0 10%; /* Add padding to center content a bit */
+         }
+         #progressDisplay .goal-name { font-weight: normal; color: var(--dark); }
+         #progressDisplay .goal-count { font-weight: bold; color: var(--primary); }
+
+
+        /* Mobile Adjustments - Inherited + Specifics */
+        @media (max-width: 600px) {
+            .container { margin: 10px; padding: 15px; }
+            nav { flex-wrap: wrap; justify-content: center; gap: 5px;} /* Allow nav buttons to wrap */
+            nav button { font-size: 0.9em; }
+
+             /* Stack list item content and actions */
+             .adventure-list li {
+                 flex-direction: column;
+                 align-items: flex-start; /* Align left on mobile */
+             }
+             .adventure-list li .info {
+                 margin-right: 0;
+                 margin-bottom: 10px; /* Space between info and actions */
+                 width: 100%;
+             }
+             .adventure-list .actions {
+                 width: 100%;
+                 justify-content: flex-start; /* Align buttons left */
+             }
+             /* Make suggestion buttons full width */
+             .suggestion-actions .btn {
+                 width: calc(100% - 10px); /* Full width minus margin */
+                 display: block;
+                 text-align: center;
+                 margin-left: 5px; margin-right: 5px;
+             }
+             #progressDisplay li { padding: 0 5%; } /* Less padding on mobile progress */
+        }
+
+        /* Utility Class */
+        .hidden { display: none !important; }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Micro-Adventure Tracker</h1>
+            <!-- Optional subtitle -->
+            <p>Find your next small adventure!</p>
+        </header>
+
+        <nav>
+            <!-- Buttons remain, styling applied via CSS -->
+            <button id="navSuggest" class="nav-btn active" data-view="suggestionView">Suggest</button>
+            <button id="navBrowse" class="nav-btn" data-view="browseView">Browse</button>
+            <button id="navMyAdventures" class="nav-btn" data-view="myAdventuresView">My Adventures</button>
+        </nav>
+
+        <!-- Suggestion View -->
+        <div id="suggestionView" class="view active">
+            <!-- Removed h2, implicitly handled by section -->
+            <div id="suggestionDisplay">
+                <span class="text">Click "Suggest Adventure" to get started!</span>
+                <div class="tags"></div>
+            </div>
+            <div class="suggestion-actions">
+                 <!-- Apply btn classes -->
+                <button id="suggestAnotherBtn" class="btn btn-secondary">Suggest Adventure</button>
+                <button id="planSuggestionBtn" class="btn" style="display: none;">Plan This</button>
+                <button id="completeSuggestionBtn" class="btn" style="display: none;">Mark as Done</button>
+            </div>
+        </div>
+
+        <!-- Browse View -->
+        <div id="browseView" class="view hidden">
+            <h2>Browse Adventures</h2>
+            <div id="browseFilters">
+                <label for="categoryFilter">Filter by Theme:</label>
+                <select id="categoryFilter">
+                    <option value="all">All Themes</option>
+                    <!-- Options populated by JS -->
+                </select>
+            </div>
+            <ul id="browseList" class="adventure-list">
+                <li class="loading-placeholder">Loading adventures...</li>
+            </ul>
+        </div>
+
+        <!-- My Adventures View -->
+        <div id="myAdventuresView" class="view hidden">
+            <h2>My Planned Adventures</h2>
+            <ul id="plannedList" class="adventure-list">
+                <li class="empty-placeholder" style="display: none;">No adventures planned yet.</li>
+            </ul>
+
+            <h2>My Completed Adventures</h2>
+            <ul id="completedList" class="adventure-list">
+                 <li class="empty-placeholder" style="display: none;">No adventures completed yet.</li>
+            </ul>
+
+            <div id="progressDisplay">
+                 <h3>Progress Towards Goals</h3>
+                 <ul id="goalProgressList"></ul>
+             </div>
+        </div>
+
+    </div>
+
+    <script>
+        // --- Data Source (Keep embedded) ---
+        const adventureDataText = `
+        |||
+        **Key for Goals:**
+        *   [a] Storytelling
+        *   [b] Health & Fitness (Mountaineering focus)
+        *   [c] Launch 2 Products
+        *   [d] Networking & Friendships
+        *   [e] Book Writing
+        *   [f] Financial Independence
+
+        ---
+
+        **Consolidated, Bangalore-Focused & Goal-Aligned Micro-Adventure List**
+
+        **I. Nature & Outdoors**
+
+        *   **A. Hiking, Walking & Exploration:**
+            *   Walk along the beach from one town to another (Requires travel) \`[b, a, e, d]\`
+            *   Walk along a canal path or lake perimeter \`[b, e, a]\`
+            *   Follow a disused railway line (Requires local research) \`[b, a, e]\`
+            *   Explore a border (e.g., state border) \`[a, e, b]\`
+            *   Walk to the coast (Multi-day, requires travel) \`[b, a, e]\`
+            *   Forest Nature Trail (e.g., Day hike at Bannerghatta Nature Camp) \`[b, e, a]\`
+            *   Explore a segment of a river (e.g., Cauvery) \`[b, a, e]\`
+            *   Geocaching Adventure around Bangalore \`[d, a, e, b]\`
+        *   **B. Overnight & Camping Adventures:**
+            *   Sleep in a wood (Designated/guided near Bangalore) \`[b, e, a]\`
+            *   Sleep on a hill or mountain (e.g., Nandi Hills, Skandagiri - check safety/permissions) \`[b, a, e]\`
+            *   Night Camping near Bangalore (Join a safe, guided group) \`[d, b, a, e]\`
+            *   Camp at a proper campsite \`[d, b, a, e]\`
+            *   Spend the night in a ruin or fort (Check permissions/safety) \`[a, e, b]\`
+            *   Holiday on a boat (e.g., local lake option or requires travel like Kerala backwaters) \`[a, e, d]\`
+        *   **C. Water Activities:**
+            *   Go swimming in a river or lake (Check safety/local advice) \`[b, a]\`
+            *   Swim in the sea (Requires travel) \`[b, a]\`
+            *   Kayaking (e.g., Day trip to Thonnur Lake) \`[b, d, a]\`
+            *   Snorkeling Trip (e.g., Netrani Island adventure - requires travel) \`[b, a, e, d]\`
+        *   **D. Wildlife & Nature Observation:**
+            *   Go wildlife spotting (e.g., Bannerghatta, Ranganathittu) \`[e, a]\`
+            *   Bird Watching (e.g., Hebbal Lake) \`[e, a]\`
+            *   Go moth trapping (Or local insect observation) \`[e, a]\`
+            *   Sleep among seasonal wildflowers (Respect nature, find suitable spots) \`[e, a]\`
+            *   Do 30 Days Wild (Engage with local nature daily for a month) \`[e, a, b]\`
+        *   **E. Specific Nature Experiences:**
+            *   Watch the sun rise \`[e, a]\`
+            *   Watch the sun set \`[e, a]\`
+            *   Watch a meteor shower (Find a dark spot away from city lights) \`[e, a]\`
+            *   Go barefoot (In a safe, natural setting like a park or clean trail) \`[b]\`
+            *   Climb a tree (Safely!) \`[b]\`
+            *   Go seasonal fruit picking (Find local opportunities - mango, guava, etc.) \`[f, e, a]\`
+            *   Forage for a new (to you) wild food (Learn from experts, be safe) \`[f, e, a]\`
+
+        **II. Urban Exploration & Local Culture (Bangalore Focus)**
+
+        *   **A. City Discovery & Heritage:**
+            *   Be a tourist in your own city or a nearby one \`[a, e]\`
+            *   Historical Bangalore Tour (Explore iconic landmarks) \`[a, e]\`
+            *   Exploratory Walk in a New Neighborhood (Discover hidden gems) \`[a, e, d]\`
+            *   Visit a place of historic interest (Museums, monuments) \`[a, e]\`
+            *   Visit a hill fort (Explore local historical sites like Savandurga, etc.) \`[b, a, e]\`
+            *   "Source to Sink" Urban Stream Exploration (Follow a safe local stream/drainage path) \`[a, e, b]\`
+            *   "Meet the Maker" Tour (Visit local artisans/small businesses) \`[f, a, d, e, c]\`
+            *   Public Art Scavenger Hunt (Locate specific murals/sculptures) \`[a, e, b]\`
+        *   **B. Culinary Adventures:**
+            *   Local Farmer's Market Tour (Explore organic produce, find recipe ingredients) \`[f, e, a]\`
+            *   Street Food Tasting Tour (Discover local culinary scene safely) \`[a, e, d]\`
+            *   Discover Bangalore's Breweries (Sample craft beers responsibly) \`[d, a]\`
+            *   Literary Cafe Crawl (Visit charming book cafes with a journal) \`[e, a, d]\`
+            *   Tea Tasting Ceremony (Experience the subtleties of fine teas) \`[a, e, d]\`
+            *   Rooftop Dinner with a View (Enjoy a meal at a scenic spot) \`[d, a]\`
+            *   Make local fruit preserve/jam \`[f, e]\`
+            *   Cook a new recipe with a new (to you) food/ingredient \`[f, e]\`
+        *   **C. Local Events & Community:**
+            *   Attend a festival or other interesting local event \`[a, d, e]\`
+            *   Attend a local festival celebration (e.g., Ugadi, Ganesh Chaturthi events) \`[a, d, e]\`
+            *   Craft Fair and Expo (Meet artisans, buy handmade treasures) \`[f, d, a, e, c]\`
+            *   Attend a Startup Pitch Event (Network and learn) \`[c, d, a, f]\`
+            *   Attend a Local Play or Theatre Performance (Kannada or English) \`[a, d, e]\`
+            *   "Silent Disco" City Walk (If available) \`[d, a]\`
+
+        **III. Arts, Crafts & Creativity**
+
+        *   **A. Visual Arts & Photography:**
+            *   Art Gallery Hop (Explore contemporary art) \`[e, a, d]\`
+            *   Botanical Sketching (e.g., at Lalbagh) \`[e, f]\`
+            *   Night Street Photography Session (Capture the city's nightlife) \`[a, e, f]\`
+            *   Outdoor Photography Class (Focus on nature/landscape) \`[a, e, f, d]\`
+            *   Participate in a Photography Challenge (e.g., thematic series) \`[a, e, f]\`
+            *   Make an ephemeral piece of art (Using natural materials) \`[e]\`
+            *   Therapeutic Art Session (Participate in a guided group activity) \`[e, d]\`
+            *   Themed Neighborhood Photo Essay (Create a visual story) \`[a, e, f]\`
+            *   Record Audio Ambiance from different locations \`[e, a, f]\`
+        *   **B. Performing Arts & Expression:**
+            *   Attend an Indian Music Concert (Classical or contemporary) \`[a, d, e]\`
+            *   Attend a Classical Dance Recital (e.g., Bharatanatyam, Kathak) \`[a, d, e]\`
+            *   Evening at a Jazz Club (Soak in live music) \`[a, d, e]\`
+            *   Perform or Participate at an Open Mic Night (Share story, poem, music) \`[a, d]\`
+            *   DIY Guitar Jam Session (Host an informal music evening at home) \`[d, a]\`
+            *   Improv Comedy Workshop Taster Session \`[a, d]\`
+        *   **C. Hands-on Crafts & Making:**
+            *   Pottery Workshop (Get hands dirty with clay) \`[f, e, d]\`
+            *   Silk Weaving and Dyeing Workshop (Learn about production near Bangalore) \`[f, e, a, d]\`
+            *   Local Souvenir Crafting (Try making a traditional craft) \`[f, e, d]\`
+            *   DIY Home Gardening (Start a balcony herb garden) \`[f, e]\`
+            *   Make a DIY camp stove from a drinks can \`[f]\`
+            *   Create a "Micro-Adventure Zine" (Document adventures) \`[e, a, f, d]\`
+        *   **D. Literary & Reading:**
+            *   Literary Cafe Crawl (Also under Urban/Culinary) \`[e, a, d]\`
+            *   Join a Book Club Meet (Discuss reads with fellow enthusiasts) \`[d, a, e]\`
+
+        **IV. Learning & Personal Growth**
+
+        *   **A. Skill Development & Workshops:**
+            *   Cooking Class for a Regional Indian Dish (Master a new cuisine) \`[f, e, d]\`
+            *   Sustainable Living Workshop (Learn eco-friendly habits) \`[f, e, d]\`
+            *   Kannada Language Class (Learn basic conversational Kannada) \`[f, d, a]\`
+            *   Urban Farming Visit (Learn about local agriculture initiatives) \`[f, e, d]\`
+            *   Join a Toastmasters Club Meeting (Guest or Member) \`[a, d]\`
+            *   "Skill Swap" Meetup (Organize or attend) \`[d, f, a, c]\`
+            *   Analyze a Master Storyteller's Techniques \`[a, e]\`
+            *   Urban Survival Basics Workshop (if available) \`[b, a]\`
+            *   "Idea Validation" Coffee Chats for your product \`[c, d, a, f]\`
+            *   Guerilla Market Research for your product \`[c, f, a]\`
+            *   "Deconstruct a Success" Analysis (Analyze similar product launches) \`[c, f, a, e]\`
+        *   **B. Mindfulness & Wellbeing:**
+            *   Sunrise Yoga (e.g., Join a group at Cubbon Park) \`[b, d, e]\`
+            *   Weekend Meditation Retreat (Find a local centre for mindfulness) \`[e, b]\`
+            *   Traditional Ayurvedic Spa Day (Relax with traditional treatments) \`[b, e]\`
+        *   **C. Fitness & Physical Challenges:**
+            *   Cycling (e.g., Hire a bike and cycle around Nandi Hills or local trails) \`[b, d, a, e]\`
+            *   Bouldering Session (Try indoor or outdoor climbing) \`[b, d, c]\` (*c* for resilience)
+            *   Charity Run/Walk Event (Participate for fitness and a cause) \`[b, d, a]\`
+            *   Weighted Backpack Stair Climb Challenge \`[b, a]\`
+            *   Canopy Walk or High Ropes Course (Near Bangalore) \`[b, a]\`
+        *   **D. Community & Contribution:**
+            *   Volunteer (e.g., at an Animal Shelter, or for another cause) \`[d, a, e, c, f]\`
+            *   Join a Local Cleanup Drive (Contribute to a cleaner environment) \`[d, b]\`
+            *   Organise a big, open-invitation picnic \`[d, a]\`
+            *   Take a friend on their first microadventure \`[d, a]\`
+            *   Build & Launch a "Minimum Viable Adventure" for friends \`[d, a, c, f]\`
+
+        **V. Travel & Journeys**
+
+        *   **A. Day Trips & Regional Exploration:**
+            *   Solo Heritage Walk in Mysore \`[a, e, b]\`
+            *   Day Trip to Lepakshi (Explore Veerabhadra temple) \`[a, e, b]\`
+            *   Coffee Plantation Visit (e.g., Bus trip to Coorg/Chikmagalur) \`[a, e, f, d]\`
+            *   Heritage Railway Ride (Scenic route near Bangalore if available) \`[a, e]\`
+        *   **B. Longer Journeys:**
+            *   Train Ride to Hampi (Weekend exploring ruins and history) \`[a, e, b, d]\`
+        *   **C. Spontaneous & Unconventional Travel:**
+            *   Travel without a map (Within safe/known local boundaries initially) \`[a, e]\`
+            *   Close eyes, point to map, go (For local exploration) \`[a, e, d]\`
+            *   "Point-and-Go" Bus Trip (Pick a random nearby town) \`[a, e, d]\`
+
+        **VI. Simple Pleasures & Everyday Adventures**
+
+        *   **A. Integrating Adventure into Routine:**
+            *   Walk to work (or part of the way) \`[b]\`
+            *   Do a lunchtime microadventure (Explore near work/home during lunch break) \`[a, e, b]\`
+        *   **B. Simple Outdoor Fun:**
+            *   Kite-Flying at a Local Park \`[d]\`
+            *   Enjoy an old fashioned day at a lakeside \`[a, e, d]\`
+            *   Take afternoon tea under a tarp in the rain (Embrace the weather!) \`[a, e]\`
+        *   **C. Home-Based Adventures:**
+            *   Camp in your living room \`[None]\`
+        |||
+        `;
+
+        // --- Constants & Mappings ---
+        const GOAL_MAP = { /* Remains the same */
+            'a': 'Storytelling', 'b': 'Health', 'c': 'Products',
+            'd': 'Networking', 'e': 'Writing', 'f': 'Finance'
+        };
+        const PLANNED_KEY = 'microAdventure_plannedIds_v2'; // Use new key if structure changes sig.
+        const COMPLETED_KEY = 'microAdventure_completedIds_v2';
+
+        // --- DOM Elements (Mostly the same, ensure IDs match HTML) ---
+        const views = document.querySelectorAll('.view');
+        const navButtons = document.querySelectorAll('.nav-btn');
+        const suggestionDisplay = document.getElementById('suggestionDisplay');
+        const suggestionTextEl = suggestionDisplay.querySelector('.text');
+        const suggestionTagsEl = suggestionDisplay.querySelector('.tags');
+        const suggestAnotherBtn = document.getElementById('suggestAnotherBtn');
+        const planSuggestionBtn = document.getElementById('planSuggestionBtn');
+        const completeSuggestionBtn = document.getElementById('completeSuggestionBtn');
+        const categoryFilter = document.getElementById('categoryFilter');
+        const browseList = document.getElementById('browseList');
+        const plannedList = document.getElementById('plannedList');
+        const completedList = document.getElementById('completedList');
+        const goalProgressList = document.getElementById('goalProgressList');
+        const plannedEmptyPlaceholder = plannedList.querySelector('.empty-placeholder');
+        const completedEmptyPlaceholder = completedList.querySelector('.empty-placeholder');
+
+        // --- State (Remains the same) ---
+        let allAdventures = [];
+        let plannedAdventureIds = [];
+        let completedAdventureIds = [];
+        let currentSuggestion = null;
+        let availableThemes = new Set();
+
+        // --- Initialization (Remains the same logic) ---
+        document.addEventListener('DOMContentLoaded', initApp);
+
+        function initApp() {
+            loadUserData();
+            parseAdventures(adventureDataText);
+            populateCategoryFilter();
+            setupEventListeners();
+            showView('suggestionView');
+            renderMyAdventures(); // Render lists initially
+            renderProgress();
+            // renderBrowseList(); // Render browse list initially - happens on view switch now
+            displayRandomSuggestion(); // Show initial suggestion
+            console.log(`App initialized. ${allAdventures.length} adventures loaded.`);
+        }
+
+        // --- Data Parsing (Remains the same logic) ---
+        function parseAdventures(text) {
+            const lines = text.split('\n');
+            allAdventures = []; // Reset
+            availableThemes.clear();
+            let currentTheme = "Unknown";
+            let currentSubtheme = "General";
+            let idCounter = 0;
+
+            const themeRegex = /^\s*\*\*(I{1,}|V?I{1,3})\.\s+(.+)\*\*\s*$/;
+            const subthemeRegex = /^\s*\*\s*\**([A-Z])\.\s+(.+)\:?\**\s*$/;
+            const adventureRegex = /^\s*\*\s+(.+?)\s+\`(\[[a-f,\s]+\])\`\s*$/;
+            const adventureNoGoalRegex = /^\s*\*\s+(.+?)(?:\s+\`\[None\]\`)?\s*$/;
+
+            lines.forEach(line => {
+                line = line.trim();
+                if (!line || line.startsWith('|||') || line.startsWith('---') || line.startsWith('**Key for Goals:**') || line.startsWith('*   [')) return;
+
+                const themeMatch = line.match(themeRegex);
+                if (themeMatch) {
+                    currentTheme = themeMatch[2].trim();
+                    availableThemes.add(currentTheme);
+                    currentSubtheme = "General";
+                    return;
+                }
+
+                const subthemeMatch = line.match(subthemeRegex);
+                if (subthemeMatch) {
+                    currentSubtheme = subthemeMatch[2].trim();
+                    return;
+                }
+
+                let textContent = '';
+                let goalCodes = [];
+                const adventureMatch = line.match(adventureRegex);
+                if (adventureMatch) {
+                    textContent = adventureMatch[1].trim();
+                    goalCodes = (adventureMatch[2].match(/[a-f]/g) || []).sort();
+                } else {
+                    const noGoalMatch = line.match(adventureNoGoalRegex);
+                    if (noGoalMatch && !line.includes(':') && !line.startsWith('**')) {
+                        textContent = noGoalMatch[1].trim();
+                        goalCodes = [];
+                    }
+                }
+
+                if (textContent) {
+                    const goals = goalCodes.map(code => GOAL_MAP[code] || 'Unknown').filter(Boolean);
+                    allAdventures.push({
+                        id: `adv-${idCounter++}`,
+                        text: textContent,
+                        theme: currentTheme,
+                        subtheme: currentSubtheme,
+                        goals: goals
+                    });
+                }
+            });
+        }
+
+        // --- Local Storage (Remains the same logic) ---
+        function loadUserData() { /* ... */
+            try {
+                plannedAdventureIds = JSON.parse(localStorage.getItem(PLANNED_KEY) || '[]');
+                completedAdventureIds = JSON.parse(localStorage.getItem(COMPLETED_KEY) || '[]');
+            } catch (e) { console.error("Error loading user data:", e); plannedAdventureIds = []; completedAdventureIds = []; }
+        }
+        function saveUserData() { /* ... */
+             try {
+                 localStorage.setItem(PLANNED_KEY, JSON.stringify(plannedAdventureIds));
+                 localStorage.setItem(COMPLETED_KEY, JSON.stringify(completedAdventureIds));
+             } catch (e) { console.error("Error saving user data:", e); }
+        }
+
+        // --- View Management (Remains the same logic) ---
+        function showView(viewId) { /* ... */
+            views.forEach(view => view.classList.add('hidden')); // Use hidden class
+            navButtons.forEach(btn => btn.classList.remove('active'));
+
+            const activeView = document.getElementById(viewId);
+            const activeBtn = document.querySelector(`[data-view="${viewId}"]`);
+
+            if (activeView) activeView.classList.remove('hidden'); // Show view
+            if (activeBtn) activeBtn.classList.add('active');
+
+             // Refresh lists when switching to relevant views
+             if (viewId === 'myAdventuresView') {
+                 renderMyAdventures();
+                 renderProgress();
+             } else if (viewId === 'browseView') {
+                 renderBrowseList(); // Re-render to reflect current planned/done status
+             }
+        }
+
+        // --- UI Rendering (Updated to use new styles/classes) ---
+        function populateCategoryFilter() { /* Remains the same */
+            availableThemes.forEach(theme => {
+                const option = document.createElement('option');
+                option.value = theme;
+                option.textContent = theme;
+                categoryFilter.appendChild(option);
+            });
+        }
+
+        function renderBrowseList() { /* ... */
+            const selectedTheme = categoryFilter.value;
+            browseList.innerHTML = ''; // Clear previous list
+
+            const filteredAdventures = allAdventures.filter(adv =>
+                selectedTheme === 'all' || adv.theme === selectedTheme
+            );
+
+            if (filteredAdventures.length === 0 && selectedTheme !== 'all') {
+                 browseList.innerHTML = '<li class="empty-placeholder">No adventures found for this theme.</li>';
+                 return;
+            }
+             if (allAdventures.length === 0) {
+                  browseList.innerHTML = '<li class="loading-placeholder">No adventures loaded.</li>';
+                  return;
+             }
+
+            filteredAdventures.forEach(adv => {
+                // Use the updated createAdventureListItem function
+                const li = createAdventureListItem(adv, 'browse');
+                browseList.appendChild(li);
+            });
+        }
+
+        function renderMyAdventures() { /* ... */
+             plannedList.innerHTML = '';
+             completedList.innerHTML = '';
+             let plannedCount = 0;
+             plannedAdventureIds.forEach(id => {
+                 const adv = findAdventureById(id);
+                 if (adv) {
+                     plannedList.appendChild(createAdventureListItem(adv, 'planned'));
+                     plannedCount++;
+                 }
+             });
+             let completedCount = 0;
+             completedAdventureIds.forEach(id => {
+                 const adv = findAdventureById(id);
+                 if (adv) {
+                     completedList.appendChild(createAdventureListItem(adv, 'completed'));
+                     completedCount++;
+                 }
+             });
+
+             // Use the existing empty placeholders in the HTML
+             plannedList.querySelector('.empty-placeholder').style.display = plannedCount === 0 ? 'block' : 'none';
+             completedList.querySelector('.empty-placeholder').style.display = completedCount === 0 ? 'block' : 'none';
+
+             // Hide the actual list if the placeholder is shown (optional, for cleaner look)
+             if (plannedCount > 0) plannedList.querySelectorAll('li:not(.empty-placeholder)').forEach(li => li.style.display = 'flex');
+             if (completedCount > 0) completedList.querySelectorAll('li:not(.empty-placeholder)').forEach(li => li.style.display = 'flex');
+        }
+
+        // *** UPDATED createAdventureListItem to use CSS classes for buttons ***
+        function createAdventureListItem(adv, context) {
+            const li = document.createElement('li');
+            li.dataset.id = adv.id;
+
+            const infoDiv = document.createElement('div');
+            infoDiv.className = 'info';
+            // Format tags using the general .tag class
+            infoDiv.innerHTML = `
+                <span class="text">${adv.text}</span>
+                <div class="tags">
+                    <span class="tag">Theme: ${adv.theme}</span>
+                    ${adv.subtheme !== 'General' ? `<span class="tag">Sub: ${adv.subtheme}</span>` : ''}
+                    ${adv.goals.length > 0 ? `<span class="tag">Goals: ${adv.goals.join(', ')}</span>` : ''}
+                </div>
+            `;
+
+            const actionsDiv = document.createElement('div');
+            actionsDiv.className = 'actions';
+
+            const isPlanned = plannedAdventureIds.includes(adv.id);
+            const isCompleted = completedAdventureIds.includes(adv.id);
+
+            // Add buttons using appropriate classes
+            if (context === 'browse') {
+                if (!isPlanned && !isCompleted) {
+                    actionsDiv.innerHTML += `<button class="btn btn-small" data-action="plan">Plan</button>`; // Primary for Plan
+                }
+                if (!isCompleted) {
+                     actionsDiv.innerHTML += `<button class="btn btn-small btn-secondary" data-action="complete">Done</button>`; // Accent for Done
+                }
+                // Add status indicators visually if needed (like a badge or different background?) - or rely on button presence
+                 if (isPlanned) li.style.borderLeft = '3px solid var(--primary)';
+                 if (isCompleted) li.style.borderLeft = '3px solid var(--accent)';
+
+
+            } else if (context === 'planned') {
+                actionsDiv.innerHTML = `
+                    <button class="btn btn-small btn-secondary" data-action="complete">Done</button>
+                    <button class="btn btn-small btn-remove" data-action="unplan">Remove</button>
+                `;
+            } else if (context === 'completed') {
+                actionsDiv.innerHTML = `
+                    <button class="btn btn-small" data-action="plan">Mark Planned</button>
+                    <button class="btn btn-small btn-remove" data-action="uncomplete">Remove</button>
+                `;
+            }
+
+            li.appendChild(infoDiv);
+            li.appendChild(actionsDiv);
+            return li;
+        }
+
+         function renderProgress() { /* Remains the same logic */
+              goalProgressList.innerHTML = ''; // Clear previous stats
+              const goalCounts = {};
+              Object.values(GOAL_MAP).forEach(goalName => goalCounts[goalName] = 0); // Initialize counts
+
+              completedAdventureIds.forEach(id => {
+                  const adv = findAdventureById(id);
+                  if (adv && adv.goals) {
+                      adv.goals.forEach(goalName => {
+                          if (goalCounts.hasOwnProperty(goalName)) {
+                              goalCounts[goalName]++;
+                          }
+                      });
+                  }
+              });
+
+              Object.entries(goalCounts).forEach(([goalName, count]) => {
+                  const li = document.createElement('li');
+                  li.innerHTML = `<span class="goal-name">${goalName}:</span> <span class="goal-count">${count}</span>`;
+                  goalProgressList.appendChild(li);
+              });
+         }
+
+
+        // --- Suggestion Logic (Remains the same logic) ---
+        function displayRandomSuggestion() { /* ... */
+            const availableForSuggestion = allAdventures.filter(adv =>
+                !plannedAdventureIds.includes(adv.id) && !completedAdventureIds.includes(adv.id)
+            );
+
+            if (availableForSuggestion.length === 0) {
+                suggestionTextEl.textContent = "Woohoo! You've planned or completed all adventures!";
+                suggestionTagsEl.innerHTML = '';
+                planSuggestionBtn.style.display = 'none';
+                completeSuggestionBtn.style.display = 'none';
+                currentSuggestion = null;
+                return;
+            }
+
+            const randomIndex = Math.floor(Math.random() * availableForSuggestion.length);
+            currentSuggestion = availableForSuggestion[randomIndex];
+
+            suggestionTextEl.textContent = currentSuggestion.text;
+            // Use general .tag class for rendering
+            suggestionTagsEl.innerHTML = `
+                <span class="tag">Theme: ${currentSuggestion.theme}</span>
+                ${currentSuggestion.subtheme !== 'General' ? `<span class="tag">Sub: ${currentSuggestion.subtheme}</span>` : ''}
+                ${currentSuggestion.goals.length > 0 ? `<span class="tag">Goals: ${currentSuggestion.goals.join(', ')}</span>` : ''}
+            `;
+
+            planSuggestionBtn.style.display = 'inline-block';
+            completeSuggestionBtn.style.display = 'inline-block';
+            planSuggestionBtn.dataset.id = currentSuggestion.id;
+            completeSuggestionBtn.dataset.id = currentSuggestion.id;
+        }
+
+        // --- Tracking Actions (Remains the same logic) ---
+        function planAdventure(id) { /* ... */
+            if (!plannedAdventureIds.includes(id)) {
+                plannedAdventureIds.push(id);
+                completedAdventureIds = completedAdventureIds.filter(compId => compId !== id);
+                saveUserData(); return true;
+            } return false;
+        }
+        function completeAdventure(id) { /* ... */
+             if (!completedAdventureIds.includes(id)) {
+                 completedAdventureIds.push(id);
+                 plannedAdventureIds = plannedAdventureIds.filter(planId => planId !== id);
+                 saveUserData(); return true;
+             } return false;
+        }
+        function unplanAdventure(id) { /* ... */
+             const initialLength = plannedAdventureIds.length;
+             plannedAdventureIds = plannedAdventureIds.filter(planId => planId !== id);
+             if (plannedAdventureIds.length < initialLength) { saveUserData(); return true; } return false;
+        }
+        function uncompleteAdventure(id) { /* ... */
+              const initialLength = completedAdventureIds.length;
+              completedAdventureIds = completedAdventureIds.filter(compId => compId !== id);
+               if (completedAdventureIds.length < initialLength) { saveUserData(); return true; } return false;
+        }
+
+        // Helper findAdventureById (Remains the same)
+        function findAdventureById(id) { /* ... */
+             return allAdventures.find(adv => adv.id === id);
+        }
+
+        // --- Event Listeners Setup (Remains the same logic, relies on data-action) ---
+        function setupEventListeners() { /* ... */
+             // Navigation
+             navButtons.forEach(button => {
+                 button.addEventListener('click', () => { showView(button.dataset.view); });
+             });
+
+             // Suggestion View Actions
+             suggestAnotherBtn.addEventListener('click', displayRandomSuggestion);
+             planSuggestionBtn.addEventListener('click', (e) => { /* ... */
+                  if (currentSuggestion && planAdventure(currentSuggestion.id)) {
+                      alert(`"${currentSuggestion.text}" added to planned!`); displayRandomSuggestion();
+                  }
+             });
+              completeSuggestionBtn.addEventListener('click', (e) => { /* ... */
+                   if (currentSuggestion && completeAdventure(currentSuggestion.id)) {
+                        alert(`"${currentSuggestion.text}" marked done!`); renderProgress(); displayRandomSuggestion();
+                    }
+              });
+
+             // Browse View Filter
+             categoryFilter.addEventListener('change', renderBrowseList);
+
+             // Event Delegation for list actions (Browse, Planned, Completed)
+            const listsContainer = document.querySelector('.container');
+            listsContainer.addEventListener('click', (event) => {
+                const button = event.target.closest('button[data-action]');
+                if (!button) return; // Exit if click wasn't on an action button
+
+                const action = button.dataset.action;
+                const listItem = button.closest('li[data-id]');
+                const id = listItem?.dataset.id;
+
+                if (!id) return; // Exit if couldn't find adventure ID
+
+                let listRefreshNeeded = false; // Tracks if visible lists need refresh
+                let progressWasAffected = false; // Specifically track if completed status changed
+
+                if (action === 'plan') {
+                    // Moving to planned might remove from completed
+                    const wasCompleted = completedAdventureIds.includes(id);
+                    listRefreshNeeded = planAdventure(id);
+                    if (wasCompleted && listRefreshNeeded) {
+                        progressWasAffected = true; // Removed from completed
+                    }
+                } else if (action === 'complete') {
+                    listRefreshNeeded = completeAdventure(id);
+                    if (listRefreshNeeded) {
+                        progressWasAffected = true; // Added to completed
+                    }
+                } else if (action === 'unplan') {
+                    // Unplanning doesn't affect completed count
+                    listRefreshNeeded = unplanAdventure(id);
+                } else if (action === 'uncomplete') {
+                    // Uncompleting moves back to planned
+                    const wasUncompleted = uncompleteAdventure(id);
+                    if (wasUncompleted) {
+                        planAdventure(id); // Move back to planned
+                        listRefreshNeeded = true;
+                        progressWasAffected = true; // Removed from completed
+                    }
+                }
+
+                // --- FIX: Call renderProgress if the completed list was changed ---
+                if (progressWasAffected) {
+                    renderProgress();
+                }
+
+                // Re-render relevant lists IF the current view requires it AND state changed
+                if (listRefreshNeeded) {
+                     const currentViewId = document.querySelector('.view:not(.hidden)')?.id; // Find visible view
+                     if (currentViewId === 'myAdventuresView') {
+                         renderMyAdventures();
+                         // Progress already rendered if needed by the check above
+                     } else if (currentViewId === 'browseView') {
+                         renderBrowseList(); // Update status indicators in browse list
+                     }
+                     // No explicit refresh needed for Suggest view as actions there trigger new suggestion
+                }
+            });
+        }
+
+    </script>
+
+</body>
+</html>

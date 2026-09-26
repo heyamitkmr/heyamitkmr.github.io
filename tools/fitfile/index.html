@@ -1,0 +1,4996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>12 Week Fitness Program</title>
+    <style>
+        /* --- Base & Light Mode Variables --- */
+        :root {
+            --bg-color: #f4f4f4;
+            --surface-color: #fff;
+            --text-color: #333;
+            --primary-color: #0056b3;
+            --primary-hover-color: #004494;
+            --primary-accent-color: #007bff;
+            --primary-accent-hover: #0056b3;
+            --secondary-btn-bg: #6c757d;
+            --secondary-btn-hover: #5a6268;
+            --danger-color: #dc3545;
+            --danger-hover: #c82333;
+            --warning-color: #ffc107;
+            --warning-hover: #e0a800;
+            --success-bg: #d4edda;
+            --success-text: #155724;
+            --success-border: #c3e6cb;
+            --info-bg: #fff3cd;
+            --info-text: #856404;
+            --info-border: #ffeeba;
+            --list-item-bg: #e9ecef;
+            --list-border-color: #0056b3;
+            --timer-color: #28a745;
+            --subtle-border-color: #eee;
+            --box-shadow-color: rgba(0,0,0,0.1);
+            --yt-link-bg: #e0e0e0;
+            --yt-link-hover: #c7c7c7;
+            --yt-link-text: #333;
+            --link-color: #007bff;
+            --link-hover-color: #0056b3;
+        }
+
+        /* --- Dark Mode Styles --- */
+        body.dark-mode {
+            --bg-color: #121212;
+            --surface-color: #1e1e1e;
+            --text-color: #e0e0e0;
+            --primary-color: #bb86fc;
+            --primary-hover-color: #a764fc;
+            --primary-accent-color: #3700b3;
+            --primary-accent-hover: #30009c;
+            --secondary-btn-bg: #444;
+            --secondary-btn-hover: #555;
+            --danger-color: #cf6679;
+            --danger-hover: #b04e5f;
+            --warning-color: #fcd34d;
+            --warning-hover: #fbc02d;
+            --success-bg: #2e4b37;
+            --success-text: #a7d7b5;
+            --success-border: #4a7c59;
+            --info-bg: #4d442a;
+            --info-text: #e0c885;
+            --info-border: #856404;
+            --list-item-bg: #2a2a2a;
+            --list-border-color: #bb86fc;
+            --timer-color: #50fa7b;
+            --subtle-border-color: #333;
+            --box-shadow-color: rgba(0,0,0,0.4);
+            --yt-link-bg: #444;
+            --yt-link-hover: #555;
+            --yt-link-text: #e0e0e0;
+            --link-color: #bb86fc;
+            --link-hover-color: #9850fa;
+        }
+
+        /* --- Base Styles using CSS Variables --- */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6; margin: 0; padding: 0;
+            background-color: var(--bg-color); color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .container {
+            max-width: 800px; margin: 20px auto;
+            background: var(--surface-color); padding: 20px;
+            border-radius: 8px; box-shadow: 0 0 10px var(--box-shadow-color);
+            transition: background-color 0.3s;
+        }
+        h1, h2, h3 { color: var(--primary-color); text-align: center; }
+        h1 { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--subtle-border-color); padding-bottom: 15px; margin-top:15px; }
+        h2 { margin-top: 0; margin-bottom: 15px; }
+        h3#plan-title {
+             margin-top: 20px; margin-bottom: 10px; text-align: left;
+             font-size: 1.2em; border-bottom: 1px solid var(--subtle-border-color); padding-bottom: 5px;
+        }
+        ul { list-style-type: none; padding: 0; }
+        li {
+            background: var(--list-item-bg); margin-bottom: 10px;
+            padding: 10px 15px; border-radius: 4px;
+            border-left: 5px solid var(--list-border-color);
+            transition: background-color 0.3s;
+        }
+        li.list-section-header {
+            background: var(--primary-color); color: var(--bg-color); font-weight: bold;
+            text-align: center; border-left: none; margin-top: 15px; margin-bottom: 15px;
+        }
+        li span { font-weight: bold; color: var(--text-color); display: block; margin-bottom: 5px; }
+        button {
+            background-color: var(--primary-accent-color); color: white; border: none;
+            padding: 10px 15px; border-radius: 5px; cursor: pointer;
+            font-size: 1em; margin-right: 10px; margin-top: 5px; margin-bottom: 10px;
+            transition: background-color 0.3s ease;
+        }
+        button:hover { background-color: var(--primary-accent-hover); }
+        button:disabled { background-color: #cccccc; cursor: not-allowed; }
+        .action-buttons { text-align: center; padding-bottom: 15px; border-bottom: 1px solid var(--subtle-border-color); margin-bottom: 10px; }
+        .reset-button { background-color: var(--danger-color); }
+        .reset-button:hover { background-color: var(--danger-hover); }
+        .workout-active { border: 2px solid var(--primary-accent-color); padding: 20px; margin-top: 20px; background-color: var(--surface-color); border-radius: 8px; }
+        .workout-active h3 { margin-top: 10px; margin-bottom: 5px; color: var(--danger-color); text-align: left; }
+        .workout-section-header { font-weight: bold; color: var(--primary-color); margin-bottom: 15px; font-size: 1.1em; border-bottom: 1px solid #ccc; padding-bottom: 5px; }
+        .progress-info { font-size: 0.9em; color: #555; margin-top: 5px; }
+        .timer { font-size: 1.5em; font-weight: bold; color: var(--timer-color); margin: 10px 0; text-align: center; }
+        .rest-timer-active h3 { color: var(--timer-color); }
+        .exercise-controls button, .rest-controls button { margin-top: 15px; }
+        .secondary-action-btn { background-color: var(--secondary-btn-bg); }
+        .secondary-action-btn:hover { background-color: var(--secondary-btn-hover); }
+        .warning-action-btn { background-color: var(--warning-color); color: #333; }
+        .warning-action-btn:hover { background-color: var(--warning-hover); }
+        .exercise-notes, .exercise-description, .exercise-details-summary { font-style: italic; color: var(--secondary-btn-bg); font-size: 0.9em; margin-top: 5px; }
+        .exercise-description { font-style: normal; color: var(--text-color); }
+        .exercise-details-summary { font-style: normal; color: var(--text-color); font-weight: 500; }
+        #completion-message { margin-top: 20px; padding: 15px; background-color: var(--success-bg); color: var(--success-text); border: 1px solid var(--success-border); border-radius: 5px; text-align: center; font-weight: bold; }
+        .info-block { background-color: var(--info-bg); border-left-color: var(--info-border); color: var(--info-text); padding: 15px; margin-bottom: 15px; border-radius: 4px; border-left-width: 5px; border-left-style: solid; }
+        #view-goals-link { color: var(--info-text); font-weight: bold; cursor: pointer; text-decoration: underline; }
+        #view-goals-link:hover { color: var(--info-border); }
+        #exercise-details p, #exercise-progress { margin: 5px 0; }
+        #rest-info { text-align: center; font-weight: bold; margin-bottom: 10px; }
+        .video-link-container { margin-top: 8px; }
+        .video-link {
+            display: inline-block; padding: 3px 8px; background-color: var(--yt-link-bg);
+            color: var(--yt-link-text); border-radius: 4px; text-decoration: none; font-size: 0.85em;
+            transition: background-color 0.2s ease; white-space: nowrap;
+        }
+        .video-link:hover { background-color: var(--yt-link-hover); }
+        .video-link-active { background-color: var(--warning-color); font-weight: bold; }
+        .video-link-active:hover { background-color: var(--warning-hover); }
+        #exercise-details p:has(.video-link-active) { margin-top: 10px; }
+
+        /* --- Config & Dark Mode Styles --- */
+        .header-controls { display: flex; align-items: center; gap: 10px; }
+        #config-controls { text-align: right; padding: 0 0 10px 0; }
+        .config-button {
+            background: none; border: none; color: var(--link-color); cursor: pointer;
+            padding: 5px; margin: 0 5px; text-decoration: underline; font-size: 0.9em;
+        }
+        .config-button:hover { color: var(--link-hover-color); }
+        #config-import-input { display: none; }
+        .modal {
+            display: none; position: fixed; z-index: 1000; left: 0; top: 0;
+            width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.6);
+            align-items: center; justify-content: center;
+        }
+        .modal-content {
+            background-color: var(--surface-color); margin: auto; padding: 20px;
+            border: 1px solid var(--subtle-border-color); width: 90%; max-width: 700px;
+            border-radius: 8px; display: flex; flex-direction: column;
+            max-height: 85vh;
+        }
+        .modal-body { overflow-y: auto; }
+        .modal-content h3 { margin-top: 0; text-align: center; }
+        .modal-textarea {
+            width: 100%; height: 50vh; margin-bottom: 10px;
+            background-color: var(--bg-color); color: var(--text-color);
+            border: 1px solid var(--subtle-border-color); border-radius: 4px;
+            font-family: monospace; font-size: 0.9em;
+        }
+        .modal-footer { margin-top: 15px; }
+
+        .theme-switch-wrapper { display: flex; align-items: center; }
+        .theme-switch { display: inline-block; height: 24px; position: relative; width: 44px; }
+        .theme-switch input { display:none; }
+        .slider { background-color: #ccc; bottom: 0; cursor: pointer; left: 0; position: absolute; right: 0; top: 0; transition: .4s; }
+        .slider:before { background-color: #fff; content: ""; height: 16px; width: 16px; left: 4px; bottom: 4px; position: absolute; transition: .4s; }
+        input:checked + .slider { background-color: #66bb6a; }
+        input:checked + .slider:before { transform: translateX(20px); }
+        .slider.round { border-radius: 34px; }
+        .slider.round:before { border-radius: 50%; }
+
+        /* Styles for rendered markdown in Goals Modal */
+        #goals-display { line-height: 1.5; }
+        #goals-display h1 { font-size: 1.6em; text-align: left; }
+        #goals-display h2 { font-size: 1.3em; text-align: left; border-bottom: 1px solid var(--subtle-border-color); margin-top: 20px; padding-bottom: 5px; }
+        #goals-display hr { border: 0; border-top: 1px solid var(--subtle-border-color); margin: 20px 0; }
+        #goals-display table {
+            width: 100%; border-collapse: collapse; margin-top: 15px;
+            font-size: 0.9em;
+        }
+        #goals-display th, #goals-display td {
+            border: 1px solid var(--subtle-border-color); padding: 8px;
+            text-align: left;
+        }
+        #goals-display th { background-color: var(--list-item-bg); font-weight: bold; }
+    </style>
+</head>
+<body>
+    <!-- Theme loader script to prevent FOUC -->
+    <script>
+        (function() {
+            const theme = localStorage.getItem('theme');
+            if (theme === 'dark') {
+                document.body.classList.add('dark-mode');
+            }
+        })();
+    </script>
+
+<div class="container">
+    <!-- Config Management Section -->
+    <div id="config-controls">
+        <button id="edit-config-btn" class="config-button">Edit Plan</button>
+        <button id="import-config-btn" class="config-button">Import</button>
+        <input type="file" id="config-import-input" accept=".json">
+        <button id="export-config-btn" class="config-button">Export</button>
+    </div>
+
+    <h1>
+        <span>12 Week Fitness Program</span>
+        <div class="header-controls">
+            <label class="theme-switch-wrapper" title="Toggle Dark/Light Theme">
+                <div class="theme-switch">
+                    <input type="checkbox" id="theme-toggle-checkbox">
+                    <span class="slider round"></span>
+                </div>
+            </label>
+        </div>
+    </h1>
+    <div id="intro-info" class="info-block">
+         <p><strong>Welcome!</strong> This app guides you through a 12-week fitness program (6 days on, 1 day rest).</p>
+         <p>Remember: Proper Nutrition and 7-8 hours of sleep are crucial. Perform exercises with good form. Stay hydrated. <a href="#" id="view-goals-link">View Fitness Goals</a>.</p>
+    </div>
+
+    <h2 id="current-day-title">Current Day: </h2>
+    <div class="action-buttons">
+        <button id="start-workout-btn">Start Today's Workout</button>
+        <button id="mark-complete-btn">Mark Day Complete</button>
+        <button id="reset-progress-btn" class="reset-button">Reset Progress</button>
+    </div>
+    <div id="day-plan">
+        <h3 id="plan-title">Today's Plan:</h3>
+        <ul id="plan-list"></ul>
+    </div>
+
+    <!-- Workout Area -->
+    <div id="active-workout" style="display: none;" class="workout-active">
+        <div id="workout-section-title" class="workout-section-header">Section</div>
+        <div id="exercise-display">
+            <h3 id="current-exercise-title"></h3>
+            <div id="exercise-details"></div>
+            <div id="exercise-progress"></div>
+            <div id="timer-display" class="timer" style="display: none;">00:00</div>
+            <div class="exercise-controls">
+                 <button id="prev-exercise-btn" class="secondary-action-btn">Previous Exercise</button>
+                 <button id="action-btn"></button>
+                 <button id="skip-exercise-btn" class="secondary-action-btn">Skip Exercise</button>
+                 <button id="restart-workout-btn" class="warning-action-btn">Restart Workout</button>
+            </div>
+             <p class="progress-info" id="workout-progress-indicator"></p>
+        </div>
+         <div id="rest-display" style="display: none;">
+             <h3 style="color: var(--timer-color);">REST</h3>
+             <p id="rest-info">Take a 15 second break before the next exercise.</p>
+             <div id="rest-timer-display" class="timer">00:15</div>
+             <div class="rest-controls" style="text-align: center;">
+                  <button id="skip-rest-btn" class="secondary-action-btn">Skip Rest</button>
+             </div>
+         </div>
+    </div>
+
+    <div id="completion-message" style="display: none;">
+        Congratulations! You have completed the 12-week program!
+    </div>
+</div>
+
+<!-- Config Editor Modal -->
+<div id="config-editor-modal" class="modal">
+    <div class="modal-content">
+        <h3>Edit Workout Configuration (JSON)</h3>
+        <div class="modal-body">
+            <textarea id="config-textarea" class="modal-textarea"></textarea>
+        </div>
+        <div class="modal-footer">
+            <button id="save-config-btn">Save and Apply</button>
+            <button id="cancel-config-btn" class="secondary-action-btn">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<!-- Goals Modal -->
+<div id="goals-modal" class="modal">
+    <div class="modal-content">
+        <h3>Your Fitness Goals</h3>
+        <div id="goals-display" class="modal-body"></div>
+        <textarea id="goals-textarea" class="modal-textarea" style="display: none;"></textarea>
+        <div class="modal-footer">
+            <button id="edit-goals-btn">Edit</button>
+            <button id="save-goals-btn" style="display: none;">Save Goals</button>
+            <button id="close-goals-btn" class="secondary-action-btn">Close</button>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    // --- Audio Context Setup ---
+    let audioCtx = null;
+    function initAudioContext() { if (!audioCtx) { try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { console.error("Web Audio API is not supported.", e); } } }
+    function playBeep(frequency = 880, duration = 50) { if (!audioCtx) return; try { const o = audioCtx.createOscillator(); const g = audioCtx.createGain(); o.connect(g); g.connect(audioCtx.destination); o.type = 'sine'; o.frequency.setValueAtTime(frequency, audioCtx.currentTime); g.gain.setValueAtTime(0.1, audioCtx.currentTime); o.start(audioCtx.currentTime); o.stop(audioCtx.currentTime + duration / 1000); } catch (e) { console.error("Error playing beep:", e); } }
+
+    // --- Helper function for creating exercises ---
+    const ex = (name, type, reps = null, sets = null, time = null, unit = null, description = '', notes = '', youtubeLink = '') => ({
+        name, type, reps, sets, time, unit, description, notes, youtubeLink
+    });
+
+    // --- Default Data Structures (Full data restored) ---
+    const defaultWorkoutConfig = {
+        fitnessGoals: `# Physical Conditioning for a Basic Mountaineering Course
+
+## Key Fitness Components
+
+- Cardiovascular endurance
+- Muscular strength and endurance
+- Core stability and balance
+- Flexibility and mobility
+
+---
+
+## Specific Performance Metrics
+
+| Component               | Beginner Target           | Intermediate Target      | Advanced Target        |
+|-------------------------|---------------------------|--------------------------|------------------------|
+| 5 km Run                | ≤ 30 min                  | ≤ 25 min                 | ≤ 22 min               |
+| Weighted March          | 10 km @ 10 kg pack in 2 h | 12 km @ 12 kg pack in 2 h| 15 km @ 14 kg pack in 2 h |
+| Pull-ups                | 5 reps continuous         | 10 reps continuous       | 15+ reps continuous    |
+| Push-ups                | 20 reps in one set        | 40 reps total (4×10)     | 60 reps total (4×15)   |
+| Squats                  | 3×15 bodyweight           | 3×12 goblet (16 kg)      | 4×12 goblet (20 kg)    |
+| Plank                   | 1 min hold                | 2 min hold               | 3 min hold             |
+| Side Plank              | 30 s per side             | 45 s per side            | 60 s per side          |
+| Stair-climb or Step-ups | 3×15 step-ups each leg    | 4×15 step-ups + 5 kg vest| 4×20 step-ups + 10 kg  |
+| Flexibility             | Touch toes, quad stretch  | Full squat, lunge stretch| Pistol-squat depth     |`,
+        warmUp: [
+            { name: "Neck Rotations (Flexion/Extension)", type: "info", description: "Gently nod head 'yes', chin to chest then look up.", notes: "Gentle movements.", youtubeLink: "https://www.youtube.com/watch?v=s3I2L_f-O9s" },
+            { name: "Neck Rotations (Lateral Flexion)", type: "info", description: "Tilt head, bringing ear towards shoulder, alternate sides.", notes: "Keep shoulders down.", youtubeLink: "https://www.youtube.com/watch?v=ZbGh23cPA_w" },
+            { name: "Neck Rotations (Rotation)", type: "info", description: "Slowly turn head to look left, then right.", notes: "Keep chin level.", youtubeLink: "https://www.youtube.com/watch?v=IZH3z_i1g1s" },
+            { name: "Arm Swings", type: "info", description: "Swing arms forward and backward in large circles.", notes: "Controlled movement.", youtubeLink: "https://www.youtube.com/watch?v=B9_yD0_j5sA" },
+            { name: "Shoulder Circumduction", type: "info", description: "Roll shoulders forward in circles, then backward.", notes: "Focus on shoulder blades.", youtubeLink: "https://www.youtube.com/watch?v=QAaY30gTjI8" },
+            { name: "Dynamic Chest Stretch", type: "info", description: "Swing arms open wide (stretch chest), then cross in front.", notes: "Feel stretch across chest.", youtubeLink: "https://www.youtube.com/watch?v=fAD12-p3s5o" },
+            { name: "Side Bends", type: "info", description: "Stand tall, reach one arm overhead, bend sideways. Alternate.", notes: "Keep core engaged.", youtubeLink: "https://www.youtube.com/watch?v=hM1t2iP9J7c" },
+            { name: "Windmill", type: "info", description: "Feet wide, hinge at hips, touch opposite hand to foot. Alternate.", notes: "Keep back straight.", youtubeLink: "https://www.youtube.com/watch?v=S0yB9i-A2yQ" },
+            { name: "Cat and Camel Drill", type: "info", description: "On hands and knees, arch back up (cat), then drop belly down (camel).", notes: "Sync with breath.", youtubeLink: "https://www.youtube.com/watch?v=K9bK0BwKFjs" },
+            { name: "Standing Hip Flexion and Rotation", type: "info", description: "Lift one knee towards chest, then rotate knee outwards. Alternate.", notes: "Use support if needed.", youtubeLink: "https://www.youtube.com/watch?v=n--r3gVT5iE" },
+            { name: "Leg Swings (Front and Back)", type: "info", description: "Hold onto support, swing one leg forward and backward smoothly.", notes: "Controlled swings.", youtubeLink: "https://www.youtube.com/watch?v=z3H74p3tS-E" },
+            { name: "Leg Swings (Side Swings)", type: "info", description: "Hold onto support, swing one leg side-to-side across body.", notes: "Keep torso stable.", youtubeLink: "https://www.youtube.com/watch?v=4nO0L82C-iA" },
+            { name: "Spider Lunges or Mountain climber", type: "info", description: "Spider: Lunge forward, place hands inside front foot. Mountain: Plank, alternate knees to chest.", notes: "Focus on hip mobility or steady cardio pace.", youtubeLink: "https://www.youtube.com/watch?v=a2g_G4P5w-M" },
+            { name: "High knees (Running in place)", type: "time", time: 1, unit: 'minutes', description: "Run in place, bringing knees up towards chest.", notes: "Aim for 1-2 minutes, don't get exhausted.", youtubeLink: "https://www.youtube.com/watch?v=D0Tj0j_4a4g" },
+            { name: "Clamshell for glutes", name: "info", description: "Lie on your side with bent knees and stacked hips, then lift your upper knee while keeping your feet together", notes: "Ensure your hips are stacked and don't roll back as you lift your top knee. Keep your feet together throughout. Engage your core; no unwanted movement. Only lift the top knee as high as you comfortably can without rotating your lower back or pelvis.  Avoid separating your feet or lifting the bottom leg off the floor.", youtubeLink: "https://www.coachsofiafitness.com/clamshell-exercise/"},
+            { name: "Glute bridge with march", name: "info", description: "Lie on your back, lift hips into a bridge. While holding, alternate lifting each foot off the floor.", notes: "", youtubeLink: "https://www.youtube.com/watch?v=dVjj5RMCg4Y"},
+            { name: "Side Plank (with Hip Drops or Thread-the-Needle)", name: "info", description: "Prop yourself on one forearm, stack your feet, and hold. For extra challenge, dip hips or thread your top arm underneath and return.", notes: "Builds strong obliques and improves lateral stability.  ", youtubeLink: "https://www.youtube.com/watch?v=TfLt8orAiiQ"},
+            { name: "Hollow Body Hold  ", name: "info", description: "Lie on your back, lift legs and shoulders off the ground, arms extended above. Keep your lower back pressed to the floor", notes: "For the deep core and overall stability.  ", youtubeLink: "https://www.youtube.com/watch?v=3kC0YkaY6jo&pp=ygUQSG9sbG93IEJvZHkgSG9sZA%3D%3D"}
+        ],
+        coolDown: [
+            { name: "Paschimottanasana (Seated Forward Bend)", type: "time", time: 45, unit: 'seconds', sets: 1, description: "Sit with legs straight, hinge at hips, reach towards toes.", notes: "Hold each set for 30 sec. Feel hamstring stretch.", youtubeLink: "https://www.youtube.com/watch?v=Svj0l3gL89Q" },
+            { name: "Baddha Konasana (Bound Angle Pose)", type: "time", time: 45, unit: 'seconds', sets: 1, description: "Sit, bring soles of feet together, let knees fall outwards.", notes: "Hold each set for 30 sec. Gentle inner thigh stretch.", youtubeLink: "https://www.youtube.com/watch?v=YXOe69p3QpA" },
+            { name: "Bhujangasana (Cobra Pose)", type: "time", time: 45, unit: 'seconds', sets: 1, description: "Lie on stomach, hands under shoulders, push chest up, keep hips down.", notes: "Hold each set for 30 sec. Stretch abs/chest.", youtubeLink: "https://www.youtube.com/watch?v=fOdrW7nf9gw" },
+            { name: "Parsva Urdhva Hastasana (Standing Side Bend)", type: "time", time: 45, unit: 'seconds', sets: 1, description: "Stand tall, reach arms up, grasp wrist, gently pull and bend sideways.", notes: "Hold each set for 30 sec per side.", youtubeLink: "https://www.youtube.com/watch?v=hM1t2iP9J7c" },
+            { name: "Pec Stretch (Doorway)", type: "time", time: 45, unit: 'seconds', sets: 1, description: "Use doorway or clasp hands behind back to stretch chest.", notes: "Hold each set for 30 sec. Feel chest open.", youtubeLink: "https://www.youtube.com/watch?v=S-374tH11eA" },
+            { name: "Dhanurasana (Bow Pose)", type: "time", time: 45, unit: 'seconds', sets: 1, description: "Lie on stomach, bend knees, grab ankles, lift chest and thighs.", notes: "Hold each set for 30 sec. Modify if needed.", youtubeLink: "https://www.youtube.com/watch?v=3rpYt3iT8Sk" },
+            { name: "Diaphragmatic Breathing (Crocodile Breaths)",type: "time", time: 60, unit: "seconds", sets: 1, description: "Lie face down, hands under your head. Breathe deeply into your belly, trying to expand the ribs and belly into the floor.", notes: "Boosts mind–core connection and helps activate the transverse abdominis.  Go for 1-2 minutes.", youtubeLink: "https://www.youtube.com/watch?v=Q1Me3bMx5Dc" }
+        ],
+        workoutPlan: [
+            [
+            [
+                {
+                "name": "Free Squats",
+                "type": "reps",
+                "reps": 15,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Feet shoulder-width, lower hips as if sitting, keep chest up.",
+                "notes": "Focus on form.",
+                "youtubeLink": "https://www.youtube.com/watch?v=X0-g30A-a4k"
+                },
+                {
+                "name": "Single Leg Standing Calf Raise",
+                "type": "reps",
+                "reps": 12,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "Stand on one leg, rise onto ball of foot, lower slowly.",
+                "notes": "each side",
+                "youtubeLink": "https://www.youtube.com/watch?v=T82a2K1iC-Y"
+                },
+                {
+                "name": "Inverted Rows",
+                "type": "reps",
+                "reps": 8,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Hang under sturdy bar/table, pull chest towards it, body straight.",
+                "notes": "Adjust angle for difficulty.",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Push Ups / Regressed Push Ups",
+                "type": "reps",
+                "reps": 8,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Hands shoulder-width, lower chest towards floor, keep body straight.",
+                "notes": "Use knees if needed.",
+                "youtubeLink": "https://www.youtube.com/watch?v=Pkj8LLRsoDw"
+                },
+                {
+                "name": "Prone Alternate Arm and Leg Raise",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Lie on stomach, lift opposite arm and leg simultaneously.",
+                "notes": "each side, keep core tight.",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Partial Crunches",
+                "type": "reps",
+                "reps": 8,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Lie on back, knees bent, lift head/shoulders slightly off floor.",
+                "notes": "Focus on upper abs.",
+                "youtubeLink": "https://www.youtube.com/watch?v=713n7gby_bE"
+                },
+                {
+                "name": "Grip and Hang",
+                "type": "failure",
+                "reps": null,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "Hang from a pull-up bar with an overhand grip.",
+                "notes": "Hold as long as possible.",
+                "youtubeLink": "https://www.youtube.com/watch?v=hxwjto0qB2c"
+                }
+            ],
+            [
+                {
+                "name": "Jogging",
+                "type": "time",
+                "reps": 12,
+                "sets": null,
+                "time": null,
+                "unit": "minutes",
+                "description": "Run at a comfortable, sustainable pace.",
+                "notes": "Maintain a steady pace. Try to improve performance each session.",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Free Squats",
+                "type": "reps",
+                "reps": 15,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Feet shoulder-width apart...",
+                "notes": "Focus on form.",
+                "youtubeLink": "https://www.youtube.com/watch?v=X0-g30A-a4k"
+                },
+                {
+                "name": "Single Leg Standing Calf Raise",
+                "type": "reps",
+                "reps": 12,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "Stand on one leg...",
+                "notes": "each side",
+                "youtubeLink": "https://www.youtube.com/watch?v=T82a2K1iC-Y"
+                },
+                {
+                "name": "Inverted Rows",
+                "type": "reps",
+                "reps": 8,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Hang under sturdy bar...",
+                "notes": "Adjust angle...",
+                "youtubeLink": "https://www.youtube.com/watch?v=hXTc1mDnZCk"
+                },
+                {
+                "name": "Push Ups / Regressed Push Ups",
+                "type": "reps",
+                "reps": 8,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Hands shoulder-width...",
+                "notes": "Use knees if needed.",
+                "youtubeLink": "https://www.youtube.com/watch?v=Pkj8LLRsoDw"
+                },
+                {
+                "name": "Prone Alternate Arm and Leg Raise",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Lie on stomach...",
+                "notes": "each side...",
+                "youtubeLink": "https://www.youtube.com/watch?v=QPSguS4844s"
+                },
+                {
+                "name": "Partial Crunches",
+                "type": "reps",
+                "reps": 8,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Lie on back...",
+                "notes": "Focus on upper abs.",
+                "youtubeLink": "https://www.youtube.com/watch?v=713n7gby_bE"
+                },
+                {
+                "name": "Grip and Hang",
+                "type": "failure",
+                "reps": null,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "Hang from a pull-up bar...",
+                "notes": "Hold as long as possible.",
+                "youtubeLink": "https://www.youtube.com/watch?v=hxwjto0qB2c"
+                }
+            ],
+            [
+                {
+                "name": "Jogging",
+                "type": "time",
+                "reps": 12,
+                "sets": null,
+                "time": null,
+                "unit": "minutes",
+                "description": "Run at a comfortable pace...",
+                "notes": "Maintain a steady pace...",
+                "youtubeLink": "https://www.youtube.com/watch?v=c1m9oCv-smc"
+                }
+            ],
+            [
+                {
+                "name": "Free Squats",
+                "type": "reps",
+                "reps": 15,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Feet shoulder-width apart...",
+                "notes": "Focus on form.",
+                "youtubeLink": "https://www.youtube.com/watch?v=X0-g30A-a4k"
+                },
+                {
+                "name": "Single Leg Standing Calf Raise",
+                "type": "reps",
+                "reps": 12,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "Stand on one leg...",
+                "notes": "each side",
+                "youtubeLink": "https://www.youtube.com/watch?v=T82a2K1iC-Y"
+                },
+                {
+                "name": "Inverted Rows",
+                "type": "reps",
+                "reps": 8,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Hang under sturdy bar...",
+                "notes": "Adjust angle...",
+                "youtubeLink": "https://www.youtube.com/watch?v=hXTc1mDnZCk"
+                },
+                {
+                "name": "Push Ups / Regressed Push Ups",
+                "type": "reps",
+                "reps": 8,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Hands shoulder-width...",
+                "notes": "Use knees if needed.",
+                "youtubeLink": "https://www.youtube.com/watch?v=Pkj8LLRsoDw"
+                },
+                {
+                "name": "Prone Alternate Arm and Leg Raise",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Lie on stomach...",
+                "notes": "each side...",
+                "youtubeLink": "https://www.youtube.com/watch?v=QPSguS4844s"
+                },
+                {
+                "name": "Partial Crunches",
+                "type": "reps",
+                "reps": 8,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Lie on back...",
+                "notes": "Focus on upper abs.",
+                "youtubeLink": "https://www.youtube.com/watch?v=713n7gby_bE"
+                },
+                {
+                "name": "Grip and Hang",
+                "type": "failure",
+                "reps": null,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "Hang from a pull-up bar...",
+                "notes": "Hold as long as possible.",
+                "youtubeLink": "https://www.youtube.com/watch?v=hxwjto0qB2c"
+                }
+            ],
+            [
+                {
+                "name": "Jogging",
+                "type": "time",
+                "reps": 12,
+                "sets": null,
+                "time": null,
+                "unit": "minutes",
+                "description": "Run at a comfortable pace...",
+                "notes": "Maintain a steady pace...",
+                "youtubeLink": "https://www.youtube.com/watch?v=c1m9oCv-smc"
+                }
+            ]
+            ],
+            [
+            [
+                {
+                "name": "Free Squats",
+                "type": "reps",
+                "reps": 15,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "Feet shoulder-width, lower hips as if sitting, keep chest up.",
+                "notes": "Focus on form.",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Single Leg Standing Calf Raise",
+                "type": "reps",
+                "reps": 15,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "Stand on one leg, rise onto ball of foot, lower slowly.",
+                "notes": "each side",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Inverted Rows",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Hang under sturdy bar/table, pull chest towards it, body straight.",
+                "notes": "Adjust angle for difficulty.",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Push Ups / Regressed Push Ups",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Hands shoulder-width, lower chest towards floor, keep body straight.",
+                "notes": "Use knees if needed.",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Prone Alternate Arm and Leg Raise",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Lie on stomach, lift opposite arm and leg simultaneously.",
+                "notes": "each side, keep core tight.",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Partial Crunches",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Lie on back, knees bent, lift head/shoulders slightly off floor.",
+                "notes": "Focus on upper abs.",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Grip and Hang",
+                "type": "failure",
+                "reps": null,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Hang from a pull-up bar with an overhand grip.",
+                "notes": "Hold as long as possible.",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Jogging",
+                "type": "time",
+                "reps": 12,
+                "sets": null,
+                "time": null,
+                "unit": "minutes",
+                "description": "Run at a comfortable, sustainable pace.",
+                "notes": "Maintain a steady pace.",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Free Squats",
+                "type": "reps",
+                "reps": 15,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Single Leg Standing Calf Raise",
+                "type": "reps",
+                "reps": 15,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "each side",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Inverted Rows",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Push Ups / Regressed Push Ups",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Prone Alternate Arm and Leg Raise",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "each side",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Partial Crunches",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Grip and Hang",
+                "type": "failure",
+                "reps": null,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Jogging",
+                "type": "time",
+                "reps": 12,
+                "sets": null,
+                "time": null,
+                "unit": "minutes",
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Free Squats",
+                "type": "reps",
+                "reps": 15,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Single Leg Standing Calf Raise",
+                "type": "reps",
+                "reps": 15,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "each side",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Inverted Rows",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Push Ups / Regressed Push Ups",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Prone Alternate Arm and Leg Raise",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "each side",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Partial Crunches",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Grip and Hang",
+                "type": "failure",
+                "reps": null,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Jogging",
+                "type": "time",
+                "reps": 12,
+                "sets": null,
+                "time": null,
+                "unit": "minutes",
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                }
+            ]
+            ],
+            [
+            [
+                {
+                "name": "Free Squats",
+                "type": "reps",
+                "reps": 15,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "Feet shoulder-width, lower hips as if sitting, keep chest up.",
+                "notes": "Focus on form.",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Standing Calf Raise",
+                "type": "reps",
+                "reps": 15,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "Stand on one leg, rise onto ball of foot, lower slowly.",
+                "notes": "Single leg each side",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Inverted Rows",
+                "type": "reps",
+                "reps": 8,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "Hang under sturdy bar/table, pull chest towards it, body straight.",
+                "notes": "Adjust angle for difficulty.",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Push Ups / Regressed Push Ups",
+                "type": "reps",
+                "reps": 8,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "Hands shoulder-width, lower chest towards floor, keep body straight.",
+                "notes": "Use knees if needed.",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Prone Alternate Arm and Leg Raise",
+                "type": "reps",
+                "reps": 12,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Lie on stomach, lift opposite arm and leg simultaneously.",
+                "notes": "each side, keep core tight.",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Partial Crunches",
+                "type": "reps",
+                "reps": 12,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Lie on back, knees bent, lift head/shoulders slightly off floor.",
+                "notes": "Focus on upper abs.",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Grip and Hang",
+                "type": "failure",
+                "reps": null,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Hang from a pull-up bar with an overhand grip.",
+                "notes": "Hold as long as possible.",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Jogging",
+                "type": "time",
+                "reps": 15,
+                "sets": null,
+                "time": null,
+                "unit": "minutes",
+                "description": "Run at a comfortable, sustainable pace.",
+                "notes": "Maintain a steady pace.",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Free Squats",
+                "type": "reps",
+                "reps": 15,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Standing Calf Raise",
+                "type": "reps",
+                "reps": 15,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "Single leg each side",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Inverted Rows",
+                "type": "reps",
+                "reps": 8,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Push Ups / Regressed Push Ups",
+                "type": "reps",
+                "reps": 8,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Prone Alternate Arm and Leg Raise",
+                "type": "reps",
+                "reps": 12,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "each side",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Partial Crunches",
+                "type": "reps",
+                "reps": 12,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Grip and Hang",
+                "type": "failure",
+                "reps": null,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Jogging",
+                "type": "time",
+                "reps": 15,
+                "sets": null,
+                "time": null,
+                "unit": "minutes",
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Free Squats",
+                "type": "reps",
+                "reps": 15,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Standing Calf Raise",
+                "type": "reps",
+                "reps": 15,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "Single leg each side",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Inverted Rows",
+                "type": "reps",
+                "reps": 8,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Push Ups / Regressed Push Ups",
+                "type": "reps",
+                "reps": 8,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Prone Alternate Arm and Leg Raise",
+                "type": "reps",
+                "reps": 12,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "each side",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Partial Crunches",
+                "type": "reps",
+                "reps": 12,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Grip and Hang",
+                "type": "failure",
+                "reps": null,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Jogging",
+                "type": "time",
+                "reps": 15,
+                "sets": null,
+                "time": null,
+                "unit": "minutes",
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                }
+            ]
+            ],
+            [
+            [
+                {
+                "name": "Back / Goblet Squats with Weight",
+                "type": "reps",
+                "reps": 15,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Hold weight at chest (Goblet) or use barbell (Back). Squat deep.",
+                "notes": "Start with 5kgs",
+                "youtubeLink": "https://www.youtube.com/watch?v=jW5D-Krgje8"
+                },
+                {
+                "name": "Standing Calf Raise",
+                "type": "reps",
+                "reps": 15,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "Stand on one leg (or both), rise onto balls of feet, lower slowly.",
+                "notes": "Single leg",
+                "youtubeLink": "https://www.youtube.com/watch?v=qPd73snQfUs"
+                },
+                {
+                "name": "Inverted Rows with Weight",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Perform Inverted Row holding a weight plate on your chest.",
+                "notes": "Use appropriate weight",
+                "youtubeLink": "https://www.youtube.com/shorts/AhUSbudCWro"
+                },
+                {
+                "name": "Push Ups with Weight",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Perform Push Up with a weight plate on your upper back.",
+                "notes": "Use appropriate weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Prone Alternate Arm and Leg Raise",
+                "type": "reps",
+                "reps": 12,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Lie on stomach, lift opposite arm and leg simultaneously.",
+                "notes": "each side, keep core tight.",
+                "youtubeLink": "https://www.youtube.com/shorts/1u9t36-9EOE"
+                },
+                {
+                "name": "Full Crunches",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Lie on back, knees bent, lift torso towards knees.",
+                "notes": "Engage full core.",
+                "youtubeLink": "https://www.youtube.com/watch?v=-w3nFeQ7ZLc"
+                },
+                {
+                "name": "Grip and Hang with Weight",
+                "type": "failure",
+                "reps": null,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Hang from bar holding a dumbbell between feet or using dip belt.",
+                "notes": "Use appropriate weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Pinch holds",
+                "type": "failure",
+                "reps": null,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "Pinch weight plates (smooth side out) between thumb and fingers.",
+                "notes": "Hold as long as possible. See https://www.youtube.com/watch?v=jFTV3DQf3HE",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Jogging",
+                "type": "time",
+                "reps": 15,
+                "sets": null,
+                "time": null,
+                "unit": "minutes",
+                "description": "Run at a comfortable, sustainable pace.",
+                "notes": "Maintain a steady pace.",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Back / Goblet Squats with Weight",
+                "type": "reps",
+                "reps": 15,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Hold weight at chest...",
+                "notes": "Start with 5kgs",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Standing Calf Raise",
+                "type": "reps",
+                "reps": 15,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "Single leg",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Inverted Rows with Weight",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Perform Inverted Row holding...",
+                "notes": "Use appropriate weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Push Ups with Weight",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Perform Push Up with...",
+                "notes": "Use appropriate weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Prone Alternate Arm and Leg Raise",
+                "type": "reps",
+                "reps": 12,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "each side",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Full Crunches",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Grip and Hang with Weight",
+                "type": "failure",
+                "reps": null,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "Use appropriate weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Pinch holds",
+                "type": "failure",
+                "reps": null,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Jogging",
+                "type": "time",
+                "reps": 15,
+                "sets": null,
+                "time": null,
+                "unit": "minutes",
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Back / Goblet Squats with Weight",
+                "type": "reps",
+                "reps": 15,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Hold weight at chest...",
+                "notes": "Start with 5kgs",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Standing Calf Raise",
+                "type": "reps",
+                "reps": 15,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "Single leg",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Inverted Rows with Weight",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Perform Inverted Row holding...",
+                "notes": "Use appropriate weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Push Ups with Weight",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Perform Push Up with...",
+                "notes": "Use appropriate weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Prone Alternate Arm and Leg Raise",
+                "type": "reps",
+                "reps": 12,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "each side",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Full Crunches",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Grip and Hang with Weight",
+                "type": "failure",
+                "reps": null,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "Use appropriate weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Pinch holds",
+                "type": "failure",
+                "reps": null,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Jogging",
+                "type": "time",
+                "reps": 15,
+                "sets": null,
+                "time": null,
+                "unit": "minutes",
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                }
+            ]
+            ],
+            [
+            [
+                {
+                "name": "Back / Goblet Squats with Weight",
+                "type": "reps",
+                "reps": 15,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Hold weight at chest (Goblet) or use barbell (Back). Squat deep.",
+                "notes": "7.5kgs",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Standing Calf Raise",
+                "type": "reps",
+                "reps": 15,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "Stand on one leg (or both), rise onto balls of feet, lower slowly.",
+                "notes": "Single leg",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Inverted Rows with Weight",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Perform Inverted Row holding a weight plate on your chest.",
+                "notes": "Use appropriate weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Push Ups with Weight",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Perform Push Up with a weight plate on your upper back.",
+                "notes": "Use appropriate weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Prone Alternate Arm and Leg Raise",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Lie on stomach, lift opposite arm and leg simultaneously.",
+                "notes": "each side",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Superman",
+                "type": "failure",
+                "reps": null,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "Lie on stomach, lift arms, chest, and legs off floor. Hold.",
+                "notes": "Hold until failure",
+                "youtubeLink": "https://www.youtube.com/shorts/ZYCLnrQGUls"
+                },
+                {
+                "name": "Full Crunches",
+                "type": "reps",
+                "reps": 12,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Lie on back, knees bent, lift torso towards knees.",
+                "notes": "Engage full core.",
+                "youtubeLink": "https://www.youtube.com/watch?v=-w3nFeQ7ZLc"
+                },
+                {
+                "name": "Grip and Hang with Weight",
+                "type": "failure",
+                "reps": null,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Hang from bar holding a dumbbell between feet or using dip belt.",
+                "notes": "Use appropriate weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Pinch holds",
+                "type": "failure",
+                "reps": null,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Pinch weight plates (smooth side out) between thumb and fingers.",
+                "notes": "Hold as long as possible.",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Jogging",
+                "type": "time",
+                "reps": 17,
+                "sets": null,
+                "time": null,
+                "unit": "minutes",
+                "description": "Run at a comfortable, sustainable pace.",
+                "notes": "Maintain a steady pace.",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Back / Goblet Squats with Weight",
+                "type": "reps",
+                "reps": 15,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "7.5kgs",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Standing Calf Raise",
+                "type": "reps",
+                "reps": 15,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "Single leg",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Inverted Rows with Weight",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Push Ups with Weight",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Prone Alternate Arm and Leg Raise",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "each side",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Superman",
+                "type": "failure",
+                "reps": null,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "Hold until failure",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Full Crunches",
+                "type": "reps",
+                "reps": 12,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Grip and Hang with Weight",
+                "type": "failure",
+                "reps": null,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Pinch holds",
+                "type": "failure",
+                "reps": null,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Jogging",
+                "type": "time",
+                "reps": 17,
+                "sets": null,
+                "time": null,
+                "unit": "minutes",
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Back / Goblet Squats with Weight",
+                "type": "reps",
+                "reps": 15,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "7.5kgs",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Standing Calf Raise",
+                "type": "reps",
+                "reps": 15,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "Single leg",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Inverted Rows with Weight",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Push Ups with Weight",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Prone Alternate Arm and Leg Raise",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "each side",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Superman",
+                "type": "failure",
+                "reps": null,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "Hold until failure",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Full Crunches",
+                "type": "reps",
+                "reps": 12,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Grip and Hang with Weight",
+                "type": "failure",
+                "reps": null,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Pinch holds",
+                "type": "failure",
+                "reps": null,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Jogging",
+                "type": "time",
+                "reps": 17,
+                "sets": null,
+                "time": null,
+                "unit": "minutes",
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                }
+            ]
+            ],
+            [
+            [
+                {
+                "name": "Back / Goblet Squats with Weight",
+                "type": "reps",
+                "reps": 15,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "Hold weight at chest (Goblet) or use barbell (Back). Squat deep.",
+                "notes": "7.5kgs",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Standing Calf Raise",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Stand on one leg (or both), rise onto balls of feet, lower slowly.",
+                "notes": "Single leg",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Inverted Rows with Weight",
+                "type": "reps",
+                "reps": 10,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "Perform Inverted Row holding a weight plate on your chest.",
+                "notes": "Use appropriate weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Push Ups with Weight",
+                "type": "reps",
+                "reps": 10,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "Perform Push Up with a weight plate on your upper back.",
+                "notes": "Use appropriate weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Prone Alternate Arm and Leg Raise",
+                "type": "reps",
+                "reps": 15,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Lie on stomach, lift opposite arm and leg simultaneously.",
+                "notes": "each side",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Superman",
+                "type": "failure",
+                "reps": null,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "Lie on stomach, lift arms, chest, and legs off floor. Hold.",
+                "notes": "Hold until failure",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Full Crunches",
+                "type": "reps",
+                "reps": 15,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Lie on back, knees bent, lift torso towards knees.",
+                "notes": "Engage full core.",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Grip and Hang with Weight",
+                "type": "failure",
+                "reps": null,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "Hang from bar holding a dumbbell between feet or using dip belt.",
+                "notes": "Use appropriate weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Pinch holds",
+                "type": "failure",
+                "reps": null,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Pinch weight plates (smooth side out) between thumb and fingers.",
+                "notes": "Hold as long as possible.",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Jogging",
+                "type": "time",
+                "reps": 17,
+                "sets": null,
+                "time": null,
+                "unit": "minutes",
+                "description": "Run at a comfortable, sustainable pace.",
+                "notes": "Maintain a steady pace.",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Back / Goblet Squats with Weight",
+                "type": "reps",
+                "reps": 15,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "7.5kgs",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Standing Calf Raise",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "Single leg",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Inverted Rows with Weight",
+                "type": "reps",
+                "reps": 10,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Push Ups with Weight",
+                "type": "reps",
+                "reps": 10,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Prone Alternate Arm and Leg Raise",
+                "type": "reps",
+                "reps": 15,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "each side",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Superman",
+                "type": "failure",
+                "reps": null,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Full Crunches",
+                "type": "reps",
+                "reps": 15,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Grip and Hang with Weight",
+                "type": "failure",
+                "reps": null,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Pinch holds",
+                "type": "failure",
+                "reps": null,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Jogging",
+                "type": "time",
+                "reps": 17,
+                "sets": null,
+                "time": null,
+                "unit": "minutes",
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Back / Goblet Squats with Weight",
+                "type": "reps",
+                "reps": 15,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "7.5kgs",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Standing Calf Raise",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "Single leg",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Inverted Rows with Weight",
+                "type": "reps",
+                "reps": 10,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Push Ups with Weight",
+                "type": "reps",
+                "reps": 10,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Prone Alternate Arm and Leg Raise",
+                "type": "reps",
+                "reps": 15,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "each side",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Superman",
+                "type": "failure",
+                "reps": null,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Full Crunches",
+                "type": "reps",
+                "reps": 15,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Grip and Hang with Weight",
+                "type": "failure",
+                "reps": null,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Pinch holds",
+                "type": "failure",
+                "reps": null,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Jogging",
+                "type": "time",
+                "reps": 17,
+                "sets": null,
+                "time": null,
+                "unit": "minutes",
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                }
+            ]
+            ],
+            [
+            [
+                {
+                "name": "Back / Goblet Squats with Weight",
+                "type": "reps",
+                "reps": 15,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Hold weight at chest (Goblet) or use barbell (Back). Squat deep.",
+                "notes": "10kgs",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Standing Calf Raise",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Stand on one leg (or both), rise onto balls of feet, lower slowly.",
+                "notes": "Single leg",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Wide Grip Chin up",
+                "type": "reps",
+                "reps": 5,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "Overhand grip wider than shoulders, pull chest to bar.",
+                "notes": "without weight",
+                "youtubeLink": "https://www.youtube.com/shorts/JAADXSjXUoE"
+                },
+                {
+                "name": "Inverted Rows with Weight",
+                "type": "reps",
+                "reps": 8,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Perform Inverted Row holding a weight plate on your chest.",
+                "notes": "Use appropriate weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Push Ups with Weight",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Perform Push Up with a weight plate on your upper back.",
+                "notes": "Use appropriate weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Parallel Bar Dip",
+                "type": "reps",
+                "reps": 5,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "Support body on parallel bars, lower until upper arms parallel to floor, push up.",
+                "notes": "without weight, focus on chest/triceps",
+                "youtubeLink": "https://www.youtube.com/shorts/ob8h9bF74S4"
+                },
+                {
+                "name": "Prone Alternate Arm and Leg Raise",
+                "type": "reps",
+                "reps": 15,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Lie on stomach, lift opposite arm and leg simultaneously.",
+                "notes": "each side",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Superman",
+                "type": "failure",
+                "reps": null,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Lie on stomach, lift arms, chest, and legs off floor. Hold.",
+                "notes": "Hold until failure",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Full Crunches",
+                "type": "reps",
+                "reps": 15,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Lie on back, knees bent, lift torso towards knees.",
+                "notes": "Engage full core.",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Grip and Hang with Weight",
+                "type": "failure",
+                "reps": null,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "Hang from bar holding a dumbbell between feet or using dip belt.",
+                "notes": "Use appropriate weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Pinch holds",
+                "type": "failure",
+                "reps": null,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Pinch weight plates (smooth side out) between thumb and fingers.",
+                "notes": "Hold as long as possible.",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Jogging",
+                "type": "time",
+                "reps": 20,
+                "sets": null,
+                "time": null,
+                "unit": "minutes",
+                "description": "Run at a comfortable, sustainable pace.",
+                "notes": "Maintain a steady pace.",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Back / Goblet Squats with Weight",
+                "type": "reps",
+                "reps": 15,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "10kgs",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Standing Calf Raise",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "Single leg",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Wide Grip Chin up",
+                "type": "reps",
+                "reps": 5,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "without weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Inverted Rows with Weight",
+                "type": "reps",
+                "reps": 8,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Push Ups with Weight",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Parallel Bar Dip",
+                "type": "reps",
+                "reps": 5,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "without weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Prone Alternate Arm and Leg Raise",
+                "type": "reps",
+                "reps": 15,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "each side",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Superman",
+                "type": "failure",
+                "reps": null,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Full Crunches",
+                "type": "reps",
+                "reps": 15,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Grip and Hang with Weight",
+                "type": "failure",
+                "reps": null,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Pinch holds",
+                "type": "failure",
+                "reps": null,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Jogging",
+                "type": "time",
+                "reps": 20,
+                "sets": null,
+                "time": null,
+                "unit": "minutes",
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Back / Goblet Squats with Weight",
+                "type": "reps",
+                "reps": 15,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "10kgs",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Standing Calf Raise",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "Single leg",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Wide Grip Chin up",
+                "type": "reps",
+                "reps": 5,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "without weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Inverted Rows with Weight",
+                "type": "reps",
+                "reps": 8,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Push Ups with Weight",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Parallel Bar Dip",
+                "type": "reps",
+                "reps": 5,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "without weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Prone Alternate Arm and Leg Raise",
+                "type": "reps",
+                "reps": 15,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "each side",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Superman",
+                "type": "failure",
+                "reps": null,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Full Crunches",
+                "type": "reps",
+                "reps": 15,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Grip and Hang with Weight",
+                "type": "failure",
+                "reps": null,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Pinch holds",
+                "type": "failure",
+                "reps": null,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Jogging",
+                "type": "time",
+                "reps": 20,
+                "sets": null,
+                "time": null,
+                "unit": "minutes",
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                }
+            ]
+            ],
+            [
+            [
+                {
+                "name": "Back / Goblet Squats with Weight",
+                "type": "reps",
+                "reps": 15,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "Hold weight at chest (Goblet) or use barbell (Back). Squat deep.",
+                "notes": "10kgs",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Standing Calf Raise",
+                "type": "reps",
+                "reps": 12,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Stand on one leg (or both), rise onto balls of feet, lower slowly.",
+                "notes": "Single leg",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Wide Grip Chin up",
+                "type": "reps",
+                "reps": 5,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "Overhand grip wider than shoulders, pull chest to bar.",
+                "notes": "without weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Inverted Rows with Weight",
+                "type": "reps",
+                "reps": 10,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "Perform Inverted Row holding a weight plate on your chest.",
+                "notes": "Use appropriate weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Push Ups with Weight",
+                "type": "reps",
+                "reps": 10,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "Perform Push Up with a weight plate on your upper back.",
+                "notes": "Use appropriate weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Parallel Bar Dip",
+                "type": "reps",
+                "reps": 5,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "Support body on parallel bars, lower until upper arms parallel to floor, push up.",
+                "notes": "without weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Prone Alternate Arm and Leg Raise",
+                "type": "reps",
+                "reps": 10,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "Lie on stomach, lift opposite arm and leg simultaneously.",
+                "notes": "each side",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Superman",
+                "type": "failure",
+                "reps": null,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Lie on stomach, lift arms, chest, and legs off floor. Hold.",
+                "notes": "Hold until failure",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Full Crunches",
+                "type": "reps",
+                "reps": 15,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "Lie on back, knees bent, lift torso towards knees.",
+                "notes": "Engage full core.",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Grip and Hang with Weight",
+                "type": "failure",
+                "reps": null,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "Hang from bar holding a dumbbell between feet or using dip belt.",
+                "notes": "Use appropriate weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Pinch holds",
+                "type": "failure",
+                "reps": null,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "Pinch weight plates (smooth side out) between thumb and fingers.",
+                "notes": "Hold as long as possible.",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Jogging",
+                "type": "time",
+                "reps": 20,
+                "sets": null,
+                "time": null,
+                "unit": "minutes",
+                "description": "Run at a comfortable, sustainable pace.",
+                "notes": "Maintain a steady pace.",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Back / Goblet Squats with Weight",
+                "type": "reps",
+                "reps": 15,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "10kgs",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Standing Calf Raise",
+                "type": "reps",
+                "reps": 12,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "Single leg",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Wide Grip Chin up",
+                "type": "reps",
+                "reps": 5,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "without weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Inverted Rows with Weight",
+                "type": "reps",
+                "reps": 10,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Push Ups with Weight",
+                "type": "reps",
+                "reps": 10,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Parallel Bar Dip",
+                "type": "reps",
+                "reps": 5,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "without weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Prone Alternate Arm and Leg Raise",
+                "type": "reps",
+                "reps": 10,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "each side",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Superman",
+                "type": "failure",
+                "reps": null,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Full Crunches",
+                "type": "reps",
+                "reps": 15,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Grip and Hang with Weight",
+                "type": "failure",
+                "reps": null,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Pinch holds",
+                "type": "failure",
+                "reps": null,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Jogging",
+                "type": "time",
+                "reps": 20,
+                "sets": null,
+                "time": null,
+                "unit": "minutes",
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Back / Goblet Squats with Weight",
+                "type": "reps",
+                "reps": 15,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "10kgs",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Standing Calf Raise",
+                "type": "reps",
+                "reps": 12,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "Single leg",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Wide Grip Chin up",
+                "type": "reps",
+                "reps": 5,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "without weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Inverted Rows with Weight",
+                "type": "reps",
+                "reps": 10,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Push Ups with Weight",
+                "type": "reps",
+                "reps": 10,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Parallel Bar Dip",
+                "type": "reps",
+                "reps": 5,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "without weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Prone Alternate Arm and Leg Raise",
+                "type": "reps",
+                "reps": 10,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "each side",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Superman",
+                "type": "failure",
+                "reps": null,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Full Crunches",
+                "type": "reps",
+                "reps": 15,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Grip and Hang with Weight",
+                "type": "failure",
+                "reps": null,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Pinch holds",
+                "type": "failure",
+                "reps": null,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Jogging",
+                "type": "time",
+                "reps": 20,
+                "sets": null,
+                "time": null,
+                "unit": "minutes",
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                }
+            ]
+            ],
+            [
+            [
+                {
+                "name": "Back / Goblet Squats with Weight",
+                "type": "reps",
+                "reps": 15,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "12.5kgs / 15kgs",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Standing Calf Raise",
+                "type": "reps",
+                "reps": 12,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "Single leg",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Wide Grip Chin up",
+                "type": "reps",
+                "reps": 7,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "without weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Inverted Rows with Weight",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Push Ups with Weight",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Parallel Bar Dip",
+                "type": "reps",
+                "reps": 7,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "without weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Prone Alternate Arm and Leg Raise",
+                "type": "reps",
+                "reps": 10,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "each side",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Superman",
+                "type": "failure",
+                "reps": null,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Full Crunches",
+                "type": "reps",
+                "reps": 10,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Grip and Hang with Weight",
+                "type": "failure",
+                "reps": null,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Pinch holds",
+                "type": "failure",
+                "reps": null,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Jogging",
+                "type": "time",
+                "reps": 25,
+                "sets": null,
+                "time": null,
+                "unit": "minutes",
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Back / Goblet Squats with Weight",
+                "type": "reps",
+                "reps": 15,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "12.5kgs / 15kgs",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Standing Calf Raise",
+                "type": "reps",
+                "reps": 12,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "Single leg",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Wide Grip Chin up",
+                "type": "reps",
+                "reps": 7,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "without weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Inverted Rows with Weight",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Push Ups with Weight",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Parallel Bar Dip",
+                "type": "reps",
+                "reps": 7,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "without weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Prone Alternate Arm and Leg Raise",
+                "type": "reps",
+                "reps": 10,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "each side",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Superman",
+                "type": "failure",
+                "reps": null,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Full Crunches",
+                "type": "reps",
+                "reps": 10,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Grip and Hang with Weight",
+                "type": "failure",
+                "reps": null,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Pinch holds",
+                "type": "failure",
+                "reps": null,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Jogging",
+                "type": "time",
+                "reps": 25,
+                "sets": null,
+                "time": null,
+                "unit": "minutes",
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Back / Goblet Squats with Weight",
+                "type": "reps",
+                "reps": 15,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "12.5kgs / 15kgs",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Standing Calf Raise",
+                "type": "reps",
+                "reps": 12,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "Single leg",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Wide Grip Chin up",
+                "type": "reps",
+                "reps": 7,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "without weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Inverted Rows with Weight",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Push Ups with Weight",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Parallel Bar Dip",
+                "type": "reps",
+                "reps": 7,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "without weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Prone Alternate Arm and Leg Raise",
+                "type": "reps",
+                "reps": 10,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "each side",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Superman",
+                "type": "failure",
+                "reps": null,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Full Crunches",
+                "type": "reps",
+                "reps": 10,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Grip and Hang with Weight",
+                "type": "failure",
+                "reps": null,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Pinch holds",
+                "type": "failure",
+                "reps": null,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Jogging",
+                "type": "time",
+                "reps": 25,
+                "sets": null,
+                "time": null,
+                "unit": "minutes",
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                }
+            ]
+            ],
+            [
+            [
+                {
+                "name": "Back / Goblet Squats with Weight",
+                "type": "reps",
+                "reps": 15,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "12.5kgs / 15kgs",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Standing Calf Raise",
+                "type": "reps",
+                "reps": 12,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "Single leg",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Wide Grip Chin up",
+                "type": "reps",
+                "reps": 7,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "without weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Inverted Rows with Weight",
+                "type": "reps",
+                "reps": 10,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Push Ups with Weight",
+                "type": "reps",
+                "reps": 10,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Parallel Bar Dip",
+                "type": "reps",
+                "reps": 7,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "without weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Prone Alternate Arm and Leg Raise",
+                "type": "reps",
+                "reps": 10,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "each side",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Superman",
+                "type": "failure",
+                "reps": null,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Full Crunches",
+                "type": "reps",
+                "reps": 10,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Grip and Hang with Weight",
+                "type": "failure",
+                "reps": null,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Pinch holds",
+                "type": "failure",
+                "reps": null,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Jogging",
+                "type": "time",
+                "reps": 25,
+                "sets": null,
+                "time": null,
+                "unit": "minutes",
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Back / Goblet Squats with Weight",
+                "type": "reps",
+                "reps": 15,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "12.5kgs / 15kgs",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Standing Calf Raise",
+                "type": "reps",
+                "reps": 12,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "Single leg",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Wide Grip Chin up",
+                "type": "reps",
+                "reps": 7,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "without weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Inverted Rows with Weight",
+                "type": "reps",
+                "reps": 10,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Push Ups with Weight",
+                "type": "reps",
+                "reps": 10,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Parallel Bar Dip",
+                "type": "reps",
+                "reps": 7,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "without weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Prone Alternate Arm and Leg Raise",
+                "type": "reps",
+                "reps": 10,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "each side",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Superman",
+                "type": "failure",
+                "reps": null,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Full Crunches",
+                "type": "reps",
+                "reps": 10,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Grip and Hang with Weight",
+                "type": "failure",
+                "reps": null,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Pinch holds",
+                "type": "failure",
+                "reps": null,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Jogging",
+                "type": "time",
+                "reps": 25,
+                "sets": null,
+                "time": null,
+                "unit": "minutes",
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Back / Goblet Squats with Weight",
+                "type": "reps",
+                "reps": 15,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "12.5kgs / 15kgs",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Standing Calf Raise",
+                "type": "reps",
+                "reps": 12,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "Single leg",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Wide Grip Chin up",
+                "type": "reps",
+                "reps": 7,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "without weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Inverted Rows with Weight",
+                "type": "reps",
+                "reps": 10,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Push Ups with Weight",
+                "type": "reps",
+                "reps": 10,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Parallel Bar Dip",
+                "type": "reps",
+                "reps": 7,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "without weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Prone Alternate Arm and Leg Raise",
+                "type": "reps",
+                "reps": 10,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "each side",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Superman",
+                "type": "failure",
+                "reps": null,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Full Crunches",
+                "type": "reps",
+                "reps": 10,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Grip and Hang with Weight",
+                "type": "failure",
+                "reps": null,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Pinch holds",
+                "type": "failure",
+                "reps": null,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Jogging",
+                "type": "time",
+                "reps": 25,
+                "sets": null,
+                "time": null,
+                "unit": "minutes",
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                }
+            ]
+            ],
+            [
+            [
+                {
+                "name": "Back / Goblet Squats with Weight",
+                "type": "reps",
+                "reps": 15,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "15kgs / 17.5kgs / 20kgs",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Standing Calf Raise",
+                "type": "reps",
+                "reps": 12,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "Single leg",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Wide Grip Chin up",
+                "type": "reps",
+                "reps": 10,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "without weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Inverted Rows with Weight",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Push Ups with Weight",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Parallel Bar Dip",
+                "type": "reps",
+                "reps": 10,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "without weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Prone Alternate Arm and Leg Raise",
+                "type": "reps",
+                "reps": 10,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "each side",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Superman",
+                "type": "failure",
+                "reps": null,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Full Crunches",
+                "type": "reps",
+                "reps": 12,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Grip and Hang with Weight",
+                "type": "failure",
+                "reps": null,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Pinch holds",
+                "type": "failure",
+                "reps": null,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Jogging",
+                "type": "time",
+                "reps": 30,
+                "sets": null,
+                "time": null,
+                "unit": "minutes",
+                "description": "",
+                "notes": "Maintain steady pace. Go longer if safe.",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Back / Goblet Squats with Weight",
+                "type": "reps",
+                "reps": 15,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "15kgs / 17.5kgs / 20kgs",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Standing Calf Raise",
+                "type": "reps",
+                "reps": 12,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "Single leg",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Wide Grip Chin up",
+                "type": "reps",
+                "reps": 10,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "without weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Inverted Rows with Weight",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Push Ups with Weight",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Parallel Bar Dip",
+                "type": "reps",
+                "reps": 10,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "without weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Prone Alternate Arm and Leg Raise",
+                "type": "reps",
+                "reps": 10,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "each side",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Superman",
+                "type": "failure",
+                "reps": null,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Full Crunches",
+                "type": "reps",
+                "reps": 12,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Grip and Hang with Weight",
+                "type": "failure",
+                "reps": null,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Pinch holds",
+                "type": "failure",
+                "reps": null,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Jogging",
+                "type": "time",
+                "reps": 30,
+                "sets": null,
+                "time": null,
+                "unit": "minutes",
+                "description": "",
+                "notes": "Maintain steady pace. Go longer if safe.",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Back / Goblet Squats with Weight",
+                "type": "reps",
+                "reps": 15,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "15kgs / 17.5kgs / 20kgs",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Standing Calf Raise",
+                "type": "reps",
+                "reps": 12,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "Single leg",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Wide Grip Chin up",
+                "type": "reps",
+                "reps": 10,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "without weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Inverted Rows with Weight",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Push Ups with Weight",
+                "type": "reps",
+                "reps": 10,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Parallel Bar Dip",
+                "type": "reps",
+                "reps": 10,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "without weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Prone Alternate Arm and Leg Raise",
+                "type": "reps",
+                "reps": 10,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "each side",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Superman",
+                "type": "failure",
+                "reps": null,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Full Crunches",
+                "type": "reps",
+                "reps": 12,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Grip and Hang with Weight",
+                "type": "failure",
+                "reps": null,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Pinch holds",
+                "type": "failure",
+                "reps": null,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Jogging",
+                "type": "time",
+                "reps": 30,
+                "sets": null,
+                "time": null,
+                "unit": "minutes",
+                "description": "",
+                "notes": "Maintain steady pace. Go longer if safe.",
+                "youtubeLink": ""
+                }
+            ]
+            ],
+            [
+            [
+                {
+                "name": "Back / Goblet Squats with Weight",
+                "type": "reps",
+                "reps": 15,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "15kgs / 17.5kgs / 20kgs",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Standing Calf Raise",
+                "type": "reps",
+                "reps": 12,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "Single leg",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Wide Grip Chin up",
+                "type": "reps",
+                "reps": 12,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "without weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Inverted Rows with Weight",
+                "type": "reps",
+                "reps": 10,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Push Ups with Weight",
+                "type": "reps",
+                "reps": 10,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Parallel Bar Dip",
+                "type": "reps",
+                "reps": 12,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "without weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Prone Alternate Arm and Leg Raise",
+                "type": "reps",
+                "reps": 10,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "each side",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Superman",
+                "type": "failure",
+                "reps": null,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Full Crunches",
+                "type": "reps",
+                "reps": 12,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Grip and Hang with Weight",
+                "type": "failure",
+                "reps": null,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Pinch holds",
+                "type": "failure",
+                "reps": null,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Jogging",
+                "type": "time",
+                "reps": 30,
+                "sets": null,
+                "time": null,
+                "unit": "minutes",
+                "description": "",
+                "notes": "Maintain steady pace. Go longer if safe.",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Back / Goblet Squats with Weight",
+                "type": "reps",
+                "reps": 15,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "15kgs / 17.5kgs / 20kgs",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Standing Calf Raise",
+                "type": "reps",
+                "reps": 12,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "Single leg",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Wide Grip Chin up",
+                "type": "reps",
+                "reps": 12,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "without weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Inverted Rows with Weight",
+                "type": "reps",
+                "reps": 10,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Push Ups with Weight",
+                "type": "reps",
+                "reps": 10,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Parallel Bar Dip",
+                "type": "reps",
+                "reps": 12,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "without weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Prone Alternate Arm and Leg Raise",
+                "type": "reps",
+                "reps": 10,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "each side",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Superman",
+                "type": "failure",
+                "reps": null,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Full Crunches",
+                "type": "reps",
+                "reps": 12,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Grip and Hang with Weight",
+                "type": "failure",
+                "reps": null,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Pinch holds",
+                "type": "failure",
+                "reps": null,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Jogging",
+                "type": "time",
+                "reps": 30,
+                "sets": null,
+                "time": null,
+                "unit": "minutes",
+                "description": "",
+                "notes": "Maintain steady pace. Go longer if safe.",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Back / Goblet Squats with Weight",
+                "type": "reps",
+                "reps": 15,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "15kgs / 17.5kgs / 20kgs",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Standing Calf Raise",
+                "type": "reps",
+                "reps": 12,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "Single leg",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Wide Grip Chin up",
+                "type": "reps",
+                "reps": 12,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "without weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Inverted Rows with Weight",
+                "type": "reps",
+                "reps": 10,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Push Ups with Weight",
+                "type": "reps",
+                "reps": 10,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Parallel Bar Dip",
+                "type": "reps",
+                "reps": 12,
+                "sets": 1,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "without weight",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Prone Alternate Arm and Leg Raise",
+                "type": "reps",
+                "reps": 10,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "each side",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Superman",
+                "type": "failure",
+                "reps": null,
+                "sets": 2,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Full Crunches",
+                "type": "reps",
+                "reps": 12,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Grip and Hang with Weight",
+                "type": "failure",
+                "reps": null,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                },
+                {
+                "name": "Pinch holds",
+                "type": "failure",
+                "reps": null,
+                "sets": 3,
+                "time": null,
+                "unit": null,
+                "description": "",
+                "notes": "",
+                "youtubeLink": ""
+                }
+            ],
+            [
+                {
+                "name": "Jogging",
+                "type": "time",
+                "reps": 30,
+                "sets": null,
+                "time": null,
+                "unit": "minutes",
+                "description": "",
+                "notes": "Maintain steady pace. Go longer if safe.",
+                "youtubeLink": ""
+                }
+            ]
+            ]
+        ]
+    };
+
+    // --- App State ---
+    let currentDay = 1;
+    const TOTAL_DAYS = 12 * 7;
+    let workoutConfig = {};
+    let activeWorkout = { isActive: false, isResting: false, plan: [], mainWorkoutStartIndex: 0, coolDownStartIndex: 0, currentExerciseIndex: 0, currentSet: 1, coolDownPass: 1, timerId: null, timerSecondsRemaining: 0, isTimerPaused: false };
+
+    // --- DOM Elements ---
+    const currentDayTitle = document.getElementById('current-day-title');
+    const planList = document.getElementById('plan-list');
+    const startWorkoutBtn = document.getElementById('start-workout-btn');
+    const markCompleteBtn = document.getElementById('mark-complete-btn');
+    const resetProgressBtn = document.getElementById('reset-progress-btn');
+    const activeWorkoutDiv = document.getElementById('active-workout');
+    const workoutSectionTitle = document.getElementById('workout-section-title');
+    const currentExerciseTitle = document.getElementById('current-exercise-title');
+    const exerciseDetails = document.getElementById('exercise-details');
+    const exerciseProgress = document.getElementById('exercise-progress');
+    const timerDisplay = document.getElementById('timer-display');
+    const actionBtn = document.getElementById('action-btn');
+    const prevExerciseBtn = document.getElementById('prev-exercise-btn');
+    const skipExerciseBtn = document.getElementById('skip-exercise-btn');
+    const restartWorkoutBtn = document.getElementById('restart-workout-btn');
+    const workoutProgressIndicator = document.getElementById('workout-progress-indicator');
+    const completionMessage = document.getElementById('completion-message');
+    const introInfoDiv = document.getElementById('intro-info');
+    const planTitle = document.getElementById('plan-title');
+    const exerciseDisplay = document.getElementById('exercise-display');
+    const restDisplay = document.getElementById('rest-display');
+    const restTimerDisplay = document.getElementById('rest-timer-display');
+    const skipRestBtn = document.getElementById('skip-rest-btn');
+    const themeToggle = document.getElementById('theme-toggle-checkbox');
+    const editConfigBtn = document.getElementById('edit-config-btn');
+    const importConfigBtn = document.getElementById('import-config-btn');
+    const configImportInput = document.getElementById('config-import-input');
+    const exportConfigBtn = document.getElementById('export-config-btn');
+    const configEditorModal = document.getElementById('config-editor-modal');
+    const configTextarea = document.getElementById('config-textarea');
+    const saveConfigBtn = document.getElementById('save-config-btn');
+    const cancelConfigBtn = document.getElementById('cancel-config-btn');
+    const viewGoalsLink = document.getElementById('view-goals-link');
+    const goalsModal = document.getElementById('goals-modal');
+    const goalsDisplay = document.getElementById('goals-display');
+    const goalsTextarea = document.getElementById('goals-textarea');
+    const editGoalsBtn = document.getElementById('edit-goals-btn');
+    const saveGoalsBtn = document.getElementById('save-goals-btn');
+    const closeGoalsBtn = document.getElementById('close-goals-btn');
+
+    // --- Core Functions ---
+    function loadWorkoutConfig() {
+        const savedConfig = localStorage.getItem('workoutConfig');
+        try {
+            if (savedConfig) {
+                workoutConfig = JSON.parse(savedConfig);
+                if (!workoutConfig.fitnessGoals) { workoutConfig.fitnessGoals = defaultWorkoutConfig.fitnessGoals; }
+                return;
+            }
+        } catch (e) { console.error("Failed to parse saved config, using default.", e); }
+        workoutConfig = JSON.parse(JSON.stringify(defaultWorkoutConfig));
+    }
+
+    function saveWorkoutConfig() {
+        try { localStorage.setItem('workoutConfig', JSON.stringify(workoutConfig)); } 
+        catch (e) { alert("Error saving configuration."); }
+    }
+    
+    function initializeApp() { loadWorkoutConfig(); loadProgress(); displayDayPlan(); }
+    function loadProgress() { const d = localStorage.getItem('fitnessAppCurrentDay'); currentDay = d ? parseInt(d, 10) : 1; if (isNaN(currentDay) || currentDay < 1) currentDay = 1; }
+    function saveProgress() { localStorage.setItem('fitnessAppCurrentDay', currentDay.toString()); }
+
+    function getDayPlan(day) {
+        const r = { plan: [], isRestDay: false };
+        if (day > TOTAL_DAYS) {
+            r.plan = [{ name: "Program Completed!", type: "info" }];
+            return r;
+        }
+        const WARM_UP_EXERCISES = workoutConfig.warmUp || [];
+        const COOL_DOWN_EXERCISES = workoutConfig.coolDown || [];
+        const baseWorkoutPlan = workoutConfig.workoutPlan || [];
+        const wi = Math.floor((day - 1) / 7);
+        const di = (day - 1) % 7;
+        if (di === 6) { r.isRestDay = true; return r; }
+        const mw = JSON.parse(JSON.stringify(baseWorkoutPlan[wi]?.[di] || []));
+        const wu = JSON.parse(JSON.stringify(WARM_UP_EXERCISES));
+        const cd = JSON.parse(JSON.stringify(COOL_DOWN_EXERCISES));
+        r.plan = [...wu, ...mw, ...cd];
+        r.mainWorkoutStartIndex = wu.length;
+        r.coolDownStartIndex = wu.length + mw.length;
+        return r;
+    }
+
+    function displayDayPlan() {
+        planList.innerHTML = ''; planTitle.style.display = 'block'; activeWorkoutDiv.style.display = 'none';
+        if (currentDay > TOTAL_DAYS) {
+            currentDayTitle.textContent = `Program Completed!`;
+            completionMessage.style.display = 'block';
+            startWorkoutBtn.style.display = 'none'; markCompleteBtn.style.display = 'none'; introInfoDiv.style.display = 'none'; planTitle.style.display = 'none';
+            return;
+        }
+        completionMessage.style.display = 'none'; introInfoDiv.style.display = 'block';
+        startWorkoutBtn.style.display = 'inline-block'; markCompleteBtn.style.display = 'inline-block';
+        const weekNumber = Math.floor((currentDay - 1) / 7) + 1;
+        const dayOfWeek = (currentDay - 1) % 7 + 1;
+        const planData = getDayPlan(currentDay);
+        if (planData.isRestDay) {
+            currentDayTitle.textContent = `Week ${weekNumber}, REST DAY`;
+            planList.innerHTML = `<li class="list-section-header">Enjoy your rest! Focus on recovery and nutrition.</li>`;
+        } else {
+            currentDayTitle.textContent = `Week ${weekNumber}, Day ${dayOfWeek}`;
+            if (!planData.plan || planData.plan.length === (workoutConfig.warmUp.length + workoutConfig.coolDown.length)) {
+                planList.innerHTML = `<li class="list-section-header">No workout scheduled.</li>`;
+            } else {
+                 const plan = planData.plan; let exerciseCounter = 0;
+                 plan.forEach((exercise, index) => {
+                    if (index === 0) { const h = document.createElement('li'); h.className = 'list-section-header'; h.textContent = '--- WARM UP ---'; planList.appendChild(h); }
+                    else if (index === planData.mainWorkoutStartIndex) { const h = document.createElement('li'); h.className = 'list-section-header'; h.textContent = '--- MAIN WORKOUT ---'; planList.appendChild(h); }
+                    else if (index === planData.coolDownStartIndex) { const h = document.createElement('li'); h.className = 'list-section-header'; h.textContent = '--- COOL DOWN ---'; planList.appendChild(h); }
+                    const li = document.createElement('li'); exerciseCounter++; let content = `<span>${exerciseCounter}. ${exercise.name}</span>`; content += `<div class="exercise-description">${exercise.description || ''}</div>`; let details = [];
+                    if (exercise.reps) details.push(`${exercise.reps} reps`); if (exercise.sets) details.push(`${exercise.sets} sets`); if (exercise.time) details.push(`${exercise.time} ${exercise.unit || 'units'}`); if (exercise.type === 'failure') details.push(`until failure`); if (details.length > 0) content += `<div class="exercise-details-summary">(${details.join(', ')})</div>`; if (exercise.notes) content += `<div class="exercise-notes">Note: ${exercise.notes}</div>`;
+                    if (exercise.youtubeLink) { content += `<div class="video-link-container"><a href="${exercise.youtubeLink}" target="_blank" rel="noopener noreferrer" class="video-link">Watch Video Guide</a></div>`; }
+                    li.innerHTML = content; planList.appendChild(li);
+                });
+            }
+        }
+        startWorkoutBtn.disabled = planData.isRestDay || (planData.plan[planData.mainWorkoutStartIndex] === undefined);
+        markCompleteBtn.textContent = planData.isRestDay ? "Mark Rest Day Complete" : "Mark Workout Day Complete";
+        markCompleteBtn.disabled = false;
+        if (activeWorkout.isActive) { displayCurrentExercise(); }
+    }
+
+    // --- Workout Logic Functions ---
+    function startWorkout() {
+        initAudioContext(); const pd = getDayPlan(currentDay); if (!pd || pd.isRestDay || pd.mainWorkoutStartIndex === pd.coolDownStartIndex) return;
+        activeWorkout = { isActive: true, isResting: false, plan: pd.plan, mainWorkoutStartIndex: pd.mainWorkoutStartIndex, coolDownStartIndex: pd.coolDownStartIndex, currentExerciseIndex: 0, currentSet: 1, coolDownPass: 1, timerId: null, timerSecondsRemaining: 0, isTimerPaused: false, warmUpCount: workoutConfig.warmUp.length, coolDownCount: workoutConfig.coolDown.length };
+        startWorkoutBtn.disabled = true; markCompleteBtn.disabled = true; activeWorkoutDiv.style.display = 'block'; planTitle.style.display = 'none'; planList.style.display = 'none'; exerciseDisplay.style.display = 'block'; restDisplay.style.display = 'none'; window.scrollTo(0, activeWorkoutDiv.offsetTop - 20); displayCurrentExercise();
+    }
+
+    function stopWorkout(completed = false) {
+        clearTimer(); activeWorkout.isActive = false; activeWorkoutDiv.style.display = 'none'; planTitle.style.display = 'block'; planList.style.display = 'block';
+        startWorkoutBtn.disabled = getDayPlan(currentDay)?.isRestDay ?? false; markCompleteBtn.disabled = false;
+        if (completed) { alert("Workout session complete! Well done!"); }
+    }
+
+    function restartCurrentWorkout() {
+        if (!activeWorkout.isActive) return; if (confirm("Restart this workout?")) { clearTimer(); activeWorkout.currentExerciseIndex = 0; activeWorkout.currentSet = 1; activeWorkout.coolDownPass = 1; activeWorkout.isResting = false; activeWorkout.isTimerPaused = false; exerciseDisplay.style.display = 'block'; restDisplay.style.display = 'none'; displayCurrentExercise(); }
+    }
+
+    function goToPreviousExercise() {
+        if (!activeWorkout.isActive || activeWorkout.isResting || activeWorkout.currentExerciseIndex <= 0) return; clearTimer();
+        if (activeWorkout.currentExerciseIndex === activeWorkout.coolDownStartIndex && activeWorkout.coolDownPass === 2) { activeWorkout.coolDownPass = 1; activeWorkout.currentExerciseIndex = activeWorkout.plan.length - 1; } 
+        else { activeWorkout.currentExerciseIndex--; }
+        activeWorkout.currentSet = 1; if (activeWorkout.currentExerciseIndex < activeWorkout.coolDownStartIndex) { activeWorkout.coolDownPass = 1; }
+        activeWorkout.isResting = false; displayCurrentExercise();
+    }
+
+    function skipCurrentExercise() { if (!activeWorkout.isActive || activeWorkout.isResting) return; if (confirm('Skip current exercise?')) { advanceToNextStep(true); } }
+    function clearTimer() { if (activeWorkout.timerId) { clearInterval(activeWorkout.timerId); activeWorkout.timerId = null; } }
+
+    function displayCurrentExercise() {
+        if (!activeWorkout.isActive || activeWorkout.isResting || activeWorkout.currentExerciseIndex >= activeWorkout.plan.length) { stopWorkout(true); return; }
+        const exercise = activeWorkout.plan[activeWorkout.currentExerciseIndex]; const index = activeWorkout.currentExerciseIndex; const isCoolDown = index >= activeWorkout.coolDownStartIndex;
+        let sectionName = "Main Workout"; let sectionIndex = index - activeWorkout.mainWorkoutStartIndex + 1; let sectionTotal = activeWorkout.coolDownStartIndex - activeWorkout.mainWorkoutStartIndex;
+        if (index < activeWorkout.mainWorkoutStartIndex) { sectionName = "Warm Up"; sectionIndex = index + 1; sectionTotal = activeWorkout.warmUpCount; } 
+        else if (isCoolDown) { sectionName = `Cool Down (Pass ${activeWorkout.coolDownPass} of 2)`; sectionIndex = index - activeWorkout.coolDownStartIndex + 1; sectionTotal = activeWorkout.coolDownCount; }
+        workoutSectionTitle.textContent = `${sectionName} (${sectionIndex} / ${sectionTotal})`;
+        currentExerciseTitle.textContent = exercise.name; workoutProgressIndicator.textContent = `Overall Progress: Item ${index + 1} of ${activeWorkout.plan.length}`;
+        exerciseDetails.innerHTML = ''; const descP = document.createElement('p'); descP.className = 'exercise-description'; descP.textContent = exercise.description || ''; exerciseDetails.appendChild(descP);
+        if (exercise.notes) { const notesP = document.createElement('p'); notesP.className = 'exercise-notes'; notesP.textContent = `Note: ${exercise.notes}`; exerciseDetails.appendChild(notesP); }
+        if (exercise.youtubeLink) { const videoLinkP = document.createElement('p'); videoLinkP.innerHTML = `<a href="${exercise.youtubeLink}" target="_blank" rel="noopener noreferrer" class="video-link video-link-active">Watch Video Guide</a>`; exerciseDetails.appendChild(videoLinkP); }
+        exerciseProgress.innerHTML = ''; timerDisplay.style.display = 'none'; actionBtn.style.display = 'inline-block'; prevExerciseBtn.disabled = (activeWorkout.currentExerciseIndex === 0 && activeWorkout.coolDownPass === 1);
+        let targetInfo = ''; const totalSets = exercise.sets || 1;
+        switch (exercise.type) {
+            case 'reps': case 'failure':
+                targetInfo = exercise.type === 'reps' ? `Target: ${exercise.reps || '?'} reps` : `Target: Perform until failure`;
+                actionBtn.onclick = markSetComplete; actionBtn.textContent = 'Mark Set Complete';
+                if (isCoolDown) { actionBtn.onclick = advanceToNextStep; actionBtn.textContent = 'Mark Pass Complete'; }
+                exerciseProgress.textContent = isCoolDown ? `Pass: ${activeWorkout.coolDownPass}/2` : `Set: ${activeWorkout.currentSet}/${totalSets}`;
+                break;
+            case 'time':
+                targetInfo = `Target: ${exercise.time} ${exercise.unit || 'seconds'}`;
+                let durationSeconds = (exercise.unit === 'minutes') ? exercise.time * 60 : (exercise.time || 30);
+                activeWorkout.timerSecondsRemaining = durationSeconds; timerDisplay.textContent = formatTime(durationSeconds); timerDisplay.style.display = 'block'; actionBtn.textContent = 'Start Timer'; actionBtn.onclick = handleTimerAction;
+                exerciseProgress.textContent = isCoolDown ? `Pass: ${activeWorkout.coolDownPass}/2` : `Set: ${activeWorkout.currentSet}/${totalSets}`;
+                break;
+            default:
+                targetInfo = `Follow instructions.`; actionBtn.textContent = 'Mark Complete'; actionBtn.onclick = advanceToNextStep; break;
+        }
+        const targetP = document.createElement('p'); targetP.innerHTML = `<strong>${targetInfo}</strong>`; exerciseDetails.appendChild(targetP);
+    }
+
+    function markSetComplete() {
+        const exercise = activeWorkout.plan[activeWorkout.currentExerciseIndex]; const totalSets = exercise.sets || 1; const isCoolDown = activeWorkout.currentExerciseIndex >= activeWorkout.coolDownStartIndex;
+        if (isCoolDown) { advanceToNextStep(); return; }
+        if (activeWorkout.currentSet < totalSets) {
+            activeWorkout.currentSet++; exerciseProgress.textContent = `Set: ${activeWorkout.currentSet}/${totalSets}`;
+            if (exercise.type === 'time') { let dur = (exercise.unit === 'minutes') ? exercise.time * 60 : (exercise.time || 30); activeWorkout.timerSecondsRemaining = dur; timerDisplay.textContent = formatTime(dur); actionBtn.textContent = 'Start Timer'; actionBtn.onclick = handleTimerAction; }
+            alert(`Set ${activeWorkout.currentSet - 1} complete!`);
+        } else { advanceToNextStep(); }
+    }
+
+    function handleTimerAction() {
+        if (activeWorkout.isResting) return; if (activeWorkout.timerId) { clearTimer(); activeWorkout.isTimerPaused = true; actionBtn.textContent = 'Resume'; } 
+        else { actionBtn.textContent = 'Pause'; startExerciseTimerInterval(); }
+    }
+
+    function startExerciseTimerInterval() {
+        activeWorkout.isTimerPaused = false;
+        activeWorkout.timerId = setInterval(() => {
+            if (!activeWorkout.isActive || activeWorkout.isResting || activeWorkout.isTimerPaused) { clearTimer(); return; }
+            if (activeWorkout.timerSecondsRemaining > 0) { activeWorkout.timerSecondsRemaining--; timerDisplay.textContent = formatTime(activeWorkout.timerSecondsRemaining); if (activeWorkout.timerSecondsRemaining < 5) playBeep(); } 
+            else { clearTimer(); timerDisplay.textContent = "Time's up!"; playBeep(1046, 200); actionBtn.onclick = markSetComplete; actionBtn.textContent = 'Mark Set Complete'; if (activeWorkout.currentExerciseIndex >= activeWorkout.coolDownStartIndex) { actionBtn.textContent = 'Mark Pass Complete'; actionBtn.onclick = advanceToNextStep; } }
+        }, 1000);
+    }
+
+    function advanceToNextStep(wasSkipped = false) {
+        clearTimer(); const currentIndex = activeWorkout.currentExerciseIndex; const isCoolDown = currentIndex >= activeWorkout.coolDownStartIndex; const isLast = currentIndex === activeWorkout.plan.length - 1;
+        if (isCoolDown && isLast && activeWorkout.coolDownPass === 1) { activeWorkout.coolDownPass = 2; activeWorkout.currentExerciseIndex = activeWorkout.coolDownStartIndex; activeWorkout.currentSet = 1; if (!wasSkipped) { startRestPeriod(); } else { displayCurrentExercise(); } } 
+        else if (isLast && (!isCoolDown || activeWorkout.coolDownPass === 2)) { activeWorkout.currentExerciseIndex++; stopWorkout(true); } 
+        else { if (!wasSkipped) { startRestPeriod(); } else { finishRestPeriod(); } }
+    }
+
+    function startRestPeriod() {
+        activeWorkout.isResting = true; exerciseDisplay.style.display = 'none'; restDisplay.style.display = 'block';
+        activeWorkout.timerSecondsRemaining = 15; restTimerDisplay.textContent = formatTime(15);
+        activeWorkout.timerId = setInterval(() => {
+            if (!activeWorkout.isActive || !activeWorkout.isResting) { clearTimer(); return; }
+            if (activeWorkout.timerSecondsRemaining > 0) { activeWorkout.timerSecondsRemaining--; restTimerDisplay.textContent = formatTime(activeWorkout.timerSecondsRemaining); if (activeWorkout.timerSecondsRemaining < 5) playBeep(660, 60); } 
+            else { finishRestPeriod(); }
+        }, 1000);
+    }
+
+    function finishRestPeriod() {
+        clearTimer(); activeWorkout.isResting = false;
+        if (!(activeWorkout.currentExerciseIndex === activeWorkout.plan.length - 1 && activeWorkout.coolDownPass === 1)) { activeWorkout.currentExerciseIndex++; }
+        activeWorkout.currentSet = 1; activeWorkout.timerSecondsRemaining = 0; activeWorkout.isTimerPaused = false;
+        exerciseDisplay.style.display = 'block'; restDisplay.style.display = 'none';
+        displayCurrentExercise();
+    }
+
+    function skipRest() { if (!activeWorkout.isActive || !activeWorkout.isResting) return; finishRestPeriod(); }
+    function formatTime(s) { const m = Math.floor(s / 60); const r = s % 60; return `${m.toString().padStart(2, '0')}:${r.toString().padStart(2, '0')}`; }
+    function completeDay() { if (currentDay > TOTAL_DAYS) return; if (activeWorkout.isActive) { alert("Finish workout first."); return; } if (confirm(`Mark Day ${currentDay} complete?`)) { currentDay++; saveProgress(); displayDayPlan(); } }
+    function resetProgress() { if (activeWorkout.isActive) { alert("Stop workout first."); return; } if (confirm('Reset all progress to Day 1?')) { currentDay = 1; saveProgress(); displayDayPlan(); } }
+
+    // --- Config and Goals Logic ---
+    function handleThemeToggle() { document.body.classList.toggle('dark-mode'); localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light'); }
+    function handleExportConfig() { const b = new Blob([JSON.stringify(workoutConfig, null, 2)], { type: "application/json" }); const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'workout_config.json'; a.click(); URL.revokeObjectURL(a.href); }
+    function handleImportClick() { configImportInput.click(); }
+    function handleFileImport(event) {
+        const file = event.target.files[0]; if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                const importedConfig = JSON.parse(e.target.result);
+                if (importedConfig.warmUp && importedConfig.workoutPlan) {
+                    if (confirm("Apply imported config?")) { if (!importedConfig.fitnessGoals) { importedConfig.fitnessGoals = defaultWorkoutConfig.fitnessGoals; } workoutConfig = importedConfig; saveWorkoutConfig(); location.reload(); }
+                } else { alert("Import failed: Invalid structure."); }
+            } catch (error) { alert(`Import failed: ${error.message}`); }
+        };
+        reader.readAsText(file); event.target.value = '';
+    }
+    function showConfigEditor() { configTextarea.value = JSON.stringify(workoutConfig, null, 2); configEditorModal.style.display = 'flex'; }
+    function hideConfigEditor() { configEditorModal.style.display = 'none'; }
+    function saveAndApplyConfig() {
+        try {
+            const newConfig = JSON.parse(configTextarea.value);
+            if (newConfig.warmUp && newConfig.workoutPlan) { if (confirm("Apply new configuration?")) { workoutConfig = newConfig; saveWorkoutConfig(); hideConfigEditor(); displayDayPlan(); }
+            } else { alert("Save failed: Invalid structure."); }
+        } catch (error) { alert(`Save failed: ${error.message}`); }
+    }
+
+    function renderMarkdown(text) {
+        const lines = text.split('\n'); let html = ''; let inTable = false;
+        for (let i = 0; i < lines.length; i++) {
+            const line = lines[i].trim();
+            if (line.startsWith('## ')) { html += `<h2>${line.substring(3)}</h2>`; }
+            else if (line.startsWith('# ')) { html += `<h1>${line.substring(2)}</h1>`; }
+            else if (line.startsWith('---')) { html += '<hr>'; }
+            else if (line.startsWith('|')) {
+                if (!inTable) { html += '<table><thead>'; const headers = line.split('|').slice(1, -1).map(h => h.trim()); html += '<tr>' + headers.map(h => `<th>${h}</th>`).join('') + '</tr></thead><tbody>'; inTable = true; if (lines[i + 1] && lines[i + 1].includes('---')) i++; } 
+                else { const cells = line.split('|').slice(1, -1).map(c => c.trim()); html += '<tr>' + cells.map(c => `<td>${c}</td>`).join('') + '</tr>'; }
+            } else { if (inTable) { html += '</tbody></table>'; inTable = false; } if (line) { html += `<p>${line.replace(/^- /, '')}</p>`; } }
+        }
+        if (inTable) { html += '</tbody></table>'; } return html;
+    }
+
+    function showGoalsModal() {
+        goalsDisplay.innerHTML = renderMarkdown(workoutConfig.fitnessGoals || ''); goalsTextarea.value = workoutConfig.fitnessGoals || '';
+        goalsDisplay.style.display = 'block'; goalsTextarea.style.display = 'none';
+        editGoalsBtn.style.display = 'inline-block'; saveGoalsBtn.style.display = 'none'; editGoalsBtn.textContent = 'Edit';
+        goalsModal.style.display = 'flex';
+    }
+    function closeGoalsModal() { goalsModal.style.display = 'none'; }
+    function toggleGoalsEdit() {
+        const isEditing = goalsTextarea.style.display === 'block';
+        goalsDisplay.style.display = isEditing ? 'block' : 'none'; goalsTextarea.style.display = isEditing ? 'none' : 'block';
+        editGoalsBtn.textContent = isEditing ? 'Edit' : 'Cancel Edit'; saveGoalsBtn.style.display = isEditing ? 'none' : 'inline-block';
+    }
+    function saveGoals() { workoutConfig.fitnessGoals = goalsTextarea.value; saveWorkoutConfig(); alert("Fitness goals saved!"); goalsDisplay.innerHTML = renderMarkdown(workoutConfig.fitnessGoals); toggleGoalsEdit(); }
+
+    // --- Event Listeners ---
+    document.addEventListener('DOMContentLoaded', () => { if (localStorage.getItem('theme') === 'dark') { document.body.classList.add('dark-mode'); themeToggle.checked = true; } initializeApp(); });
+    startWorkoutBtn.addEventListener('click', startWorkout);
+    markCompleteBtn.addEventListener('click', completeDay);
+    resetProgressBtn.addEventListener('click', resetProgress);
+    restartWorkoutBtn.addEventListener('click', restartCurrentWorkout);
+    prevExerciseBtn.addEventListener('click', goToPreviousExercise);
+    skipExerciseBtn.addEventListener('click', skipCurrentExercise);
+    skipRestBtn.addEventListener('click', skipRest);
+    themeToggle.addEventListener('change', handleThemeToggle);
+    exportConfigBtn.addEventListener('click', handleExportConfig);
+    importConfigBtn.addEventListener('click', handleImportClick);
+    configImportInput.addEventListener('change', handleFileImport);
+    editConfigBtn.addEventListener('click', showConfigEditor);
+    cancelConfigBtn.addEventListener('click', hideConfigEditor);
+    saveConfigBtn.addEventListener('click', saveAndApplyConfig);
+    viewGoalsLink.addEventListener('click', showGoalsModal);
+    closeGoalsBtn.addEventListener('click', closeGoalsModal);
+    editGoalsBtn.addEventListener('click', toggleGoalsEdit);
+    saveGoalsBtn.addEventListener('click', saveGoals);
+</script>
+
+</body>
+</html>```
