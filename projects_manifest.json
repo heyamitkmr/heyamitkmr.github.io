@@ -1,0 +1,34 @@
+[
+  {
+    "category": "games",
+    "slug": "doodles",
+    "title": "Hand It Off \u2014 a doodle you didn't plan",
+    "description": "",
+    "emoji": "\ud83c\udfae",
+    "url": "/games/doodles/"
+  },
+  {
+    "category": "tools",
+    "slug": "abhyasa",
+    "title": "Abhyasa &mdash; Kannada Verb Drill",
+    "description": "",
+    "emoji": "\ud83d\udee0\ufe0f",
+    "url": "/tools/abhyasa/"
+  },
+  {
+    "category": "tools",
+    "slug": "ballpark",
+    "title": "Ballpark - A Fermi Estimation Studio",
+    "description": "",
+    "emoji": "\ud83d\udee0\ufe0f",
+    "url": "/tools/ballpark/"
+  },
+  {
+    "category": "tools",
+    "slug": "nuance",
+    "title": "Nuance \u2014 the adjective navigator",
+    "description": "",
+    "emoji": "\ud83d\udee0\ufe0f",
+    "url": "/tools/nuance/"
+  }
+]
