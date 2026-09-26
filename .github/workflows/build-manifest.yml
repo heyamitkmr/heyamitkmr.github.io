@@ -1,0 +1,28 @@
+name: Build tools/games manifest
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'tools/**'
+      - 'games/**'
+      - 'scripts/generate_manifest.py'
+      - '.github/workflows/build-manifest.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  build-manifest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate projects_manifest.json
+        run: python3 scripts/generate_manifest.py
+
+      - name: Commit manifest if changed
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: regenerate projects_manifest.json [skip ci]"
+          file_pattern: projects_manifest.json

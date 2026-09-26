@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Library — Tools & Games</title>
+<meta name="skip-manifest" content="true">
+<style>
+  :root{ --bg:#FAF7EE; --card:#fff; --text:#18181B; --muted:#6B6B70; --border:#18181B;
+    --yellow:#FFD027; --mint:#23A094; --radius:12px; --shadow:3px 3px 0 var(--border); }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--text);
+       padding:24px 16px 60px}
+  .wrap{max-width:920px;margin:0 auto}
+  h1{font-size:1.6rem;font-weight:900;margin-bottom:6px}
+  p.sub{color:var(--muted);margin-bottom:20px}
+  input#search{width:100%;padding:10px 14px;border:2px solid var(--border);border-radius:9px;
+    font-size:.95rem;margin-bottom:24px;font-family:inherit}
+  h2.section{font-size:1rem;font-weight:900;text-transform:uppercase;letter-spacing:.4px;
+    color:var(--muted);margin:24px 0 10px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+  a.card{display:block;background:var(--card);border:2.5px solid var(--border);border-radius:var(--radius);
+    box-shadow:var(--shadow);padding:16px;text-decoration:none;color:var(--text);transition:transform .1s}
+  a.card:hover{transform:translate(-2px,-2px)}
+  .card-emoji{font-size:1.6rem;margin-bottom:8px}
+  .card-title{font-weight:800;font-size:1rem;margin-bottom:4px}
+  .card-desc{font-size:.83rem;color:var(--muted);line-height:1.4}
+  .empty{color:var(--muted);font-size:.9rem;padding:20px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🧰 Library</h1>
+  <p class="sub">Some tools and games you may find fun or useful.</p>
+  <input id="search" type="text" placeholder="Search by name or description…">
+  <div id="output"></div>
+</div>
+
+<script>
+const CATEGORY_LABELS = { tools: "Tools", games: "Games" };
+
+fetch('/projects_manifest.json')
+  .then(r => { if (!r.ok) throw new Error('manifest missing'); return r.json(); })
+  .then(render)
+  .catch(() => {
+    document.getElementById('output').innerHTML =
+      '<div class="empty">Couldn\'t load projects_manifest.json yet — it\'s generated automatically on the next push to main.</div>';
+  });
+
+let ALL = [];
+
+function render(entries){
+  ALL = entries;
+  draw(entries);
+}
+
+function draw(entries){
+  const out = document.getElementById('output');
+  if (!entries.length){ out.innerHTML = '<div class="empty">No matches.</div>'; return; }
+
+  const byCategory = {};
+  entries.forEach(e => { (byCategory[e.category] ||= []).push(e); });
+
+  out.innerHTML = Object.keys(byCategory).sort().map(cat => `
+    <h2 class="section">${CATEGORY_LABELS[cat] || cat}</h2>
+    <div class="grid">
+      ${byCategory[cat].map(cardHtml).join('')}
+    </div>
+  `).join('');
+}
+
+function cardHtml(e){
+  return `<a class="card" href="${e.url}">
+    <div class="card-emoji">${e.emoji || '•'}</div>
+    <div class="card-title">${escapeHtml(e.title)}</div>
+    <div class="card-desc">${escapeHtml(e.description || '')}</div>
+  </a>`;
+}
+
+function escapeHtml(s){
+  return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+document.getElementById('search').addEventListener('input', e => {
+  const q = e.target.value.toLowerCase();
+  draw(ALL.filter(x =>
+    x.title.toLowerCase().includes(q) || (x.description||'').toLowerCase().includes(q)
+  ));
+});
+</script>
+</body>
+</html>
