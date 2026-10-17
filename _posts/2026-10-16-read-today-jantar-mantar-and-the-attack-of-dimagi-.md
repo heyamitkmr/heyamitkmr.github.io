@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Read today - "Jantar Mantar and the Attack of Dimagi Naxals"!"
+title: 'Read today - Jantar Mantar and the Attack of Dimagi Naxals!'
 categories: bits
 date: 2026-10-16
 ---
