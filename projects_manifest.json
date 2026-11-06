@@ -78,5 +78,13 @@
     "description": "",
     "emoji": "\ud83d\udee0\ufe0f",
     "url": "/tools/subtext/"
+  },
+  {
+    "category": "tools",
+    "slug": "wayfinder",
+    "title": "Wayfinder",
+    "description": "A private, offline guide for working through a problem, from feeling stuck to a clear next move.",
+    "emoji": "\ud83d\udee0\ufe0f",
+    "url": "/tools/wayfinder/"
   }
 ]
