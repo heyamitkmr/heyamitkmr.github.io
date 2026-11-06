@@ -1,6 +1,6 @@
 /* Wayfinder service worker: keeps the app available offline. It only ever serves the app's
    own files, and never sees anything the user writes. */
-const CACHE = 'wayfinder-65c24c49bb33';
+const CACHE = 'wayfinder-28957aecd7df';
 const ASSETS = ['./', './index.html', './manifest.webmanifest', './icon.svg', './icon-192.png', './icon-512.png', './icon-maskable-512.png'];
 
 self.addEventListener('install', (e) => {
