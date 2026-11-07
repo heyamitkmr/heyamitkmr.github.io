@@ -1085,7 +1085,7 @@ const BUILTIN_PROBLEMS = [
       { name: "Tires_Per_Vehicle", val: "4", desc: "Active wheels on a passenger car" },
       { name: "Tire_Lifespan_Years", val: "4", desc: "Average tire lasts ~45k miles = ~4 years" }
     ],
-    calcExpr: "(row[0] * row[1] * row[2]) / row[3]",
+    calcExpr: "({US_Population} * {Vehicles_Per_Capita} * {Tires_Per_Vehicle}) / {Tire_Lifespan_Years}",
     analysisNotes: "US Tire Manufacturers Association (USTMA) tracks ~270M–300M scrap tires annually. Modeling 280M cars replacing 1 tire per year hits within 5% of reality."
   },
   {
@@ -1109,7 +1109,7 @@ const BUILTIN_PROBLEMS = [
       { name: "Departures_Per_Hr", val: "20", desc: "Conservative 24-hr average per airport" },
       { name: "Flight_Duration_Hrs", val: "2.5", desc: "Domestic routes dominate total airframes" }
     ],
-    calcExpr: "row[0] * row[1] * row[2]",
+    calcExpr: "{Major_Airports} * {Departures_Per_Hr} * {Flight_Duration_Hrs}",
     analysisNotes: "Flightradar24 tracks 10,000 to 16,000 commercial flights simultaneously during daytime peaks."
   },
   {
@@ -1133,7 +1133,7 @@ const BUILTIN_PROBLEMS = [
       { name: "Daily_Gal_Per_Person", val: "80", desc: "Showers, laundry, toilet flushes, cooking" },
       { name: "Commercial_System_Factor", val: "1.4", desc: "Buffer for commercial, industrial, and infrastructure loss" }
     ],
-    calcExpr: "row[0] * row[1] * row[2]",
+    calcExpr: "{NYC_Population} * {Daily_Gal_Per_Person} * {Commercial_System_Factor}",
     analysisNotes: "Official NYC Department of Environmental Protection (DEP) reports confirm demand between 1.0 and 1.1 billion gallons per day."
   },
   {
@@ -1159,7 +1159,7 @@ const BUILTIN_PROBLEMS = [
       { name: "Cups_Per_Drinker", val: "2.5", desc: "Morning espresso, lunch espresso, home moka" },
       { name: "Grams_Per_Shot", val: "0.0075", desc: "7.5 grams per single shot (expressed in kg)" }
     ],
-    calcExpr: "row[0] * row[1] * row[2] * row[3]",
+    calcExpr: "{Italy_Pop} * {Drinker_Fraction} * {Cups_Per_Drinker} * {Grams_Per_Shot}",
     analysisNotes: "Italy consumes ~330M kg per year, which equates to ~900,000 kg per day."
   },
   {
@@ -1186,7 +1186,7 @@ const BUILTIN_PROBLEMS = [
       { name: "Tunings_Per_Year", val: "0.5", desc: "Tunings occur roughly once every other year" },
       { name: "Tuner_Annual_Capacity", val: "400", desc: "2 pianos/day × 200 workdays per year" }
     ],
-    calcExpr: "(row[0] * row[1] * row[2]) / row[3]",
+    calcExpr: "({Chicago_Households} * {Piano_Rate} * {Tunings_Per_Year}) / {Tuner_Annual_Capacity}",
     analysisNotes: "Fermi's canonical estimate was ~30 tuners; yellow page and guild registries list roughly 25 to 35 tuners active in Chicago."
   },
   {
@@ -1212,7 +1212,7 @@ const BUILTIN_PROBLEMS = [
       { name: "Daily_Transactions", val: "150", desc: "Foot traffic conversions per cart per day" },
       { name: "Average_Ticket_USD", val: "5", desc: "1 dog + drink or pretzel" }
     ],
-    calcExpr: "row[0] * row[1] * row[2] * row[3]",
+    calcExpr: "{Active_Pushcarts} * {Operating_Days} * {Daily_Transactions} * {Average_Ticket_USD}",
     analysisNotes: "NYC issues ~3,000 citywide mobile food permits. With ~600 active carts in Manhattan averaging $700-$800/day, revenue lands near $40M."
   },
   {
@@ -1236,7 +1236,7 @@ const BUILTIN_PROBLEMS = [
       { name: "Daily_Discards_Tons", val: "1.2", desc: "Overstocked vegetables, bakery, and prepared foods" },
       { name: "Days_Per_Year", val: "365", desc: "Annual continuous operation" }
     ],
-    calcExpr: "row[0] * row[1] * row[2]",
+    calcExpr: "{US_Supermarkets} * {Daily_Discards_Tons} * {Days_Per_Year}",
     analysisNotes: "USDA and ReFED research tracks annual US supermarket surplus and waste at roughly 16M to 19M metric tons."
   },
   {
@@ -1258,7 +1258,7 @@ const BUILTIN_PROBLEMS = [
       { name: "Strikes_Per_Second", val: "100", desc: "NASA satellite optical detector benchmark" },
       { name: "Seconds_Per_Day", val: "86400", desc: "24 × 60 × 60 seconds in a day" }
     ],
-    calcExpr: "row[0] * row[1]",
+    calcExpr: "{Strikes_Per_Second} * {Seconds_Per_Day}",
     analysisNotes: "NASA LIS/OTD satellites record between 50 and 100 lightning flashes per second globally, yielding ~4M to 8.6M strikes daily."
   }
 ];
@@ -1347,7 +1347,7 @@ function analyzeCustomQuestionOffline(text) {
         { name: "Packing_Efficiency", val: "0.64", desc: "Theoretical Kepler/random sphere packing fraction (~64%)" },
         { name: "Item_Volume_m3", val: "0.00015", desc: "Volume of single unit: (4/3)*π*r³ with r ≈ 0.033m" }
       ],
-      calcExpr: "(row[0] * row[1]) / row[2]",
+      calcExpr: "({Container_Volume_m3} * {Packing_Efficiency}) / {Item_Volume_m3}",
       unit: "items"
     };
   }
@@ -1365,7 +1365,7 @@ function analyzeCustomQuestionOffline(text) {
         { name: "Hourly_Rate_Lambda", val: "4100", desc: "Daily events / 24 hours" },
         { name: "Avg_Duration_Hours_W", val: "2.5", desc: "Average time an entity remains inside system" }
       ],
-      calcExpr: "row[1] * row[2]",
+      calcExpr: "{Hourly_Rate_Lambda} * {Avg_Duration_Hours_W}",
       unit: "entities in system"
     };
   }
@@ -1384,7 +1384,7 @@ function analyzeCustomQuestionOffline(text) {
         { name: "Services_Per_Year", val: "6", desc: "How many times a client visits per year (e.g. hair cut every 2 mos)" },
         { name: "Worker_Annual_Capacity", val: "1600", desc: "Capacity: 8 services/day × 200 working days/year" }
       ],
-      calcExpr: "(row[0] * row[1] * row[2]) / row[3]",
+      calcExpr: "({Target_Population} * {Client_Penetration} * {Services_Per_Year}) / {Worker_Annual_Capacity}",
       unit: "professionals"
     };
   }
@@ -1402,7 +1402,7 @@ function analyzeCustomQuestionOffline(text) {
         { name: "Avg_Unit_Mass_Grams", val: "0.003", desc: "Estimated individual mass in grams (e.g. 3 mg)" },
         { name: "Grams_Per_Metric_Ton", val: "1e6", desc: "1,000,000 grams per metric ton" }
       ],
-      calcExpr: "(row[0] * row[1]) / row[2]",
+      calcExpr: "({Estimated_Global_Count} * {Avg_Unit_Mass_Grams}) / {Grams_Per_Metric_Ton}",
       unit: "metric tons"
     };
   }
@@ -1420,7 +1420,7 @@ function analyzeCustomQuestionOffline(text) {
       { name: "Annual_Frequency", val: "50", desc: "Events or units consumed per participant per year" },
       { name: "Unit_Multiplier", val: "1", desc: "Magnitude multiplier or unit cost" }
     ],
-    calcExpr: "row[0] * row[1] * row[2] * row[3]",
+    calcExpr: "{Anchor_Population} * {Adoption_Penetration} * {Annual_Frequency} * {Unit_Multiplier}",
     unit: "units / year"
   };
 }
@@ -1600,17 +1600,69 @@ document.querySelectorAll(".anchor-pill").forEach(pill => {
   });
 });
 
-// Evaluate Row Multipliers
-function computeFromRows() {
-  const rows = varTableBody.querySelectorAll(".var-row");
-  const values = [];
-  rows.forEach(r => {
+// ------------------------------------------------------------------
+// NAME-BOUND FORMULA BINDING
+//
+// calcExpr strings reference variables by NAME, e.g. "{Foo} * {Bar}",
+// never by table position. This is what lets the table be freely
+// edited (rows added, removed, renamed, reordered) without ever
+// silently computing against the wrong variable: if a formula's
+// {Name} isn't present in the current table, we don't guess — we
+// fall back to a plain product of whatever numeric values ARE
+// present, rather than evaluating a formula built for a different
+// problem/table shape.
+// ------------------------------------------------------------------
+
+// Build a Name -> numeric value map from whatever is currently in
+// the Step 2 table, independent of row order or count.
+function currentRowsAsMap() {
+  const map = {};
+  varTableBody.querySelectorAll(".var-row").forEach(r => {
+    const name = r.querySelector(".var-name").value.trim();
     const valStr = r.querySelector(".var-val").value.trim();
     const parsed = Number(valStr);
-    if (!isNaN(parsed) && valStr !== "") {
-      values.push(parsed);
+    if (name && valStr !== "" && !isNaN(parsed)) {
+      map[name] = parsed;
     }
   });
+  return map;
+}
+
+// True only if every variable name the loaded problem originally
+// shipped with is still present in the live table. Used to decide
+// whether a benchmark target/unit can still be trusted, since those
+// describe the ORIGINAL question, not whatever is currently in Step 2.
+function tableMatchesProblem(prob, rowMap) {
+  if (!prob || !Array.isArray(prob.defaultRows) || prob.defaultRows.length === 0) return false;
+  return prob.defaultRows.every(r => r.name in rowMap);
+}
+
+// Replaces every {Variable_Name} token in expr with its current
+// numeric value (parenthesized, so signs/decimals can't be
+// mis-tokenized). Any {Name} with no match in rowMap is left
+// untouched so the caller can detect an unresolved reference.
+function substituteNamesInExpr(expr, rowMap) {
+  return expr.replace(/\{([^}]+)\}/g, (match, varName) => {
+    const key = varName.trim();
+    return (key in rowMap) ? `(${rowMap[key]})` : match;
+  });
+}
+
+function exprIsFullyResolved(substitutedExpr) {
+  return !/\{[^}]+\}/.test(substitutedExpr);
+}
+
+// Evaluates a fully-substituted arithmetic string without closure
+// access to the surrounding function scope (unlike a bare eval()).
+function safeEvalExpr(expr) {
+  // eslint-disable-next-line no-new-func
+  return Function('"use strict"; return (' + expr + ');')();
+}
+
+// Evaluate Row Multipliers
+function computeFromRows() {
+  const rowMap = currentRowsAsMap();
+  const values = Object.values(rowMap);
 
   if (values.length === 0) {
     showToast("Please enter numeric values in the variable table.");
@@ -1618,11 +1670,23 @@ function computeFromRows() {
   }
 
   let total = 0;
-  if (state.currentProblem.calcExpr) {
-    try {
-      const row = values;
-      total = eval(state.currentProblem.calcExpr);
-    } catch (e) {
+  const expr = state.currentProblem && state.currentProblem.calcExpr;
+
+  if (expr) {
+    const substituted = substituteNamesInExpr(expr, rowMap);
+    if (exprIsFullyResolved(substituted)) {
+      try {
+        total = safeEvalExpr(substituted);
+      } catch (e) {
+        console.warn("calcExpr failed to evaluate; using plain product instead.", e);
+        total = values.reduce((acc, v) => acc * v, 1);
+      }
+    } else {
+      // The loaded formula refers to a variable name that no longer
+      // exists in the table (renamed, deleted, or this is a
+      // different problem's table entirely) — never guess by
+      // position, just multiply what's actually here.
+      console.warn(`calcExpr "${expr}" references a variable not present in the current table; using plain product instead.`);
       total = values.reduce((acc, v) => acc * v, 1);
     }
   } else {
@@ -1630,13 +1694,14 @@ function computeFromRows() {
   }
 
   // 1 significant figure discipline
-  if (total !== 0 && !isNaN(total)) {
+  if (total !== 0 && !isNaN(total) && isFinite(total)) {
     const order = Math.pow(10, Math.floor(Math.log10(Math.abs(total))));
     const oneSig = Math.round(total / order) * order;
     finalEstimateInput.value = oneSig;
     showToast(`Computed ~${formatFermiNumber(oneSig)} (1 Sig Fig)`);
   } else {
     finalEstimateInput.value = total;
+    showToast("Could not compute a valid result — check your formula and values.");
   }
 }
 
@@ -1719,8 +1784,16 @@ document.getElementById("btnSubmitEstimate").addEventListener("click", async () 
 
   evaluationSection.style.display = "block";
 
-  // Check if we have a known target (Curated or AI-provided)
-  const target = state.currentProblem.target;
+  // Check if we have a known target (Curated or AI-provided) AND that
+  // the table still actually represents the loaded problem. A
+  // benchmark/unit describes the ORIGINAL question — if the table's
+  // variables have since been renamed, added to, or removed (i.e. the
+  // user is now estimating something else entirely), the stored
+  // target is no longer meaningful and must not be shown as if it
+  // still applies.
+  const rowMapNow = currentRowsAsMap();
+  const tableStillMatches = tableMatchesProblem(state.currentProblem, rowMapNow);
+  const target = tableStillMatches ? state.currentProblem.target : null;
 
   if (target && target > 0) {
     // Exact benchmark scoring available
@@ -2037,10 +2110,11 @@ Return ONLY a valid raw JSON object (NO markdown blocks, no prefix):
     {"name": "Var1", "val": "100", "desc": "rationale"},
     {"name": "Var2", "val": "50", "desc": "rationale"}
   ],
-  "calcExpr": "row[0] * row[1]",
+  "calcExpr": "{Var1} * {Var2}",
   "unit": "unit description",
   "target": 123456
-}`;
+}
+IMPORTANT: "calcExpr" MUST reference variables by name, wrapped in curly braces exactly as spelled in "defaultRows" (e.g. "({Var1} * {Var2}) / {Var3}"). Never reference variables by position (row[0], index, etc).`;
 
   const raw = await callLLM(prompt);
   const cleaned = raw.replace(/```json/g, "").replace(/```/g, "").trim();
@@ -2071,12 +2145,15 @@ async function getAiStepReview() {
     });
   });
 
+  const tableStillMatchesForReview = tableMatchesProblem(state.currentProblem, currentRowsAsMap());
+  const trustedTarget = tableStillMatchesForReview ? state.currentProblem.target : null;
+
   const prompt = `You are an elite Fermi estimation coach. Review this solution:
 Problem: "${state.currentProblem.question}"
 User's Formula: "${eqInput.value}"
 User's Variables: ${JSON.stringify(rows)}
 User's Final Calculation: ${finalEstimateInput.value}
-${state.currentProblem.target ? `Known Benchmark: ${state.currentProblem.target} ${state.currentProblem.unit}` : 'Benchmark is not predetermined.'}
+${trustedTarget ? `Known Benchmark: ${trustedTarget} ${state.currentProblem.unit}` : 'Benchmark is not predetermined.'}
 
 Provide a critique with 3 concise bullets:
 1. Structural soundness of equation
@@ -2107,9 +2184,10 @@ btnLiveGen.addEventListener("click", async () => {
     {"name": "Var1", "val": "100", "desc": "description"},
     {"name": "Var2", "val": "1000", "desc": "description"}
   ],
-  "calcExpr": "row[0] * row[1]",
+  "calcExpr": "{Var1} * {Var2}",
   "analysisNotes": "Benchmark context"
-}`;
+}
+IMPORTANT: "calcExpr" MUST reference variables by name, wrapped in curly braces exactly as spelled in "defaultRows" (e.g. "({Var1} * {Var2}) / {Var3}"). Never reference variables by position (row[0], index, etc).`;
 
   try {
     const raw = await callLLM(prompt);
