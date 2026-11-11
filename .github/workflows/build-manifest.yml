@@ -1,4 +1,4 @@
-name: Build tools/games manifest
+name: Build library manifest
 
 on:
   push:
@@ -8,6 +8,11 @@ on:
       - 'games/**'
       - 'scripts/generate_manifest.py'
       - '.github/workflows/build-manifest.yml'
+  # Daily, to pick up changes on the "Bigger things" sites (they live elsewhere)
+  schedule:
+    - cron: '30 2 * * *'   # 08:00 IST
+  # "Run workflow" button on the Actions tab, for an update right away
+  workflow_dispatch:
 
 permissions:
   contents: write

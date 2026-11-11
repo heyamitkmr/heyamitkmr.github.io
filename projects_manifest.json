@@ -1,90 +1,128 @@
 [
   {
+    "category": "bigger",
+    "slug": "careermap",
+    "title": "CareerMap",
+    "description": "",
+    "emoji": "🧭",
+    "url": "https://careermap.nextfive.in/",
+    "icon": "/assets/library-icons/careermap.svg"
+  },
+  {
+    "category": "bigger",
+    "slug": "guide",
+    "title": "Guide",
+    "description": "",
+    "emoji": "🧭",
+    "url": "https://guide.nextfive.in/",
+    "icon": "/assets/library-icons/guide.svg"
+  },
+  {
+    "category": "bigger",
+    "slug": "opentab",
+    "title": "Open Tab",
+    "description": "Free, working web apps and games without any sign-up or installation requirement.",
+    "emoji": "🧭",
+    "url": "https://opentab.nextfive.in/",
+    "icon": "/assets/library-icons/opentab.svg"
+  },
+  {
     "category": "games",
     "slug": "doodles",
-    "title": "Hand It Off \u2014 a doodle you didn't plan",
-    "description": "",
-    "emoji": "\ud83c\udfae",
-    "url": "/games/doodles/"
+    "title": "Hand It Off — a doodle you didn't plan",
+    "description": "Draw something, send the link, and the next person adds to it. A pass-it-on doodle, no sign-up.",
+    "emoji": "🎮",
+    "url": "/games/doodles/",
+    "icon": "/games/doodles/library-icon.svg"
   },
   {
     "category": "tools",
     "slug": "fitfile",
     "title": "12 Week Fitness Program",
-    "description": "",
-    "emoji": "\ud83d\udee0\ufe0f",
-    "url": "/tools/fitfile/"
+    "description": "A guided 12-week, six-days-a-week workout plan with timers, rest breaks and progress tracking.",
+    "emoji": "🛠️",
+    "url": "/tools/fitfile/",
+    "icon": "/tools/fitfile/library-icon.svg"
   },
   {
     "category": "tools",
     "slug": "abhyasa",
     "title": "Abhyasa - Kannada Verb Drill",
-    "description": "",
-    "emoji": "\ud83d\udee0\ufe0f",
-    "url": "/tools/abhyasa/"
+    "description": "Spaced-repetition drills for Kannada verb forms, with hints, a reference chart and verbs you can edit.",
+    "emoji": "🛠️",
+    "url": "/tools/abhyasa/",
+    "icon": "/tools/abhyasa/library-icon.svg"
   },
   {
     "category": "tools",
     "slug": "ballpark",
     "title": "Ballpark - A Fermi Estimation Studio",
-    "description": "",
-    "emoji": "\ud83d\udee0\ufe0f",
-    "url": "/tools/ballpark/"
+    "description": "Practise Fermi estimates: break big unknowns into small guesses, with worked problems and AI hints.",
+    "emoji": "🛠️",
+    "url": "/tools/ballpark/",
+    "icon": "/tools/ballpark/library-icon.svg"
   },
   {
     "category": "tools",
     "slug": "courageCompass",
     "title": "Courage Compass",
-    "description": "",
-    "emoji": "\ud83d\udee0\ufe0f",
-    "url": "/tools/courageCompass/"
+    "description": "Daily prompts to practise asking for things, with a log of attempts, outcomes and what you learned.",
+    "emoji": "🛠️",
+    "url": "/tools/courageCompass/",
+    "icon": "/tools/courageCompass/library-icon.svg"
   },
   {
     "category": "tools",
     "slug": "microadventures",
     "title": "Micro-Adventure Tracker",
-    "description": "",
-    "emoji": "\ud83d\udee0\ufe0f",
-    "url": "/tools/microadventures/"
+    "description": "Small, doable adventures picked for you by theme. Plan one, tick it off, and watch your list grow.",
+    "emoji": "🛠️",
+    "url": "/tools/microadventures/",
+    "icon": "/tools/microadventures/library-icon.svg"
   },
   {
     "category": "tools",
     "slug": "publisher",
     "title": "NextFive Publisher",
-    "description": "",
-    "emoji": "\ud83d\udee0\ufe0f",
-    "url": "/tools/publisher/"
+    "description": "Write posts or short notes with images and publish them to your GitHub Pages blog from any browser.",
+    "emoji": "🛠️",
+    "url": "/tools/publisher/",
+    "icon": "/tools/publisher/library-icon.svg"
   },
   {
     "category": "tools",
     "slug": "nuance",
-    "title": "Nuance \u2014 the adjective navigator",
-    "description": "",
-    "emoji": "\ud83d\udee0\ufe0f",
-    "url": "/tools/nuance/"
+    "title": "Nuance — the adjective navigator",
+    "description": "Find just the right adjective by browsing shades and registers of everyday words. Works offline.",
+    "emoji": "🛠️",
+    "url": "/tools/nuance/",
+    "icon": "/tools/nuance/library-icon.svg"
   },
   {
     "category": "tools",
     "slug": "breakbox",
     "title": "Spontaneous Action Generator",
-    "description": "",
-    "emoji": "\ud83d\udee0\ufe0f",
-    "url": "/tools/breakbox/"
+    "description": "Stuck or restless? Hit Surprise Me for a random quick action to break the loop. Add your own ideas too.",
+    "emoji": "🛠️",
+    "url": "/tools/breakbox/",
+    "icon": "/tools/breakbox/library-icon.svg"
   },
   {
     "category": "tools",
     "slug": "subtext",
     "title": "Subtext. (From NextFive)",
-    "description": "",
-    "emoji": "\ud83d\udee0\ufe0f",
-    "url": "/tools/subtext/"
+    "description": "Translate with nuance (casual or formal, literal meaning, alternatives) and save words to a review deck.",
+    "emoji": "🛠️",
+    "url": "/tools/subtext/",
+    "icon": "/tools/subtext/library-icon.svg"
   },
   {
     "category": "tools",
     "slug": "wayfinder",
     "title": "Wayfinder",
     "description": "A private, offline guide for working through a problem, from feeling stuck to a clear next move.",
-    "emoji": "\ud83d\udee0\ufe0f",
-    "url": "/tools/wayfinder/"
+    "emoji": "🛠️",
+    "url": "/tools/wayfinder/",
+    "icon": "/tools/wayfinder/library-icon.svg"
   }
 ]
