@@ -7,3 +7,18 @@ repository: heyamitkmr/heyamitkmr.github.io
 plugins:
   - jekyll-feed
   - jekyll-redirect-from
+
+# "Now" page history: one file per update in _now/ (named YYYYMMDD.md).
+# now.md shows the newest; each file stays at /archive/nowYYYYMMDD
+collections:
+  now:
+    output: true
+    permalink: /archive/now:name
+
+# Every _now/ entry uses the `now` layout (adds the "← Previous update" link)
+defaults:
+  - scope:
+      path: ""
+      type: now
+    values:
+      layout: now

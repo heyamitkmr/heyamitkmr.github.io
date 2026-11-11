@@ -1,0 +1,13 @@
+{%- comment -%}
+  Prints a "← Previous update" link to the _now/ entry dated just before
+  include.entry. Used by now.md and the `now` layout; nothing to edit by hand.
+{%- endcomment -%}
+{%- assign now_entries = site.now | sort: "date" -%}
+{%- assign now_prev = nil -%}
+{%- for e in now_entries -%}
+  {%- if e.url == include.entry.url -%}{%- break -%}{%- endif -%}
+  {%- assign now_prev = e -%}
+{%- endfor -%}
+{%- if now_prev -%}
+<p class="now-prev"><a href="{{ now_prev.url | relative_url }}">← Previous update ({{ now_prev.date | date: "%B %Y" }})</a></p>
+{%- endif -%}
