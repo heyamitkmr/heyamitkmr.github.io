@@ -14,28 +14,27 @@
     {% include analytics.html %}
 
     {% assign first_image = '' %}
-    {% assign has_html_img = page.content contains '<img' %}
-    {% assign has_md_img = page.content contains '![' %}
+    {% assign content_html = page.content %}
 
-    {% if has_html_img or has_md_img %}
-      {% assign img_pos = 999999999 %}
-      {% assign md_pos = 999999999 %}
-      {% if has_html_img %}
-        {% assign img_pos = page.content | split: '<img' | first | size %}
-      {% endif %}
-      {% if has_md_img %}
-        {% assign md_pos = page.content | split: '![' | first | size %}
-      {% endif %}
+    {% comment %} Position of first HTML <img and first markdown ![ (large sentinel if absent) {% endcomment %}
+    {% assign img_pos = 999999999 %}
+    {% assign md_pos = 999999999 %}
 
+    {% if content_html contains '<img' %}
+      {% assign img_pos = content_html | split: '<img' | first | size %}
+    {% endif %}
+    {% if content_html contains '![' %}
+      {% assign md_pos = content_html | split: '![' | first | size %}
+    {% endif %}
+
+    {% if img_pos < 999999999 or md_pos < 999999999 %}
       {% if img_pos <= md_pos %}
-        {% assign after_first_img = page.content | split: '<img' %}
-        {% assign after_first_img = after_first_img[1] %}
-        {% assign first_image = after_first_img | split: 'src="' %}
+        {% assign after_first_img = content_html | split: '<img' %}
+        {% assign first_image = after_first_img[1] | split: 'src="' %}
         {% assign first_image = first_image[1] | split: '"' | first %}
       {% else %}
-        {% assign after_first_md = page.content | split: '![' %}
-        {% assign after_first_md = after_first_md[1] %}
-        {% assign first_image = after_first_md | split: '](' %}
+        {% assign after_first_md = content_html | split: '![' %}
+        {% assign first_image = after_first_md[1] | split: '](' %}
         {% assign first_image = first_image[1] | split: ')' | first %}
       {% endif %}
     {% endif %}

@@ -5,51 +5,45 @@ permalink: /now/
 ---
 Basically what I'm focused on at this point in my life. <br><span style="font-size: 14px">_Inspired by [https://nownownow.com/about](https://nownownow.com/about)_ </span>
 <br><br>
-```Last updated: June 2026```
+```Last updated: Nov 2026```
 
 
 ## How have I been?
 
-Midyear. Things have moved faster than I expected at the start of Q2. Two projects that were ideas in Q1 now have working prototypes, public pages, and some real conversations happening around them. The work feels more directional than it did a few months ago. Happy that it's more in "testing specific hypotheses" phase than "thinking of this idea" phase.
+It was a good Diwali this year too. Both of us healthy and well - mentally as well as physically. Spoke to family & friends. Srishti and Ananya came over; had good conversations over some Japanese salads and Indian sweets. Enjoyed fireworks from the terrace. And spotted two Eastern Barn Owls right before going to bed! Lovely wrap to a lovely day.
 
-Still juggling 3-4 things. But related.
-Still in Bangalore. Still finding it generative.
+But while this was a fun end to Aug-Nov block, the last 3 months have been a bit scattered. Fun, but not quite as satisfying as I'd wanted it to be.
 
----
 
 ### The big three:
 
-1. **CareerMap + Orbit**
+I have not been writing publicly for almost 5-6 months now. Not writing much in general either. 
 
-   CareerMap is about surfacing non-traditional careers and paths to them. [V1 is live](https://careermap.nextfive.in) now and a bunch of new updates planned soon. 
+**Finding the right next thing has been a challenge** and bit frustrating these last 3 months; without any concrete pillars where I could apply bulk of my time and attention to, like I did with [CareerMap]() + [Orbit]() work during May-July. 
 
-   Orbit is the companion experiment: network capital has no redistribution infrastructure. Financial capital has microfinance, skills have vocational training, but access to the right people remains deeply unequal. Testing whether that can change, starting small in Bangalore. More at [nextfive.xyz/orbit](https://nextfive.xyz/orbit).
-
-2. **Writing is quieter in general over last 2 months**
-
-   EarlyNotes on Substack is quiet. The book is formally shelved for now. Not abandoned entirely -  just being honest with myself that it's not where I'm finding the energy.
-
-   But planning more essays as proof-of-work for the ideas: "You Can't Want What You Can't See" was one such piece, written alongside building CareerMap.
-
-3. **Finding the right next thing**
-
-   The sabbatical is producing ideas, tools, and conversations. Learning more and more about AI Safety and AI agents. Good momentum.
-
----
+I'd planned to spend Aug-Oct 2026 getting good at rapid market validation of ideas, starting with the video-analytics idea of Abhas. But did not stick to it. 
+Overall, the daily tasks didn't feel enjoyable enough. Probably, I missed the micro-dopamine-hits of getting something done  And the daily tasks related to this theme were  not frictionless either - as in - it was not super clear on "how" to get the task-for-the-day done to keep sticking to the 3-month long plan. May is this led to abandoning the idea a few weeks in.
 
 ### **Running, Kannada, and the rest**
 
-Trying to get started with running after a 2 months break. 
+But I stuck with the 8-week plan of [dailyish]() routine to restart running and practicing Kannada. Did yet another 23k under 2 hours 10 mins at the end of October. And I've felt increasingly more comfortable trying to speak in Kannada during the same period. So, that's been great!
 
-Kannada is actually starting to click in real conversation. But progress and practice has stalled. Need to resume.
-
-Photography intermittently. Always. Did a photo-walk this month after what seems like years!
+I think these two plans I stuck to because the daily rituals were frictionless - in terms of not having to think how to get started each day. I just get up on time, put on the t-shirt, socks & shoes, and go for the run. Before opening laptop or starting with general internet consumption for the day, I just open [Abhyasa]() and practice 5-8 sentences in Kannada. 
 
 ---
 
+- Also built a couple of new tools. Created [OpenTab], [Wayfinder], [Ballpark] and probably another few of these. Also been working on Orbit 2.0 - a Network Weaver tool for it. In progress.
+
+- One fantastic thing we started this last couple of months was making day trips around BLR. So far - Nithyagram,, Manchanbele, Savanadunga, Isha Foundation's Adiyogi campus, Bhoga Nandishwara, et al. Also took a trip to Hampi, which was loads of fun! Bunch of firsts on that trip - include our first car tyre puncture :)
+
+Already hankering for our next one. It been couple of weeks now since the last one.
+
+
+
 ### **Recently read:**
 
-April and May were light on reading. 
+I kept on reading a lot - but mostly newsletter and articles around tech though. Not the literary or deep introspective kinds; except may be an occasional few here & there.
+No major books.
 
 0. Currently enjoying [Asterix](https://en.wikipedia.org/wiki/Asterix) - the complete collection. Somehow never got to it so far. Catching up on lost time and loving every bit of it :)
 
