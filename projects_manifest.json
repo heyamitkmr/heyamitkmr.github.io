@@ -12,7 +12,7 @@
     "category": "bigger",
     "slug": "guide",
     "title": "Guide",
-    "description": "",
+    "description": "A to-do app that caps you at 3 meaningful tasks a day, so your deep work actually moves. No login.",
     "emoji": "🧭",
     "url": "https://guide.nextfive.in/",
     "icon": "/assets/library-icons/guide.svg"
