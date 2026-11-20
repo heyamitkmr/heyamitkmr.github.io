@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self' https: http://localhost:* http://127.0.0.1:*; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="description" content="Type a goal, get a small daily plan you can actually stick to, most days. No login, works offline.">
+<meta name="tool-emoji" content="✅">
+<meta name="theme-color" content="#f6f3ec" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#161513" media="(prefers-color-scheme: dark)">
+<title>Dailyish</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Dailyish">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header id="top" hidden>
+  <div class="bar">
+    <span class="brand">Dailyish</span>
+    <div id="switch"></div>
+    <nav id="nav" aria-label="Sections"></nav>
+  </div>
+  <p id="quiet" aria-live="polite"></p>
+</header>
+<main id="main"><p class="muted">Loading…</p></main>
+<div id="toast" role="status" aria-live="polite"></div>
+<noscript><p class="wrap">Dailyish needs JavaScript. Everything runs in your browser; nothing is sent anywhere unless you set up an AI model.</p></noscript>
+<script src="templates.js"></script>
+<script src="plan.js"></script>
+<script src="tune.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

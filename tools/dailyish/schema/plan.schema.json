@@ -1,0 +1,535 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "plan.schema.json",
+  "title": "Dailyish plan",
+  "description": "One portable file describing a goal, the chosen path and the ritual that runs it. Produced by the wizard, the prompt pack (any chat AI) or the in-app planner; read by the Dailyish runner.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "goal",
+    "lanes",
+    "ritual",
+    "first_action"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1"
+    },
+    "meta": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string",
+          "maxLength": 80
+        },
+        "created": {
+          "$ref": "#/$defs/date"
+        },
+        "updated": {
+          "$ref": "#/$defs/date"
+        },
+        "source": {
+          "enum": [
+            "instant",
+            "wizard",
+            "pack",
+            "chat",
+            "manual",
+            "example"
+          ]
+        }
+      }
+    },
+    "goal": {
+      "type": "object",
+      "required": [
+        "statement",
+        "horizon_months",
+        "archetypes"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "statement": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 300,
+          "description": "The goal in the person's own words."
+        },
+        "horizon_months": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 120
+        },
+        "near_target": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "Concrete, checkable target within the horizon."
+        },
+        "marker": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "Optional ambitious direction marker. Never drives daily choices."
+        },
+        "archetypes": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/archetype"
+          }
+        }
+      }
+    },
+    "why": {
+      "type": "string",
+      "maxLength": 600
+    },
+    "identity": {
+      "type": "string",
+      "maxLength": 160,
+      "description": "Optional 'I am someone who…' line."
+    },
+    "blocker": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "enum": [
+            "direction",
+            "time",
+            "energy",
+            "fear",
+            "know-how",
+            "consistency",
+            "money",
+            "other"
+          ]
+        },
+        "note": {
+          "type": "string",
+          "maxLength": 400
+        }
+      }
+    },
+    "stickiness": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "helps": {
+          "$ref": "#/$defs/shortList",
+          "description": "What made past efforts stick."
+        },
+        "kills": {
+          "$ref": "#/$defs/shortList",
+          "description": "What made past efforts die."
+        },
+        "constraints": {
+          "$ref": "#/$defs/shortList",
+          "description": "Fixed limits: time, money, energy, privacy, tools."
+        },
+        "reward_style": {
+          "enum": [
+            "visible-progress",
+            "feeling",
+            "completion",
+            "learning",
+            "social",
+            "other"
+          ]
+        },
+        "history": {
+          "type": "array",
+          "maxItems": 10,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "attempt"
+            ],
+            "properties": {
+              "attempt": {
+                "type": "string",
+                "maxLength": 160
+              },
+              "duration": {
+                "type": "string",
+                "maxLength": 60
+              },
+              "why_stopped": {
+                "type": "string",
+                "maxLength": 240
+              }
+            }
+          }
+        }
+      }
+    },
+    "path": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "primary": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "parallel": {
+          "type": "string",
+          "maxLength": 300,
+          "description": "Low-effort sanity track."
+        },
+        "fallback": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "guardrails": {
+          "$ref": "#/$defs/shortList",
+          "description": "Rules written as conditions, e.g. 'only if fully funded'."
+        },
+        "ignored": {
+          "$ref": "#/$defs/shortList",
+          "description": "Deliberately not working on."
+        },
+        "options_considered": {
+          "type": "array",
+          "maxItems": 30,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "option",
+              "verdict"
+            ],
+            "properties": {
+              "option": {
+                "type": "string",
+                "maxLength": 160
+              },
+              "verdict": {
+                "enum": [
+                  "chosen",
+                  "parallel",
+                  "fallback",
+                  "later",
+                  "dropped"
+                ]
+              },
+              "reason": {
+                "type": "string",
+                "maxLength": 240
+              }
+            }
+          }
+        }
+      }
+    },
+    "lanes": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "required": [
+          "key",
+          "name",
+          "archetype",
+          "measures"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "key": {
+            "type": "string",
+            "pattern": "^[A-Z]$",
+            "description": "Single capital letter shown as the lane tag."
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 40
+          },
+          "archetype": {
+            "$ref": "#/$defs/archetype"
+          },
+          "purpose": {
+            "type": "string",
+            "maxLength": 200
+          },
+          "color": {
+            "type": "string",
+            "pattern": "^#[0-9a-fA-F]{6}$"
+          },
+          "measures": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 4,
+            "items": {
+              "type": "object",
+              "required": [
+                "key",
+                "label",
+                "count",
+                "target_per_week"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "key": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_]{0,23}$"
+                },
+                "label": {
+                  "type": "string",
+                  "maxLength": 60,
+                  "description": "Shown on the quick-log chip and scoreboard."
+                },
+                "count": {
+                  "enum": [
+                    "events",
+                    "days"
+                  ],
+                  "description": "events = every log counts; days = distinct days with at least one log."
+                },
+                "target_per_week": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 50
+                },
+                "outcome": {
+                  "type": "boolean",
+                  "default": false,
+                  "description": "true for outcomes you don't control (replies, offers). Shown, never part of the weekly win."
+                }
+              }
+            }
+          },
+          "themes": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "Optional weekday themes so recurring work needs no decision.",
+            "properties": {
+              "mon": {
+                "type": "string",
+                "maxLength": 80
+              },
+              "tue": {
+                "type": "string",
+                "maxLength": 80
+              },
+              "wed": {
+                "type": "string",
+                "maxLength": 80
+              },
+              "thu": {
+                "type": "string",
+                "maxLength": 80
+              },
+              "fri": {
+                "type": "string",
+                "maxLength": 80
+              },
+              "sat": {
+                "type": "string",
+                "maxLength": 80
+              },
+              "sun": {
+                "type": "string",
+                "maxLength": 80
+              }
+            }
+          },
+          "starter_actions": {
+            "$ref": "#/$defs/shortList",
+            "description": "Concrete first actions, each startable in under 2 minutes."
+          },
+          "backlog": {
+            "$ref": "#/$defs/shortList"
+          },
+          "pipeline": {
+            "type": "boolean",
+            "default": false,
+            "description": "true = this lane tracks dated items (applications, pitches, submissions)."
+          }
+        }
+      }
+    },
+    "ritual": {
+      "type": "object",
+      "required": [
+        "trigger",
+        "minimum_day"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "trigger": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "Anchored to an existing act: 'After I …, I will …'."
+        },
+        "warmup": {
+          "type": "string",
+          "maxLength": 160,
+          "description": "A small, guaranteed win to start."
+        },
+        "day_shape": {
+          "$ref": "#/$defs/shortList"
+        },
+        "minimum_day": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "The floor on bad days."
+        },
+        "shutdown": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "if_then": {
+          "type": "array",
+          "maxItems": 8,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "if",
+              "then"
+            ],
+            "properties": {
+              "if": {
+                "type": "string",
+                "maxLength": 160
+              },
+              "then": {
+                "type": "string",
+                "maxLength": 160
+              }
+            }
+          }
+        },
+        "weekly_win": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "min_hits": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 20,
+              "description": "Weekly win = at least this many non-outcome measures at target."
+            }
+          }
+        },
+        "dailyish_days": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 7,
+          "default": 4,
+          "description": "Days with any log in the last 7 that count as 'dailyish'."
+        }
+      }
+    },
+    "checkpoints": {
+      "type": "array",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "required": [
+          "label",
+          "after_weeks"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "label": {
+            "type": "string",
+            "maxLength": 40
+          },
+          "after_weeks": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 520
+          },
+          "keep_going_if": {
+            "type": "object",
+            "description": "Cumulative totals by measure key, plus optional 'weekly_wins'.",
+            "additionalProperties": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "rethink_if": {
+            "type": "string",
+            "maxLength": 240
+          },
+          "ask": {
+            "type": "string",
+            "maxLength": 240,
+            "description": "An honest question shown near the checkpoint."
+          }
+        }
+      }
+    },
+    "resource_floor": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "e.g. 'savings below 6 months → re-plan'."
+    },
+    "surviving_habit": {
+      "type": "string",
+      "maxLength": 160,
+      "description": "The one habit to keep even if the app is dropped."
+    },
+    "first_action": {
+      "type": "object",
+      "required": [
+        "text"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "done": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "compass": {
+      "type": "string",
+      "maxLength": 3000,
+      "description": "Plain-text summary: why, direction, how I stick to it, pivot rules. Shown after gaps."
+    },
+    "notes": {
+      "type": "string",
+      "maxLength": 4000,
+      "description": "Planner's working notes; carries context between stages."
+    },
+    "tune_questions": {
+      "type": "array",
+      "maxItems": 5,
+      "items": {
+        "type": "string",
+        "maxLength": 200
+      },
+      "description": "Questions whose answers would most improve this plan; shown as optional 'make it fit you better' prompts after an instant plan."
+    }
+  },
+  "$defs": {
+    "date": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "archetype": {
+      "enum": [
+        "habit",
+        "project",
+        "outcome"
+      ]
+    },
+    "shortList": {
+      "type": "array",
+      "maxItems": 12,
+      "items": {
+        "type": "string",
+        "maxLength": 200
+      }
+    }
+  }
+}

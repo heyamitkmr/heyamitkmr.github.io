@@ -1,0 +1,78 @@
+{
+  "schema_version": "1",
+  "meta": { "title": "From shop floor to non-profit projects", "created": "2026-11-20", "source": "example" },
+  "goal": {
+    "statement": "Move from retail store management into a project coordinator role at a non-profit",
+    "horizon_months": 9,
+    "near_target": "An offer for a project coordinator role, or a paid trial project with a non-profit",
+    "marker": "Running community programmes within three years",
+    "archetypes": ["outcome", "project", "habit"]
+  },
+  "why": "I'm good at running things and people; I want that to go into work I care about.",
+  "identity": "I'm someone who sends the message today, not when it's perfect.",
+  "blocker": { "type": "fear", "note": "I worry my retail experience 'doesn't count', so I research instead of applying." },
+  "stickiness": {
+    "helps": ["A fixed slot before the kids wake", "Ticking things off", "Talking to real people"],
+    "kills": ["Long shifts that run late", "Polishing one application for a week", "Trackers that make me feel behind"],
+    "constraints": ["Rotating shifts; evenings are unpredictable", "About 4 hours a week"],
+    "reward_style": "completion",
+    "history": [
+      { "attempt": "Job hunt last spring", "duration": "6 weeks", "why_stopped": "Sent 3 applications, heard nothing, stopped trying" }
+    ]
+  },
+  "path": {
+    "primary": "Translate store-management wins into project language; apply to coordinator roles at small and mid-size non-profits",
+    "parallel": "Volunteer to coordinate one small local project, to have something recent to point to",
+    "fallback": "Operations roles at social enterprises",
+    "guardrails": ["Keep the current job until there's an offer", "No unpaid work beyond 3 hours a week"],
+    "ignored": ["A full master's degree for now"],
+    "options_considered": [
+      { "option": "Project coordinator roles", "verdict": "chosen", "reason": "Closest match to what I already do" },
+      { "option": "Volunteer coordination", "verdict": "parallel", "reason": "Recent evidence, real references" },
+      { "option": "Project management certificate", "verdict": "later", "reason": "Only if interviews ask for it" }
+    ]
+  },
+  "lanes": [
+    { "key": "A", "name": "Apply", "archetype": "outcome", "purpose": "Applications and conversations (you control these)", "color": "#c2590a", "pipeline": true,
+      "measures": [
+        { "key": "app", "label": "Application submitted", "count": "events", "target_per_week": 1 },
+        { "key": "send", "label": "Message to someone in the field", "count": "events", "target_per_week": 2 },
+        { "key": "interview", "label": "Interview or serious conversation", "count": "events", "target_per_week": 0, "outcome": true }
+      ],
+      "themes": { "mon": "Find 2 roles", "tue": "Apply", "thu": "Message someone", "fri": "Follow up" },
+      "starter_actions": ["Save one role you'd genuinely want", "Message one person who coordinates projects at a non-profit"] },
+    { "key": "P", "name": "Proof", "archetype": "project", "purpose": "Recent, real evidence of project work", "color": "#2f6f5e",
+      "measures": [
+        { "key": "story", "label": "Work story rewritten in project language", "count": "events", "target_per_week": 1 },
+        { "key": "volunteer", "label": "Volunteer project session", "count": "events", "target_per_week": 1 }
+      ],
+      "starter_actions": ["Write 3 sentences about the store refit you led", "Ask the food bank if they need a coordinator for one event"] },
+    { "key": "R", "name": "Rest", "archetype": "habit", "purpose": "Stay well through shift weeks", "color": "#2463a6",
+      "measures": [ { "key": "walk", "label": "Walk or proper break", "count": "days", "target_per_week": 3 } ] }
+  ],
+  "ritual": {
+    "trigger": "After the school drop-off, before I start anything else, I open the card.",
+    "warmup": "Read one non-profit job ad",
+    "day_shape": ["Open the card", "One action from today's theme (20 minutes)", "Tap what I did"],
+    "minimum_day": "Save one role or send one short message",
+    "shutdown": "Tap what I did; note tomorrow's first step",
+    "if_then": [
+      { "if": "a draft is older than 2 days", "then": "send it as it is or delete it" },
+      { "if": "I hear nothing back for 2 weeks", "then": "change the message or the target roles, not the effort" },
+      { "if": "it's a late-shift week", "then": "minimum day only; it still counts" }
+    ],
+    "weekly_win": { "min_hits": 3 },
+    "dailyish_days": 4
+  },
+  "checkpoints": [
+    { "label": "Month 3", "after_weeks": 13, "keep_going_if": { "weekly_wins": 8, "app": 10, "send": 20 },
+      "rethink_if": "fewer than 6 weekly wins → make the plan smaller, not the goal",
+      "ask": "Is this helping, or just tracking? Which one habit would you keep?" },
+    { "label": "Month 6", "after_weeks": 26, "keep_going_if": { "app": 22, "interview": 3 },
+      "rethink_if": "20+ applications and no interviews → retarget the roles or rewrite the CV with someone in the field" }
+  ],
+  "resource_floor": "If shift hours change and I can't find 3 hours a week → re-plan the timeline, not the goal",
+  "surviving_habit": "One message to someone in the field every week",
+  "first_action": { "text": "Message one person who coordinates projects at a non-profit and ask for 15 minutes", "done": false },
+  "compass": "WHY: my people and organising skills, in work I care about.\nHOW: a card after school drop-off; one action a day from the weekday theme; count what I send, never the replies.\nIF IT SLIPS: late-shift weeks are minimum days. Missing a day is normal.\nPIVOT: month 3 checks the system; month 6 checks the target roles."
+}

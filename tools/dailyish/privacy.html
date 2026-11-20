@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'; img-src 'self'; script-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<title>Dailyish privacy</title>
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<main class="planpage">
+  <section class="hero">
+    <div class="eyebrow"><a href="./">Dailyish</a> · Privacy</div>
+    <h1 class="goal">Your plan stays with you.</h1>
+    <p class="cueline">Short version: no account, no server, no tracking. Everything lives in your browser on this device.</p>
+  </section>
+
+  <dl class="facts">
+    <dt>What's stored</dt>
+    <dd>Your goals, plans, logs, notes and settings, in your browser's own storage (IndexedDB) on this device. Nothing is stored anywhere else by Dailyish.</dd>
+    <dt>Accounts</dt>
+    <dd>None. There is nothing to sign up for.</dd>
+    <dt>Analytics</dt>
+    <dd>None. No cookies, no trackers, no third-party scripts. The page's security policy blocks scripts from anywhere else.</dd>
+    <dt>Hosting</dt>
+    <dd>The app is static files served by GitHub Pages. Like any website, GitHub sees the request for the page (for example your IP address); it never sees your plan or logs. See GitHub's privacy statement.</dd>
+    <dt>AI (optional)</dt>
+    <dd>Off by default. If you set up an AI model, the app sends what that feature needs (your goal text, your current plan, your answer or message) directly from your browser to the provider you chose, and nowhere else. With OpenRouter, Dailyish asks for providers that don't store or train on your data. With a local model (Ollama, LM Studio), nothing leaves your computer.</dd>
+    <dt>Your AI key</dt>
+    <dd>Kept in this browser only. It is never included in exports or backups. Use a spend-limited key.</dd>
+    <dt>Backups</dt>
+    <dd>"Export backup" downloads a file to your device. Where it goes after that is up to you.</dd>
+    <dt>Calendar reminder</dt>
+    <dd>A file your device opens in your own calendar app. Dailyish never sees your calendar.</dd>
+    <dt>Deleting</dt>
+    <dd>Settings → "Delete everything", or clear this site's data in your browser. There is no copy anywhere else to delete.</dd>
+    <dt>Not advice</dt>
+    <dd>Dailyish is a planning aid. For health, money or legal goals it keeps to habits and process; it is not medical, financial or legal advice.</dd>
+  </dl>
+  <p class="footlinks"><a href="./">← Back to Dailyish</a></p>
+</main>
+</body>
+</html>

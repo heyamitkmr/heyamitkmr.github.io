@@ -1,0 +1,154 @@
+{
+  "schema_version": "1",
+  "meta": {
+    "title": "Finish the first draft",
+    "created": "2026-11-20",
+    "source": "example"
+  },
+  "goal": {
+    "statement": "Write the first draft of my non-fiction book",
+    "horizon_months": 9,
+    "near_target": "A complete 60,000-word first draft",
+    "marker": "A published book",
+    "archetypes": [
+      "project",
+      "habit"
+    ]
+  },
+  "why": "I've carried this idea for five years. I want to know if it holds up on paper.",
+  "blocker": {
+    "type": "consistency",
+    "note": "I research endlessly and rewrite chapter 1."
+  },
+  "stickiness": {
+    "helps": [
+      "Word counts going up",
+      "Writing before email"
+    ],
+    "kills": [
+      "Perfectionism",
+      "Research rabbit holes",
+      "Opening email first"
+    ],
+    "constraints": [
+      "45 minutes before work",
+      "Laptop only"
+    ],
+    "reward_style": "visible-progress"
+  },
+  "path": {
+    "primary": "Daily 45-minute drafting sessions, no editing until the draft is done",
+    "parallel": "One reading session a week (research, capped)",
+    "guardrails": [
+      "No rewriting earlier chapters until the full draft exists"
+    ],
+    "ignored": [
+      "Agents and publishers (after the draft)"
+    ]
+  },
+  "lanes": [
+    {
+      "key": "W",
+      "name": "Write",
+      "archetype": "habit",
+      "purpose": "Words on the page",
+      "color": "#7c5cbf",
+      "measures": [
+        {
+          "key": "session",
+          "label": "Writing session",
+          "count": "days",
+          "target_per_week": 5
+        },
+        {
+          "key": "words500",
+          "label": "500+ words",
+          "count": "events",
+          "target_per_week": 4
+        }
+      ],
+      "starter_actions": [
+        "Open the draft and type one sentence"
+      ]
+    },
+    {
+      "key": "S",
+      "name": "Ship",
+      "archetype": "project",
+      "purpose": "Chapters done",
+      "color": "#c2590a",
+      "measures": [
+        {
+          "key": "chapter",
+          "label": "Chapter drafted",
+          "count": "events",
+          "target_per_week": 1
+        }
+      ],
+      "backlog": [
+        "Ch 1 Why this matters",
+        "Ch 2 The problem",
+        "Ch 3 Case study A",
+        "Ch 4 Case study B",
+        "Ch 5 What to do"
+      ]
+    },
+    {
+      "key": "R",
+      "name": "Research",
+      "archetype": "habit",
+      "purpose": "Capped reading",
+      "color": "#2463a6",
+      "measures": [
+        {
+          "key": "reading",
+          "label": "Research session (max 1/week)",
+          "count": "events",
+          "target_per_week": 1
+        }
+      ]
+    }
+  ],
+  "ritual": {
+    "trigger": "After I sit down with my first coffee, I open the draft, before email.",
+    "warmup": "Re-read the last paragraph I wrote yesterday",
+    "day_shape": [
+      "Re-read last paragraph",
+      "45 minutes of drafting",
+      "Write tomorrow's first sentence"
+    ],
+    "minimum_day": "Write 100 words",
+    "shutdown": "Leave a half-finished sentence for tomorrow",
+    "if_then": [
+      {
+        "if": "I want to fix an earlier chapter",
+        "then": "add a note in [brackets] and keep going"
+      },
+      {
+        "if": "I need a fact",
+        "then": "write [TK] and look it up on research day"
+      }
+    ],
+    "weekly_win": {
+      "min_hits": 2
+    },
+    "dailyish_days": 4
+  },
+  "checkpoints": [
+    {
+      "label": "Month 3",
+      "after_weeks": 13,
+      "keep_going_if": {
+        "chapter": 8
+      },
+      "rethink_if": "fewer than 5 chapters → shrink the scope or the outline",
+      "ask": "Is the outline still the book I want to write?"
+    }
+  ],
+  "surviving_habit": "100 words before email",
+  "first_action": {
+    "text": "Write the first sentence of the chapter you're most excited about",
+    "done": false
+  },
+  "compass": "WHY: find out if the idea holds up on paper.\nHOW: 45 minutes before email, drafting only; research is capped at once a week.\nRULE: no rewriting until the draft is done."
+}
