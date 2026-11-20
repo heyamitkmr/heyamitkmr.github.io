@@ -73,6 +73,15 @@
   },
   {
     "category": "tools",
+    "slug": "dailyish",
+    "title": "Dailyish",
+    "description": "Type a goal, get a small daily plan you can actually stick to, most days. No login, works offline.",
+    "emoji": "✅",
+    "url": "/tools/dailyish/",
+    "icon": "/tools/dailyish/library-icon.svg"
+  },
+  {
+    "category": "tools",
     "slug": "microadventures",
     "title": "Micro-Adventure Tracker",
     "description": "Small, doable adventures picked for you by theme. Plan one, tick it off, and watch your list grow.",
