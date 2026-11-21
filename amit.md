@@ -26,6 +26,8 @@ I work at the intersection of **career discovery**, **community infrastructure**
 
 **[EarlyNotes](https://earlynotes.substack.com/)**: essays on Substack about how things work, or don't.
 
+_(Also, <a href="https://nextfive.xyz/library" target="_blank" style="font-size: inherit; font-weight: inherit; font-style: inherit; color: var(--nav-link-color);"> some small utilities </a> I keep creating with AI - some of which have become essential to my own daily workflow)_
+
 ---
 
 ### Where I show up

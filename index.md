@@ -8,7 +8,7 @@ I'm building software and writing while exploring what's next.
 
 ### **Me in 10 seconds**
 
-I build [small useful software](https://blog.nextfive.in/products/) that runs in your browser. Free. Private. No login.<br>
+I build [small useful software](https://nextfive.xyz/library) that runs in your browser. Free. Private. No login.<br>
 I write about [building, learning, and momentum](https://earlynotes.substack.com/) and a bunch of [other stuff](https://nextfive.xyz/writing/).<br>
 I take [photos](https://www.flickr.com/photos/proxygeek/).<br>
 
@@ -58,8 +58,9 @@ Save ideas and quotes from any webpage with your notes. Stop losing good stuff.
 **[PictureThis](https://www.picturethis.in/)**  
 Democratizing photography as art. No gatekeepers. Starting with Bengaluru.
 
-**[ThePhotos.Org](https://thephotos.org/)**  
-Prints, frames, galleries, exhibitions. Everything photo-related.
+**~~~[ThePhotos.Org](https://thephotos.org/)~~~**  
+It was about Prints, frames, galleries, exhibitions. Everything photo-related. But now defunct.
+I take solace that [this concept does seem hard for others too](https://trmnl.com/blog/introducing-frame#:~:text=anyway%20ArtSpot%20failed). 
 
 **[My Flickr](https://www.flickr.com/photos/proxygeek/)**  
 Personal photostream. Everyday moments.
